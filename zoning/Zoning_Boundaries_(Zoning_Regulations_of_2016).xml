@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin/>
+                <pubdate>20100405</pubdate>
+                <title>Zoning Boundaries (Zoning Regulations of 2016)</title>
+                <geoform>vector digital data</geoform>
+                <pubinfo>
+                    <pubplace/>
+                    <publish>Office of the Chief Technology Officer</publish>
+                </pubinfo>
+                <lworkcit>
+                    <citeinfo>
+                        <title>DC Geographic Information System</title>
+                    </citeinfo>
+                </lworkcit>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>District of Columbia zoning map polygons established under the Zoning Regulations of 2016 (ZR16). ZR16 superseded the Zoning Regulations of 1958 (ZR58), effective 9/6/2016. ZR16 has been reorganized further pursuant to Zoning Commission Order 18-16/19-27/19-27A/19-27B (text and map amendment), effective 8/28/2023. ZR16 zoning polygons are updated based on Zoning Commission text and map amendments, when applicable. More information on zoning in DC, the Zoning Commission, or the zoning rules and regulations can be found at https://dcoz.dc.gov/page/structure-zoning-regulations-2016.</abstract>
+            <purpose>This dataset contains the current zone boundaries of the official zoning map pursuant to the Zoning Regulations of 2016 (ZR16) (11 DCMR). ZR16 went into effect on September 6, 2016, and was subsequently reorganized effective August 25, 2023. For more information see: https://dcoz.dc.gov/page/structure-zoning-regulations-2016.</purpose>
+            <supplinf>The long title of the Zoning Regulations, as adopted, shall be as follows: REGULATIONS CONTROLLING AND RESTRICTING THE HEIGHT, BULK, NUMBER OF STORIES, AND SIZE OF BUILDINGS AND OTHER STRUCTURES, THE OPEN SPACES AROUND THEM, THE DENSITY OF POPULATION, AND THE USES OF BUILDINGS, STRUCTURES, AND LAND IN THE DISTRICT OF COLUMBIA, AND FOR SAID PURPOSES DIVIDING THE DISTRICT OF COLUMBIA INTO ZONING DISTRICTS. The regulations set forth in this title shall be known and may be cited by the short form title of the 'Zoning Regulations of the District of Columbia.' Unless otherwise noted, the authority for this chapter is §1 of An Act providing for the Zoning of the District of Columbia and the regulation of the location, height, bulk and uses of buildings and other structures and of uses of land in the District of Columbia, and for other purposes, approved June 20,1938 (52 Stat 797), as amended by An Act approved March 4, 1942, P.L. V-468, (56 Stat 122); and by 55492 of the District of Columbia Self Government and Governmental Reorganization Act, P.L. 93.198, 87 Stat. 810. SOURCE: §1101.1, 1102.1 and 9301.1 of Regulations effective May 12, 1958. INTERPRETATION AND APPLICATION: In their interpretation and application, the provisions of this title shall be held to be the minimum requirements adopted for the promotion of the public health, safety, morals, convenience, order, prosperity, and general welfare for the following purposes: (a) To provide adequate light and air; (b) To prevent undue concentration of population and the overcrowding of land; and (c) To provide distribution of population, business and industry, and use of land that will tend to create conditions favorable to transportation, protection of property, civic activity, and recreational, educational, and cultural opportunities; and that will tend to further economy and efficiency in the supply of public services. The regulations set forth in this title and the zoning maps are designed with consideration of the following: (a) The character of the respective districts; (b) The suitability of each district for the uses permitted in each district under this title; and (c) The encouragement of the stability of districts and of land values in those districts. The provisions of this title shall govern whenever the regulations in this title do the following: (a) Require larger yards, courts, or other open spaces; b) Require a lower height or bulk of buildings or a smaller number of stories; (c) Require a greater percentage of lot to be unoccupied; or (d) Impose other higher standards than are required in or under any statute or by any other municipal regulations.</supplinf>
+        </descript>
+        <status>
+            <progress>Complete</progress>
+            <update>Daily</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-77.119896</westbc>
+                <eastbc>-76.909016</eastbc>
+                <northbc>38.995967</northbc>
+                <southbc>38.791582</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>Special purpose districts</themekey>
+                <themekey>Industrial districts</themekey>
+                <themekey>Planning</themekey>
+                <themekey>Zoning</themekey>
+                <themekey>Residence districts</themekey>
+                <themekey>Mixed use districts</themekey>
+                <themekey>Land use regulation</themekey>
+                <themekey>Commercial districts</themekey>
+            </theme>
+            <theme>
+                <themekt>ISO 19115 Topic Categories</themekt>
+                <themekey>boundaries</themekey>
+                <themekey>planningCadastre</themekey>
+            </theme>
+            <place>
+                <placekt>None</placekt>
+                <placekey>washington dc</placekey>
+                <placekey>district of columbia</placekey>
+                <placekey>dc</placekey>
+            </place>
+        </keywords>
+        <accconst>Other Constraints</accconst>
+        <useconst>This work is licensed under a Creative Commons Attribution 4.0 International License.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>District of Columbia Office of Zoning</cntorg>
+                </cntorgp>
+                <cntpos>Zoning Data Coordinator</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>441 4th Street, NW, Suite 200S</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20001</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>(202) 727-6311</cntvoice>
+                <cntfax>(202) 727-6072</cntfax>
+                <cntemail>dcoz@dc.gov</cntemail>
+                <hours>8:30 am to 5:00 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Office of the Chief Technology Officer</cntorg>
+                </cntorgp>
+                <cntpos>GIS Data Coordinator</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>(202) 727-2277</cntvoice>
+                <cntfax>(202) 727-6857</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>District of Columbia Office of Zoning</datacred>
+        <native>Version 6.2 (Build 9200) ; Esri ArcGIS 10.8.1.14362</native>
+        <crossref>
+            <citeinfo>
+                <pubdate>20100405</pubdate>
+                <title>Zoning</title>
+            </citeinfo>
+        </crossref>
+    </idinfo>
+    <dataqual>
+        <attracc>
+            <attraccr>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. Validated by source and/or responsible agency.</attraccr>
+        </attracc>
+        <logic>Data is updated by Data Coordinator and QC'ed by the Chief Technology Officer. Topology is enabled and checked with each change.</logic>
+        <complete>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. Validated by source and/or responsible agency.</complete>
+        <posacc>
+            <horizpa>
+                <horizpar>Horizontal accuracy based on DC GIS Real Property Data</horizpar>
+            </horizpa>
+        </posacc>
+        <posacc>
+            <vertacc>
+                <vertaccr>N/A</vertaccr>
+            </vertacc>
+        </posacc>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <pubdate>19870101</pubdate>
+                        <title>Zoning map of DC 1987</title>
+                    </citeinfo>
+                </srccite>
+                <srcscale>7200</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>Zoning map of DC 1987</srccitea>
+                <srccontr>geography and attributes</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <title>Zoning Geodatabase</title>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Zoning Geodatabase</srccitea>
+                <srccontr>location and attributes</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <pubdate>19960101</pubdate>
+                        <title>Zoning map of DC 1996</title>
+                    </citeinfo>
+                </srccite>
+                <srcscale>7200</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>Zoning map of DC 1996</srccitea>
+                <srccontr>geography and attributes</srccontr>
+            </srcinfo>
+            <procstep>
+                <procdesc>3) MAINTENANCE: Zoning Data Coordinator makes changes outlined in new approved zoning orders to zoning layers within the Zoning geodatabase . Zoning layer boundaries are snapped to the Street Centerline GIS layer from the DC Atlas and, in general, follow lot boundaries within squares. Zoning Topology checked to ensure boundaries do not overlap and slivers are eliminated. Final drafts of changes reviewed by CTO. Once completed, the updated layer is posted to the server at the Office of Zoning.</procdesc>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Zoning</cntorg>
+                        </cntorgp>
+                        <cntpos>Zoning Data Coordinator</cntpos>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>441 4th Street NW</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-727-0330</cntvoice>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>2) QA/QC: Previous dataset checked by reviewing old zoning commission cases/orders and old zoning maps (including the baist) for accuracy in each zone district. Topology created. Archiving and versioning turned ON.</procdesc>
+                <procdate>20100806</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Zoning</cntorg>
+                        </cntorgp>
+                        <cntpos>Zoning Data Coordinator</cntpos>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>441 4th St NW</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-727-0330</cntvoice>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30am - 5:00pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>1) DATA SOURCE: Data was loaded and fields mapped from feature classes in sde.ZDATALOAD.Alignment. 
+				New fields added for change narrative, status and label. Archiving and versioning turned ON.</procdesc>
+                <procdate>20100806</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Zoning</cntorg>
+                            <cntper>Nyambi A. Nyambi</cntper>
+                        </cntorgp>
+                        <cntvoice>(202) 727-0314</cntvoice>
+                        <cntemail>nyambi.nyambi@dc.gov</cntemail>
+                        <hours>10 am - 5 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>GT-polygon composed of chains</sdtstype>
+                <ptvctcnt>921</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>DCGIS.ZoningPly</enttypl>
+            </enttyp>
+            <attr>
+                <attrlabl>OBJECTID</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                                        					
+                    
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                                        				
+                
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                                        					
+                    
+                    <udom>Coordinates defining the features.</udom>
+                                        				
+                
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>ZONING_WEB_URL</attrlabl>
+                <attrdef>URL to zone's corresponding page on the DCOZ Zoning Handbook.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZONING_CHANGE_NARRATIVE</attrlabl>
+                <attrdef>Short description of any changes or adjustments to zoning polygon.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZONING_STATUS</attrlabl>
+                <attrdef>Status of the zoning area. All polygons are final in this dataset.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZONING_LABEL</attrlabl>
+                <attrdef>Label for cartographic visualization, consisting of zoning concatenated with the IZ+ Designation (if applicable). Formatting: [ZONING (IZ_DESIGNATION)]</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZR58</attrlabl>
+                <attrdef>The current zone's equivalent zone under the 1958 regulations for research and comparison.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZR16</attrlabl>
+                <attrdef>Current zoning (same as ZONING)</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>ZONE_DESCRIPTION</attrlabl>
+                <attrdef>Short description of the intent and purpose of the zone.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZONE_DISTRICT</attrlabl>
+                <attrdef>Zoning categories (Residential; Mixed Use; Downtown; Production, Distribution, and Repair; and Special Purpose)</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>SE_ANNO_CAD_DATA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>GLOBALID</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>ZONING</attrlabl>
+                <attrdef>Current zoning</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.AREA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.LEN</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>IZ_DESIGNATION</attrlabl>
+                <attrdef>IZ Designation denotes areas on the zoning map where an increased amount of affordable housing is required through the IZ Plus (IZ+) program. IZ+ may be designated in areas where the permitted density of property is increased through the map amendment process and establishes an affordable unit set-aside requirement higher than Regular IZ.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ZR16_ORIGINAL</attrlabl>
+                <attrdef>The current zone's equivalent zone under the original, pre-2023 reorganization ZR16 regulations for research and comparison.</attrdef>
+                <attrdefs>DCOZ</attrdefs>
+            </attr>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Office of the Chief Technology Officer</cntorg>
+                </cntorgp>
+                <cntpos>GIS Data Coordinator</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>(202) 727-2277</cntvoice>
+                <cntfax>(202) 727-6857</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </distrib>
+        <distliab>See access and use constraints information.</distliab>
+        <custom>DC datasets can be downloaded from "http://opendata.dc.gov".</custom>
+    </distinfo>
+    <metainfo>
+        <metd>20240305</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Office of the Chief Technology Officer</cntorg>
+                </cntorgp>
+                <cntpos>GIS Data Coordinator</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>(202) 727-2277</cntvoice>
+                <cntfax>(202) 727-6857</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+    </metainfo>
+</metadata>
