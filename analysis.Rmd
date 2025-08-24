@@ -585,7 +585,7 @@ plot_ly(comp_df[comp_df$group=="white",] %>% arrange(LABEL_hd, year_hd),
 
 
 
-
+Now we're going to repeat all of that, but using block groups instead of tracts. We will have to rely on sightly different versions of the Census data to do this, downloaded from NHGIS rather than Open Data DC.
 
 
 
