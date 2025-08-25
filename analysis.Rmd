@@ -9,7 +9,7 @@ This Rmarkdown file shows the code we used to analyze demographic change over ti
 
 
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE, message=F, warning=F, fig.width = 12, fig.height = 6)
+knitr::opts_chunk$set(echo = TRUE, message=F, warning=F, fig.width = 11.5, fig.height = 6.5)
 library(readr)
 library(sf)
 library(leaflet)
@@ -196,7 +196,7 @@ plot1 <-
   geom_text(aes(label = round(`Area covered by by Historic Districts, in Acres`, 0), vjust = -1.7)) +
   ylab("Acres") +
   theme_minimal() +
-  ggtitle('Acres covered by "neighborhood historic districts" has steadily increased over time')
+  ggtitle('Acres covered by "neighborhood historic districts"\nhas steadily increased over time')
 
 plot2 <-
   ggplot(p, 
@@ -207,7 +207,7 @@ plot2 <-
   geom_text(aes(label = paste0(`Percent of 2016 residential zone covered by Neighborhood HD`, "%")), vjust = -1.7) +
   theme_minimal() +
   ylab("Percent") +
-  ggtitle('And the % of residential area covered by HDs has more than doubled since 1980')
+  ggtitle('And the % of residential area covered\nby HDs has more than doubled since 1980')
 
 plot1 + plot2
 ```
@@ -429,6 +429,139 @@ plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
 
 ```
 
+Function to run regressions:
+
+```{r}
+run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
+  
+  hd_comp_df <-
+    hd_comp_df %>%
+    select(-ends_with("_prorated"), -desig_year) %>%
+    group_by(LABEL, desig_yet, year) %>%
+    summarise_all(., sum) %>%
+    mutate(pct_black = n_black / n_tot,
+           pct_white = n_white / n_tot) %>%
+    rename_with(~ paste0(., "_hd"))
+  
+  near_comp_df <-
+    near_comp_df %>%
+    select(-desig_year) %>%
+    group_by(LABEL, desig_yet, year) %>%
+    mutate(pct_black = n_black / n_tot,
+           pct_white = n_white / n_tot) %>%
+    summarise_all(., sum) %>%
+    rename_with(~ paste0(., "_near"))
+  
+  comp_df <- dplyr::full_join(x = hd_comp_df, 
+                              y = near_comp_df, 
+                              by = c("LABEL_hd"="LABEL_near", 
+                                     "desig_yet_hd"="desig_yet_near",
+                                     "year_hd"="year_near")) 
+  
+  comp_df_copy <- comp_df
+  comp_df <- comp_df %>% select(starts_with(c("LABEL", "desig_yet", "year", "pct_")))
+  
+  comp_df <-
+    comp_df %>%
+    tidyr::pivot_longer(
+      cols = starts_with("pct_"),
+      names_to = c("group", "treatment_control"),
+      names_pattern = "pct_([a-zA-Z]+)_([a-zA-Z]+)",
+      values_to = "percent")
+  
+  comp_df <- dplyr::left_join(x = comp_df, 
+                              y = comp_df_copy %>% select("LABEL_hd", "desig_yet_hd", "year_hd", "n_tot_hd"), 
+                              by = c("LABEL_hd", 
+                                     "desig_yet_hd",
+                                     "year_hd"))
+  
+  # remove HDs that are always HDs or always not HDs during the timeframe
+  comp_df <-
+    comp_df %>%
+    group_by(LABEL_hd) %>%
+    mutate(mean_status = mean(desig_yet_hd, na.rm=T)) %>%
+    filter(mean_status > 0) %>%
+    filter(mean_status < 1)
+  
+  comp_df$treated <- 0
+  comp_df$treated[comp_df$treatment_control=="hd"] <- 1
+  
+  comp_df$LABEL_hd <- as.factor(comp_df$LABEL_hd)
+  comp_df$year_hd  <- as.factor(comp_df$year_hd)
+  
+  if (weights) {
+    # diff in diff analysis for change in the % of black residents
+    diff_in_diff_b <- lm(percent ~                 # outcome: % of white or black residents
+                         treated +               # "treatment": whether tract is in a HD or not
+                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
+                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
+                         LABEL_hd  +             # fixed effect for HD area
+                         year_hd,                # fixed effect for year
+                       data = comp_df[comp_df$group=="black",],
+                       weights=n_tot_hd)
+    
+    # diff in diff analysis for change in the % of white residents
+    diff_in_diff_w <- lm(percent ~                 # outcome: % of white or black residents
+                         treated +               # "treatment": whether tract is in a HD or not
+                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
+                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
+                         LABEL_hd  +             # fixed effect for HD area
+                         year_hd,                # fixed effect for year
+                       data = comp_df[comp_df$group=="white",],
+                       weights=n_tot_hd)
+    text_bit <- ", weighted by HD population"
+  } else {
+    # diff in diff analysis for change in the % of black residents
+    diff_in_diff_b <- lm(percent ~                 # outcome: % of white or black residents
+                         treated +               # "treatment": whether tract is in a HD or not
+                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
+                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
+                         LABEL_hd  +             # fixed effect for HD area
+                         year_hd,                # fixed effect for year
+                       data = comp_df[comp_df$group=="black",])
+    
+    # diff in diff analysis for change in the % of white residents
+    diff_in_diff_w <- lm(percent ~                 # outcome: % of white or black residents
+                         treated +               # "treatment": whether tract is in a HD or not
+                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
+                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
+                         LABEL_hd  +             # fixed effect for HD area
+                         year_hd,                # fixed effect for year
+                       data = comp_df[comp_df$group=="white",])
+    text_bit <- ", NOT weighted by HD population"
+  }
+  
+  print("__________________________________")
+  print(paste0("D-in-D regression for the % of black residents", text_bit))
+  print(summary(diff_in_diff_b))
+  
+  print("__________________________________")
+  print(paste0("D-in-D regression for the % of white residents", text_bit))
+  print(summary(diff_in_diff_w))
+  
+  comp_df <-
+    comp_df %>%
+    group_by(LABEL_hd, desig_yet_hd) %>%
+    mutate(first_decade_desig=min(as.numeric(as.character(year_hd)))) %>%
+    mutate(first_decade_desig=ifelse(desig_yet_hd==0, 0, first_decade_desig)) %>%
+    ungroup() %>%
+    group_by(LABEL_hd) %>%
+    mutate(first_decade_desig=max(first_decade_desig)) %>%
+    mutate(year_index = as.numeric(as.character(year_hd)) - first_decade_desig)
+
+  comp_df <-
+    comp_df %>%
+    ungroup() %>%
+    group_by(LABEL_hd, group, treatment_control) %>%
+    mutate(percent_std = (percent - mean(percent, na.rm=T)) / sd(percent, na.rm=T))
+    
+  return(comp_df)
+}
+
+```
+
+
+
 Call all the functions we created above:
 
 ```{r}
@@ -481,101 +614,33 @@ Now compare the demographics of the HD tracts and their neighbors in each year:
 
 ```{r}
 
+
 hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
                             hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
-
-
-
 near_comp_df <- dplyr::bind_rows(nearby_tracts60[[3]], nearby_tracts70[[3]],nearby_tracts80[[3]], nearby_tracts90[[3]],
                             nearby_tracts00[[3]], nearby_tracts10[[3]], nearby_tracts20[[3]],)
 
-hd_comp_df <-
-  hd_comp_df %>%
-  select(-ends_with("_prorated"), -desig_year) %>%
-  group_by(LABEL, desig_yet, year) %>%
-  summarise_all(., sum) %>%
-  mutate(pct_black = n_black / n_tot,
-         pct_white = n_white / n_tot) %>%
-  rename_with(~ paste0(., "_hd"))
+comp_df <- run_regressions(hd_comp_df, near_comp_df)
 
-near_comp_df <-
-  near_comp_df %>%
-  select(-desig_year) %>%
-  group_by(LABEL, desig_yet, year) %>%
-  mutate(pct_black = n_black / n_tot,
-         pct_white = n_white / n_tot) %>%
-  summarise_all(., sum) %>%
-  rename_with(~ paste0(., "_near"))
-
-comp_df <- dplyr::full_join(x = hd_comp_df, 
-                            y = near_comp_df, 
-                            by = c("LABEL_hd"="LABEL_near", 
-                                   "desig_yet_hd"="desig_yet_near",
-                                   "year_hd"="year_near")) %>%
-  select(starts_with(c("LABEL", "desig_yet", "year", "pct_")))
-
-comp_df <-
-  comp_df %>%
-  tidyr::pivot_longer(
-    cols = starts_with("pct_"),
-    names_to = c("group", "treatment_control"),
-    names_pattern = "pct_([a-zA-Z]+)_([a-zA-Z]+)",
-    values_to = "percent")
-
-# remove HDs that are always HDs or always not HDs during the timeframe
-comp_df <-
-  comp_df %>%
-  group_by(LABEL_hd) %>%
-  mutate(mean_status = mean(desig_yet_hd, na.rm=T)) %>%
-  filter(mean_status > 0) %>%
-  filter(mean_status < 1)
-
-comp_df$treated <- 0
-comp_df$treated[comp_df$treatment_control=="hd"] <- 1
-
-# diff in diff analysis for change in the % of black residents
-diff_in_diff <- lm(percent ~                 # outcome: % of white or black residents
-                     treated +               # "treatment": whether tract is in a HD or not
-                     desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                     treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                     as.factor(LABEL_hd)  +  # fixed effect for HD area
-                     as.factor(year_hd),     # fixed effect for year
-                   data = comp_df[comp_df$group=="black",])
-
-summary(diff_in_diff)
-
-# diff in diff analysis for change in the % of white residents
-diff_in_diff <- lm(percent ~                 # outcome: % of white or black residents
-                     treated +               # "treatment": whether tract is in a HD or not
-                     desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                     treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                     as.factor(LABEL_hd)  +  # fixed effect for HD area
-                     as.factor(year_hd),     # fixed effect for year
-                   data = comp_df[comp_df$group=="white",])
-
-summary(diff_in_diff)
-
-
-
-plot_ly(comp_df[comp_df$group=="black",] %>% arrange(LABEL_hd, year_hd),
-                   x = ~year_hd,
-                   y = ~percent,
-                   linetype = ~as.factor(treatment_control),
-                   hovertext = ~paste0("Tract types: ", treatment_control, "\nDesignated yet: ", desig_yet_hd),
-                   color = ~LABEL_hd, # Group lines by this variable
-                   type = "scatter",
-                   mode = "lines+markers") %>%
-      layout(title = "% black residents in each historic district areas before and after HD created")
-
-plot_ly(comp_df[comp_df$group=="white",] %>% arrange(LABEL_hd, year_hd),
-                   x = ~year_hd,
-                   y = ~percent,
-                   linetype = ~as.factor(treatment_control),
-                   hovertext = ~paste0("Tract types: ", treatment_control, "\nDesignated yet: ", desig_yet_hd),
-                   color = ~LABEL_hd, # Group lines by this variable
-                   type = "scatter",
-                   mode = "lines+markers") %>%
-      layout(title = "% white residents in each historic district areas before and after HD created")
+plot_ly(
+    data = comp_df[comp_df$group=="black",] %>% arrange(LABEL_hd, year_index),
+    x = ~year_index,
+    y = ~percent,
+    color = ~LABEL_hd,  # Specify the grouping variable for color
+    linetype = ~as.factor(treatment_control),
+    type = "scatter",
+    mode = "lines+markers"
+  )
+  
+  plot_ly(
+    data = comp_df[comp_df$group=="white",] %>% arrange(LABEL_hd, year_index),
+    x = ~year_index,
+    y = ~percent_std,
+    color = ~LABEL_hd,  # Specify the grouping variable for color
+    linetype = ~as.factor(treatment_control),
+    type = "scatter",
+    mode = "lines+markers"
+  )
 ```
 
 
@@ -684,9 +749,11 @@ nearby_blocks20 <-
 
 ```
 
+Again let's peek at a map to make sure everything looks ok:
 
 ```{r}
 plot_geos(b70_shp, nearby_blocks70, hd_geos70$geos_in_hd$geo_id)
+plot_geos(b20_shp, nearby_blocks20, hd_geos20$geos_in_hd$geo_id)
 ```
 
 
@@ -703,93 +770,9 @@ hd_comp_df <- dplyr::bind_rows(hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
 near_comp_df <- dplyr::bind_rows(nearby_blocks70[[3]], nearby_blocks80[[3]], nearby_blocks90[[3]], 
                                  nearby_blocks00[[3]], nearby_blocks10[[3]], nearby_blocks20[[3]],)
 
-hd_comp_df <-
-  hd_comp_df %>%
-  select(-ends_with("_prorated"), -desig_year) %>%
-  group_by(LABEL, desig_yet, year) %>%
-  summarise_all(., sum) %>%
-  mutate(pct_black = n_black / n_tot,
-         pct_white = n_white / n_tot) %>%
-  rename_with(~ paste0(., "_hd"))
+comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
+comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
 
-near_comp_df <-
-  near_comp_df %>%
-  select(-desig_year) %>%
-  group_by(LABEL, desig_yet, year) %>%
-  mutate(pct_black = n_black / n_tot,
-         pct_white = n_white / n_tot) %>%
-  summarise_all(., sum) %>%
-  rename_with(~ paste0(., "_near"))
-
-comp_df <- dplyr::full_join(x = hd_comp_df, 
-                            y = near_comp_df, 
-                            by = c("LABEL_hd"="LABEL_near", 
-                                   "desig_yet_hd"="desig_yet_near",
-                                   "year_hd"="year_near")) %>%
-  select(starts_with(c("LABEL", "desig_yet", "year", "pct_")))
-
-comp_df <-
-  comp_df %>%
-  tidyr::pivot_longer(
-    cols = starts_with("pct_"),
-    names_to = c("group", "treatment_control"),
-    names_pattern = "pct_([a-zA-Z]+)_([a-zA-Z]+)",
-    values_to = "percent")
-
-# remove HDs that are always HDs or always not HDs during the timeframe
-comp_df <-
-  comp_df %>%
-  group_by(LABEL_hd) %>%
-  mutate(mean_status = mean(desig_yet_hd, na.rm=T)) %>%
-  filter(mean_status > 0) %>%
-  filter(mean_status < 1)
-
-comp_df$treated <- 0
-comp_df$treated[comp_df$treatment_control=="hd"] <- 1
-
-# diff in diff analysis for change in the % of black residents
-diff_in_diff <- lm(percent ~                 # outcome: % of white or black residents
-                     treated +               # "treatment": whether tract is in a HD or not
-                     desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                     treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                     as.factor(LABEL_hd)  +  # fixed effect for HD area
-                     as.factor(year_hd),     # fixed effect for year
-                   data = comp_df[comp_df$group=="black",])
-
-summary(diff_in_diff)
-
-# diff in diff analysis for change in the % of white residents
-diff_in_diff <- lm(percent ~                 # outcome: % of white or black residents
-                     treated +               # "treatment": whether tract is in a HD or not
-                     desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                     treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                     as.factor(LABEL_hd)  +  # fixed effect for HD area
-                     as.factor(year_hd),     # fixed effect for year
-                   data = comp_df[comp_df$group=="white",])
-
-summary(diff_in_diff)
-
-
-
-plot_ly(comp_df[comp_df$group=="black",] %>% arrange(LABEL_hd, year_hd),
-                   x = ~year_hd,
-                   y = ~percent,
-                   linetype = ~as.factor(treatment_control),
-                   hovertext = ~paste0("Tract types: ", treatment_control, "\nDesignated yet: ", desig_yet_hd),
-                   color = ~LABEL_hd, # Group lines by this variable
-                   type = "scatter",
-                   mode = "lines+markers") %>%
-      layout(title = "% black residents in each historic district areas before and after HD created")
-
-plot_ly(comp_df[comp_df$group=="white",] %>% arrange(LABEL_hd, year_hd),
-                   x = ~year_hd,
-                   y = ~percent,
-                   linetype = ~as.factor(treatment_control),
-                   hovertext = ~paste0("Tract types: ", treatment_control, "\nDesignated yet: ", desig_yet_hd),
-                   color = ~LABEL_hd, # Group lines by this variable
-                   type = "scatter",
-                   mode = "lines+markers") %>%
-      layout(title = "% white residents in each historic district areas before and after HD created")
 ```
 
 
