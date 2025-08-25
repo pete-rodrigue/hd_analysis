@@ -48,23 +48,23 @@ zone_shp <- sf::st_read("zoning/Zoning_Boundaries_(Zoning_Regulations_of_2016).s
 # load & clean census tract data
 # please see https://opendata.dc.gov/datasets/DCGIS::census-tracts-in-1970/about
 # for example, for more details on variable names
-load_clean_tracts <- function(tract_id_var, black_var, white_var, totpop_var, year) {
+load_clean_tracts <- function(geo_id_var, black_var, white_var, totpop_var, year) {
   # Loads the shapefile, removes unneeded columns, calculates the tract area in meters^2
   shp <- sf::st_read(paste0("tract_data/Census_Tracts_in_", year, 
                             "/Census_Tracts_in_", year, ".shp")) 
   shp <- shp %>% 
-    rename("tract_id" = !!sym(tract_id_var),
+    rename("geo_id" = !!sym(geo_id_var),
            "n_black" = !!sym(black_var),
            "n_white" = !!sym(white_var),
            "n_tot" = !!sym(totpop_var)
            ) %>%
-    select("tract_id", starts_with("n_")) %>%
+    select("geo_id", starts_with("n_")) %>%
     mutate(n_other = n_tot - (n_black + n_white),
            year = year)
-  shp$tract_area_meters <- sf::st_area(shp)
+  shp$geo_area_meters <- sf::st_area(shp)
   shp <- sf::st_transform(shp, 4326)
   
-  return(shp %>% select("year", "tract_id", "n_tot", "n_black", "n_white", "n_other", "tract_area_meters", "geometry"))
+  return(shp %>% select("year", "geo_id", "n_tot", "n_black", "n_white", "n_other", "geo_area_meters", "geometry"))
 }
 ```
 
@@ -276,38 +276,38 @@ hd_shp <-
                        "Union Market"
                        )))
 
-get_tracts_in_hd <- function(shp, min_pct, year) {
+get_geos_in_hd <- function(shp, min_pct, year) {
   # get the tracts that are in each HD in a given year
   
   i <- sf::st_intersection(x=shp, y=hd_shp)
   i$i_area <- sf::st_area(i)
-  i$pct_of_tract_area <- as.vector(i$i_area / i$tract_area_meters)
+  i$pct_of_geo_area <- as.vector(i$i_area / i$geo_area_meters)
   
-  tracts_in_hd <- i[i$pct_of_tract_area > min_pct, 
-                    c("year", "tract_id", "LABEL",
+  geos_in_hd <- i[i$pct_of_geo_area > min_pct, 
+                    c("year", "geo_id", "LABEL",
                       "n_tot", "n_black", "n_white", "n_other",
-                      "desig_date", "pct_of_tract_area")]
-  tracts_in_hd_summary <-
-    tracts_in_hd %>%
-    mutate(n_tot_prorated = n_tot * pct_of_tract_area,
-           n_black_prorated = n_black * pct_of_tract_area,
-           n_white_prorated = n_white * pct_of_tract_area,
-           n_other_prorated = n_other * pct_of_tract_area) %>%
-    select("year", "LABEL", "tract_id", starts_with("n_"), "desig_date") %>%
+                      "desig_date", "pct_of_geo_area")]
+  geos_in_hd_summary <-
+    geos_in_hd %>%
+    mutate(n_tot_prorated = n_tot * pct_of_geo_area,
+           n_black_prorated = n_black * pct_of_geo_area,
+           n_white_prorated = n_white * pct_of_geo_area,
+           n_other_prorated = n_other * pct_of_geo_area) %>%
+    select("year", "LABEL", "geo_id", starts_with("n_"), "desig_date") %>%
     group_by(LABEL) %>%
-      summarise(n_tot = sum(n_tot),
-                n_black = sum(n_black),
-                n_white = sum(n_white),
-                n_other = sum(n_other),
-                n_tot_prorated = sum(n_tot_prorated),
-                n_black_prorated = sum(n_black_prorated),
-                n_white_prorated = sum(n_white_prorated),
-                n_other_prorated = sum(n_other_prorated),
+      summarise(n_tot = sum(n_tot, na.rm=T),
+                n_black = sum(n_black, na.rm=T),
+                n_white = sum(n_white, na.rm=T),
+                n_other = sum(n_other, na.rm=T),
+                n_tot_prorated = sum(n_tot_prorated, na.rm=T),
+                n_black_prorated = sum(n_black_prorated, na.rm=T),
+                n_white_prorated = sum(n_white_prorated, na.rm=T),
+                n_other_prorated = sum(n_other_prorated, na.rm=T),
                 desig_year = max(desig_date, na.rm=T)) %>%
     mutate(desig_yet = ifelse(desig_year<year, 1, 0), 
            year = year)
   
-    rv = list("tracts_in_hd"=tracts_in_hd, "summary"=sf::st_drop_geometry(tracts_in_hd_summary))
+    rv = list("geos_in_hd"=geos_in_hd, "summary"=sf::st_drop_geometry(geos_in_hd_summary))
     
     return(rv)
 }
@@ -316,31 +316,31 @@ get_tracts_in_hd <- function(shp, min_pct, year) {
 sf_use_s2(FALSE)
 # ranging the min % between .2 and .6 seems to give reasonable results
 mp = 0.25 # TODO: run analysis varying this factor
-hd_tracts60 <- get_tracts_in_hd(t60_shp, min_pct = mp, year = 1960)
-hd_tracts70 <- get_tracts_in_hd(t70_shp, min_pct = mp, year = 1970)
-hd_tracts80 <- get_tracts_in_hd(t80_shp, min_pct = mp, year = 1980)
-hd_tracts90 <- get_tracts_in_hd(t90_shp, min_pct = mp, year = 1990)
-hd_tracts00 <- get_tracts_in_hd(t00_shp, min_pct = mp, year = 2000)
-hd_tracts10 <- get_tracts_in_hd(t10_shp, min_pct = mp, year = 2010)
-hd_tracts20 <- get_tracts_in_hd(t20_shp, min_pct = mp, year = 2020)
+hd_geos60 <- get_geos_in_hd(t60_shp, min_pct = mp, year = 1960)
+hd_geos70 <- get_geos_in_hd(t70_shp, min_pct = mp, year = 1970)
+hd_geos80 <- get_geos_in_hd(t80_shp, min_pct = mp, year = 1980)
+hd_geos90 <- get_geos_in_hd(t90_shp, min_pct = mp, year = 1990)
+hd_geos00 <- get_geos_in_hd(t00_shp, min_pct = mp, year = 2000)
+hd_geos10 <- get_geos_in_hd(t10_shp, min_pct = mp, year = 2010)
+hd_geos20 <- get_geos_in_hd(t20_shp, min_pct = mp, year = 2020)
 gc()
 ```
 
 Plot where the tracts "inside" the HDs were for 2020:
 
 ```{r}
-plot_tracts_in_hds <- function(shp, tracts_in_hds) {
+plot_geos_in_hds <- function(shp, geos_in_hds) {
   rv <-
     leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(group= "tracts labeled as in HDs",
-              data=shp[shp$tract_id %in% tracts_in_hds, ],
+              data=shp[shp$geo_id %in% geos_in_hds, ],
               fillColor = "skyblue", 
               fillOpacity = 0.7,
               weight = 1,
               opacity = 1,
               color = "white",
-              label=~tract_id,
+              label=~geo_id,
               highlightOptions = highlightOptions(weight = 3,
                                                   color = "white",
                                                   bringToFront = FALSE
@@ -369,38 +369,38 @@ plot_tracts_in_hds <- function(shp, tracts_in_hds) {
 ```
 
 ```{r}
-plot_tracts_in_hds(t60_shp, hd_tracts60$tracts_in_hd$tract_id)
-plot_tracts_in_hds(t70_shp, hd_tracts70$tracts_in_hd$tract_id)
-plot_tracts_in_hds(t80_shp, hd_tracts80$tracts_in_hd$tract_id)
-plot_tracts_in_hds(t90_shp, hd_tracts90$tracts_in_hd$tract_id)
-plot_tracts_in_hds(t00_shp, hd_tracts00$tracts_in_hd$tract_id)
-plot_tracts_in_hds(t10_shp, hd_tracts10$tracts_in_hd$tract_id)
-plot_tracts_in_hds(t20_shp, hd_tracts20$tracts_in_hd$tract_id)
+plot_geos_in_hds(t60_shp, hd_geos60$geos_in_hd$geo_id)
+plot_geos_in_hds(t70_shp, hd_geos70$geos_in_hd$geo_id)
+plot_geos_in_hds(t80_shp, hd_geos80$geos_in_hd$geo_id)
+plot_geos_in_hds(t90_shp, hd_geos90$geos_in_hd$geo_id)
+plot_geos_in_hds(t00_shp, hd_geos00$geos_in_hd$geo_id)
+plot_geos_in_hds(t10_shp, hd_geos10$geos_in_hd$geo_id)
+plot_geos_in_hds(t20_shp, hd_geos20$geos_in_hd$geo_id)
 ```
 
 Now get a list of neighboring tracts:
 
 ```{r}
-get_neighbor_tracts <- function(hd_shp, t_shp, buffer_dist, tracts_in_hd, remove_tract_thresh, year) {
+get_neighbor_tracts <- function(hd_shp, t_shp, buffer_dist, geos_in_hd, remove_tract_thresh, year) {
   # first make a buffer around the HDs
   b <- sf::st_buffer(hd_shp, dist = buffer_dist)
   # then get the intersection of the buffer and the tracts
   i <- sf::st_intersection(x=t_shp, y=b)
   # remove tracts that have already been classified as within an HD
-  i <- i[!(i$tract_id %in% tracts_in_hd$tracts_in_hd$tract_id),]
+  i <- i[!(i$geo_id %in% geos_in_hd$geos_in_hd$geo_id),]
   # also remove any tracts for which more than X% of an HD is in that tract
   hd_shp$area_meters <- sf::st_area(hd_shp)
   hd_tract <- sf::st_intersection(x=t_shp, y=hd_shp)
   hd_tract$intersect_area <- sf::st_area(hd_tract)
   hd_tract$pct_area <- as.vector(hd_tract$intersect_area / hd_tract$area_meters)
-  tracts_to_remove <- hd_tract$tract_id[hd_tract$pct_area > remove_tract_thresh]
-  neighboring_tracts <- i[!(i$tract_id %in% tracts_to_remove),]
+  tracts_to_remove <- hd_tract$geo_id[hd_tract$pct_area > remove_tract_thresh]
+  neighboring_tracts <- i[!(i$geo_id %in% tracts_to_remove),]
   
   # finally, remove
-  neighboring_tracts <- t_shp[t_shp$tract_id %in% neighboring_tracts$tract_id,]
+  neighboring_tracts <- t_shp[t_shp$geo_id %in% neighboring_tracts$geo_id,]
   neighboring_tracts <- dplyr::left_join(neighboring_tracts, 
-                                         sf::st_drop_geometry(i[,c("tract_id", "LABEL", "desig_date")]),
-                                         by="tract_id")
+                                         sf::st_drop_geometry(i[,c("geo_id", "LABEL", "desig_date")]),
+                                         by="geo_id")
   
   neighbor_tracts_summary <-
     sf::st_drop_geometry(neighboring_tracts) %>%
@@ -424,20 +424,20 @@ buff_dist = .005
 threshold = .1
 
 nearby_tracts60 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t60_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts70,threshold, 1960)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t60_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1960)
 nearby_tracts70 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t70_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts70,threshold, 1970)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
 nearby_tracts80 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t80_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts80,threshold, 1980)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
 nearby_tracts90 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t90_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts90,threshold, 1990)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
 gc()
 nearby_tracts00 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t00_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts00,threshold, 2000)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
 nearby_tracts10 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t10_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts10,threshold, 2010)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
 nearby_tracts20 <- 
-  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t20_shp, buffer_dist=buff_dist, tracts_in_hd=hd_tracts20,threshold, 2020)
+  get_neighbor_tracts(hd_shp=hd_shp, t_shp=t20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
 gc()
 
 plot_neighbor_tracts <- function(shp) {
@@ -452,7 +452,7 @@ plot_neighbor_tracts <- function(shp) {
               weight = 1,
               opacity = 1,
               color = "white",
-              label=~paste0("Tract: ", tract_id, "; HD neighbor: ", LABEL),
+              label=~paste0("Tract: ", geo_id, "; HD neighbor: ", LABEL),
               highlightOptions = highlightOptions(weight = 3,
                                                   color = "white",
                                                   bringToFront = FALSE
@@ -491,8 +491,8 @@ Now compare the demographics of the HD tracts and their neighbors in each year:
 
 ```{r}
 
-hd_comp_df <- dplyr::bind_rows(hd_tracts60[[2]], hd_tracts70[[2]], hd_tracts80[[2]], hd_tracts90[[2]],
-                            hd_tracts00[[2]], hd_tracts10[[2]], hd_tracts20[[2]],)
+hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
+                            hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
 
 
 
@@ -601,8 +601,8 @@ b00_df <- readr::read_csv("block_data/nhgis0092_ds147_2000_block.csv")
 b10_df <- readr::read_csv("block_data/nhgis0092_ds172_2010_block.csv")
 b20_df <- readr::read_csv("block_data/nhgis0092_ds258_2020_block.csv")
 
-clean_block_data <- function(shp, df, shp_b_id, df_b_id, var_prefix, df_n_black, df_n_white, drop_var="") {
-  shp <- shp %>% select(!!sym(shp_b_id)) %>% rename("b_id" = !!sym(shp_b_id))
+clean_block_data <- function(shp, df, shp_b_id, df_b_id, var_prefix, df_n_black, df_n_white, drop_var="", year) {
+  shp <- shp %>% select(!!sym(shp_b_id)) %>% rename("geo_id" = !!sym(shp_b_id))
   if (drop_var!="") {df <- df %>% select(-!!sym(drop_var))}
   df <- df %>% 
     select(!!sym(df_b_id), starts_with(var_prefix)) %>%
@@ -610,25 +610,42 @@ clean_block_data <- function(shp, df, shp_b_id, df_b_id, var_prefix, df_n_black,
     mutate(n_tot = sum(c_across(starts_with(var_prefix))))
     
   df <- df %>%
-    rename("b_id" = !!sym(df_b_id),
+    rename("geo_id" = !!sym(df_b_id),
            "n_black" = !!sym(df_n_black),
            "n_white" = !!sym(df_n_white)) %>%
-    select(-starts_with(var_prefix))
+    select(-starts_with(var_prefix)) %>%
+    mutate(n_other = n_tot - (n_black + n_white))
   
-  shp <- dplyr::left_join(shp, df, by="b_id")
+  shp <- dplyr::left_join(shp, df, by="geo_id")
   shp <- sf::st_transform(shp, 4326)
+  shp$geo_area_meters <- sf::st_area(shp)
+  shp$year <- year
   
   return(shp)
 }
 
-b90_shp <- clean_block_data(b90_shp, b90_df, "GISJOIN", "GISJOIN", "EUY0", "EUY002", "EUY001")
-b00_shp <- clean_block_data(b00_shp, b00_df, "GISJOIN", "GISJOIN", "FYE0", "FYE002", "FYE001")
-b10_shp <- clean_block_data(b10_shp, b10_df, "GISJOIN", "GISJOIN", "H7X", "H7X003", "H7X002", "H7X001")
-b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J003", "U7J002", "U7J001")
+b90_shp <- clean_block_data(b90_shp, b90_df, "GISJOIN", "GISJOIN", "EUY0", "EUY002", "EUY001", year=1990)
+b00_shp <- clean_block_data(b00_shp, b00_df, "GISJOIN", "GISJOIN", "FYE0", "FYE002", "FYE001", year=2000)
+b10_shp <- clean_block_data(b10_shp, b10_df, "GISJOIN", "GISJOIN", "H7X", "H7X003", "H7X002", "H7X001", year=2010)
+b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J003", "U7J002", "U7J001", year=2020)
 
 rm(b90_df, b00_df, b10_df, b20_df)
 
 plot(sf::st_geometry(b20_shp["n_black"]))
+```
+
+
+Get the blocks in the HDs:
+
+```{r}
+mp = 0.25 # TODO: run analysis varying this factor
+hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
+hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
+hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
+hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
+
+
+plot_geos_in_hds(b90_shp, hd_geos90$geos_in_hd$geo_id)
 ```
 
 
