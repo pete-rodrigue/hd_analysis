@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin/>
+                <origin/>
+                <pubdate>20060619</pubdate>
+                <title>Census Tracts - 1990</title>
+                <geoform>vector digital data</geoform>
+                <pubinfo>
+                    <publish>DC GIS</publish>
+                </pubinfo>
+                <lworkcit>
+                    <citeinfo>
+                        <origin/>
+                        <title>DC Geographic Information System</title>
+                        <geoform>vector digital data</geoform>
+                    </citeinfo>
+                </lworkcit>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>Census Year 1990 Tract Polygons. This dataset contains polygon features, created as part of the DC Geographic Information System (DC GIS) for the D.C. Office of the Chief Technology Officer (OCTO) and participating D.C. government agencies. 2000 census tracts are identical to 1990 census tracts, except in instances where multiple tracts were merged to form one new tract. Census tracts were identified from maps provided by the U.S. Census Bureau and the D.C. Office of Planning. The tract lines were created by selecting street arcs from the WGIS planimetric street centerlines, and, where necessary, heads-up digitized from the 1995/1999 orthophotographs. Polygons were generated using these lines.</abstract>
+            <purpose>This data is used for the planning and management of Washington, D.C. by local government agencies.</purpose>
+        </descript>
+        <timeperd>
+            <timeinfo>
+                <sngdate>
+                    <caldate>20060619</caldate>
+                </sngdate>
+            </timeinfo>
+            <current>publication date</current>
+        </timeperd>
+        <status>
+            <progress>In work</progress>
+            <update>As needed</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-77.119896</westbc>
+                <eastbc>-76.909016</eastbc>
+                <northbc>38.995967</northbc>
+                <southbc>38.791582</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>society</themekey>
+                <themekey>Government Jurisdiction</themekey>
+                <themekey>boundary</themekey>
+                <themekey>Census</themekey>
+                <themekey>Tract</themekey>
+                <themekey>Census Tract</themekey>
+            </theme>
+            <theme>
+                <themekt>ISO 19115 Topic Categories</themekt>
+                <themekey>society</themekey>
+                <themekey>boundaries</themekey>
+            </theme>
+            <place>
+                <placekt>None</placekt>
+                <placekey>District of Columbia</placekey>
+                <placekey>DCGIS</placekey>
+                <placekey>DC GIS</placekey>
+                <placekey>DC</placekey>
+                <placekey>Washington</placekey>
+                <placekey>D.C.</placekey>
+            </place>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>This work is licensed under a Creative Commons Attribution 4.0 International License.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>D.C. Office of Planning, U.S. Census Bureau</datacred>
+    </idinfo>
+    <dataqual>
+        <attracc>
+            <attraccr>Data believed to be complete and accurate as of the time period cited. Subject to change. Digital version compared with original source data for accuracy and completeness. In process of validation by source and/or responsible agency.</attraccr>
+        </attracc>
+        <logic>In process of validation by source and/or responsible agency.</logic>
+        <complete>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. In process of validation by source and/or responsible agency.</complete>
+        <posacc>
+            <horizpa>
+                <horizpar>N/A</horizpar>
+            </horizpa>
+        </posacc>
+        <posacc>
+            <vertacc>
+                <vertaccr>N/A</vertaccr>
+            </vertacc>
+        </posacc>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>Census data analysis tool</title>
+                    </citeinfo>
+                </srccite>
+                <srcscale>0</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>Census data analysis tool</srccitea>
+                <srccontr>Table attributes</srccontr>
+            </srcinfo>
+            <procstep>
+                <procdesc>All 1990 Census Tables in the DCGIS geodatabase were joined together creating one table. This tables was then joined to the Tract90ply feature class to add census data to the layer.</procdesc>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>Office of the Chief Technology Officer</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>441 4th St NW, Suite 930 South</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntfax>202-727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30am - 5:30pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Metadata updated</procdesc>
+            </procstep>
+            <procstep>
+                <procdesc>1992 D.C. Office of Planning ward and census tract map was heads-up digitized from the 1995 orthophotographs, and a shapefile was created. A base ArcInfo coverage of correct linework (snapbase.e00) for all DC data was developed after the final delivery of the planimetric street centerlines. The census tract datasets were selected using the above shapefile from the snapbase coverage, creating coincident geography with the other DC GIS datasets. These planimetric features were built as lines and used to create polygons. When imported into the DC GIS geodatabase, the coverages shift 0.01mm since the geodatabase supports only 11 digits of precision, not double precision (16 digits). Planimetrics were created at a scale of 1:1,000. This means that a well defined feature falls within two feet of true position. Attribute data (kept in separate tables) was provided by United States Census Bureau and the DC Office of Planning. All DC GIS data is stored and exported in Maryland State Plane coordinates NAD 83 meters.</procdesc>
+                <procdate>20010806</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of the Chief Technology Officer (OCTO)</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>441 4th St NW, Suite 930 South</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>(202) 727-1761</cntvoice>
+                        <cntfax>(202) 727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>GT-polygon composed of chains</sdtstype>
+                <ptvctcnt>192</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>DCGIS.Tract90ply</enttypl>
+            </enttyp>
+            <attr>
+                <attrlabl>FULLTOTAL_</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>GIS_ID</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>OBJECTID</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>HISPANIC</attrlabl>
+                <attrdef>Hispanic Population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE00_04</attrlabl>
+                <attrdef>Age 0 to 4</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE05_17</attrlabl>
+                <attrdef>Age 5 to 17</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OBJECTID_1</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>AGE18_24</attrlabl>
+                <attrdef>Age 18 to 24</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE25_34</attrlabl>
+                <attrdef>Age 25 to 34</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE35_44</attrlabl>
+                <attrdef>Age 35 to 44</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE45_54</attrlabl>
+                <attrdef>Age 45 to 54</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE55_64</attrlabl>
+                <attrdef>Age 55 to 64</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE65PLUS</attrlabl>
+                <attrdef>Age 65+</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OCCOWNER</attrlabl>
+                <attrdef>Owner Occupied </attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OCCRENT</attrlabl>
+                <attrdef>Rental</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>VACANTRENT</attrlabl>
+                <attrdef>Vacant for Rent</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>VACANTSALE</attrlabl>
+                <attrdef>Vacant for Sale</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>VACNTSEASO</attrlabl>
+                <attrdef>Vacant Seasonally</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>VACNTOTHER</attrlabl>
+                <attrdef>Vacant Other</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>POPUNEMPLO</attrlabl>
+                <attrdef>Population unemployed</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FEDTRACTNO</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>VACNTRENT</attrlabl>
+                <attrdef>Vacant for Rent</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>VACNTSALE</attrlabl>
+                <attrdef>Vacant for Sale</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OVER25</attrlabl>
+                <attrdef>Population over 25</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTHOUSEUN</attrlabl>
+                <attrdef>Total Housing Units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTHIGHSCH</attrlabl>
+                <attrdef>Percent High School Grads as percent total population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTCOLLGRA</attrlabl>
+                <attrdef>Percent College Grads as percent total population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MRDCHREL</attrlabl>
+                <attrdef>Median Households with related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MRCHRELNOT</attrlabl>
+                <attrdef>Median Households with no related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MHHCHREL</attrlabl>
+                <attrdef>male households with related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MHHCHRELNO</attrlabl>
+                <attrdef>male households with no related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TRACTNO</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>FMHHCHREL</attrlabl>
+                <attrdef>female households with related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FMHHCHRELN</attrlabl>
+                <attrdef>female households with no related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>SINGLEPERS</attrlabl>
+                <attrdef>Single Person Households</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MULTIPERSO</attrlabl>
+                <attrdef>Multi Person Households</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OCCUPIEDHO</attrlabl>
+                <attrdef>Owner Occupied Housing</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTOVERCRO</attrlabl>
+                <attrdef>Percent housing overcrowded</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FLSNGLDET</attrlabl>
+                <attrdef>single family detached</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FLSNGLATT</attrlabl>
+                <attrdef>Single Famil attached</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FLUNIT2_9</attrlabl>
+                <attrdef>2 to 9 family units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FLUNIT10_4</attrlabl>
+                <attrdef>10 to 49 family units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FULLTOTAL</attrlabl>
+                <attrdef>Total Housing Units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FLUNIT50PL</attrlabl>
+                <attrdef>50 Plus Housing Units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>HOUSEHOLDS</attrlabl>
+                <attrdef>Total Households</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MEDINCOME</attrlabl>
+                <attrdef>Median Income</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CONSTRCOST</attrlabl>
+                <attrdef>Construction Cost</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>SINGLEFAMI</attrlabl>
+                <attrdef>Single Family Home</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MEDIANVALU</attrlabl>
+                <attrdef>Median Value</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTOWNEROC</attrlabl>
+                <attrdef>Percentage owner occupied</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>POPULATION</attrlabl>
+                <attrdef>Total Poulation</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>WHITE</attrlabl>
+                <attrdef>White Population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>BLACK</attrlabl>
+                <attrdef>Black population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AMERIND</attrlabl>
+                <attrdef>American Indian population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>ASIAN</attrlabl>
+                <attrdef>Asian population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PERCAPITAI</attrlabl>
+                <attrdef>Per Capita Income</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>WEB_URL</attrlabl>
+                <attrdef>Web Link URL</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>POPBELOWPO</attrlabl>
+                <attrdef>Population below poverty level</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OTHER</attrlabl>
+                <attrdef>Other population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTUNEMPLO</attrlabl>
+                <attrdef>Percentage of population unemployed </attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MULTIUNIT</attrlabl>
+                <attrdef>Multi Unit Housing</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTBELOWPO</attrlabl>
+                <attrdef>Percentage of population below pverty</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>NAME</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Editor</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Edited</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>Shape</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.AREA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.LEN</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>GlobalID</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Creator</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Created</attrlabl>
+            </attr>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </distrib>
+        <distliab>See access and use constraints information.</distliab>
+        <custom>DC datasets can be downloaded from "http://opendata.dc.gov".</custom>
+    </distinfo>
+    <metainfo>
+        <metd>20171103</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+    </metainfo>
+</metadata>
