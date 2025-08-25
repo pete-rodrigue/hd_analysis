@@ -5,8 +5,11 @@ date: "2025-08-23"
 output: html_document
 ---
 
+This Rmarkdown file shows the code we used to analyze demographic change over time in and outside of historic districts. 
+
+
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE, message=F, warning=F, fig.width = 18, fig.height = 8)
+knitr::opts_chunk$set(echo = TRUE, message=F, warning=F, fig.width = 12, fig.height = 6)
 library(readr)
 library(sf)
 library(leaflet)
@@ -25,7 +28,7 @@ current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
 
-Load our data:
+Load our data. We'll first do the analysis using Census tracts, and then later use Census blocks.
 
 ```{r}
 # load data that has the dates the historic districts were designated
@@ -80,7 +83,7 @@ gc()
 ```
 
 
-Merge HD data onto HD shapefile, subset to only look at neighborhood HDs:
+Merge historic distrit (HD) data onto HD shapefile, subset to only look at neighborhood HDs:
 
 ```{r}
 hd_shp <- dplyr::left_join(x = hd_shp, y = hd_data, by = "UNIQUEID")
@@ -97,7 +100,7 @@ hd_shp <- sf::st_transform(hd_shp, 4326)
 ward_shp <- sf::st_transform(ward_shp, 4326)
 ```
 
-Subset the zoning map to just look at residential zones:
+Let's overlay HDs onto DC's zoning map. 
 
 ```{r}
 # list zones:
@@ -165,7 +168,7 @@ total_zone_acres <- sum(zone_shp$area_acres, na.rm=T)
 ```
 
 
-Total land area covered by HDs over time:
+Total and % of land area covered by HDs over time:
 
 ```{r}
 # get shape areas:
@@ -252,21 +255,11 @@ leaflet() %>%
 
 ```
 
-
-Now let's look and see how HD changed over time, in terms of % black residents and % white residents, compared to nearby neighborhoods (tracts) that were not in HDs.
-
-This will have a few steps:
-
-1. Take a given HD.
-2. Get the intersection of the HD with census tracts. If at least X% of the census tract area is in the HD, we'll count it as part of the HD. (We'll vary X as robustness check later)
-3. Create a buffer around the HD of distance Y (we'll vary Y as a robustness check later). Run another intersection with the census tracts and that buffer. Count any tracts that touch the buffer but are not in an HD as "comparison" tracts. 
-4. Note the % of white and black residents in each HD and those HDs comparison tracts.
-5. See how that changes over time.
-
+We'll remove some very small HDs for the next part (like HDs that are a single circle):
 
 ```{r}
-# drop some very small HDs that are like a single circle
-# just dropped anything smaller than 10 acres
+# Drop some very small HDs that are like a single circle
+# We just dropped anything smaller than 10 acres
 hd_shp <-
   hd_shp %>%
   filter(!(LABEL %in% c("Emerald St HD",
@@ -276,9 +269,29 @@ hd_shp <-
                        "Union Market"
                        )))
 
+# turn off spherical geometry (s2)
+sf_use_s2(FALSE)
+```
+
+Now let's look and see how HDs changed over time, in terms of % black residents and % white residents, compared to nearby neighborhoods (tracts) that were not in HDs.
+
+This will have a few steps:
+
+1. Take a given HD.
+2. Get the intersection of the HD with census tracts. If at least X% of the census tract area is in the HD, we'll count it as part of the HD.
+3. Create a buffer around the HD of distance Y. Run another intersection with the census tracts and that buffer. Count any tracts that touch the buffer but are not in an HD as comparison tracts. 
+4. Note the % of white and black residents in each HD and those HDs comparison tracts.
+5. See how those respective percentages change over time. 
+
+
+Function to find which tracts/blocks are in which HDs:
+
+```{r}
 get_geos_in_hd <- function(shp, min_pct, year) {
-  # get the tracts that are in each HD in a given year
-  
+  # This function gets the tracts that are in each HD in a given year
+  # shp: the tract or block shapefile (an sf shapefile object)
+  # min_pct: the minimum % of the tract or block that must be in the HD to count as part of the HD (a decimal # between 0 and 1)
+  # year: the year (an integer like 1980)
   i <- sf::st_intersection(x=shp, y=hd_shp)
   i$i_area <- sf::st_area(i)
   i$pct_of_geo_area <- as.vector(i$i_area / i$geo_area_meters)
@@ -312,73 +325,10 @@ get_geos_in_hd <- function(shp, min_pct, year) {
     return(rv)
 }
 
-# turn off spherical geometry (s2)
-sf_use_s2(FALSE)
-# ranging the min % between .2 and .6 seems to give reasonable results
-mp = 0.25 # TODO: run analysis varying this factor
-hd_geos60 <- get_geos_in_hd(t60_shp, min_pct = mp, year = 1960)
-hd_geos70 <- get_geos_in_hd(t70_shp, min_pct = mp, year = 1970)
-hd_geos80 <- get_geos_in_hd(t80_shp, min_pct = mp, year = 1980)
-hd_geos90 <- get_geos_in_hd(t90_shp, min_pct = mp, year = 1990)
-hd_geos00 <- get_geos_in_hd(t00_shp, min_pct = mp, year = 2000)
-hd_geos10 <- get_geos_in_hd(t10_shp, min_pct = mp, year = 2010)
-hd_geos20 <- get_geos_in_hd(t20_shp, min_pct = mp, year = 2020)
-gc()
+
 ```
 
-Plot where the tracts "inside" the HDs were for 2020:
-
-```{r}
-plot_geos_in_hds <- function(shp, geos_in_hds) {
-  rv <-
-    leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(group= "tracts labeled as in HDs",
-              data=shp[shp$geo_id %in% geos_in_hds, ],
-              fillColor = "skyblue", 
-              fillOpacity = 0.7,
-              weight = 1,
-              opacity = 1,
-              color = "white",
-              label=~geo_id,
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-        ) 
-  ) %>%
-  addPolygons(group= "HDs",
-              data=hd_shp,
-              fillColor = "hotpink", 
-              fillOpacity = 0.7,
-              weight = 1,
-              opacity = 1,
-              color = "white",
-              label=~LABEL,
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-        ) 
-  ) %>%
-  addLayersControl(
-    overlayGroups = c("tracts labeled as in HDs", "HDs"),
-    options = layersControlOptions(collapsed = FALSE)
-  )
-  
-  return(rv)
-}
-```
-
-```{r}
-plot_geos_in_hds(t60_shp, hd_geos60$geos_in_hd$geo_id)
-plot_geos_in_hds(t70_shp, hd_geos70$geos_in_hd$geo_id)
-plot_geos_in_hds(t80_shp, hd_geos80$geos_in_hd$geo_id)
-plot_geos_in_hds(t90_shp, hd_geos90$geos_in_hd$geo_id)
-plot_geos_in_hds(t00_shp, hd_geos00$geos_in_hd$geo_id)
-plot_geos_in_hds(t10_shp, hd_geos10$geos_in_hd$geo_id)
-plot_geos_in_hds(t20_shp, hd_geos20$geos_in_hd$geo_id)
-```
-
-Now get a list of neighboring tracts:
+Function to find which tracts/blocks are nearby but not inside the HDs:
 
 ```{r}
 get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_geo_thresh, year) {
@@ -419,7 +369,81 @@ get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_g
   
   return(rv)
 }
+```
 
+Function to map those tracts/blocks and see if everything looks good:
+
+```{r}
+
+plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
+  rv <-
+    leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolygons(group='buffers', data=nearby_geos_shp[["buffers"]]) %>%
+  addPolygons(group= "geos labeled as near HDs",
+              data=nearby_geos_shp[["neighbor_geos"]],
+              fillColor = "skyblue", 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~paste0("Geo: ", geo_id, "; HD neighbor: ", LABEL),
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        ) 
+  ) %>%
+    addPolygons(group= "geos labeled as in HDs",
+              data=geo_shp[geo_shp$geo_id %in% geos_in_hds, ],
+              fillColor = "limegreen", 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~geo_id,
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        ) 
+  ) %>%
+  addPolygons(group= "HDs",
+              data=hd_shp,
+              fillColor = "hotpink", 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~LABEL,
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        ) 
+  ) %>%
+  addLayersControl(
+    overlayGroups = c("geos labeled as near HDs", "geos labeled as in HDs", "HDs", "buffers"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+  
+  return(rv)
+}
+
+```
+
+Call all the functions we created above:
+
+```{r}
+# ranging the min % between .2 and .6 seems to give reasonable results
+mp = 0.25 
+hd_geos60 <- get_geos_in_hd(t60_shp, min_pct = mp, year = 1960)
+hd_geos70 <- get_geos_in_hd(t70_shp, min_pct = mp, year = 1970)
+hd_geos80 <- get_geos_in_hd(t80_shp, min_pct = mp, year = 1980)
+hd_geos90 <- get_geos_in_hd(t90_shp, min_pct = mp, year = 1990)
+hd_geos00 <- get_geos_in_hd(t00_shp, min_pct = mp, year = 2000)
+hd_geos10 <- get_geos_in_hd(t10_shp, min_pct = mp, year = 2010)
+hd_geos20 <- get_geos_in_hd(t20_shp, min_pct = mp, year = 2020)
+gc()
+
+# the buffer distance is in decimal degrees
 buff_dist = .005
 threshold = .1
 
@@ -440,51 +464,17 @@ nearby_tracts20 <-
   get_neighbor_geos(hd_shp=hd_shp, geo_shp=t20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
 gc()
 
-plot_neighbor_geos <- function(shp) {
-  rv <-
-    leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(group='buffers', data=shp[["buffers"]]) %>%
-  addPolygons(group= "tracts labeled as near HDs",
-              data=shp[["neighbor_geos"]],
-              fillColor = "skyblue", 
-              fillOpacity = 0.7,
-              weight = 1,
-              opacity = 1,
-              color = "white",
-              label=~paste0("Tract: ", geo_id, "; HD neighbor: ", LABEL),
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-        ) 
-  ) %>%
-  addPolygons(group= "HDs",
-              data=hd_shp[hd_shp$desig_date < 2025,],
-              fillColor = "hotpink", 
-              fillOpacity = 0.7,
-              weight = 1,
-              opacity = 1,
-              color = "white",
-              label=~LABEL,
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-        ) 
-  ) %>%
-  addLayersControl(
-    overlayGroups = c("tracts labeled as near HDs", "HDs", "buffers"),
-    options = layersControlOptions(collapsed = FALSE)
-  )
-  
-  return(rv)
-}
+
 
 ```
 
+Plot our classifications in 1960 and 2020, as a gut check:
 
 ```{r}
-plot_neighbor_geos(nearby_tracts60)
-plot_neighbor_geos(nearby_tracts20)
+
+plot_geos(t60_shp, nearby_tracts60, hd_geos60$geos_in_hd$geo_id)
+plot_geos(t20_shp, nearby_tracts20, hd_geos20$geos_in_hd$geo_id)
+
 ```
 
 Now compare the demographics of the HD tracts and their neighbors in each year:
@@ -531,6 +521,14 @@ comp_df <-
     names_to = c("group", "treatment_control"),
     names_pattern = "pct_([a-zA-Z]+)_([a-zA-Z]+)",
     values_to = "percent")
+
+# remove HDs that are always HDs or always not HDs during the timeframe
+comp_df <-
+  comp_df %>%
+  group_by(LABEL_hd) %>%
+  mutate(mean_status = mean(desig_yet_hd, na.rm=T)) %>%
+  filter(mean_status > 0) %>%
+  filter(mean_status < 1)
 
 comp_df$treated <- 0
 comp_df$treated[comp_df$treatment_control=="hd"] <- 1
@@ -585,7 +583,7 @@ plot_ly(comp_df[comp_df$group=="white",] %>% arrange(LABEL_hd, year_hd),
 
 
 
-Now we're going to repeat all of that, but using block groups instead of tracts. We will have to rely on sightly different versions of the Census data to do this, downloaded from NHGIS rather than Open Data DC. We're also only going back to 1990, since that's the data I could find relatively easily.
+Now we're going to repeat all of that, but using block groups instead of tracts. We will have to rely on sightly different versions of the Census data to do this, downloaded from NHGIS rather than Open Data DC. We're also only going back to 1970, since that's the data I could find relatively easily.
 
 
 Load and clean block data:
@@ -646,7 +644,7 @@ b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J00
 
 rm(b70_df, b80_df, b90_df, b00_df, b10_df, b20_df)
 
-plot(sf::st_geometry(b70_shp["STATE70"]))
+plot(sf::st_geometry(b70_shp["geo_id"]))
 ```
 
 
@@ -661,11 +659,7 @@ hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
 hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
 hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
 hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
-
-
-plot_geos_in_hds(b70_shp, hd_geos70$geos_in_hd$geo_id)
 ```
-
 
 
 Get the blocks neighboring the HDs:
@@ -692,7 +686,7 @@ nearby_blocks20 <-
 
 
 ```{r}
-plot_neighbor_geos(nearby_blocks70)
+plot_geos(b70_shp, nearby_blocks70, hd_geos70$geos_in_hd$geo_id)
 ```
 
 
