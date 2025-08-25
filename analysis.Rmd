@@ -538,10 +538,12 @@ run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
   print("__________________________________")
   print(paste0("D-in-D regression for the % of black residents", text_bit))
   print(summary(diff_in_diff_b))
+  plot(diff_in_diff_b)
   
   print("__________________________________")
   print(paste0("D-in-D regression for the % of white residents", text_bit))
   print(summary(diff_in_diff_w))
+  plot(diff_in_diff_w)
   
   comp_df <-
     comp_df %>%
