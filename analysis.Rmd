@@ -566,7 +566,75 @@ run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
 
 ```
 
+One function to run everything above (we'll use this for robustness checks):
 
+```{r}
+run_all <- function(tracts=T, mp, buff_dist, threshold) {
+  if(tracts) {
+    hd_geos60 <- get_geos_in_hd(t60_shp, min_pct = mp, year = 1960)
+    hd_geos70 <- get_geos_in_hd(t70_shp, min_pct = mp, year = 1970)
+    hd_geos80 <- get_geos_in_hd(t80_shp, min_pct = mp, year = 1980)
+    hd_geos90 <- get_geos_in_hd(t90_shp, min_pct = mp, year = 1990)
+    hd_geos00 <- get_geos_in_hd(t00_shp, min_pct = mp, year = 2000)
+    hd_geos10 <- get_geos_in_hd(t10_shp, min_pct = mp, year = 2010)
+    hd_geos20 <- get_geos_in_hd(t20_shp, min_pct = mp, year = 2020)
+    gc()
+    nearby_tracts60 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t60_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1960)
+    nearby_tracts70 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
+    nearby_tracts80 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
+    nearby_tracts90 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
+    gc()
+    nearby_tracts00 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
+    nearby_tracts10 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
+    nearby_tracts20 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
+    gc()
+        
+    hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
+                                hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
+    near_comp_df <- dplyr::bind_rows(nearby_tracts60[[3]], nearby_tracts70[[3]],nearby_tracts80[[3]], nearby_tracts90[[3]],
+                                nearby_tracts00[[3]], nearby_tracts10[[3]], nearby_tracts20[[3]],)
+    
+    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
+    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
+  } else {
+    hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
+    hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
+    hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
+    hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
+    hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
+    hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
+    gc()
+    nearby_blocks70 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
+    nearby_blocks80 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
+    nearby_blocks90 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
+    nearby_blocks00 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
+    nearby_blocks10 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
+    nearby_blocks20 <- 
+      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
+    gc()
+    hd_comp_df <- dplyr::bind_rows(hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]], 
+                               hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
+
+    near_comp_df <- dplyr::bind_rows(nearby_blocks70[[3]], nearby_blocks80[[3]], nearby_blocks90[[3]], 
+                                     nearby_blocks00[[3]], nearby_blocks10[[3]], nearby_blocks20[[3]],)
+    
+    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
+    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
+  }
+}
+```
 
 Call all the functions we created above:
 
@@ -776,4 +844,24 @@ comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
 
 ```
 
+Robustness checks:
+
+```{r}
+run_all(tracts=F, mp=.25, buff_dist=.008, threshold=.1)
+```
+
+```{r}
+run_all(tracts=F, mp=.4, buff_dist=.005, threshold=.1)
+```
+
+
+```{r}
+run_all(tracts=F, mp=.25, buff_dist=.005, threshold=.4)
+```
+
+
+
+```{r}
+run_all(tracts=F, mp=.6, buff_dist=.01, threshold=.1)
+```
 
