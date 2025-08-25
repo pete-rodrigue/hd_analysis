@@ -1,5 +1,5 @@
 ---
-title: "Historic district analysi"
+title: "Historic district analysis"
 author: "Pete Rodrigue & Bob Ward"
 date: "2025-08-23"
 output: html_document
