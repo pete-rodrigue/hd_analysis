@@ -18,6 +18,7 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(plotly)
+library(did)
 ```
 
 Set working directory to the place this script is saved:
@@ -27,6 +28,8 @@ Set working directory to the place this script is saved:
 current_path = rstudioapi::getActiveDocumentContext()$path 
 setwd(dirname(current_path))
 ```
+
+# Load and clean data
 
 Load our data. We'll first do the analysis using Census tracts, and then later use Census blocks.
 
@@ -69,21 +72,110 @@ load_clean_tracts <- function(geo_id_var, black_var, white_var, totpop_var, year
   
   return(shp %>% select("year", "geo_id", "n_tot", "n_black", "n_white", "n_other", "geo_area_meters", "geometry"))
 }
+
+
+clean_block_data <- function(shp, df, shp_b_id, df_b_id, var_prefix, df_n_black, df_n_white, drop_var="", year) {
+  shp <- shp %>% select(!!sym(shp_b_id)) %>% rename("geo_id" = !!sym(shp_b_id))
+  if (drop_var!="") {df <- df %>% select(-!!sym(drop_var))}
+  df <- df %>% 
+    select(!!sym(df_b_id), starts_with(var_prefix)) %>%
+    rowwise() %>%
+    mutate(n_tot = sum(c_across(starts_with(var_prefix))))
+    
+  df <- df %>%
+    rename("geo_id" = !!sym(df_b_id),
+           "n_black" = !!sym(df_n_black),
+           "n_white" = !!sym(df_n_white)) %>%
+    select(-starts_with(var_prefix)) %>%
+    mutate(n_other = n_tot - (n_black + n_white))
+  
+  shp <- dplyr::left_join(shp, df, by="geo_id")
+  shp <- sf::st_transform(shp, 4326)
+  shp$geo_area_meters <- sf::st_area(shp)
+  shp$year <- year
+  
+  return(shp)
+}
+
+
+# Load raw block data:
+  
+# b70_shp <- sf::st_read("block_shapes/US_block_1970/US_block_1970.shp")
+# b70_shp <- b70_shp[b70_shp$STATE70=="11",]
+# sf::st_write(b70_shp, "block_shapes/DC_block_1970/DC_block_1970.shp")
+
+b70_shp <- sf::st_read("block_shapes/DC_block_1970/DC_block_1970.shp")
+b80_shp <- sf::st_read("block_shapes/DC_block_1980/DC_block_1980.shp")
+b90_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2000_110_block_1990/DC_block_1990.shp")
+b00_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2000_110_block_2000/DC_block_2000.shp")
+b10_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2010_110_block_2010/DC_block_2010.shp")
+b20_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2020_110_block_2020/DC_block_2020.shp")
+
+b70_df <- readr::read_csv("block_data/nhgis0093_ds96_1970_block.csv")
+b80_df <- readr::read_csv("block_data/nhgis_ds104_1980_block_11.csv")
+b90_df <- readr::read_csv("block_data/nhgis0092_ds120_1990_block.csv")
+b00_df <- readr::read_csv("block_data/nhgis0092_ds147_2000_block.csv")
+b10_df <- readr::read_csv("block_data/nhgis0092_ds172_2010_block.csv")
+b20_df <- readr::read_csv("block_data/nhgis0092_ds258_2020_block.csv")
+
+# 1970 block data has to be specially cleaned, see https://forum.ipums.org/t/race-ethnicity-data-at-a-block-level-from-1970/6178
+b70_df$c_black <- b70_df$CM6001 + b70_df$CM6002
+b70_df$c_other <- b70_df$CM6003 + b70_df$CM6004
+b70_df$c_white <- b70_df$CM5001 + b70_df$CM5002 - b70_df$c_black - b70_df$c_other
 ```
 
+Clean tracts for 1960 and blocks for all later decades:
+
+
 ```{r, results="hide", error=F, message=F, warning=F}
-t60_shp <- load_clean_tracts("GISJOIN", "B58013", "B58011", "CA4001", 1960)
-t70_shp <- load_clean_tracts("GISJOIN", "CEB03", "CEB01", "CY7001", 1970) 
-t80_shp <- load_clean_tracts("GISJOIN", "C9D003", "C9D001", "C7L001", 1980)
-t90_shp <- load_clean_tracts("TRACTNO", "BLACK", "WHITE", "POPULATION", 1990)
-t00_shp <- load_clean_tracts("TRACTNO", "BLACK", "WHITE", "TOTAL", 2000)
-t10_shp <- load_clean_tracts("TRACT", "P0010004", "P0010003", "P0010001", 2010)
-t20_shp <- load_clean_tracts("TRACT", "P0010004", "P0010003", "P0010001", 2020)
+# turn off spherical geometry (s2)
+sf_use_s2(FALSE)
+
+# need to fix broken geometries:
+fix_geo_if_broken <- function(shp) {
+  if (min(sf::st_is_valid(shp)) == 0) {
+    print("Fixing geometry...")
+    return(sf::st_make_valid(shp))
+  } else {
+      return(shp)
+    }
+  }
+
+zone_shp <- fix_geo_if_broken(zone_shp)
+hd_shp <- fix_geo_if_broken(hd_shp)
+ward_shp <- fix_geo_if_broken(ward_shp)
+b70_shp <- fix_geo_if_broken(b70_shp)
+b80_shp <- fix_geo_if_broken(b80_shp)
+b90_shp <- fix_geo_if_broken(b90_shp)
+b10_shp <- fix_geo_if_broken(b10_shp)
+b20_shp <- fix_geo_if_broken(b20_shp)
+
+
+b60_shp <- load_clean_tracts("GISJOIN", "B58013", "B58011", "CA4001", 1960)
+b60_shp <- fix_geo_if_broken(b60_shp)
+# in an older version of this analysis, I ran everything using tracts;
+# you can uncomment the lines below to load the tract data and do that
+# b70_shp <- load_clean_tracts("GISJOIN", "CEB03", "CEB01", "CY7001", 1970) 
+# b80_shp <- load_clean_tracts("GISJOIN", "C9D003", "C9D001", "C7L001", 1980)
+# b90_shp <- load_clean_tracts("TRACTNO", "BLACK", "WHITE", "POPULATION", 1990)
+# b00_shp <- load_clean_tracts("TRACTNO", "BLACK", "WHITE", "TOTAL", 2000)
+# b10_shp <- load_clean_tracts("TRACT", "P0010004", "P0010003", "P0010001", 2010)
+# b20_shp <- load_clean_tracts("TRACT", "P0010004", "P0010003", "P0010001", 2020)
+gc()
+
+b70_shp <- clean_block_data(b70_shp, b70_df, "GISJOIN", "GISJOIN", "c_", "c_black", "c_white", year=1970)
+b80_shp <- clean_block_data(b80_shp, b80_df, "GISJOIN", "GISJOIN", "C9D0", "C9D002", "C9D001", year=1980)
+b90_shp <- clean_block_data(b90_shp, b90_df, "GISJOIN", "GISJOIN", "EUY0", "EUY002", "EUY001", year=1990)
+b00_shp <- clean_block_data(b00_shp, b00_df, "GISJOIN", "GISJOIN", "FYE0", "FYE002", "FYE001", year=2000)
+b10_shp <- clean_block_data(b10_shp, b10_df, "GISJOIN", "GISJOIN", "H7X", "H7X003", "H7X002", "H7X001", year=2010)
+b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J003", "U7J002", "U7J001", year=2020)
+
+rm(b70_df, b80_df, b90_df, b00_df, b10_df, b20_df)
+
 gc()
 ```
 
-
-Merge historic distrit (HD) data onto HD shapefile, subset to only look at neighborhood HDs:
+Merge historic district (HD) data onto HD shapefile, subset to only look at neighborhood HDs:
 
 ```{r}
 hd_shp <- dplyr::left_join(x = hd_shp, y = hd_data, by = "UNIQUEID")
@@ -99,6 +191,11 @@ zone_shp <- sf::st_transform(zone_shp, 4326)
 hd_shp <- sf::st_transform(hd_shp, 4326)
 ward_shp <- sf::st_transform(ward_shp, 4326)
 ```
+
+
+
+
+# Initial descriptive statistics
 
 Let's overlay HDs onto DC's zoning map. 
 
@@ -140,28 +237,6 @@ leaflet(zone_shp) %>%
 Calculate the total amount of residential and MU land in DC:
 
 ```{r}
-# need to fix broken geometries:
-fix_geo_if_broken <- function(shp) {
-  if (min(sf::st_is_valid(shp)) == 0) {
-    print("Fixing geometry...")
-    return(sf::st_make_valid(shp))
-  } else {
-      return(shp)
-    }
-  }
-
-zone_shp <- fix_geo_if_broken(zone_shp)
-hd_shp <- fix_geo_if_broken(hd_shp)
-ward_shp <- fix_geo_if_broken(ward_shp)
-t60_shp <- fix_geo_if_broken(t60_shp)
-t70_shp <- fix_geo_if_broken(t70_shp)
-t80_shp <- fix_geo_if_broken(t80_shp)
-t90_shp <- fix_geo_if_broken(t90_shp)
-t00_shp <- fix_geo_if_broken(t00_shp)
-t10_shp <- fix_geo_if_broken(t10_shp)
-t20_shp <- fix_geo_if_broken(t20_shp)
-
-
 zone_shp$area_meters <- sf::st_area(zone_shp)
 zone_shp$area_acres <- as.vector(zone_shp$area_meters * 0.000247105)
 total_zone_acres <- sum(zone_shp$area_acres, na.rm=T)
@@ -269,18 +344,21 @@ hd_shp <-
                        "Union Market"
                        )))
 
-# turn off spherical geometry (s2)
-sf_use_s2(FALSE)
 ```
 
-Now let's look and see how HDs changed over time, in terms of % black residents and % white residents, compared to nearby neighborhoods (tracts) that were not in HDs.
+
+
+
+# Demographic change analysis
+
+Now let's look and see how HDs changed over time, in terms of % black residents and % white residents, compared to nearby neighborhoods (groups of blocks) that were not in HDs.
 
 This will have a few steps:
 
 1. Take a given HD.
-2. Get the intersection of the HD with census tracts. If at least X% of the census tract area is in the HD, we'll count it as part of the HD.
-3. Create a buffer around the HD of distance Y. Run another intersection with the census tracts and that buffer. Count any tracts that touch the buffer but are not in an HD as comparison tracts. 
-4. Note the % of white and black residents in each HD and those HDs comparison tracts.
+2. Get the intersection of the HD with census tracts (in 1960) and blocks (in 1970 to 2020). If at least X% of the census tract area is in the HD, we'll count it as part of the HD.
+3. Create a buffer around the HD of distance Y. Run another intersection with the census tracts/blocks and that buffer. Count any tracts/blocks that touch the buffer but are not in an HD as comparison tracts. 
+4. Note the % of white and black residents in each HD and those HDs comparison tracts/blocks.
 5. See how those respective percentages change over time. 
 
 
@@ -432,7 +510,11 @@ plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
 Function to run regressions:
 
 ```{r}
-run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
+
+run_regressions <- function(hd_comp_df, near_comp_df) {
+  
+  near_comp_df$LABEL <- gsub(x = near_comp_df$LABEL, pattern = " HD", replacement = "")
+  hd_comp_df$LABEL <- gsub(x = hd_comp_df$LABEL, pattern = " HD", replacement = "")
   
   hd_comp_df <-
     hd_comp_df %>%
@@ -451,6 +533,7 @@ run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
            pct_white = n_white / n_tot) %>%
     summarise_all(., sum) %>%
     rename_with(~ paste0(., "_near"))
+  
   
   comp_df <- dplyr::full_join(x = hd_comp_df, 
                               y = near_comp_df, 
@@ -473,93 +556,107 @@ run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
                               y = comp_df_copy %>% select("LABEL_hd", "desig_yet_hd", "year_hd", "n_tot_hd"), 
                               by = c("LABEL_hd", 
                                      "desig_yet_hd",
-                                     "year_hd"))
+                                     "year_hd")) %>%
+    rename(LABEL = "LABEL_hd",
+           desig_yet = "desig_yet_hd",
+           year = "year_hd")
   
   # remove HDs that are always HDs or always not HDs during the timeframe
   comp_df <-
     comp_df %>%
-    group_by(LABEL_hd) %>%
-    mutate(mean_status = mean(desig_yet_hd, na.rm=T)) %>%
+    group_by(LABEL) %>%
+    mutate(mean_status = mean(desig_yet, na.rm=T)) %>%
     filter(mean_status > 0) %>%
     filter(mean_status < 1)
   
-  comp_df$treated <- 0
-  comp_df$treated[comp_df$treatment_control=="hd"] <- 1
+  comp_df$treatment_group <- 0
+  comp_df$treatment_group[comp_df$treatment_control=="hd"] <- 1 
   
-  comp_df$LABEL_hd <- as.factor(comp_df$LABEL_hd)
-  comp_df$year_hd  <- as.factor(comp_df$year_hd)
+  comp_df$unit_id <- paste(comp_df$LABEL, comp_df$treatment_control, sep = " ")
   
-  if (weights) {
-    # diff in diff analysis for change in the % of black residents
-    diff_in_diff_b <- lm(percent ~               # outcome: % of white or black residents
-                         treated +               # "treatment": whether tract is in a HD or not
-                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                         treated:LABEL_hd +      # controlling for average % within each set of tracts/blocks (either in or near each HD)   
-                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                         LABEL_hd  +             # fixed effect for HD area
-                         year_hd,                # fixed effect for year
-                       data = comp_df[comp_df$group=="black",],
-                       weights=n_tot_hd)
-    
-    # diff in diff analysis for change in the % of white residents
-    diff_in_diff_w <- lm(percent ~               # outcome: % of white or black residents
-                         treated +               # "treatment": whether tract is in a HD or not
-                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                        treated:LABEL_hd +       # controlling for average % within each set of tracts/blocks (either in or near each HD)
-                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                         LABEL_hd  +             # fixed effect for HD area
-                         year_hd,                # fixed effect for year
-                       data = comp_df[comp_df$group=="white",],
-                       weights=n_tot_hd)
-    text_bit <- ", weighted by HD population"
-  } else {
-    # diff in diff analysis for change in the % of black residents
-    diff_in_diff_b <- lm(percent ~                 # outcome: % of white or black residents
-                         treated +               # "treatment": whether tract is in a HD or not
-                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                         treated:LABEL_hd +      # controlling for average % within each set of tracts/blocks (either in or near each HD)
-                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                         LABEL_hd  +             # fixed effect for HD area
-                         year_hd,                # fixed effect for year
-                       data = comp_df[comp_df$group=="black",])
-    
-    # diff in diff analysis for change in the % of white residents
-    diff_in_diff_w <- lm(percent ~                 # outcome: % of white or black residents
-                         treated +               # "treatment": whether tract is in a HD or not
-                         desig_yet_hd +          # pre/post indicator: whether HD was designated yet
-                         treated:LABEL_hd +      # controlling for average % within each set of tracts/blocks (either in or near each HD)
-                         treated:desig_yet_hd +  # D-in-D estimator: effect of treatment after implemented
-                         LABEL_hd  +             # fixed effect for HD area
-                         year_hd,                # fixed effect for year
-                       data = comp_df[comp_df$group=="white",])
-    text_bit <- ", NOT weighted by HD population"
+  # add back total population values
+  names(hd_comp_df) <- gsub(x = names(hd_comp_df), pattern = "_hd", replacement = "")
+  names(near_comp_df) <- gsub(x = names(near_comp_df), pattern = "_near", replacement = "")
+  hd_comp_df$pop_in_unit <- hd_comp_df$n_tot
+  near_comp_df$pop_in_unit <- near_comp_df$n_tot
+  hd_comp_df$treatment_control <- "hd"
+  near_comp_df$treatment_control <- "near"
+  
+  to_add <-
+    dplyr::bind_rows(
+      hd_comp_df %>% ungroup() %>% select(LABEL, year, treatment_control, pop_in_unit),
+      near_comp_df %>% ungroup() %>% select(LABEL, year, treatment_control, pop_in_unit)
+    )
+  
+  comp_df <- dplyr::left_join(x = comp_df, 
+                              y = to_add,
+                              by = c("LABEL", "year", "treatment_control"))
+  
+  comp_df$unit_id  <- as.factor(comp_df$unit_id)
+  comp_df$LABEL    <- as.factor(comp_df$LABEL)
+  comp_df$year     <- as.factor(comp_df$year)
+  
+  for (grp in c("black", "white")) {
+    comp_df_subset <- comp_df[comp_df$group==grp,]
+    for (w in c("1", "n_tot_hd")) {
+      if (w == "1") {wt=rep(1, nrow(comp_df_subset))} else {wt=comp_df_subset$n_tot_hd}
+      # diff in diff analysis for change in the % of residents
+      main_formula <- percent ~                            # outcome: % of white or black residents
+                           treatment_group +               # "treatment": whether tract is in a HD or not
+                           desig_yet +                     # pre/post indicator: whether HD was designated yet
+                           treatment_group:desig_yet +     # D-in-D estimator: effect of treatment after implemented
+                           unit_id  +                      # fixed effect for each specific area (eg Anacostia HD, Anacostia nearby, etc)
+                           year                           # fixed effect for year
+      w_label_formula <- update(main_formula, . ~ . + LABEL)
+      
+      diff_in_diff <- lm(main_formula, data = comp_df_subset, weights=wt)
+      dind_w_label <- lm(w_label_formula, data = comp_df_subset, weights=wt)
+      
+      print("_______________________________________________________")
+      print(paste0("D-in-D regression for the % of ", grp, " residents, ",
+                   ifelse(w=="1", "unweighted", "using population weights")))
+      print(summary(diff_in_diff))
+      print("__________")
+      print("Coef. on treatment variable when we add area fixed effects:")
+      print(summary(dind_w_label)$coefficients["treatment_group:desig_yet",])
+      # plot(diff_in_diff)
+      
+    }
   }
-  
-  print("__________________________________")
-  print(paste0("D-in-D regression for the % of black residents", text_bit))
-  print(summary(diff_in_diff_b))
-  plot(diff_in_diff_b)
-  
-  print("__________________________________")
-  print(paste0("D-in-D regression for the % of white residents", text_bit))
-  print(summary(diff_in_diff_w))
-  plot(diff_in_diff_w)
+    
   
   comp_df <-
     comp_df %>%
-    group_by(LABEL_hd, desig_yet_hd) %>%
-    mutate(first_decade_desig=min(as.numeric(as.character(year_hd)))) %>%
-    mutate(first_decade_desig=ifelse(desig_yet_hd==0, 0, first_decade_desig)) %>%
+    group_by(LABEL, desig_yet) %>%
+    mutate(first_decade_desig=min(as.numeric(as.character(year)))) %>%
+    mutate(first_decade_desig=ifelse(desig_yet==0, 0, first_decade_desig)) %>%
     ungroup() %>%
-    group_by(LABEL_hd) %>%
+    group_by(LABEL) %>%
     mutate(first_decade_desig=max(first_decade_desig)) %>%
-    mutate(year_index = as.numeric(as.character(year_hd)) - first_decade_desig)
-
-  comp_df <-
-    comp_df %>%
-    ungroup() %>%
-    group_by(LABEL_hd, group, treatment_control) %>%
-    mutate(percent_std = (percent - mean(percent, na.rm=T)) / sd(percent, na.rm=T))
+    mutate(year_index = as.numeric(as.character(year)) - first_decade_desig)
+  
+  comp_df$first_decade_desig[comp_df$treatment_control=="near"] <- 0
+  comp_df$year     <- as.numeric(as.character((comp_df$year)))
+  comp_df <- comp_df %>%
+          group_by(unit_id) %>%
+          mutate(unit_id_num = cur_group_id())
+  
+  
+  # Alternate specification:
+  # https://bcallaway11.github.io/did/articles/did-basics.html#an-example-with-real-data
+  # https://cran.r-project.org/web/packages/did/vignettes/pre-testing.html
+      hd.attgt <- did::att_gt(yname = "percent",
+                   gname = "first_decade_desig",
+                   idname = "unit_id_num",
+                   tname = "year",
+                   xformla = ~1,
+                   data = comp_df[comp_df$group=="black" & !is.na(comp_df$n_tot_hd),],
+                   allow_unbalanced_panel = T,
+                   weightsname="n_tot_hd"
+                   )
+      print(summary(hd.attgt))
+      group_effects <- aggte(hd.attgt, type = "group", na.rm=T)
+      print(summary(group_effects))
     
   return(comp_df)
 }
@@ -569,109 +666,77 @@ run_regressions <- function(hd_comp_df, near_comp_df, weights=F) {
 One function to run everything above (we'll use this for robustness checks):
 
 ```{r}
-run_all <- function(tracts=T, mp, buff_dist, threshold) {
-  if(tracts) {
-    hd_geos60 <- get_geos_in_hd(t60_shp, min_pct = mp, year = 1960)
-    hd_geos70 <- get_geos_in_hd(t70_shp, min_pct = mp, year = 1970)
-    hd_geos80 <- get_geos_in_hd(t80_shp, min_pct = mp, year = 1980)
-    hd_geos90 <- get_geos_in_hd(t90_shp, min_pct = mp, year = 1990)
-    hd_geos00 <- get_geos_in_hd(t00_shp, min_pct = mp, year = 2000)
-    hd_geos10 <- get_geos_in_hd(t10_shp, min_pct = mp, year = 2010)
-    hd_geos20 <- get_geos_in_hd(t20_shp, min_pct = mp, year = 2020)
-    gc()
-    nearby_tracts60 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t60_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1960)
-    nearby_tracts70 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
-    nearby_tracts80 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
-    nearby_tracts90 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
-    gc()
-    nearby_tracts00 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
-    nearby_tracts10 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
-    nearby_tracts20 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=t20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
-    gc()
-        
-    hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
-                                hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
-    near_comp_df <- dplyr::bind_rows(nearby_tracts60[[3]], nearby_tracts70[[3]],nearby_tracts80[[3]], nearby_tracts90[[3]],
-                                nearby_tracts00[[3]], nearby_tracts10[[3]], nearby_tracts20[[3]],)
-    
-    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
-    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
-  } else {
-    hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
-    hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
-    hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
-    hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
-    hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
-    hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
-    gc()
-    nearby_blocks70 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
-    nearby_blocks80 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
-    nearby_blocks90 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
-    nearby_blocks00 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
-    nearby_blocks10 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
-    nearby_blocks20 <- 
-      get_neighbor_geos(hd_shp=hd_shp, geo_shp=b20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
-    gc()
-    hd_comp_df <- dplyr::bind_rows(hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]], 
-                               hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
-
-    near_comp_df <- dplyr::bind_rows(nearby_blocks70[[3]], nearby_blocks80[[3]], nearby_blocks90[[3]], 
-                                     nearby_blocks00[[3]], nearby_blocks10[[3]], nearby_blocks20[[3]],)
-    
-    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
-    comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
-  }
+run_all <- function(mp, buff_dist, threshold) {
+  hd_geos60 <- get_geos_in_hd(b60_shp, min_pct = mp, year = 1960)
+  hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
+  hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
+  hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
+  hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
+  hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
+  hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
+  gc()
+  nearby_geos60 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b60_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1960)
+  nearby_geos70 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
+  nearby_geos80 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
+  nearby_geos90 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
+  gc()
+  nearby_geos00 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
+  nearby_geos10 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
+  nearby_geos20 <- 
+    get_neighbor_geos(hd_shp=hd_shp, geo_shp=b20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
+  gc()
+  
+  plot_geos(b60_shp, nearby_geos60, hd_geos60$geos_in_hd$geo_id)
+      
+  hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
+                              hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
+  near_comp_df <- dplyr::bind_rows(nearby_geos60[[3]], nearby_geos70[[3]],nearby_geos80[[3]], nearby_geos90[[3]],
+                              nearby_geos00[[3]], nearby_geos10[[3]], nearby_geos20[[3]],)
+  
+  comp_df <- run_regressions(hd_comp_df, near_comp_df)
 }
 ```
 
-Call all the functions we created above:
+Call all the functions we created above for our preferred model specification:
 
 ```{r}
 # ranging the min % between .2 and .6 seems to give reasonable results
 mp = 0.25 
-hd_geos60 <- get_geos_in_hd(t60_shp, min_pct = mp, year = 1960)
-hd_geos70 <- get_geos_in_hd(t70_shp, min_pct = mp, year = 1970)
-hd_geos80 <- get_geos_in_hd(t80_shp, min_pct = mp, year = 1980)
-hd_geos90 <- get_geos_in_hd(t90_shp, min_pct = mp, year = 1990)
-hd_geos00 <- get_geos_in_hd(t00_shp, min_pct = mp, year = 2000)
-hd_geos10 <- get_geos_in_hd(t10_shp, min_pct = mp, year = 2010)
-hd_geos20 <- get_geos_in_hd(t20_shp, min_pct = mp, year = 2020)
+hd_geos60 <- get_geos_in_hd(b60_shp, min_pct = mp, year = 1960)
+hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
+hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
+hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
+hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
+hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
+hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
 gc()
 
 # the buffer distance is in decimal degrees
 buff_dist = .005
 threshold = .1
 
-nearby_tracts60 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t60_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1960)
-nearby_tracts70 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
-nearby_tracts80 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
-nearby_tracts90 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
+nearby_geos60 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b60_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1960)
+nearby_geos70 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
+nearby_geos80 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
+nearby_geos90 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
 gc()
-nearby_tracts00 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
-nearby_tracts10 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
-nearby_tracts20 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=t20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
+nearby_geos00 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
+nearby_geos10 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
+nearby_geos20 <- 
+  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
 gc()
-
-
 
 ```
 
@@ -679,8 +744,8 @@ Plot our classifications in 1960 and 2020, as a gut check:
 
 ```{r}
 
-plot_geos(t60_shp, nearby_tracts60, hd_geos60$geos_in_hd$geo_id)
-plot_geos(t20_shp, nearby_tracts20, hd_geos20$geos_in_hd$geo_id)
+plot_geos(b60_shp, nearby_geos60, hd_geos60$geos_in_hd$geo_id)
+plot_geos(b20_shp, nearby_geos20, hd_geos20$geos_in_hd$geo_id)
 
 ```
 
@@ -691,177 +756,41 @@ options(width = 200)
 
 hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
                             hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
-near_comp_df <- dplyr::bind_rows(nearby_tracts60[[3]], nearby_tracts70[[3]],nearby_tracts80[[3]], nearby_tracts90[[3]],
-                            nearby_tracts00[[3]], nearby_tracts10[[3]], nearby_tracts20[[3]],)
+near_comp_df <- dplyr::bind_rows(nearby_geos60[[3]], nearby_geos70[[3]],nearby_geos80[[3]], nearby_geos90[[3]],
+                            nearby_geos00[[3]], nearby_geos10[[3]], nearby_geos20[[3]],)
 
-comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
-comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
+comp_df <- run_regressions(hd_comp_df, near_comp_df)
+```
 
 
+```{r}
 plot_ly(
-    data = comp_df[comp_df$group=="black",] %>% arrange(LABEL_hd, year_index),
+    data = comp_df[comp_df$group=="black",] %>% arrange(LABEL, year_index),
     x = ~year_index,
     y = ~percent,  # ~percent_std
-    color = ~LABEL_hd,  # Specify the grouping variable for color
+    color = ~LABEL,  # Specify the grouping variable for color
     linetype = ~as.factor(treatment_control),
     type = "scatter",
     mode = "lines+markers"
   )
-
-
-
 ```
 
 
 
 
 
-
-Now we're going to repeat all of that, but using block groups instead of tracts. We will have to rely on sightly different versions of the Census data to do this, downloaded from NHGIS rather than Open Data DC. We're also only going back to 1970, since that's the data I could find relatively easily.
-
-
-Load and clean block data:
+# Robustness checks
 
 ```{r}
-# b70_shp <- sf::st_read("block_shapes/US_block_1970/US_block_1970.shp")
-# b70_shp <- b70_shp[b70_shp$STATE70=="11",]
-# sf::st_write(b70_shp, "block_shapes/DC_block_1970/DC_block_1970.shp")
-
-b70_shp <- sf::st_read("block_shapes/DC_block_1970/DC_block_1970.shp")
-b80_shp <- sf::st_read("block_shapes/DC_block_1980/DC_block_1980.shp")
-b90_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2000_110_block_1990/DC_block_1990.shp")
-b00_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2000_110_block_2000/DC_block_2000.shp")
-b10_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2010_110_block_2010/DC_block_2010.shp")
-b20_shp <- sf::st_read("block_shapes/nhgis0092_shapefile_tl2020_110_block_2020/DC_block_2020.shp")
-
-b70_df <- readr::read_csv("block_data/nhgis0093_ds96_1970_block.csv")
-b80_df <- readr::read_csv("block_data/nhgis_ds104_1980_block_11.csv")
-b90_df <- readr::read_csv("block_data/nhgis0092_ds120_1990_block.csv")
-b00_df <- readr::read_csv("block_data/nhgis0092_ds147_2000_block.csv")
-b10_df <- readr::read_csv("block_data/nhgis0092_ds172_2010_block.csv")
-b20_df <- readr::read_csv("block_data/nhgis0092_ds258_2020_block.csv")
-
-clean_block_data <- function(shp, df, shp_b_id, df_b_id, var_prefix, df_n_black, df_n_white, drop_var="", year) {
-  shp <- shp %>% select(!!sym(shp_b_id)) %>% rename("geo_id" = !!sym(shp_b_id))
-  if (drop_var!="") {df <- df %>% select(-!!sym(drop_var))}
-  df <- df %>% 
-    select(!!sym(df_b_id), starts_with(var_prefix)) %>%
-    rowwise() %>%
-    mutate(n_tot = sum(c_across(starts_with(var_prefix))))
-    
-  df <- df %>%
-    rename("geo_id" = !!sym(df_b_id),
-           "n_black" = !!sym(df_n_black),
-           "n_white" = !!sym(df_n_white)) %>%
-    select(-starts_with(var_prefix)) %>%
-    mutate(n_other = n_tot - (n_black + n_white))
-  
-  shp <- dplyr::left_join(shp, df, by="geo_id")
-  shp <- sf::st_transform(shp, 4326)
-  shp$geo_area_meters <- sf::st_area(shp)
-  shp$year <- year
-  
-  return(shp)
-}
-
-# 1970 block data has to be specially cleaned, see https://forum.ipums.org/t/race-ethnicity-data-at-a-block-level-from-1970/6178
-b70_df$c_black <- b70_df$CM6001 + b70_df$CM6002
-b70_df$c_other <- b70_df$CM6003 + b70_df$CM6004
-b70_df$c_white <- b70_df$CM5001 + b70_df$CM5002 - b70_df$c_black - b70_df$c_other
-
-b70_shp <- clean_block_data(b70_shp, b70_df, "GISJOIN", "GISJOIN", "c_", "c_black", "c_white", year=1970)
-b80_shp <- clean_block_data(b80_shp, b80_df, "GISJOIN", "GISJOIN", "C9D0", "C9D002", "C9D001", year=1980)
-b90_shp <- clean_block_data(b90_shp, b90_df, "GISJOIN", "GISJOIN", "EUY0", "EUY002", "EUY001", year=1990)
-b00_shp <- clean_block_data(b00_shp, b00_df, "GISJOIN", "GISJOIN", "FYE0", "FYE002", "FYE001", year=2000)
-b10_shp <- clean_block_data(b10_shp, b10_df, "GISJOIN", "GISJOIN", "H7X", "H7X003", "H7X002", "H7X001", year=2010)
-b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J003", "U7J002", "U7J001", year=2020)
-
-rm(b70_df, b80_df, b90_df, b00_df, b10_df, b20_df)
-
-plot(sf::st_geometry(b70_shp["geo_id"]))
-```
-
-
-Get the blocks in the HDs:
-
-```{r}
-gc()
-mp = 0.25 # TODO: run analysis varying this factor
-hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
-hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
-hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
-hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
-hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
-hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
-```
-
-
-Get the blocks neighboring the HDs:
-
-```{r}
-gc()
-buff_dist = .005
-threshold = .1
-
-nearby_blocks70 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b70_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos70,threshold, 1970)
-nearby_blocks80 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b80_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos80,threshold, 1980)
-nearby_blocks90 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b90_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos90,threshold, 1990)
-nearby_blocks00 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b00_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos00,threshold, 2000)
-nearby_blocks10 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b10_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos10,threshold, 2010)
-nearby_blocks20 <- 
-  get_neighbor_geos(hd_shp=hd_shp, geo_shp=b20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
-
-```
-
-Again let's peek at a map to make sure everything looks ok:
-
-```{r}
-plot_geos(b70_shp, nearby_blocks70, hd_geos70$geos_in_hd$geo_id)
-plot_geos(b20_shp, nearby_blocks20, hd_geos20$geos_in_hd$geo_id)
-```
-
-
-
-
-
-Now compare the demographics of the HD blocks and their neighbors in each year:
-
-```{r}
-options(width = 200)
-hd_comp_df <- dplyr::bind_rows(hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]], 
-                               hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
-
-near_comp_df <- dplyr::bind_rows(nearby_blocks70[[3]], nearby_blocks80[[3]], nearby_blocks90[[3]], 
-                                 nearby_blocks00[[3]], nearby_blocks10[[3]], nearby_blocks20[[3]],)
-
-comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = T)
-comp_df <- run_regressions(hd_comp_df, near_comp_df, weights = F)
-
-```
-
-Robustness checks:
-
-```{r}
-run_all(tracts=F, mp=.25, buff_dist=.008, threshold=.1)
+run_all(mp=.25, buff_dist=.008, threshold=.1)
 ```
 
 ```{r}
-run_all(tracts=F, mp=.4, buff_dist=.005, threshold=.1)
+run_all(mp=.4, buff_dist=.005, threshold=.1)
 ```
 
 
 ```{r}
-run_all(tracts=F, mp=.25, buff_dist=.005, threshold=.4)
-```
-
-
-
-```{r}
-run_all(tracts=F, mp=.6, buff_dist=.01, threshold=.1)
+run_all(mp=.25, buff_dist=.005, threshold=.4)
 ```
 
