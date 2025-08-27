@@ -378,13 +378,16 @@ get_geos_in_hd <- function(shp, min_pct, year) {
                     c("year", "geo_id", "LABEL",
                       "n_tot", "n_black", "n_white", "n_other",
                       "desig_date", "pct_of_geo_area")]
+  
+  geos_in_hd$geo_area <- sf::st_area(geos_in_hd)
+  
   geos_in_hd_summary <-
     geos_in_hd %>%
     mutate(n_tot_prorated = n_tot * pct_of_geo_area,
            n_black_prorated = n_black * pct_of_geo_area,
            n_white_prorated = n_white * pct_of_geo_area,
            n_other_prorated = n_other * pct_of_geo_area) %>%
-    select("year", "LABEL", "geo_id", starts_with("n_"), "desig_date") %>%
+    select("year", "LABEL", "geo_id", starts_with("n_"), "desig_date", "geo_area") %>%
     group_by(LABEL) %>%
       summarise(n_tot = sum(n_tot, na.rm=T),
                 n_black = sum(n_black, na.rm=T),
@@ -394,9 +397,11 @@ get_geos_in_hd <- function(shp, min_pct, year) {
                 n_black_prorated = sum(n_black_prorated, na.rm=T),
                 n_white_prorated = sum(n_white_prorated, na.rm=T),
                 n_other_prorated = sum(n_other_prorated, na.rm=T),
-                desig_year = max(desig_date, na.rm=T)) %>%
+                desig_year = max(desig_date, na.rm=T),
+                geo_area = sum(geo_area, na.rm=T)) %>%
     mutate(desig_yet = ifelse(desig_year<year, 1, 0), 
-           year = year)
+           year = year,
+           pop_dens = n_tot / geo_area)
   
     rv = list("geos_in_hd"=geos_in_hd, "summary"=sf::st_drop_geometry(geos_in_hd_summary))
     
@@ -409,27 +414,70 @@ get_geos_in_hd <- function(shp, min_pct, year) {
 Function to find which tracts/blocks are nearby but not inside the HDs:
 
 ```{r}
+#' Get neighboring geographic units (tracts/blocks) around Historic Districts (HDs)
+#'
+#' This function identifies geographic units that are adjacent to Historic Districts
+#' by creating buffers around HDs and finding intersecting geographic units, while
+#' excluding units already classified as within HDs and those where HDs occupy
+#' a large portion of the geographic unit.
+#'
+#' @param hd_shp sf object containing Historic District boundaries
+#' @param geo_shp sf object containing geographic units (census tracts/blocks)
+#' @param buffer_dist numeric buffer distance (in same units as CRS) around HDs
+#' @param geos_in_hd list containing geographic units already within HDs
+#' @param remove_geo_thresh numeric threshold (0-1) for removing geos with large HD overlap
+#' @param year numeric year for designation comparison
+#'
+#' @return list with three elements: buffers, neighbor_geos, neighbor_geos_summary
+#' 
 get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_geo_thresh, year) {
-  # first make a buffer around the HDs
+  # STEP 1: Create buffer zones around Historic Districts
+  # Creates a buffer of specified distance around each HD boundary
+  # This defines the "neighborhood" area we're interested in
   b <- sf::st_buffer(hd_shp, dist = buffer_dist)
-  # then get the intersection of the buffer and the tracts
+  # STEP 2: Find geographic units that intersect with HD buffers
+  # This identifies all census tracts/blocks that fall within or overlap
+  # the buffer zones around Historic Districts
   i <- sf::st_intersection(x=geo_shp, y=b)
-  # remove tracts that have already been classified as within an HD
+  # STEP 3: Remove geographic units already classified as within an HD
+  # Excludes any tracts/blocks that have already been identified as being
+  # inside Historic District boundaries (not just neighboring them)
   i <- i[!(i$geo_id %in% geos_in_hd$geos_in_hd$geo_id),]
-  # also remove any tracts/blocks for which more than X% of an HD is in that tract/block
+  # STEP 4: Calculate HD area coverage within each geographic unit
+  # This section removes geographic units where Historic Districts occupy
+  # more than the specified threshold percentage of the unit's area
+  
+  # Calculate total area of each Historic District
   hd_shp$area_meters <- sf::st_area(hd_shp)
+  # Find intersection between all geographic units and Historic Districts
+  # This shows where HDs actually overlap with census tracts/blocks
   hd_geo <- sf::st_intersection(x=geo_shp, y=hd_shp)
+  # Calculate the area of HD-geography intersection
   hd_geo$intersect_area <- sf::st_area(hd_geo)
+  # Calculate what percentage of each HD falls within each geographic unit
+  # This helps identify cases where most of an HD is contained within a single tract/block
   hd_geo$pct_area <- as.vector(hd_geo$intersect_area / hd_geo$area_meters)
+  # Identify geographic units to remove (those with HD coverage above threshold)
+  # These are units where Historic Districts occupy too large a portion to be
+  # considered merely "neighboring" - they likely contain significant HD area
   geos_to_remove <- hd_geo$geo_id[hd_geo$pct_area > remove_geo_thresh]
+  # Remove the problematic geographic units from our neighboring list
   neighboring_geos <- i[!(i$geo_id %in% geos_to_remove),]
   
-  # finally, remove
+  # STEP 5: Create final neighboring geographic units dataset
+  # Get the full geographic data for the identified neighboring units
   neighboring_geos <- geo_shp[geo_shp$geo_id %in% neighboring_geos$geo_id,]
+  # Add HD information (label and designation date) to neighboring geographic units
+  # This links each neighboring unit to its associated Historic District(s)
   neighboring_geos <- dplyr::left_join(neighboring_geos, 
                                          sf::st_drop_geometry(i[,c("geo_id", "LABEL", "desig_date")]),
                                          by="geo_id")
   
+  # STEP 6: Add area variable:
+  neighboring_geos$geo_area <- sf::st_area(neighboring_geos)
+  
+  # STEP 7: Create summary statistics by Historic District
+  # Aggregate demographic data across all neighboring units for each HD
   neighbor_geos_summary <-
     sf::st_drop_geometry(neighboring_geos) %>%
     group_by(LABEL) %>%
@@ -437,10 +485,13 @@ get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_g
                 n_black = sum(n_black, na.rm=T),
                 n_white = sum(n_white, na.rm=T),
                 n_other = sum(n_other, na.rm=T),
-                desig_year = max(desig_date, na.rm=T)) %>%
+                desig_year = max(desig_date, na.rm=T),
+                tot_area = sum(geo_area, na.rm=T)) %>%
     mutate(desig_yet = ifelse(desig_year<year, 1, 0),
-           year = year)
+           year = year,
+           pop_dens = n_tot / tot_area)
   
+  # STEP 8: Return comprehensive results
   rv = list("buffers" = b, 
             "neighbor_geos" = neighboring_geos, 
             "neighbor_geos_summary" = neighbor_geos_summary)
@@ -505,13 +556,30 @@ plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
   return(rv)
 }
 
+make_lineplot <- function(depend_var, group, title, df) {
+  rv <-
+    ggplot(df[df$group==group,], 
+           aes(x=year, y=!!sym(depend_var), color=treatment_control)) + 
+  geom_point() + 
+  geom_line() +
+  geom_vline(data = df[df$group==group,],
+             aes(xintercept = first_decade_desig_copy), 
+             color = group, 
+             linetype = "dashed", 
+             size = 1) +
+  ggtitle(title) +
+    facet_grid(rows = vars(LABEL), scales = "free_y")
+  
+  return(rv)
+}
+
 ```
 
 Function to run regressions:
 
 ```{r}
 
-run_regressions <- function(hd_comp_df, near_comp_df) {
+run_regressions <- function(hd_comp_df, near_comp_df, dep_var) {
   
   near_comp_df$LABEL <- gsub(x = near_comp_df$LABEL, pattern = " HD", replacement = "")
   hd_comp_df$LABEL <- gsub(x = hd_comp_df$LABEL, pattern = " HD", replacement = "")
@@ -553,7 +621,8 @@ run_regressions <- function(hd_comp_df, near_comp_df) {
       values_to = "percent")
   
   comp_df <- dplyr::left_join(x = comp_df, 
-                              y = comp_df_copy %>% select("LABEL_hd", "desig_yet_hd", "year_hd", "n_tot_hd"), 
+                              y = comp_df_copy %>% select("LABEL_hd", "desig_yet_hd", "year_hd", 
+                                                          "n_tot_hd", "pop_dens_hd", "pop_dens_near"), 
                               by = c("LABEL_hd", 
                                      "desig_yet_hd",
                                      "year_hd")) %>%
@@ -592,6 +661,9 @@ run_regressions <- function(hd_comp_df, near_comp_df) {
                               y = to_add,
                               by = c("LABEL", "year", "treatment_control"))
   
+  comp_df$pop_dens <- ifelse(comp_df$treatment_control=="near", comp_df$pop_dens_near, comp_df$pop_dens_hd)
+  comp_df <- comp_df %>% select(-pop_dens_hd, -pop_dens_near)
+  
   comp_df$unit_id  <- as.factor(comp_df$unit_id)
   comp_df$LABEL    <- as.factor(comp_df$LABEL)
   comp_df$year     <- as.factor(comp_df$year)
@@ -601,12 +673,9 @@ run_regressions <- function(hd_comp_df, near_comp_df) {
     for (w in c("1", "n_tot_hd")) {
       if (w == "1") {wt=rep(1, nrow(comp_df_subset))} else {wt=comp_df_subset$n_tot_hd}
       # diff in diff analysis for change in the % of residents
-      main_formula <- percent ~                            # outcome: % of white or black residents
-                           treatment_group +               # "treatment": whether tract is in a HD or not
-                           desig_yet +                     # pre/post indicator: whether HD was designated yet
-                           treatment_group:desig_yet +     # D-in-D estimator: effect of treatment after implemented
-                           unit_id  +                      # fixed effect for each specific area (eg Anacostia HD, Anacostia nearby, etc)
-                           year                           # fixed effect for year
+      main_formula <- as.formula(paste0(dep_var, 
+                                        " ~ treatment_group + desig_yet + treatment_group:desig_yet + unit_id + year"))
+      
       w_label_formula <- update(main_formula, . ~ . + LABEL)
       
       diff_in_diff <- lm(main_formula, data = comp_df_subset, weights=wt)
@@ -635,6 +704,7 @@ run_regressions <- function(hd_comp_df, near_comp_df) {
     mutate(first_decade_desig=max(first_decade_desig)) %>%
     mutate(year_index = as.numeric(as.character(year)) - first_decade_desig)
   
+  comp_df$first_decade_desig_copy <- comp_df$first_decade_desig
   comp_df$first_decade_desig[comp_df$treatment_control=="near"] <- 0
   comp_df$year     <- as.numeric(as.character((comp_df$year)))
   comp_df <- comp_df %>%
@@ -645,7 +715,7 @@ run_regressions <- function(hd_comp_df, near_comp_df) {
   # Alternate specification:
   # https://bcallaway11.github.io/did/articles/did-basics.html#an-example-with-real-data
   # https://cran.r-project.org/web/packages/did/vignettes/pre-testing.html
-      hd.attgt <- did::att_gt(yname = "percent",
+      hd.attgt <- did::att_gt(yname = dep_var,
                    gname = "first_decade_desig",
                    idname = "unit_id_num",
                    tname = "year",
@@ -666,7 +736,7 @@ run_regressions <- function(hd_comp_df, near_comp_df) {
 One function to run everything above (we'll use this for robustness checks):
 
 ```{r}
-run_all <- function(mp, buff_dist, threshold) {
+run_all <- function(mp, buff_dist, threshold, dep_var) {
   hd_geos60 <- get_geos_in_hd(b60_shp, min_pct = mp, year = 1960)
   hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
   hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
@@ -692,14 +762,25 @@ run_all <- function(mp, buff_dist, threshold) {
     get_neighbor_geos(hd_shp=hd_shp, geo_shp=b20_shp, buffer_dist=buff_dist, geos_in_hd=hd_geos20,threshold, 2020)
   gc()
   
-  plot_geos(b60_shp, nearby_geos60, hd_geos60$geos_in_hd$geo_id)
+  p60 <- plot_geos(b60_shp, nearby_geos60, hd_geos60$geos_in_hd$geo_id)
+  p70 <- plot_geos(b70_shp, nearby_geos70, hd_geos70$geos_in_hd$geo_id)
+  p20 <- plot_geos(b20_shp, nearby_geos20, hd_geos20$geos_in_hd$geo_id)
       
   hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], hd_geos90[[2]],
                               hd_geos00[[2]], hd_geos10[[2]], hd_geos20[[2]],)
   near_comp_df <- dplyr::bind_rows(nearby_geos60[[3]], nearby_geos70[[3]],nearby_geos80[[3]], nearby_geos90[[3]],
                               nearby_geos00[[3]], nearby_geos10[[3]], nearby_geos20[[3]],)
   
-  comp_df <- run_regressions(hd_comp_df, near_comp_df)
+  comp_df <- run_regressions(hd_comp_df, near_comp_df, dep_var)
+  
+  lineplots = list("black" = NA, "white" = NA, "tot_pop" = NA, "pop_dens" = NA)
+  lineplots$black <- make_lineplot(depend_var = "percent", group = "black", title = "Black residents as %", comp_df)
+  lineplots$white <- make_lineplot(depend_var = "percent", group = "white", title = "White residents as %", comp_df)
+  lineplots$tot_pop <- make_lineplot(depend_var = "pop_in_unit", group = "black", title = "Total population", comp_df)
+  lineplots$pop_dens <- make_lineplot(depend_var = "pop_dens", group = "black", title = "Population density", comp_df)
+  
+  return(list("data" = comp_df, "plot60" = p60, "plot70" = p70, "plot20" = p20,
+              "lineplots" = lineplots))
 }
 ```
 
@@ -718,7 +799,7 @@ hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
 gc()
 
 # the buffer distance is in decimal degrees
-buff_dist = .005
+buff_dist = .008
 threshold = .1
 
 nearby_geos60 <- 
@@ -759,19 +840,20 @@ hd_comp_df <- dplyr::bind_rows(hd_geos60[[2]], hd_geos70[[2]], hd_geos80[[2]], h
 near_comp_df <- dplyr::bind_rows(nearby_geos60[[3]], nearby_geos70[[3]],nearby_geos80[[3]], nearby_geos90[[3]],
                             nearby_geos00[[3]], nearby_geos10[[3]], nearby_geos20[[3]],)
 
-comp_df <- run_regressions(hd_comp_df, near_comp_df)
+comp_df <- run_regressions(hd_comp_df, near_comp_df, "pop_dens")
 ```
 
 
 ```{r}
 plot_ly(
     data = comp_df[comp_df$group=="black",] %>% arrange(LABEL, year_index),
-    x = ~year_index,
-    y = ~percent,  # ~percent_std
+    x = ~year_index,    # year_index
+    y = ~pop_in_unit,  # ~percent_std or ~percent
     color = ~LABEL,  # Specify the grouping variable for color
     linetype = ~as.factor(treatment_control),
     type = "scatter",
-    mode = "lines+markers"
+    mode = "lines+markers",
+    hoverinfo=~as.character(first_decade_desig)
   )
 ```
 
@@ -781,16 +863,17 @@ plot_ly(
 
 # Robustness checks
 
-```{r}
-run_all(mp=.25, buff_dist=.008, threshold=.1)
+```{r, fig.height=75}
+rv <- run_all(mp=.25, buff_dist=.001, threshold=.1, dep_var = "pop_dens")
+rv$lineplots$pop_dens
+
+rv <- run_all(mp=.25, buff_dist=.005, threshold=.1, dep_var = "pop_dens")
+rv$lineplots$pop_dens
+
+rv <- run_all(mp=.25, buff_dist=.01, threshold=.1, dep_var = "pop_dens")
+rv$lineplots$pop_dens
 ```
 
-```{r}
-run_all(mp=.4, buff_dist=.005, threshold=.1)
-```
 
 
-```{r}
-run_all(mp=.25, buff_dist=.005, threshold=.4)
-```
 
