@@ -543,7 +543,7 @@ get_geos_in_hd <- function(shp, min_pct, year) {
 
 ```
 
-Function to find which tracts/blocks are nearby but not inside the HDs:
+Function to find which tracts/blocks are nearby but not inside the HDs, using a simple geographic buffer:
 
 ```{r}
 
