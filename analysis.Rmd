@@ -30,7 +30,6 @@ setwd(dirname(current_path))
 
 # Load and clean data
 
-Load our data. We'll first do the analysis using Census tracts, and then later use Census blocks.
 
 ```{r}
 # load & clean census tract data
@@ -126,7 +125,7 @@ clean_block_data <- function(shp, df, shp_b_id, df_b_id, var_prefix, df_n_black,
   shp$year <- year
   
   # Return the cleaned and merged spatial dataframe
-  return(shp)
+  return(shp %>% select("year", "geo_id", "n_tot", "n_black", "n_white", "n_other", "geo_area_meters", "geometry"))
 }
 
 
@@ -141,6 +140,7 @@ fix_geo_if_broken <- function(shp) {
   }
 ```
 
+Clean the data:
 
 ```{r}
 # turn off spherical geometry (s2)
@@ -211,10 +211,7 @@ b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J00
 
 # remove data we don't need anymore
 rm(b70_df, b80_df, b90_df, b00_df, b10_df, b20_df)
-
 gc()
-
-
 
 # Merge historic district (HD) data onto HD shapefile, subset to only look at neighborhood HDs:
 hd_shp <- dplyr::left_join(x = hd_shp, y = hd_data, by = "UNIQUEID")
@@ -235,6 +232,12 @@ b80_shp <- fix_geo_if_broken(b80_shp)
 b90_shp <- fix_geo_if_broken(b90_shp)
 b10_shp <- fix_geo_if_broken(b10_shp)
 b20_shp <- fix_geo_if_broken(b20_shp)
+
+
+# combine shapes into one big object:
+geos_shp <- dplyr::bind_rows(b60_shp, b70_shp, b80_shp, 
+                             b90_shp, b00_shp, b10_shp, b20_shp)
+
 
 # list zones in the ZR16 data:
 zones_list <- sort(unique(zone_shp$ZR16))
@@ -635,10 +638,99 @@ get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_g
 
 
 
+Function to map those tracts/blocks and see if everything looks good:
+
+```{r}
+
+plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
+  rv <-
+    leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolygons(group='buffers', data=nearby_geos_shp[["buffers"]]) %>%
+  addPolygons(group= "geos labeled as near HDs",
+              data=nearby_geos_shp[["neighbor_geos"]],
+              fillColor = "skyblue", 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~paste0("Geo: ", geo_id, "; HD neighbor: ", LABEL),
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        ) 
+  ) %>%
+    addPolygons(group= "geos labeled as in HDs",
+              data=geo_shp[geo_shp$geo_id %in% geos_in_hds, ],
+              fillColor = "limegreen", 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~geo_id,
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        ) 
+  ) %>%
+  addPolygons(group= "HDs",
+              data=hd_shp,
+              fillColor = "hotpink", 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~LABEL,
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        ) 
+  ) %>%
+  addLayersControl(
+    overlayGroups = c("geos labeled as near HDs", "geos labeled as in HDs", "HDs", "buffers"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+  
+  return(rv)
+}
+```
+
+Function to plot data in a grid, one for each HD:
+
+```{r}
+make_lineplot <- function(depend_var, group, title, df) {
+  rv <-
+    ggplot(df[df$group==group,], 
+           aes(x=year, y=!!sym(depend_var), color=treatment_control)) + 
+  geom_point() + 
+  geom_line() +
+  geom_vline(data = df[df$group==group,],
+             aes(xintercept = first_decade_desig_copy), 
+             color = group, 
+             linetype = "dashed", 
+             size = 1) +
+  ggtitle(title) +
+    facet_grid(rows = vars(LABEL), scales = "free_y")
+  
+  return(rv)
+}
+
+```
 
 
+Call 
 
+```{r}
+# combine all of the years of data into one big dataset
+hd_geos60 <- get_geos_in_hd(b60_shp, min_pct = mp, year = 1960)
+hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
+hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
+hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
+hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
+hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
+hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
 
+```
 
 
 
