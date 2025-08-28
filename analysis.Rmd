@@ -467,10 +467,10 @@ Function to find which tracts/blocks are in which HDs:
 # Get geographic units (tracts/blocks) within Historic Districts and calculate summary statistics
 get_geos_in_hd <- function(shp, min_pct, year) {
   # Function parameters:
-  # shp: the tract or block shapefile (an sf shapefile object) containing demographic data
-  # min_pct: minimum % of the tract/block that must be in the HD to count as part of the HD 
+  #' @param shp: the tract or block shapefile (an sf shapefile object) containing demographic data
+  #' @param min_pct: minimum % of the tract/block that must be in the HD to count as part of the HD 
   #          (decimal between 0 and 1, e.g., 0.5 for 50%)
-  # year: the year of analysis (integer like 1980)
+  #' @param year: the year of analysis (integer like 1980)
   # Note: This function assumes 'hd_shp' exists in the global environment as the Historic Districts shapefile
   
   # STEP 1: Spatial intersection analysis
@@ -546,23 +546,24 @@ get_geos_in_hd <- function(shp, min_pct, year) {
 Function to find which tracts/blocks are nearby but not inside the HDs:
 
 ```{r}
-#' Get neighboring geographic units (tracts/blocks) around Historic Districts (HDs)
-#'
-#' This function identifies geographic units that are adjacent to Historic Districts
-#' by creating buffers around HDs and finding intersecting geographic units, while
-#' excluding units already classified as within HDs and those where HDs occupy
-#' a large portion of the geographic unit.
-#'
-#' @param hd_shp sf object containing Historic District boundaries
-#' @param geo_shp sf object containing geographic units (census tracts/blocks)
-#' @param buffer_dist numeric buffer distance (in same units as CRS) around HDs
-#' @param geos_in_hd list containing geographic units already within HDs
-#' @param remove_geo_thresh numeric threshold (0-1) for removing geos with large HD overlap
-#' @param year numeric year for designation comparison
-#'
-#' @return list with three elements: buffers, neighbor_geos, neighbor_geos_summary
-#' 
+
 get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_geo_thresh, year) {
+  #' Get neighboring geographic units (tracts/blocks) around Historic Districts (HDs)
+  #'
+  #' This function identifies geographic units that are adjacent to Historic Districts
+  #' by creating buffers around HDs and finding intersecting geographic units, while
+  #' excluding units already classified as within HDs and those where HDs occupy
+  #' a large portion of the geographic unit.
+  #'
+  #' @param hd_shp sf object containing Historic District boundaries
+  #' @param geo_shp sf object containing geographic units (census tracts/blocks)
+  #' @param buffer_dist numeric buffer distance (in same units as CRS) around HDs
+  #' @param geos_in_hd list containing geographic units already within HDs
+  #' @param remove_geo_thresh numeric threshold (0-1) for removing geos with large HD overlap
+  #' @param year numeric year for designation comparison
+  #'
+  #' @return list with three elements: buffers, neighbor_geos, neighbor_geos_summary
+  #' 
   # STEP 1: Create buffer zones around Historic Districts
   # Creates a buffer of specified distance around each HD boundary
   # This defines the "neighborhood" area we're interested in
