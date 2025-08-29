@@ -888,13 +888,53 @@ dists <- list("1960"=NA, "1970"=NA, "1980"=NA, "1990"=NA, "2000"=NA, "2010"=NA, 
 for (y in sort(unique(geos_shp$year))) {
   invisible(gc())
   print(paste("on year", y))
-  dists[as.character(y)] <- get_distances(geos_shp %>% filter(year==y))
+  dists[[as.character(y)]] <- get_distances(geos_shp %>% filter(year==y))
+  break
 }
 
 # loop through each block in each HD and year and find the N closest blocks
+geos_df <- sf::st_drop_geometry(geos_shp)
 n = 40
-for (y in sort(unique(geos_shp$year))) {
-  for (b in geos_shp$geo)
+matches_df <- data.frame("hd_id"=NA, "match_id"=NA)
+for (y in sort(unique(geos_df$year))) {
+  invisible(gc())
+  print(paste("on ", y))
+  temp_df <- geos_df %>% filter(year==y)
+  temp_geos_in_hds <- sort(unique(hd_geos_shp$geo_id[hd_geos_shp$year==y]))
+  # get indexes of the blocks that are in HDs
+  block_indexes_in_hds <- match(temp_geos_in_hds, temp_df$geo_id)
+  # set the distances between any two blocks in HDs to be a high value, so 
+  # we never match two blocks in any two HDs:
+  for (i in blocks_in_hds) {
+    for (j in blocks_in_hds) {
+      dists[[as.character(y)]][i, j] <- 9999999
+    }
+  }
+  # get a matrix with the indices of the n closest blocks for each row
+  closest_blocks <- apply(dists[[as.character(y)]], 1, function(x) {order(x)[1:n]})
+  # now loop through each hd block...
+  for (b in block_indexes_in_hds) {
+    indices_of_n_closest_blocks <- closest_blocks[, b]
+    # and get the data rows corresponding to those closest blocks
+    closest_blocks_df <- temp_df[indices_of_n_closest_blocks, ]
+    # as well as the data row corresponding to the HD block we're looking at
+    hd_block_df <- temp_df[b,]
+    # which we need to make the same size as the comparison data frame
+    replicated_row <- hd_block_df[rep(1, nrow(closest_blocks_df)), ]
+    # now subtract the HD blocks values from all of the potential matching blocks
+    diff <- 
+      abs(closest_blocks_df[,c("n_tot_norm", "pop_dens_norm", 
+                         "geo_area_meters_norm", "pct_black", "pct_white")] - 
+      replicated_row[,c("n_tot_norm", "pop_dens_norm", 
+                         "geo_area_meters_norm", "pct_black", "pct_white")])
+    # sum to find the row with the smallest diff
+    diff$diff <- rowSums(diff)
+    # get the index of the row with the smallest diff
+    match_index <- which.min(diff$diff)
+    match_geo_id <- closest_blocks_df$geo_id[match_index]
+    # add a row to record we found the closest match!
+    matches_df <- rbind(matches_df, c(hd_block_df$geo_id[1], match_geo_id))
+  }
 }
 ```
 
