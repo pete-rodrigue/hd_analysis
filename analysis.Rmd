@@ -897,7 +897,7 @@ n = 40
 matches_df <- data.frame("hd_id"=NA, "match_id"=NA)
 for (y in sort(unique(geos_df$year))) {
   invisible(gc())
-  print(paste("on ", y))
+  print(paste("on", y))
   temp_df <- geos_df %>% filter(year==y)
   temp_geos_in_hds <- sort(unique(hd_geos_shp$geo_id[hd_geos_shp$year==y]))
   # get indexes of the blocks that are in HDs
@@ -909,6 +909,7 @@ for (y in sort(unique(geos_df$year))) {
       dists[[as.character(y)]][i, j] <- 9999999
     }
   }
+  diag(dists[[as.character(y)]]) <- 9999999
   # get a matrix with the indices of the n closest blocks for each row
   closest_blocks <- apply(dists[[as.character(y)]], 1, function(x) {order(x)[1:n]})
   # now loop through each hd block...
