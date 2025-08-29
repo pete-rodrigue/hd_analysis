@@ -174,7 +174,7 @@ b60_shp <- fix_geo_if_broken(b60_shp)
 # b00_shp <- load_clean_tracts("TRACTNO", "BLACK", "WHITE", "TOTAL", 2000)
 # b10_shp <- load_clean_tracts("TRACT", "P0010004", "P0010003", "P0010001", 2010)
 # b20_shp <- load_clean_tracts("TRACT", "P0010004", "P0010003", "P0010001", 2020)
-gc()
+invisible(gc())
 
 # Load raw block data:
 # b70_shp <- sf::st_read("block_shapes/US_block_1970/US_block_1970.shp")
@@ -194,7 +194,7 @@ b00_df <- readr::read_csv("block_data/nhgis0092_ds147_2000_block.csv")
 b10_df <- readr::read_csv("block_data/nhgis0092_ds172_2010_block.csv")
 b20_df <- readr::read_csv("block_data/nhgis0092_ds258_2020_block.csv")
 
-gc()
+invisible(gc())
 
 # 1970 block data has to be specially cleaned, see https://forum.ipums.org/t/race-ethnicity-data-at-a-block-level-from-1970/6178
 b70_df$c_black <- b70_df$CM6001 + b70_df$CM6002
@@ -211,7 +211,7 @@ b20_shp <- clean_block_data(b20_shp, b20_df, "GISJOIN", "GISJOIN", "U7J", "U7J00
 
 # remove data we don't need anymore
 rm(b70_df, b80_df, b90_df, b00_df, b10_df, b20_df)
-gc()
+invisible(gc())
 
 # Merge historic district (HD) data onto HD shapefile, subset to only look at neighborhood HDs:
 hd_shp <- dplyr::left_join(x = hd_shp, y = hd_data, by = "UNIQUEID")
@@ -234,10 +234,13 @@ b10_shp <- fix_geo_if_broken(b10_shp)
 b20_shp <- fix_geo_if_broken(b20_shp)
 
 
-# combine shapes into one big object:
+# combine shapes into one big object, remove individual objects:
 geos_shp <- dplyr::bind_rows(b60_shp, b70_shp, b80_shp, 
                              b90_shp, b00_shp, b10_shp, b20_shp)
+# create a truly unique block/tract ID:
+geos_shp$geo_id <- paste0(geos_shp$year, "_", geos_shp$geo_id)
 
+rm(b60_shp, b70_shp, b80_shp, b90_shp, b00_shp, b10_shp, b20_shp)
 
 # list zones in the ZR16 data:
 zones_list <- sort(unique(zone_shp$ZR16))
@@ -300,6 +303,7 @@ leaflet(zone_shp) %>%
 Calculate the total amount of residential and MU land in DC, then see how much is covered by HDs in each year:
 
 ```{r}
+invisible(gc())
 # get each zone's acreage:
 zone_shp$area_meters <- sf::st_area(zone_shp)
 zone_shp$area_acres <- as.vector(zone_shp$area_meters * 0.000247105)
@@ -363,7 +367,7 @@ hd_zones_info <-
   mutate(pct = area_sq_meters / sum(area_sq_meters, na.rm=T),
          type = "In an HD") %>%
   select(-area_sq_meters)
-gc()
+invisible(gc())
 
 other_zones_info <- 
   sf::st_difference(x = zone_shp, y = hd_shp) %>%
@@ -375,7 +379,7 @@ other_zones_info <-
   mutate(pct = area_sq_meters / sum(area_sq_meters, na.rm=T),
          type = "Not in an HD") %>%
   select(-area_sq_meters)
-gc()
+invisible(gc())
 
 zones_plot <- dplyr::bind_rows(hd_zones_info, other_zones_info)
 zones_plot$pct <- round(as.vector(zones_plot$pct) * 100, 0)
@@ -396,7 +400,7 @@ ggplot(zones_plot, aes(x = ZR16_simple, y = pct, fill=type)) +
        x = "Zone type", y = "Percent", fill="")
 
 rm(hd_zones_info, other_zones_info, zones_plot)
-gc()
+invisible(gc())
 
 ```
 
@@ -578,7 +582,7 @@ get_neighbor_geos <- function(hd_shp, geo_shp, buffer_dist, geos_in_hd, remove_g
   # STEP 3: Remove geographic units already classified as within an HD
   # Excludes any tracts/blocks that have already been identified as being
   # inside Historic District boundaries (not just neighboring them)
-  i <- i[!(i$geo_id %in% geos_in_hd$geos_in_hd$geo_id),]
+  i <- i[!(i$geo_id %in% geos_in_hd),]
   # STEP 4: Calculate HD area coverage within each geographic unit
   # This section removes geographic units where Historic Districts occupy
   # more than the specified threshold percentage of the unit's area
@@ -642,13 +646,13 @@ Function to map those tracts/blocks and see if everything looks good:
 
 ```{r}
 
-plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
+plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds, buffers) {
   rv <-
     leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(group='buffers', data=nearby_geos_shp[["buffers"]]) %>%
+  addPolygons(group='buffers', data=buffers) %>%
   addPolygons(group= "geos labeled as near HDs",
-              data=nearby_geos_shp[["neighbor_geos"]],
+              data=nearby_geos_shp,
               fillColor = "skyblue", 
               fillOpacity = 0.7,
               weight = 1,
@@ -698,18 +702,17 @@ plot_geos <- function(geo_shp, nearby_geos_shp, geos_in_hds) {
 Function to plot data in a grid, one for each HD:
 
 ```{r}
-make_lineplot <- function(depend_var, group, title, df) {
+make_lineplot <- function(depend_var, title, df) {
   rv <-
-    ggplot(df[df$group==group,], 
-           aes(x=year, y=!!sym(depend_var), color=treatment_control)) + 
+    ggplot(data=meth1_df, aes(x=year, y=!!sym(depend_var), color=as.factor(treatment))) + 
   geom_point() + 
   geom_line() +
-  geom_vline(data = df[df$group==group,],
-             aes(xintercept = first_decade_desig_copy), 
-             color = group, 
+  geom_vline(data = meth1_df,
+             aes(xintercept = desig_date), 
+             color = "black", 
              linetype = "dashed", 
              size = 1) +
-  ggtitle(title) +
+  ggtitle(depend_var) +
     facet_grid(rows = vars(LABEL), scales = "free_y")
   
   return(rv)
@@ -718,18 +721,181 @@ make_lineplot <- function(depend_var, group, title, df) {
 ```
 
 
-Call 
+First, find which blocks/tracts are in which HDs:
 
 ```{r}
-# combine all of the years of data into one big dataset
-hd_geos60 <- get_geos_in_hd(b60_shp, min_pct = mp, year = 1960)
-hd_geos70 <- get_geos_in_hd(b70_shp, min_pct = mp, year = 1970)
-hd_geos80 <- get_geos_in_hd(b80_shp, min_pct = mp, year = 1980)
-hd_geos90 <- get_geos_in_hd(b90_shp, min_pct = mp, year = 1990)
-hd_geos00 <- get_geos_in_hd(b00_shp, min_pct = mp, year = 2000)
-hd_geos10 <- get_geos_in_hd(b10_shp, min_pct = mp, year = 2010)
-hd_geos20 <- get_geos_in_hd(b20_shp, min_pct = mp, year = 2020)
+# find which blocks/tracts are in which HDs, store that in one big object called hd_geos_shp
+mp = 0.25 
+for (y in sort(unique(geos_shp$year))) {
+  if (y == min(unique(geos_shp$year))) {
+    hd_geos_shp <- 
+      get_geos_in_hd(geos_shp %>% filter(year==y), min_pct = mp, year = y)$geos_in_hd
+  } else(
+    hd_geos_shp <- 
+      dplyr::bind_rows(hd_geos_shp,
+                       get_geos_in_hd(geos_shp %>% filter(year==y), min_pct = mp, year = y)$geos_in_hd)
+  )
+}
+invisible(gc())
+```
 
+
+Now we'll try two different approaches to finding "comparison" blocks/tracts:
+
+* Buffer / geographic nearness approach
+* Best geographically-proximate match approach
+
+
+```{r}
+# Find which blocks/tracts are within a certain buffer radius of each HD
+# the buffer distance is in decimal degrees
+buff_dist = .008
+threshold = .1
+for (y in sort(unique(geos_shp$year))) {
+  items <- get_neighbor_geos(hd_shp=hd_shp, 
+                        geo_shp=geos_shp %>% filter(year==y), 
+                        buffer_dist=buff_dist, 
+                        geos_in_hd=unique(hd_geos_shp$geo_id),
+                        threshold, 
+                        y)
+  if (y == min(unique(geos_shp$year))) {
+    near_geos_shp <- items$neighbor_geos
+    buffers <- items$buffers %>% mutate(year=y)
+  } else {
+    near_geos_shp <- dplyr::bind_rows(near_geos_shp, items$neighbor_geos)
+    buffers <- dplyr::bind_rows(buffers, 
+                                items$buffers %>% mutate(year=y))
+  }
+  invisible(gc())
+}
+
+rm(items)
+
+y = 1960
+plot_geos(geos_shp %>% filter(year==y), 
+          near_geos_shp %>% filter(year==y), 
+          hd_geos_shp$geo_id[hd_geos_shp$year==y],
+          buffers %>% filter(year==y))
+y = 2020
+plot_geos(geos_shp %>% filter(year==y), 
+          near_geos_shp %>% filter(year==y), 
+          hd_geos_shp$geo_id[hd_geos_shp$year==y],
+          buffers %>% filter(year==y))
+```
+
+Now we'll conduct the analysis:
+
+```{r, fig.height=75}
+# create a big df on which we'll run the regressions for method/approach 1
+meth1_df <- 
+  dplyr::bind_rows(
+    hd_geos_shp %>% 
+      select("year", "geo_id", "LABEL", "n_tot", 
+                            "n_black", "n_white", "n_other", 
+                            "desig_date", "geometry") %>%
+      mutate(treatment=1),
+    near_geos_shp %>% 
+      select("year", "geo_id", "LABEL", "n_tot", 
+                            "n_black", "n_white", "n_other", 
+                            "desig_date", "geometry") %>%
+      mutate(treatment=0)
+    )
+
+meth1_df <- 
+  meth1_df %>%
+  # create additional derived variables 
+  mutate(area = sf::st_area(.)) %>%
+  # drop geometry
+  sf::st_drop_geometry(.) %>%
+  # summarize the data
+  group_by(LABEL, year, treatment) %>%
+  summarise(n_tot = sum(n_tot, na.rm=T),
+            n_black = sum(n_black, na.rm=T),
+            n_white = sum(n_white, na.rm=T),
+            desig_date = mean(desig_date, na.rm=T),
+            area = sum(area, na.rm=T)) %>%
+  mutate(pop_dens = as.vector(n_tot / area),
+         pct_black = n_black / n_tot,
+         pct_white = n_white / n_tot,
+         post = ifelse(desig_date < year, 1, 0),
+         unit_id = paste(LABEL, treatment)) %>%
+  ungroup() %>%
+  # create a unique numeric ID for each treatment and control unit; we need this
+  # for the DiD package
+  group_by(LABEL, treatment) %>%
+  mutate(numeric_id = cur_group_id(),
+         gname = ifelse(treatment==1, ceiling(desig_date / 10) * 10, 0)) %>%
+  ungroup() %>%
+  arrange(LABEL, year, treatment)
+
+
+diff_in_diff <- 
+  lm(pop_dens  ~ treatment + post + treatment:post + unit_id + year, 
+     data = meth1_df, weights=n_tot)
+summary(diff_in_diff)
+
+
+# Alternate specification:
+# https://bcallaway11.github.io/did/articles/did-basics.html#an-example-with-real-data
+# https://cran.r-project.org/web/packages/did/vignettes/pre-testing.html
+attgt <- did::att_gt(yname = "pop_dens",
+             gname = "gname",
+             idname = "numeric_id",
+             tname = "year",
+             xformla = ~1,
+             data = meth1_df[!is.na(meth1_df$pop_dens),],
+             allow_unbalanced_panel = T,
+             weightsname="n_tot"
+             )
+print(summary(attgt))
+group_effects <- aggte(attgt, type = "group", na.rm=T)
+print(summary(group_effects))
+  
+      
+make_lineplot(depend_var = "pct_white", meth1_df)
+
+```
+
+
+
+Best geographically-proximate match approach
+
+```{r}
+# get block centroids, calculate distance between all points
+get_distances <- function(shp) {
+  points <- sf::st_centroid(shp)
+  distances <- sf::st_distance(points)
+  
+  return(distances)
+}
+
+# confirm areas:
+geos_shp$geo_area_meters <- sf::st_area(geos_shp) 
+# calculate normalized variables
+geos_shp <-
+  geos_shp %>%
+  group_by(year) %>%
+  mutate(n_tot_norm = n_tot / max(n_tot, na.rm=T),
+         pop_dens = n_tot / geo_area_meters,
+         pop_dens_norm = pop_dens / max(pop_dens, na.rm=T),
+         geo_area_meters_norm = geo_area_meters / max(geo_area_meters, na.rm=T),
+         pct_black = n_black / n_tot,
+         pct_white = n_white / n_tot) %>%
+  ungroup()
+
+# get the distances between each block in each year
+dists <- list("1960"=NA, "1970"=NA, "1980"=NA, "1990"=NA, "2000"=NA, "2010"=NA, "2020"=NA)
+for (y in sort(unique(geos_shp$year))) {
+  invisible(gc())
+  print(paste("on year", y))
+  dists[as.character(y)] <- get_distances(geos_shp %>% filter(year==y))
+}
+
+# loop through each block in each HD and year and find the N closest blocks
+n = 40
+for (y in sort(unique(geos_shp$year))) {
+  for (b in geos_shp$geo)
+}
 ```
 
 
