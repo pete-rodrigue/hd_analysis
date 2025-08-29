@@ -889,7 +889,6 @@ for (y in sort(unique(geos_shp$year))) {
   invisible(gc())
   print(paste("on year", y))
   dists[[as.character(y)]] <- get_distances(geos_shp %>% filter(year==y))
-  break
 }
 
 # loop through each block in each HD and year and find the N closest blocks
