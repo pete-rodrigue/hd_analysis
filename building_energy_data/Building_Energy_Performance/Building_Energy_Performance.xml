@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin/>
+                <pubdate>20210423</pubdate>
+                <title>Building Energy Performance</title>
+                <geoform>vector digital data</geoform>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>The BEPS Program was created by Title III of the Clean Energy DC Omnibus Act of 2018. The BEPS is a minimum threshold of energy performance that will be no lower than the local median ENERGY STAR score by property type (or equivalent metric). The standards were created to drive energy performance in existing buildings to help meet the energy and climate goals of the Sustainable DC plan — to reduce greenhouse gas emissions and energy consumption by 50% by 2032. DOEE established the first set of Standards on January 1, 2021. Standards will then be set every 6 years, creating BEPS Periods (BEPS Period 1, BEPS Period 2, etc.). The 2021 Building Energy Performance Standards and a Guide to the 2021 BEPS are available for viewing on DOEE’s website.To improve transparency and help building owners understand how their building performs relative to the BEPS, DOEE is publishing this BEPS Disclosure that compares a building’s benchmarking data with the BEPS and provides an estimate of the building’s distance from the standard and estimated performance requirement.Please note that this dataset is based on information currently available to DOEE using calendar year 2019 benchmarking data provided by the building owner. Some buildings are still being evaluated and therefore have been designated as “Under Review” in this dataset. Building owners that believe their 2019 calendar year data is incorrect should contact the Benchmarking Help Center (info.benchmark@dc.gov). Additionally, buildings that meet certain criteria may request a variance from the standards by submitting a variance request form on the DOEE website.</abstract>
+            <purpose>This dataset is used by the Department of Energy &amp; Environment (DOEE) as a disclosure of public and private building energy performance under the Building Energy Performance Standards (BEPS) Program.</purpose>
+        </descript>
+        <status>
+            <progress>Complete</progress>
+            <update>Weekly</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-77.13</westbc>
+                <eastbc>-76.9</eastbc>
+                <northbc>39.01</northbc>
+                <southbc>38.78</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>performance</themekey>
+                <themekey>energy</themekey>
+                <themekey>doee</themekey>
+                <themekey>building</themekey>
+            </theme>
+            <theme>
+                <themekt>ISO 19115 Topic Categories</themekt>
+                <themekey>environment</themekey>
+                <themekey>structure</themekey>
+            </theme>
+            <place>
+                <placekt>None</placekt>
+                <placekey>District of Columbia</placekey>
+                <placekey>Washington DC</placekey>
+            </place>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>This work is licensed under a Creative Commons Attribution 4.0 International License.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Department of Energy and Environment</cntorg>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>1200 First Street NE</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20002</postal>
+                </cntaddr>
+                <cntvoice>(202) 535-2600</cntvoice>
+                <cntemail>doeeit@dc.gov</cntemail>
+            </cntinfo>
+        </ptcontac>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Office of the Chief Technology Officer</cntorg>
+                </cntorgp>
+                <cntpos>GIS Data Coordinator</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                </cntaddr>
+                <cntvoice>(202) 727-2277</cntvoice>
+                <cntfax>(202) 727-6857</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5:00 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>Department of Energy and Environment</datacred>
+        <native>Esri ArcGIS 13.0.3.36057</native>
+    </idinfo>
+    <dataqual>
+        <lineage>
+            <procstep>
+                <procdesc>Staff added MEET_BMPS and BEPS_PROPERTY_GROUP attributes.</procdesc>
+                <procdate>20210507</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntpos>GIS Data Coordinator</cntpos>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>200 I Street SE, 5th Floor</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20003</postal>
+                        </cntaddr>
+                        <cntvoice>(202) 727-2277</cntvoice>
+                        <cntfax>(202) 727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Staff added LASTUPDATE field.</procdesc>
+                <procdate>20210618</procdate>
+            </procstep>
+            <procstep>
+                <procdesc>Added field APPROVED_COMPLIANCE_PATHWAY</procdesc>
+                <procdate>20250219</procdate>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>Entity point</sdtstype>
+                <ptvctcnt>1927</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>DCGIS.BEPPt</enttypl>
+                <enttypd>List of buildings in the Building Energy Performance Standards program.</enttypd>
+                <enttypds>DC OCTO</enttypds>
+            </enttyp>
+            <attr>
+                <attrlabl>OBJECTID</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                                        
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                                    
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>PID</attrlabl>
+                <attrdef>Primary ID for the building in question.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>SSL</attrlabl>
+                <attrdef>The Square-Suffix-Lot, Parcel, or Complex (Square-Suffix-Regime) number assigned by the DC Office of Tax and Revenue that uniquely identifies the property. The first four digits are the “square,” or the tax block. Leading zeros are added if needed. Some IDs have a “suffix,” which is N, S, E, or W for North, South, East, and West. Most IDs have no suffix. In non-condominiums, the second four digits are the tax lot. Condominiums have a Complex number, which consists of a square and suffix, and then a four-digit “regime” code that is assigned to a condominium association upon incorporation. Certain old, large lots have a “parcel number” instead, which is represented by PAR followed by an 8-digit number. In the disclosure, a “*” after the number indicates a reported ID that DOEE has not matched to a covered tax lot. Any spaces and dashes have no meaning.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PMPROPERTYID</attrlabl>
+                <attrdef>ID number from Portfolio Manager—this serves as the unique key for each record.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>UBID</attrlabl>
+                <attrdef>Unique Building Identifier</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PROPERTYNAME</attrlabl>
+                <attrdef>Name of property as reported by owner in Portfolio Manager.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PMPARENTPROPERTYID</attrlabl>
+                <attrdef>ID number of parent property for a multi-property campus from Portfolio Manager. The energy use of a campus can only understood and analyzed as a whole. Any properties with a parent property ID should be analyzed with other properties with the same Parent Property ID.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PARENTPROPERTYNAME</attrlabl>
+                <attrdef>Name of campus parent property from Portfolio Manager.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ADDRESSOFRECORD</attrlabl>
+                <attrdef>Address as recorded by the DC Office of Tax and Revenue.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>OWNEROFRECORD</attrlabl>
+                <attrdef>Owner as recorded by the DC Office of Tax and Revenue.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>WARD</attrlabl>
+                <attrdef>Ward as recorded by the DC Office of Tax and Revenue.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>REPORTEDADDRESS</attrlabl>
+                <attrdef>Address as reported by owner.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>CITY</attrlabl>
+                <attrdef>Washington</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>STATE</attrlabl>
+                <attrdef>DC</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>POSTALCODE</attrlabl>
+                <attrdef>Zip Code as reported by owner.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>YEARBUILT</attrlabl>
+                <attrdef>The year property was constructed, as reported by owner.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PRIMARYPROPERTYTYPE_EPACALC</attrlabl>
+                <attrdef>The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not always consistent with the property type designation in DC Office of Tax and Revenue Records.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>TAXRECORDFLOORAREA</attrlabl>
+                <attrdef>The Gross Floor Area as recorded by the DC Office of Tax and Revenue.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>REPORTEDBUILDINGGROSSFLOORAREA</attrlabl>
+                <attrdef>The Gross Floor Area as reported by owner. The Gross Floor Area is the total size, as measured between the principal exterior surfaces of the enclosing fixed walls of the building(s). This includes all areas inside the building(s) such as: occupied tenant areas, common areas, meeting areas, break rooms, restrooms, elevator shafts, mechanical equipment areas, and storage rooms.  It does not include the floor area of secondary spaces (as defined by US EPA) such as parking lots.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>BEPS</attrlabl>
+                <attrdef>The level of energy efficiency established by DOEE as an ENERGY STAR Score or Normalized Source EUI value for each property type (20 DCMR 3599).</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>BEPS_METRIC_TYPE</attrlabl>
+                <attrdef>The name of the metric used to evaluate if a building meets the Building Energy Performance Standard as determined by 20 DCMR 3530. "ENERGY STAR Score" if the building can receive an ENERGY STAR Score. "WEATHERNORMALZEDSOUREUI_KBTUFT" if the building cannot receive a Score but can receive weather normalized metrics. "SOURCEEUI_KBTU_FT" if the building cannot receive a Score nor weather normalized metrics.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PROPERTY_BEPS_METRIC_YEAR</attrlabl>
+                <attrdef>The Calendar Year Benchmarking Data used to determine if the building meets the BEPS.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>BEPS_PROPERTY_GROUP</attrlabl>
+                <attrdef>The property type grouping as outlined in Appendix B of the “Guide to the 2021 BEPS” used to establish the BEPS .</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PROPERTY_BEPS_METRIC</attrlabl>
+                <attrdef>The value of the metric for the building used to evaluate if a building meets the Building Energy Performance Standard as determined by 20 DCMR 3530.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>DISTANCE_FROM_BEPS_ESTIMATED</attrlabl>
+                <attrdef>A DOEE estimation of the building's distance from the BEPS measured in % Source EUI. Please note that this is an estimation. It does not factor in to any part of the energy performance requirements for the building. The energy performance requirements will be determined when the building selects a Compliance Pathway.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>MEETS_BEPS</attrlabl>
+                <attrdef>A DOEE evaluation of if the building meets the BEPS based on the the property BEPS metric. If the “BEPS_METRIC_TYPE” is “ENERGYSTARSCORE” then the “PROPERTY_BEPS_METRIC” must be greater than or equal to the “BEPS”. If the “BEP_METRIC_TYPE” is “WEATHERNORMALZEDSOUREUI_ KBTUFT” or “SOURCEEUI_KBTU_FT” then the “PROPERTY_BEPS_METRIC” must be less than or equal to the “BEPS”. Some buildings are still being evaluated and therefore have been designated as “Under Review” in this dataset.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>LATITUDE</attrlabl>
+                <attrdef>Latitude</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>PERFORMANCE_REQUIREMENT_EST</attrlabl>
+                <attrdef>A DOEE estimation of the building's energy performance requirement measured in % Site EUI. Please note that this is an estimation. It does no represent the legal energy performance requirement that a building may have to complete as part of a BEPS Compliance Pathway.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>LONGITUDE</attrlabl>
+                <attrdef>Longitude</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>XCOORD</attrlabl>
+                <attrdef>MAR X coordinate.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>YCOORD</attrlabl>
+                <attrdef>MAR Y coordinate.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>MAR_ID</attrlabl>
+                <attrdef>MAR identifier.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>GIS_ID</attrlabl>
+                <attrdef>GIS Identifier</attrdef>
+                <attrdefs>OCTO</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>SE_ANNO_CAD_DATA</attrlabl>
+                <attrdef>Database system field</attrdef>
+                <attrdefs>OCTO</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>GLOBALID</attrlabl>
+                <attrdef>internal database field</attrdef>
+                <attrdefs>OCTO</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                                        
+                    <udom>Coordinates defining the features.</udom>
+                                    
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>LASTUPDATE</attrlabl>
+                <attrdef>The last date DOEE pulled a report from Portfolio Manager for this property.</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>APPROVED_COMPLIANCE_PATHWAY</attrlabl>
+                <attrdef>Approved Compliance Pathway</attrdef>
+                <attrdefs>DOEE</attrdefs>
+            </attr>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Office of the Chief Technology Officer</cntorg>
+                </cntorgp>
+                <cntpos>GIS Data Coordinator</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                </cntaddr>
+                <cntvoice>(202) 727-2277</cntvoice>
+                <cntfax>(202) 727-6857</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5:00 pm</hours>
+            </cntinfo>
+        </distrib>
+        <distliab>See access and use constraints information.</distliab>
+    </distinfo>
+    <metainfo>
+        <metd>20250219</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>Department of Energy &amp; Environment</cntorg>
+                    <cntper>Andrew Held</cntper>
+                </cntorgp>
+                <cntpos>Energy Program Specialist</cntpos>
+                <cntaddr>
+                    <addrtype>physical</addrtype>
+                    <address>1200 First St NE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20002</postal>
+                </cntaddr>
+                <cntvoice>(202) 727-8950</cntvoice>
+                <cntemail>Andrew.Held@dc.gov</cntemail>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FG

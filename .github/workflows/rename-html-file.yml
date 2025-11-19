@@ -1,0 +1,45 @@
+name: Rename analysis.html to index.html
+
+# Trigger when analysis.html is pushed to the main branch
+on:
+  push:
+    branches: [ main ]  # Change to your default branch if different
+    paths:
+      - 'analysis.html'
+
+jobs:
+  rename-file:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        # Use a token that can push back to the repo
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Check if analysis.html exists
+      id: check-file
+      run: |
+        if [ -f "analysis.html" ]; then
+          echo "file-exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "file-exists=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Rename analysis.html to index.html
+      if: steps.check-file.outputs.file-exists == 'true'
+      run: |
+        mv analysis.html index.html
+        echo "File renamed from analysis.html to index.html"
+    
+    - name: Commit and push changes
+      if: steps.check-file.outputs.file-exists == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add index.html
+        # Remove the old file from git tracking
+        git rm --cached analysis.html || true
+        git commit -m "Auto-rename: analysis.html → index.html" || exit 0
+        git push

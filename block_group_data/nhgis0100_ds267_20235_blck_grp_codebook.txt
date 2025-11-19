@@ -1,0 +1,275 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0100_ds267_20235_blck_grp'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2019-2023
+Geographic level: Block Group (by State--County--Census Tract)
+Extent:           District of Columbia
+Dataset:          2023 American Community Survey: 5-Year Data [2019-2023, Block Groups & Larger Areas]
+   NHGIS code:    2019_2023_ACS5a
+   NHGIS ID:      ds267
+Breakdown(s):     Geographic Component:
+                     Total area (00)
+Data type(s):     (E) Estimates
+                  (M) Margins of error
+ 
+Tables:
+ 
+1. Household Income by Gross Rent as a Percentage of Household Income in the Past 12 Months
+   Universe:    Renter-occupied housing units
+   Source code: B25074
+   NHGIS code:  ASVK
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        STUSAB:      State Postal Abbreviation
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place/Remainder Code
+        TRACTA:      Census Tract Code
+        BLKGRPA:     Block Group Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land Code
+        AIHHTLI:     American Indian/Hawaiian Home Land Trust Land Indicator
+        AITSA:       Tribal Subdivision/Remainder Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        CNECTA:      New England City and Town Combined Statistical Area
+        NECTADIV:    New England City and Town Area Division
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (2023-2025, 118th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        ZCTA5A:      5-Digit ZIP Code Tabulation Area Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        PCI:         Principal City Indicator
+        PUMAA:       Public Use Microdata Area Code
+        GEO_ID:      Census Geographic Area Identifier
+        BTTRA:       Tribal Census Tract Code
+        BTBGA:       Tribal Block Group Code
+        TL_GEO_ID:   TIGER/Line Shapefile Geographic Area Identifier
+ 
+Data Type (E):
+    Estimates
+ 
+        NAME_E:      Area Name
+ 
+    Table 1:     Household Income by Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25074
+    NHGIS code:  ASVK
+        ASVKE001:    Total
+        ASVKE002:    Less than $10,000
+        ASVKE003:    Less than $10,000: Less than 20.0 percent
+        ASVKE004:    Less than $10,000: 20.0 to 24.9 percent
+        ASVKE005:    Less than $10,000: 25.0 to 29.9 percent
+        ASVKE006:    Less than $10,000: 30.0 to 34.9 percent
+        ASVKE007:    Less than $10,000: 35.0 to 39.9 percent
+        ASVKE008:    Less than $10,000: 40.0 to 49.9 percent
+        ASVKE009:    Less than $10,000: 50.0 percent or more
+        ASVKE010:    Less than $10,000: Not computed
+        ASVKE011:    $10,000 to $19,999
+        ASVKE012:    $10,000 to $19,999: Less than 20.0 percent
+        ASVKE013:    $10,000 to $19,999: 20.0 to 24.9 percent
+        ASVKE014:    $10,000 to $19,999: 25.0 to 29.9 percent
+        ASVKE015:    $10,000 to $19,999: 30.0 to 34.9 percent
+        ASVKE016:    $10,000 to $19,999: 35.0 to 39.9 percent
+        ASVKE017:    $10,000 to $19,999: 40.0 to 49.9 percent
+        ASVKE018:    $10,000 to $19,999: 50.0 percent or more
+        ASVKE019:    $10,000 to $19,999: Not computed
+        ASVKE020:    $20,000 to $34,999
+        ASVKE021:    $20,000 to $34,999: Less than 20.0 percent
+        ASVKE022:    $20,000 to $34,999: 20.0 to 24.9 percent
+        ASVKE023:    $20,000 to $34,999: 25.0 to 29.9 percent
+        ASVKE024:    $20,000 to $34,999: 30.0 to 34.9 percent
+        ASVKE025:    $20,000 to $34,999: 35.0 to 39.9 percent
+        ASVKE026:    $20,000 to $34,999: 40.0 to 49.9 percent
+        ASVKE027:    $20,000 to $34,999: 50.0 percent or more
+        ASVKE028:    $20,000 to $34,999: Not computed
+        ASVKE029:    $35,000 to $49,999
+        ASVKE030:    $35,000 to $49,999: Less than 20.0 percent
+        ASVKE031:    $35,000 to $49,999: 20.0 to 24.9 percent
+        ASVKE032:    $35,000 to $49,999: 25.0 to 29.9 percent
+        ASVKE033:    $35,000 to $49,999: 30.0 to 34.9 percent
+        ASVKE034:    $35,000 to $49,999: 35.0 to 39.9 percent
+        ASVKE035:    $35,000 to $49,999: 40.0 to 49.9 percent
+        ASVKE036:    $35,000 to $49,999: 50.0 percent or more
+        ASVKE037:    $35,000 to $49,999: Not computed
+        ASVKE038:    $50,000 to $74,999
+        ASVKE039:    $50,000 to $74,999: Less than 20.0 percent
+        ASVKE040:    $50,000 to $74,999: 20.0 to 24.9 percent
+        ASVKE041:    $50,000 to $74,999: 25.0 to 29.9 percent
+        ASVKE042:    $50,000 to $74,999: 30.0 to 34.9 percent
+        ASVKE043:    $50,000 to $74,999: 35.0 to 39.9 percent
+        ASVKE044:    $50,000 to $74,999: 40.0 to 49.9 percent
+        ASVKE045:    $50,000 to $74,999: 50.0 percent or more
+        ASVKE046:    $50,000 to $74,999: Not computed
+        ASVKE047:    $75,000 to $99,999
+        ASVKE048:    $75,000 to $99,999: Less than 20.0 percent
+        ASVKE049:    $75,000 to $99,999: 20.0 to 24.9 percent
+        ASVKE050:    $75,000 to $99,999: 25.0 to 29.9 percent
+        ASVKE051:    $75,000 to $99,999: 30.0 to 34.9 percent
+        ASVKE052:    $75,000 to $99,999: 35.0 to 39.9 percent
+        ASVKE053:    $75,000 to $99,999: 40.0 to 49.9 percent
+        ASVKE054:    $75,000 to $99,999: 50.0 percent or more
+        ASVKE055:    $75,000 to $99,999: Not computed
+        ASVKE056:    $100,000 or more
+        ASVKE057:    $100,000 or more: Less than 20.0 percent
+        ASVKE058:    $100,000 or more: 20.0 to 24.9 percent
+        ASVKE059:    $100,000 or more: 25.0 to 29.9 percent
+        ASVKE060:    $100,000 or more: 30.0 to 34.9 percent
+        ASVKE061:    $100,000 or more: 35.0 to 39.9 percent
+        ASVKE062:    $100,000 or more: 40.0 to 49.9 percent
+        ASVKE063:    $100,000 or more: 50.0 percent or more
+        ASVKE064:    $100,000 or more: Not computed
+ 
+Data Type (M):
+    Margins of error
+ 
+        NAME_M:      Area Name
+ 
+    Table 1:     Household Income by Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25074
+    NHGIS code:  ASVK
+        ASVKM001:    Total
+        ASVKM002:    Less than $10,000
+        ASVKM003:    Less than $10,000: Less than 20.0 percent
+        ASVKM004:    Less than $10,000: 20.0 to 24.9 percent
+        ASVKM005:    Less than $10,000: 25.0 to 29.9 percent
+        ASVKM006:    Less than $10,000: 30.0 to 34.9 percent
+        ASVKM007:    Less than $10,000: 35.0 to 39.9 percent
+        ASVKM008:    Less than $10,000: 40.0 to 49.9 percent
+        ASVKM009:    Less than $10,000: 50.0 percent or more
+        ASVKM010:    Less than $10,000: Not computed
+        ASVKM011:    $10,000 to $19,999
+        ASVKM012:    $10,000 to $19,999: Less than 20.0 percent
+        ASVKM013:    $10,000 to $19,999: 20.0 to 24.9 percent
+        ASVKM014:    $10,000 to $19,999: 25.0 to 29.9 percent
+        ASVKM015:    $10,000 to $19,999: 30.0 to 34.9 percent
+        ASVKM016:    $10,000 to $19,999: 35.0 to 39.9 percent
+        ASVKM017:    $10,000 to $19,999: 40.0 to 49.9 percent
+        ASVKM018:    $10,000 to $19,999: 50.0 percent or more
+        ASVKM019:    $10,000 to $19,999: Not computed
+        ASVKM020:    $20,000 to $34,999
+        ASVKM021:    $20,000 to $34,999: Less than 20.0 percent
+        ASVKM022:    $20,000 to $34,999: 20.0 to 24.9 percent
+        ASVKM023:    $20,000 to $34,999: 25.0 to 29.9 percent
+        ASVKM024:    $20,000 to $34,999: 30.0 to 34.9 percent
+        ASVKM025:    $20,000 to $34,999: 35.0 to 39.9 percent
+        ASVKM026:    $20,000 to $34,999: 40.0 to 49.9 percent
+        ASVKM027:    $20,000 to $34,999: 50.0 percent or more
+        ASVKM028:    $20,000 to $34,999: Not computed
+        ASVKM029:    $35,000 to $49,999
+        ASVKM030:    $35,000 to $49,999: Less than 20.0 percent
+        ASVKM031:    $35,000 to $49,999: 20.0 to 24.9 percent
+        ASVKM032:    $35,000 to $49,999: 25.0 to 29.9 percent
+        ASVKM033:    $35,000 to $49,999: 30.0 to 34.9 percent
+        ASVKM034:    $35,000 to $49,999: 35.0 to 39.9 percent
+        ASVKM035:    $35,000 to $49,999: 40.0 to 49.9 percent
+        ASVKM036:    $35,000 to $49,999: 50.0 percent or more
+        ASVKM037:    $35,000 to $49,999: Not computed
+        ASVKM038:    $50,000 to $74,999
+        ASVKM039:    $50,000 to $74,999: Less than 20.0 percent
+        ASVKM040:    $50,000 to $74,999: 20.0 to 24.9 percent
+        ASVKM041:    $50,000 to $74,999: 25.0 to 29.9 percent
+        ASVKM042:    $50,000 to $74,999: 30.0 to 34.9 percent
+        ASVKM043:    $50,000 to $74,999: 35.0 to 39.9 percent
+        ASVKM044:    $50,000 to $74,999: 40.0 to 49.9 percent
+        ASVKM045:    $50,000 to $74,999: 50.0 percent or more
+        ASVKM046:    $50,000 to $74,999: Not computed
+        ASVKM047:    $75,000 to $99,999
+        ASVKM048:    $75,000 to $99,999: Less than 20.0 percent
+        ASVKM049:    $75,000 to $99,999: 20.0 to 24.9 percent
+        ASVKM050:    $75,000 to $99,999: 25.0 to 29.9 percent
+        ASVKM051:    $75,000 to $99,999: 30.0 to 34.9 percent
+        ASVKM052:    $75,000 to $99,999: 35.0 to 39.9 percent
+        ASVKM053:    $75,000 to $99,999: 40.0 to 49.9 percent
+        ASVKM054:    $75,000 to $99,999: 50.0 percent or more
+        ASVKM055:    $75,000 to $99,999: Not computed
+        ASVKM056:    $100,000 or more
+        ASVKM057:    $100,000 or more: Less than 20.0 percent
+        ASVKM058:    $100,000 or more: 20.0 to 24.9 percent
+        ASVKM059:    $100,000 or more: 25.0 to 29.9 percent
+        ASVKM060:    $100,000 or more: 30.0 to 34.9 percent
+        ASVKM061:    $100,000 or more: 35.0 to 39.9 percent
+        ASVKM062:    $100,000 or more: 40.0 to 49.9 percent
+        ASVKM063:    $100,000 or more: 50.0 percent or more
+        ASVKM064:    $100,000 or more: Not computed
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Jonathan Schroeder, David Van Riper, Steven Manson, Katherine Knowles, Tracy Kugler, Finn Roberts, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 20.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2025. 
+        http://doi.org/10.18128/D050.V20.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455

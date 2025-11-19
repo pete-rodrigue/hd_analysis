@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin/>
+                <origin/>
+                <pubdate>20080304</pubdate>
+                <title>Census Tracts in 2000</title>
+                <geoform>vector digital data</geoform>
+                <pubinfo>
+                    <publish>DC GIS</publish>
+                </pubinfo>
+                <lworkcit>
+                    <citeinfo>
+                        <origin/>
+                        <title>DC Geographic Information System</title>
+                        <geoform>vector digital data</geoform>
+                    </citeinfo>
+                </lworkcit>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>The TIGER/Line Files are shapefiles and related database files (.dbf) that are an extract of selected geographic and cartographic information from the U.S. Census Bureau's Master Address File / Topologically Integrated Geographic Encoding and Referencing (MAF/TIGER) Database (MTDB). The MTDB represents a seamless national file with no overlaps or gaps between parts, however, each TIGER/Line File is designed to stand alone as an independent data set, or they can be combined to cover the entire nation. Face refers to the areal (polygon) topological primitives that make up MTDB. A face is bounded by one or more edges; its boundary includes only the edges that separate it from other faces, not any interior edges contained within the area of the face. The Topological Faces Shapefile contains the attributes of each topological primitive face. Each face has a unique topological face identifier (TFID) value. Each face in the shapefile includes the key geographic area codes for almost all geographic areas for which the Census Bureau tabulates data for both the 2010 Census and Census 2000. The geometries of each of these geographic areas can then be built by dissolving the face geometries on the appropriate key geographic area codes in the Topological Faces Shapefile.</abstract>
+            <purpose>In order for others to use the information in the Census MAF/TIGER database in a geographic information system (GIS) or for other geographic applications, the Census Bureau releases to the public extracts of the database in the form of TIGER/Line Shapefiles.</purpose>
+        </descript>
+        <timeperd>
+            <timeinfo>
+                <sngdate>
+                    <caldate>20080304</caldate>
+                </sngdate>
+            </timeinfo>
+            <current>publication date</current>
+        </timeperd>
+        <status>
+            <progress>In work</progress>
+            <update>As needed</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-77.119896</westbc>
+                <eastbc>-76.909016</eastbc>
+                <northbc>38.995967</northbc>
+                <southbc>38.791582</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>society</themekey>
+                <themekey>demography</themekey>
+                <themekey>income</themekey>
+                <themekey>Government Jurisdiction</themekey>
+                <themekey>boundary</themekey>
+                <themekey>Census</themekey>
+                <themekey>Tract</themekey>
+                <themekey>Census Tract</themekey>
+            </theme>
+            <theme>
+                <themekt>ISO 19115 Topic Categories</themekt>
+                <themekey>society</themekey>
+                <themekey>boundaries</themekey>
+            </theme>
+            <place>
+                <placekt>None</placekt>
+                <placekey>District of Columbia</placekey>
+                <placekey>DCGIS</placekey>
+                <placekey>DC GIS</placekey>
+                <placekey>DC</placekey>
+                <placekey>Washington</placekey>
+                <placekey>D.C.</placekey>
+            </place>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>This work is licensed under a Creative Commons Attribution 4.0 International License.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>D.C. Office of Planning, U.S. Census Bureau</datacred>
+    </idinfo>
+    <dataqual>
+        <attracc>
+            <attraccr>Data believed to be complete and accurate as of the time period cited. Subject to change. Digital version compared with original source data for accuracy and completeness. In process of validation by source and/or responsible agency.</attraccr>
+        </attracc>
+        <logic>In process of validation by source and/or responsible agency.</logic>
+        <complete>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. In process of validation by source and/or responsible agency.</complete>
+        <posacc>
+            <horizpa>
+                <horizpar>N/A</horizpar>
+            </horizpa>
+        </posacc>
+        <posacc>
+            <vertacc>
+                <vertaccr>N/A</vertaccr>
+            </vertacc>
+        </posacc>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <pubdate>20080101</pubdate>
+                        <title>Integrated Tax System</title>
+                        <geoform>tabular digital data</geoform>
+                        <onlink>http://cfo.dc.gov</onlink>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Summary income information at the Census Tract Level</srccitea>
+                <srccontr>attributes</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>Census data analysis tool</title>
+                    </citeinfo>
+                </srccite>
+                <srcscale>0</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>Census data analysis tool</srccitea>
+                <srccontr>Table attributes</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <pubdate>20000101</pubdate>
+                        <title>Census Data - 2000</title>
+                        <onlink>http://www.census.gov</onlink>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Census Data - 2000</srccitea>
+            </srcinfo>
+            <procstep>
+                <procdesc>The various 2000 census tables originally gathered for the DC Atlas were combined and joined to this feature class. This creates one 2000 tract layer with robust attribution.</procdesc>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>Office of the Chief Technology Officer</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>441 4th St NW, Suite 930 South</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntfax>202-727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30am - 5:30pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>1992 D.C. Office of Planning ward and census tract map was heads-up digitized from the 1995 orthophotographs, and a shapefile was created. A base ArcInfo coverage of correct linework (snapbase.e00) for all DC data was developed after the final delivery of the planimetric street centerlines. The census tract datasets were selected using the above shapefile from the snapbase coverage, creating coincident geography with the other DC GIS datasets. These planimetric features were built as lines and used to create polygons. When imported into the DC GIS geodatabase, the coverages shift 0.01mm since the geodatabase supports only 11 digits of precision, not double precision (16 digits). Planimetrics were created at a scale of 1:1,000. This means that a well defined feature falls within two feet of true position. Attribute data (kept in separate tables) was provided by United States Census Bureau and the DC Office of Planning. All DC GIS data is stored and exported in Maryland State Plane coordinates NAD 83 meters.</procdesc>
+                <procdate>20010806</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of the Chief Technology Officer (OCTO)</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>441 4th St NW, Suite 930 South</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>(202) 727-1761</cntvoice>
+                        <cntfax>(202) 727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>OCTO geocoded the DC tax data to the Master Address Repository. This added geographic information to each tax filer. From that, OCFO staff computed aggregate income categories at the census tract level, including median and mean federal adjusted income for the 2005 tax year. The income was reported per tax return filed with the District government (Single, Married, Head of Household, etc). OCTO staff appended this data to the tract file. THIS IS NOT HOUSEHOLD OR TOTAL TAKE HOME PAY.</procdesc>
+                <procdate>20080304</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>OCTO</cntorg>
+                        </cntorgp>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>OCFO staff computed aggregate income categories at the census tract level, including median federal adjusted income for the 2006 tax year. The income was reported per tax return filed with the District government (Single, Married, Head of Household, etc). OCTO staff appended this data to the tract file.</procdesc>
+                <procdate>20090610</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>OCTO</cntorg>
+                        </cntorgp>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>GT-polygon composed of chains</sdtstype>
+                <ptvctcnt>188</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>DCGIS.Tract00Ply</enttypl>
+            </enttyp>
+            <attr>
+                <attrlabl>SINGLECOST</attrlabl>
+                <attrdef>Single Unit Cost</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MULTICOST</attrlabl>
+                <attrdef>Multi Unit Cost</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>Shape</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>GIS_ID</attrlabl>
+                <attrdef>OCTO GIS sequential identifier</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FEDTRACTNO</attrlabl>
+                <attrdef>2000 Federal Census Tract Number</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TRACTNO</attrlabl>
+                <attrdef>2000 Federal Census Tract Number</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AREASQMI</attrlabl>
+                <attrdef>Area of tract in square miles</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>POPDENSITY</attrlabl>
+                <attrdef>Population Density</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OBJECTID</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>HISPANIC</attrlabl>
+                <attrdef>Hispanic Population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MRDCHREL</attrlabl>
+                <attrdef>Median Households with related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MHHCHREL</attrlabl>
+                <attrdef>male households with related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MHHCHRELNO</attrlabl>
+                <attrdef>male households with no related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FMHHCHREL</attrlabl>
+                <attrdef>female households with related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FMHHCHRELN</attrlabl>
+                <attrdef>female households with no related children</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OCCUPIEDHO</attrlabl>
+                <attrdef>Owner Occupied Housing</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FULLTOTAL</attrlabl>
+                <attrdef>Total Housing Units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>SINGLEFAMI</attrlabl>
+                <attrdef>Single Family Home</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>PCTOWNEROC</attrlabl>
+                <attrdef>Percentage owner occupied</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>WHITE</attrlabl>
+                <attrdef>White Population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>BLACK</attrlabl>
+                <attrdef>Black population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AMERIND</attrlabl>
+                <attrdef>American Indian population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>ASIAN</attrlabl>
+                <attrdef>Asian population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>OTHER</attrlabl>
+                <attrdef>Other population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTHOUSEUN</attrlabl>
+                <attrdef>Total Housing Units</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MULTIUNIT</attrlabl>
+                <attrdef>Multi Unit Housing</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CONSTRCOST</attrlabl>
+                <attrdef>Construction Cost</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE0_17</attrlabl>
+                <attrdef>Age 0 to 17</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE0_17PCT</attrlabl>
+                <attrdef>Age 0 to 17 Percent</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE18PLUS</attrlabl>
+                <attrdef>Age 18 Plus</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>AGE18PLUSP</attrlabl>
+                <attrdef>Age 18 Plus Percent</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHTOTAL</attrlabl>
+                <attrdef>Change Total from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHWHITE</attrlabl>
+                <attrdef>Change White from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHBLACK</attrlabl>
+                <attrdef>Change Black from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHAMERIND</attrlabl>
+                <attrdef>Change American Indian from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHASIAN</attrlabl>
+                <attrdef>Change Asian from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHHISP</attrlabl>
+                <attrdef>Change Hispanic from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>CHOTHER</attrlabl>
+                <attrdef>Change Other from 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTALPERC</attrlabl>
+                <attrdef>Total Percentage of 1990 Population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTAL90</attrlabl>
+                <attrdef>Total Population 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTAL00</attrlabl>
+                <attrdef>Total Population 2000</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTPOPCHG</attrlabl>
+                <attrdef>Total Population Change</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTPOPCHGP</attrlabl>
+                <attrdef>Total Population Change Percentage</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>HAWAIIAN</attrlabl>
+                <attrdef>Hawaiin Population</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TRACT90</attrlabl>
+                <attrdef>Tract 1990</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>MRDCHRELNO</attrlabl>
+                <attrdef>Number of Households Married Children No Relationship</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>TOTAL</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>NAME</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>MARRIED</attrlabl>
+                <attrdef>Number of Married Households</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>OBJECTID_1</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>MULTIPERSO</attrlabl>
+                <attrdef>Multi Person</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FAGI_MEDIAN_2005</attrlabl>
+                <attrdef>Median 2005 federal adjusted gross income</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>SINGLEPERS</attrlabl>
+                <attrdef>Single Person</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FAGI_TOTAL_2005</attrlabl>
+                <attrdef>Total 2005 federal adjusted gross income</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FAGI_MEAN_2005</attrlabl>
+                <attrdef>Mean 2005 federal adjusted gross income</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FAGI_TOTAL_2006</attrlabl>
+                <attrdef>Total 2006 federal adjusted gross income</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>FAGI_MEDIAN_2006</attrlabl>
+                <attrdef>Median 2006 federal adjusted gross income</attrdef>
+            </attr>
+            <attr>
+                <attrlabl>COMMENT_</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>DCGIS.Tract00Ply.LEN</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.AREA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.LEN</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>DCGIS.Tract00Ply.AREA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>GlobalID</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Creator</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Created</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Editor</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Edited</attrlabl>
+            </attr>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </distrib>
+        <distliab>See access and use constraints information.</distliab>
+        <custom>DC datasets can be downloaded from "http://opendata.dc.gov".</custom>
+    </distinfo>
+    <metainfo>
+        <metd>20171103</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+    </metainfo>
+</metadata>

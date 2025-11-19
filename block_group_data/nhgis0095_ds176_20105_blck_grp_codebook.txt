@@ -1,0 +1,1019 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0095_ds176_20105_blck_grp'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2006-2010
+Geographic level: Block Group (by State--County--Census Tract)
+Extent:           District of Columbia
+Dataset:          2010 American Community Survey: 5-Year Data [2006-2010, Block Groups & Larger Areas]
+   NHGIS code:    2006_2010_ACS5a
+   NHGIS ID:      ds176
+Breakdown(s):     Geographic Component:
+                     Total area (00)
+Data type(s):     (E) Estimates
+                  (M) Margins of error
+ 
+Tables:
+ 
+1. Median Age by Sex
+   Universe:    Total population
+   Source code: B01002
+   NHGIS code:  JL0
+ 
+2. Hispanic or Latino Origin by Race
+   Universe:    Total population
+   Source code: B03002
+   NHGIS code:  JMJ
+ 
+3. Means of Transportation to Work
+   Universe:    Workers 16 years and over
+   Source code: B08301
+   NHGIS code:  JM0
+ 
+4. Travel Time to Work
+   Universe:    Workers 16 years and over who did not work at home
+   Source code: B08303
+   NHGIS code:  JM2
+ 
+5. Sex by Marital Status for the Population 15 Years and Over
+   Universe:    Population 15 years and over
+   Source code: B12001
+   NHGIS code:  JNX
+ 
+6. Sex by Educational Attainment for the Population 25 Years and Over
+   Universe:    Population 25 years and over
+   Source code: B15002
+   NHGIS code:  JN9
+ 
+7. Poverty Status in the Past 12 Months by Household Type by Age of Householder
+   Universe:    Households
+   Source code: B17017
+   NHGIS code:  JOF
+ 
+8. Median Household Income in the Past 12 Months (in 2010 Inflation-Adjusted Dollars) by Age of Householder
+   Universe:    Households
+   Source code: B19049
+   NHGIS code:  JO3
+ 
+9. Sex by Industry for the Civilian Employed Population 16 Years and Over
+   Universe:    Civilian employed population 16 years and over
+   Source code: C24030
+   NHGIS code:  JRG
+ 
+10. Housing Units
+    Universe:    Housing units
+    Source code: B25001
+    NHGIS code:  JRI
+ 
+11. Year Structure Built
+    Universe:    Housing units
+    Source code: B25034
+    NHGIS code:  JSD
+ 
+12. Median Year Structure Built
+    Universe:    Housing units
+    Source code: B25035
+    NHGIS code:  JSE
+ 
+13. Tenure by Vehicles Available
+    Universe:    Occupied housing units
+    Source code: B25044
+    NHGIS code:  JSN
+ 
+14. Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  JS9
+ 
+15. Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25070
+    NHGIS code:  JTB
+ 
+16. Lower Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25076
+    NHGIS code:  JTH
+ 
+17. Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  JTI
+ 
+18. Upper Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25078
+    NHGIS code:  JTJ
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        STUSAB:      State Postal Abbreviation
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place Code
+        TRACTA:      Census Tract Code
+        BLKGRPA:     Block Group Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land Code
+        AIHHTLI:     American Indian Trust Land/ Hawaiian Home Land Indicator
+        AITSCEA:     Tribal Subdivision/Remainder Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        NECTAA:      New England City and Town Area Code
+        CNECTAA:     Combined New England City and Town Area Code
+        NECTADIVA:   New England City and Town Area Division Code
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (111th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        PCI:         Principal City Indicator
+        PUMAA:       Public Use Microdata Area Code
+        GEOID:       Geographic Identifier
+        BTTRA:       Tribal Census Tract Code
+        BTBGA:       Tribal Block Group Code
+ 
+Data Type (E):
+    Estimates
+ 
+        NAME_E:      Area Name
+ 
+    Table 1:     Median Age by Sex
+    Universe:    Total population
+    Source code: B01002
+    NHGIS code:  JL0
+        JL0E001:     Median age: Total
+        JL0E002:     Median age: Male
+        JL0E003:     Median age: Female
+ 
+    Table 2:     Hispanic or Latino Origin by Race
+    Universe:    Total population
+    Source code: B03002
+    NHGIS code:  JMJ
+        JMJE001:     Total
+        JMJE002:     Not Hispanic or Latino
+        JMJE003:     Not Hispanic or Latino: White alone
+        JMJE004:     Not Hispanic or Latino: Black or African American alone
+        JMJE005:     Not Hispanic or Latino: American Indian and Alaska Native alone
+        JMJE006:     Not Hispanic or Latino: Asian alone
+        JMJE007:     Not Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        JMJE008:     Not Hispanic or Latino: Some other race alone
+        JMJE009:     Not Hispanic or Latino: Two or more races
+        JMJE010:     Not Hispanic or Latino: Two or more races: Two races including Some other race
+        JMJE011:     Not Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+        JMJE012:     Hispanic or Latino
+        JMJE013:     Hispanic or Latino: White alone
+        JMJE014:     Hispanic or Latino: Black or African American alone
+        JMJE015:     Hispanic or Latino: American Indian and Alaska Native alone
+        JMJE016:     Hispanic or Latino: Asian alone
+        JMJE017:     Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        JMJE018:     Hispanic or Latino: Some other race alone
+        JMJE019:     Hispanic or Latino: Two or more races
+        JMJE020:     Hispanic or Latino: Two or more races: Two races including Some other race
+        JMJE021:     Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+ 
+    Table 3:     Means of Transportation to Work
+    Universe:    Workers 16 years and over
+    Source code: B08301
+    NHGIS code:  JM0
+        JM0E001:     Total
+        JM0E002:     Car, truck, or van
+        JM0E003:     Car, truck, or van: Drove alone
+        JM0E004:     Car, truck, or van: Carpooled
+        JM0E005:     Car, truck, or van: Carpooled: In 2-person carpool
+        JM0E006:     Car, truck, or van: Carpooled: In 3-person carpool
+        JM0E007:     Car, truck, or van: Carpooled: In 4-person carpool
+        JM0E008:     Car, truck, or van: Carpooled: In 5- or 6-person carpool
+        JM0E009:     Car, truck, or van: Carpooled: In 7-or-more-person carpool
+        JM0E010:     Public transportation (excluding taxicab)
+        JM0E011:     Public transportation (excluding taxicab): Bus or trolley bus
+        JM0E012:     Public transportation (excluding taxicab): Streetcar or trolley car (carro publico in Puerto Rico)
+        JM0E013:     Public transportation (excluding taxicab): Subway or elevated
+        JM0E014:     Public transportation (excluding taxicab): Railroad
+        JM0E015:     Public transportation (excluding taxicab): Ferryboat
+        JM0E016:     Taxicab
+        JM0E017:     Motorcycle
+        JM0E018:     Bicycle
+        JM0E019:     Walked
+        JM0E020:     Other means
+        JM0E021:     Worked at home
+ 
+    Table 4:     Travel Time to Work
+    Universe:    Workers 16 years and over who did not work at home
+    Source code: B08303
+    NHGIS code:  JM2
+        JM2E001:     Total
+        JM2E002:     Less than 5 minutes
+        JM2E003:     5 to 9 minutes
+        JM2E004:     10 to 14 minutes
+        JM2E005:     15 to 19 minutes
+        JM2E006:     20 to 24 minutes
+        JM2E007:     25 to 29 minutes
+        JM2E008:     30 to 34 minutes
+        JM2E009:     35 to 39 minutes
+        JM2E010:     40 to 44 minutes
+        JM2E011:     45 to 59 minutes
+        JM2E012:     60 to 89 minutes
+        JM2E013:     90 or more minutes
+ 
+    Table 5:     Sex by Marital Status for the Population 15 Years and Over
+    Universe:    Population 15 years and over
+    Source code: B12001
+    NHGIS code:  JNX
+        JNXE001:     Total
+        JNXE002:     Male
+        JNXE003:     Male: Never married
+        JNXE004:     Male: Now married
+        JNXE005:     Male: Now married: Married, spouse present
+        JNXE006:     Male: Now married: Married, spouse absent
+        JNXE007:     Male: Now married: Married, spouse absent: Separated
+        JNXE008:     Male: Now married: Married, spouse absent: Other
+        JNXE009:     Male: Widowed
+        JNXE010:     Male: Divorced
+        JNXE011:     Female
+        JNXE012:     Female: Never married
+        JNXE013:     Female: Now married
+        JNXE014:     Female: Now married: Married, spouse present
+        JNXE015:     Female: Now married: Married, spouse absent
+        JNXE016:     Female: Now married: Married, spouse absent: Separated
+        JNXE017:     Female: Now married: Married, spouse absent: Other
+        JNXE018:     Female: Widowed
+        JNXE019:     Female: Divorced
+ 
+    Table 6:     Sex by Educational Attainment for the Population 25 Years and Over
+    Universe:    Population 25 years and over
+    Source code: B15002
+    NHGIS code:  JN9
+        JN9E001:     Total
+        JN9E002:     Male
+        JN9E003:     Male: No schooling completed
+        JN9E004:     Male: Nursery to 4th grade
+        JN9E005:     Male: 5th and 6th grade
+        JN9E006:     Male: 7th and 8th grade
+        JN9E007:     Male: 9th grade
+        JN9E008:     Male: 10th grade
+        JN9E009:     Male: 11th grade
+        JN9E010:     Male: 12th grade, no diploma
+        JN9E011:     Male: High school graduate, GED, or alternative
+        JN9E012:     Male: Some college, less than 1 year
+        JN9E013:     Male: Some college, 1 or more years, no degree
+        JN9E014:     Male: Associate's degree
+        JN9E015:     Male: Bachelor's degree
+        JN9E016:     Male: Master's degree
+        JN9E017:     Male: Professional school degree
+        JN9E018:     Male: Doctorate degree
+        JN9E019:     Female
+        JN9E020:     Female: No schooling completed
+        JN9E021:     Female: Nursery to 4th grade
+        JN9E022:     Female: 5th and 6th grade
+        JN9E023:     Female: 7th and 8th grade
+        JN9E024:     Female: 9th grade
+        JN9E025:     Female: 10th grade
+        JN9E026:     Female: 11th grade
+        JN9E027:     Female: 12th grade, no diploma
+        JN9E028:     Female: High school graduate, GED, or alternative
+        JN9E029:     Female: Some college, less than 1 year
+        JN9E030:     Female: Some college, 1 or more years, no degree
+        JN9E031:     Female: Associate's degree
+        JN9E032:     Female: Bachelor's degree
+        JN9E033:     Female: Master's degree
+        JN9E034:     Female: Professional school degree
+        JN9E035:     Female: Doctorate degree
+ 
+    Table 7:     Poverty Status in the Past 12 Months by Household Type by Age of Householder
+    Universe:    Households
+    Source code: B17017
+    NHGIS code:  JOF
+        JOFE001:     Total
+        JOFE002:     Income in the past 12 months below poverty level
+        JOFE003:     Income in the past 12 months below poverty level: Family households
+        JOFE004:     Income in the past 12 months below poverty level: Family households: Married-couple family
+        JOFE005:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder under 25 years
+        JOFE006:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        JOFE007:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        JOFE008:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 65 years and over
+        JOFE009:     Income in the past 12 months below poverty level: Family households: Other family
+        JOFE010:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present
+        JOFE011:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder under 25 years
+        JOFE012:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder 25 to 44 years
+        JOFE013:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder 45 to 64 years
+        JOFE014:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder 65 years and over
+        JOFE015:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present
+        JOFE016:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder under 25 years
+        JOFE017:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder 25 to 44 years
+        JOFE018:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder 45 to 64 years
+        JOFE019:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder 65 years and over
+        JOFE020:     Income in the past 12 months below poverty level: Nonfamily households
+        JOFE021:     Income in the past 12 months below poverty level: Nonfamily households: Male householder
+        JOFE022:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder under 25 years
+        JOFE023:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        JOFE024:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        JOFE025:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        JOFE026:     Income in the past 12 months below poverty level: Nonfamily households: Female householder
+        JOFE027:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder under 25 years
+        JOFE028:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        JOFE029:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        JOFE030:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 65 years and over
+        JOFE031:     Income in the past 12 months at or above poverty level
+        JOFE032:     Income in the past 12 months at or above poverty level: Family households
+        JOFE033:     Income in the past 12 months at or above poverty level: Family households: Married-couple family
+        JOFE034:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder under 25 years
+        JOFE035:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        JOFE036:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        JOFE037:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 65 years and over
+        JOFE038:     Income in the past 12 months at or above poverty level: Family households: Other family
+        JOFE039:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present
+        JOFE040:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder under 25 years
+        JOFE041:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder 25 to 44 years
+        JOFE042:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder 45 to 64 years
+        JOFE043:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder 65 years and over
+        JOFE044:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present
+        JOFE045:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder under 25 years
+        JOFE046:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder 25 to 44 years
+        JOFE047:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder 45 to 64 years
+        JOFE048:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder 65 years and over
+        JOFE049:     Income in the past 12 months at or above poverty level: Nonfamily households
+        JOFE050:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder
+        JOFE051:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder under 25 years
+        JOFE052:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        JOFE053:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        JOFE054:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        JOFE055:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder
+        JOFE056:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder under 25 years
+        JOFE057:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        JOFE058:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        JOFE059:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 65 years and over
+ 
+    Table 8:     Median Household Income in the Past 12 Months (in 2010 Inflation-Adjusted Dollars) by Age of Householder
+    Universe:    Households
+    Source code: B19049
+    NHGIS code:  JO3
+        JO3E001:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Total
+        JO3E002:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder under 25 years
+        JO3E003:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder 25 to 44 years
+        JO3E004:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder 45 to 64 years
+        JO3E005:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder 65 years and over
+ 
+    Table 9:     Sex by Industry for the Civilian Employed Population 16 Years and Over
+    Universe:    Civilian employed population 16 years and over
+    Source code: C24030
+    NHGIS code:  JRG
+        JRGE001:     Total
+        JRGE002:     Male
+        JRGE003:     Male: Agriculture, forestry, fishing and hunting, and mining
+        JRGE004:     Male: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        JRGE005:     Male: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        JRGE006:     Male: Construction
+        JRGE007:     Male: Manufacturing
+        JRGE008:     Male: Wholesale trade
+        JRGE009:     Male: Retail trade
+        JRGE010:     Male: Transportation and warehousing, and utilities
+        JRGE011:     Male: Transportation and warehousing, and utilities: Transportation and warehousing
+        JRGE012:     Male: Transportation and warehousing, and utilities: Utilities
+        JRGE013:     Male: Information
+        JRGE014:     Male: Finance and insurance, and real estate and rental and leasing
+        JRGE015:     Male: Finance and insurance, and real estate and rental and leasing: Finance and insurance
+        JRGE016:     Male: Finance and insurance, and real estate and rental and leasing: Real estate and rental and leasing
+        JRGE017:     Male: Professional, scientific, and management, and administrative and waste management services
+        JRGE018:     Male: Professional, scientific, and management, and administrative and waste management services: Professional, scientific, and technical services
+        JRGE019:     Male: Professional, scientific, and management, and administrative and waste management services: Management of companies and enterprises
+        JRGE020:     Male: Professional, scientific, and management, and administrative and waste management services: Administrative and support and waste management services
+        JRGE021:     Male: Educational services, and health care and social assistance
+        JRGE022:     Male: Educational services, and health care and social assistance: Educational services
+        JRGE023:     Male: Educational services, and health care and social assistance: Health care and social assistance
+        JRGE024:     Male: Arts, entertainment, and recreation, and accommodation and food services
+        JRGE025:     Male: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        JRGE026:     Male: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        JRGE027:     Male: Other services, except public administration
+        JRGE028:     Male: Public administration
+        JRGE029:     Female
+        JRGE030:     Female: Agriculture, forestry, fishing and hunting, and mining
+        JRGE031:     Female: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        JRGE032:     Female: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        JRGE033:     Female: Construction
+        JRGE034:     Female: Manufacturing
+        JRGE035:     Female: Wholesale trade
+        JRGE036:     Female: Retail trade
+        JRGE037:     Female: Transportation and warehousing, and utilities
+        JRGE038:     Female: Transportation and warehousing, and utilities: Transportation and warehousing
+        JRGE039:     Female: Transportation and warehousing, and utilities: Utilities
+        JRGE040:     Female: Information
+        JRGE041:     Female: Finance and insurance, and real estate and rental and leasing
+        JRGE042:     Female: Finance and insurance, and real estate and rental and leasing: Finance and insurance
+        JRGE043:     Female: Finance and insurance, and real estate and rental and leasing: Real estate and rental and leasing
+        JRGE044:     Female: Professional, scientific, and management, and administrative and waste management services
+        JRGE045:     Female: Professional, scientific, and management, and administrative and waste management services: Professional, scientific, and technical services
+        JRGE046:     Female: Professional, scientific, and management, and administrative and waste management services: Management of companies and enterprises
+        JRGE047:     Female: Professional, scientific, and management, and administrative and waste management services: Administrative and support and waste management services
+        JRGE048:     Female: Educational services, and health care and social assistance
+        JRGE049:     Female: Educational services, and health care and social assistance: Educational services
+        JRGE050:     Female: Educational services, and health care and social assistance: Health care and social assistance
+        JRGE051:     Female: Arts, entertainment, and recreation, and accommodation and food services
+        JRGE052:     Female: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        JRGE053:     Female: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        JRGE054:     Female: Other services, except public administration
+        JRGE055:     Female: Public administration
+ 
+    Table 10:    Housing Units
+    Universe:    Housing units
+    Source code: B25001
+    NHGIS code:  JRI
+        JRIE001:     Total
+ 
+    Table 11:    Year Structure Built
+    Universe:    Housing units
+    Source code: B25034
+    NHGIS code:  JSD
+        JSDE001:     Total
+        JSDE002:     Built 2005 or later
+        JSDE003:     Built 2000 to 2004
+        JSDE004:     Built 1990 to 1999
+        JSDE005:     Built 1980 to 1989
+        JSDE006:     Built 1970 to 1979
+        JSDE007:     Built 1960 to 1969
+        JSDE008:     Built 1950 to 1959
+        JSDE009:     Built 1940 to 1949
+        JSDE010:     Built 1939 or earlier
+ 
+    Table 12:    Median Year Structure Built
+    Universe:    Housing units
+    Source code: B25035
+    NHGIS code:  JSE
+        JSEE001:     Median year structure built
+ 
+    Table 13:    Tenure by Vehicles Available
+    Universe:    Occupied housing units
+    Source code: B25044
+    NHGIS code:  JSN
+        JSNE001:     Total
+        JSNE002:     Owner occupied
+        JSNE003:     Owner occupied: No vehicle available
+        JSNE004:     Owner occupied: 1 vehicle available
+        JSNE005:     Owner occupied: 2 vehicles available
+        JSNE006:     Owner occupied: 3 vehicles available
+        JSNE007:     Owner occupied: 4 vehicles available
+        JSNE008:     Owner occupied: 5 or more vehicles available
+        JSNE009:     Renter occupied
+        JSNE010:     Renter occupied: No vehicle available
+        JSNE011:     Renter occupied: 1 vehicle available
+        JSNE012:     Renter occupied: 2 vehicles available
+        JSNE013:     Renter occupied: 3 vehicles available
+        JSNE014:     Renter occupied: 4 vehicles available
+        JSNE015:     Renter occupied: 5 or more vehicles available
+ 
+    Table 14:    Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  JS9
+        JS9E001:     Total
+        JS9E002:     No bedroom
+        JS9E003:     No bedroom: With cash rent
+        JS9E004:     No bedroom: With cash rent: Less than $200
+        JS9E005:     No bedroom: With cash rent: $200 to $299
+        JS9E006:     No bedroom: With cash rent: $300 to $499
+        JS9E007:     No bedroom: With cash rent: $500 to $749
+        JS9E008:     No bedroom: With cash rent: $750 to $999
+        JS9E009:     No bedroom: With cash rent: $1,000 or more
+        JS9E010:     No bedroom: No cash rent
+        JS9E011:     1 bedroom
+        JS9E012:     1 bedroom: With cash rent
+        JS9E013:     1 bedroom: With cash rent: Less than $200
+        JS9E014:     1 bedroom: With cash rent: $200 to $299
+        JS9E015:     1 bedroom: With cash rent: $300 to $499
+        JS9E016:     1 bedroom: With cash rent: $500 to $749
+        JS9E017:     1 bedroom: With cash rent: $750 to $999
+        JS9E018:     1 bedroom: With cash rent: $1,000 or more
+        JS9E019:     1 bedroom: No cash rent
+        JS9E020:     2 bedrooms
+        JS9E021:     2 bedrooms: With cash rent
+        JS9E022:     2 bedrooms: With cash rent: Less than $200
+        JS9E023:     2 bedrooms: With cash rent: $200 to $299
+        JS9E024:     2 bedrooms: With cash rent: $300 to $499
+        JS9E025:     2 bedrooms: With cash rent: $500 to $749
+        JS9E026:     2 bedrooms: With cash rent: $750 to $999
+        JS9E027:     2 bedrooms: With cash rent: $1,000 or more
+        JS9E028:     2 bedrooms: No cash rent
+        JS9E029:     3 or more bedrooms
+        JS9E030:     3 or more bedrooms: With cash rent
+        JS9E031:     3 or more bedrooms: With cash rent: Less than $200
+        JS9E032:     3 or more bedrooms: With cash rent: $200 to $299
+        JS9E033:     3 or more bedrooms: With cash rent: $300 to $499
+        JS9E034:     3 or more bedrooms: With cash rent: $500 to $749
+        JS9E035:     3 or more bedrooms: With cash rent: $750 to $999
+        JS9E036:     3 or more bedrooms: With cash rent: $1,000 or more
+        JS9E037:     3 or more bedrooms: No cash rent
+ 
+    Table 15:    Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25070
+    NHGIS code:  JTB
+        JTBE001:     Total
+        JTBE002:     Less than 10.0 percent
+        JTBE003:     10.0 to 14.9 percent
+        JTBE004:     15.0 to 19.9 percent
+        JTBE005:     20.0 to 24.9 percent
+        JTBE006:     25.0 to 29.9 percent
+        JTBE007:     30.0 to 34.9 percent
+        JTBE008:     35.0 to 39.9 percent
+        JTBE009:     40.0 to 49.9 percent
+        JTBE010:     50.0 percent or more
+        JTBE011:     Not computed
+ 
+    Table 16:    Lower Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25076
+    NHGIS code:  JTH
+        JTHE001:     Lower value quartile (dollars)
+ 
+    Table 17:    Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  JTI
+        JTIE001:     Median value (dollars)
+ 
+    Table 18:    Upper Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25078
+    NHGIS code:  JTJ
+        JTJE001:     Upper value quartile (dollars)
+ 
+Data Type (M):
+    Margins of error
+ 
+        NAME_M:      Area Name
+ 
+    Table 1:     Median Age by Sex
+    Universe:    Total population
+    Source code: B01002
+    NHGIS code:  JL0
+        JL0M001:     Median age: Total
+        JL0M002:     Median age: Male
+        JL0M003:     Median age: Female
+ 
+    Table 2:     Hispanic or Latino Origin by Race
+    Universe:    Total population
+    Source code: B03002
+    NHGIS code:  JMJ
+        JMJM001:     Total
+        JMJM002:     Not Hispanic or Latino
+        JMJM003:     Not Hispanic or Latino: White alone
+        JMJM004:     Not Hispanic or Latino: Black or African American alone
+        JMJM005:     Not Hispanic or Latino: American Indian and Alaska Native alone
+        JMJM006:     Not Hispanic or Latino: Asian alone
+        JMJM007:     Not Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        JMJM008:     Not Hispanic or Latino: Some other race alone
+        JMJM009:     Not Hispanic or Latino: Two or more races
+        JMJM010:     Not Hispanic or Latino: Two or more races: Two races including Some other race
+        JMJM011:     Not Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+        JMJM012:     Hispanic or Latino
+        JMJM013:     Hispanic or Latino: White alone
+        JMJM014:     Hispanic or Latino: Black or African American alone
+        JMJM015:     Hispanic or Latino: American Indian and Alaska Native alone
+        JMJM016:     Hispanic or Latino: Asian alone
+        JMJM017:     Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        JMJM018:     Hispanic or Latino: Some other race alone
+        JMJM019:     Hispanic or Latino: Two or more races
+        JMJM020:     Hispanic or Latino: Two or more races: Two races including Some other race
+        JMJM021:     Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+ 
+    Table 3:     Means of Transportation to Work
+    Universe:    Workers 16 years and over
+    Source code: B08301
+    NHGIS code:  JM0
+        JM0M001:     Total
+        JM0M002:     Car, truck, or van
+        JM0M003:     Car, truck, or van: Drove alone
+        JM0M004:     Car, truck, or van: Carpooled
+        JM0M005:     Car, truck, or van: Carpooled: In 2-person carpool
+        JM0M006:     Car, truck, or van: Carpooled: In 3-person carpool
+        JM0M007:     Car, truck, or van: Carpooled: In 4-person carpool
+        JM0M008:     Car, truck, or van: Carpooled: In 5- or 6-person carpool
+        JM0M009:     Car, truck, or van: Carpooled: In 7-or-more-person carpool
+        JM0M010:     Public transportation (excluding taxicab)
+        JM0M011:     Public transportation (excluding taxicab): Bus or trolley bus
+        JM0M012:     Public transportation (excluding taxicab): Streetcar or trolley car (carro publico in Puerto Rico)
+        JM0M013:     Public transportation (excluding taxicab): Subway or elevated
+        JM0M014:     Public transportation (excluding taxicab): Railroad
+        JM0M015:     Public transportation (excluding taxicab): Ferryboat
+        JM0M016:     Taxicab
+        JM0M017:     Motorcycle
+        JM0M018:     Bicycle
+        JM0M019:     Walked
+        JM0M020:     Other means
+        JM0M021:     Worked at home
+ 
+    Table 4:     Travel Time to Work
+    Universe:    Workers 16 years and over who did not work at home
+    Source code: B08303
+    NHGIS code:  JM2
+        JM2M001:     Total
+        JM2M002:     Less than 5 minutes
+        JM2M003:     5 to 9 minutes
+        JM2M004:     10 to 14 minutes
+        JM2M005:     15 to 19 minutes
+        JM2M006:     20 to 24 minutes
+        JM2M007:     25 to 29 minutes
+        JM2M008:     30 to 34 minutes
+        JM2M009:     35 to 39 minutes
+        JM2M010:     40 to 44 minutes
+        JM2M011:     45 to 59 minutes
+        JM2M012:     60 to 89 minutes
+        JM2M013:     90 or more minutes
+ 
+    Table 5:     Sex by Marital Status for the Population 15 Years and Over
+    Universe:    Population 15 years and over
+    Source code: B12001
+    NHGIS code:  JNX
+        JNXM001:     Total
+        JNXM002:     Male
+        JNXM003:     Male: Never married
+        JNXM004:     Male: Now married
+        JNXM005:     Male: Now married: Married, spouse present
+        JNXM006:     Male: Now married: Married, spouse absent
+        JNXM007:     Male: Now married: Married, spouse absent: Separated
+        JNXM008:     Male: Now married: Married, spouse absent: Other
+        JNXM009:     Male: Widowed
+        JNXM010:     Male: Divorced
+        JNXM011:     Female
+        JNXM012:     Female: Never married
+        JNXM013:     Female: Now married
+        JNXM014:     Female: Now married: Married, spouse present
+        JNXM015:     Female: Now married: Married, spouse absent
+        JNXM016:     Female: Now married: Married, spouse absent: Separated
+        JNXM017:     Female: Now married: Married, spouse absent: Other
+        JNXM018:     Female: Widowed
+        JNXM019:     Female: Divorced
+ 
+    Table 6:     Sex by Educational Attainment for the Population 25 Years and Over
+    Universe:    Population 25 years and over
+    Source code: B15002
+    NHGIS code:  JN9
+        JN9M001:     Total
+        JN9M002:     Male
+        JN9M003:     Male: No schooling completed
+        JN9M004:     Male: Nursery to 4th grade
+        JN9M005:     Male: 5th and 6th grade
+        JN9M006:     Male: 7th and 8th grade
+        JN9M007:     Male: 9th grade
+        JN9M008:     Male: 10th grade
+        JN9M009:     Male: 11th grade
+        JN9M010:     Male: 12th grade, no diploma
+        JN9M011:     Male: High school graduate, GED, or alternative
+        JN9M012:     Male: Some college, less than 1 year
+        JN9M013:     Male: Some college, 1 or more years, no degree
+        JN9M014:     Male: Associate's degree
+        JN9M015:     Male: Bachelor's degree
+        JN9M016:     Male: Master's degree
+        JN9M017:     Male: Professional school degree
+        JN9M018:     Male: Doctorate degree
+        JN9M019:     Female
+        JN9M020:     Female: No schooling completed
+        JN9M021:     Female: Nursery to 4th grade
+        JN9M022:     Female: 5th and 6th grade
+        JN9M023:     Female: 7th and 8th grade
+        JN9M024:     Female: 9th grade
+        JN9M025:     Female: 10th grade
+        JN9M026:     Female: 11th grade
+        JN9M027:     Female: 12th grade, no diploma
+        JN9M028:     Female: High school graduate, GED, or alternative
+        JN9M029:     Female: Some college, less than 1 year
+        JN9M030:     Female: Some college, 1 or more years, no degree
+        JN9M031:     Female: Associate's degree
+        JN9M032:     Female: Bachelor's degree
+        JN9M033:     Female: Master's degree
+        JN9M034:     Female: Professional school degree
+        JN9M035:     Female: Doctorate degree
+ 
+    Table 7:     Poverty Status in the Past 12 Months by Household Type by Age of Householder
+    Universe:    Households
+    Source code: B17017
+    NHGIS code:  JOF
+        JOFM001:     Total
+        JOFM002:     Income in the past 12 months below poverty level
+        JOFM003:     Income in the past 12 months below poverty level: Family households
+        JOFM004:     Income in the past 12 months below poverty level: Family households: Married-couple family
+        JOFM005:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder under 25 years
+        JOFM006:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        JOFM007:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        JOFM008:     Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 65 years and over
+        JOFM009:     Income in the past 12 months below poverty level: Family households: Other family
+        JOFM010:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present
+        JOFM011:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder under 25 years
+        JOFM012:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder 25 to 44 years
+        JOFM013:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder 45 to 64 years
+        JOFM014:     Income in the past 12 months below poverty level: Family households: Other family: Male householder, no wife present: Householder 65 years and over
+        JOFM015:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present
+        JOFM016:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder under 25 years
+        JOFM017:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder 25 to 44 years
+        JOFM018:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder 45 to 64 years
+        JOFM019:     Income in the past 12 months below poverty level: Family households: Other family: Female householder, no husband present: Householder 65 years and over
+        JOFM020:     Income in the past 12 months below poverty level: Nonfamily households
+        JOFM021:     Income in the past 12 months below poverty level: Nonfamily households: Male householder
+        JOFM022:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder under 25 years
+        JOFM023:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        JOFM024:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        JOFM025:     Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        JOFM026:     Income in the past 12 months below poverty level: Nonfamily households: Female householder
+        JOFM027:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder under 25 years
+        JOFM028:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        JOFM029:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        JOFM030:     Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 65 years and over
+        JOFM031:     Income in the past 12 months at or above poverty level
+        JOFM032:     Income in the past 12 months at or above poverty level: Family households
+        JOFM033:     Income in the past 12 months at or above poverty level: Family households: Married-couple family
+        JOFM034:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder under 25 years
+        JOFM035:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        JOFM036:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        JOFM037:     Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 65 years and over
+        JOFM038:     Income in the past 12 months at or above poverty level: Family households: Other family
+        JOFM039:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present
+        JOFM040:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder under 25 years
+        JOFM041:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder 25 to 44 years
+        JOFM042:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder 45 to 64 years
+        JOFM043:     Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no wife present: Householder 65 years and over
+        JOFM044:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present
+        JOFM045:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder under 25 years
+        JOFM046:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder 25 to 44 years
+        JOFM047:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder 45 to 64 years
+        JOFM048:     Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no husband present: Householder 65 years and over
+        JOFM049:     Income in the past 12 months at or above poverty level: Nonfamily households
+        JOFM050:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder
+        JOFM051:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder under 25 years
+        JOFM052:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        JOFM053:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        JOFM054:     Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        JOFM055:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder
+        JOFM056:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder under 25 years
+        JOFM057:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        JOFM058:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        JOFM059:     Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 65 years and over
+ 
+    Table 8:     Median Household Income in the Past 12 Months (in 2010 Inflation-Adjusted Dollars) by Age of Householder
+    Universe:    Households
+    Source code: B19049
+    NHGIS code:  JO3
+        JO3M001:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Total
+        JO3M002:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder under 25 years
+        JO3M003:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder 25 to 44 years
+        JO3M004:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder 45 to 64 years
+        JO3M005:     Median household income in the past 12 months (in 2010 inflation-adjusted dollars): Householder 65 years and over
+ 
+    Table 9:     Sex by Industry for the Civilian Employed Population 16 Years and Over
+    Universe:    Civilian employed population 16 years and over
+    Source code: C24030
+    NHGIS code:  JRG
+        JRGM001:     Total
+        JRGM002:     Male
+        JRGM003:     Male: Agriculture, forestry, fishing and hunting, and mining
+        JRGM004:     Male: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        JRGM005:     Male: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        JRGM006:     Male: Construction
+        JRGM007:     Male: Manufacturing
+        JRGM008:     Male: Wholesale trade
+        JRGM009:     Male: Retail trade
+        JRGM010:     Male: Transportation and warehousing, and utilities
+        JRGM011:     Male: Transportation and warehousing, and utilities: Transportation and warehousing
+        JRGM012:     Male: Transportation and warehousing, and utilities: Utilities
+        JRGM013:     Male: Information
+        JRGM014:     Male: Finance and insurance, and real estate and rental and leasing
+        JRGM015:     Male: Finance and insurance, and real estate and rental and leasing: Finance and insurance
+        JRGM016:     Male: Finance and insurance, and real estate and rental and leasing: Real estate and rental and leasing
+        JRGM017:     Male: Professional, scientific, and management, and administrative and waste management services
+        JRGM018:     Male: Professional, scientific, and management, and administrative and waste management services: Professional, scientific, and technical services
+        JRGM019:     Male: Professional, scientific, and management, and administrative and waste management services: Management of companies and enterprises
+        JRGM020:     Male: Professional, scientific, and management, and administrative and waste management services: Administrative and support and waste management services
+        JRGM021:     Male: Educational services, and health care and social assistance
+        JRGM022:     Male: Educational services, and health care and social assistance: Educational services
+        JRGM023:     Male: Educational services, and health care and social assistance: Health care and social assistance
+        JRGM024:     Male: Arts, entertainment, and recreation, and accommodation and food services
+        JRGM025:     Male: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        JRGM026:     Male: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        JRGM027:     Male: Other services, except public administration
+        JRGM028:     Male: Public administration
+        JRGM029:     Female
+        JRGM030:     Female: Agriculture, forestry, fishing and hunting, and mining
+        JRGM031:     Female: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        JRGM032:     Female: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        JRGM033:     Female: Construction
+        JRGM034:     Female: Manufacturing
+        JRGM035:     Female: Wholesale trade
+        JRGM036:     Female: Retail trade
+        JRGM037:     Female: Transportation and warehousing, and utilities
+        JRGM038:     Female: Transportation and warehousing, and utilities: Transportation and warehousing
+        JRGM039:     Female: Transportation and warehousing, and utilities: Utilities
+        JRGM040:     Female: Information
+        JRGM041:     Female: Finance and insurance, and real estate and rental and leasing
+        JRGM042:     Female: Finance and insurance, and real estate and rental and leasing: Finance and insurance
+        JRGM043:     Female: Finance and insurance, and real estate and rental and leasing: Real estate and rental and leasing
+        JRGM044:     Female: Professional, scientific, and management, and administrative and waste management services
+        JRGM045:     Female: Professional, scientific, and management, and administrative and waste management services: Professional, scientific, and technical services
+        JRGM046:     Female: Professional, scientific, and management, and administrative and waste management services: Management of companies and enterprises
+        JRGM047:     Female: Professional, scientific, and management, and administrative and waste management services: Administrative and support and waste management services
+        JRGM048:     Female: Educational services, and health care and social assistance
+        JRGM049:     Female: Educational services, and health care and social assistance: Educational services
+        JRGM050:     Female: Educational services, and health care and social assistance: Health care and social assistance
+        JRGM051:     Female: Arts, entertainment, and recreation, and accommodation and food services
+        JRGM052:     Female: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        JRGM053:     Female: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        JRGM054:     Female: Other services, except public administration
+        JRGM055:     Female: Public administration
+ 
+    Table 10:    Housing Units
+    Universe:    Housing units
+    Source code: B25001
+    NHGIS code:  JRI
+        JRIM001:     Total
+ 
+    Table 11:    Year Structure Built
+    Universe:    Housing units
+    Source code: B25034
+    NHGIS code:  JSD
+        JSDM001:     Total
+        JSDM002:     Built 2005 or later
+        JSDM003:     Built 2000 to 2004
+        JSDM004:     Built 1990 to 1999
+        JSDM005:     Built 1980 to 1989
+        JSDM006:     Built 1970 to 1979
+        JSDM007:     Built 1960 to 1969
+        JSDM008:     Built 1950 to 1959
+        JSDM009:     Built 1940 to 1949
+        JSDM010:     Built 1939 or earlier
+ 
+    Table 12:    Median Year Structure Built
+    Universe:    Housing units
+    Source code: B25035
+    NHGIS code:  JSE
+        JSEM001:     Median year structure built
+ 
+    Table 13:    Tenure by Vehicles Available
+    Universe:    Occupied housing units
+    Source code: B25044
+    NHGIS code:  JSN
+        JSNM001:     Total
+        JSNM002:     Owner occupied
+        JSNM003:     Owner occupied: No vehicle available
+        JSNM004:     Owner occupied: 1 vehicle available
+        JSNM005:     Owner occupied: 2 vehicles available
+        JSNM006:     Owner occupied: 3 vehicles available
+        JSNM007:     Owner occupied: 4 vehicles available
+        JSNM008:     Owner occupied: 5 or more vehicles available
+        JSNM009:     Renter occupied
+        JSNM010:     Renter occupied: No vehicle available
+        JSNM011:     Renter occupied: 1 vehicle available
+        JSNM012:     Renter occupied: 2 vehicles available
+        JSNM013:     Renter occupied: 3 vehicles available
+        JSNM014:     Renter occupied: 4 vehicles available
+        JSNM015:     Renter occupied: 5 or more vehicles available
+ 
+    Table 14:    Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  JS9
+        JS9M001:     Total
+        JS9M002:     No bedroom
+        JS9M003:     No bedroom: With cash rent
+        JS9M004:     No bedroom: With cash rent: Less than $200
+        JS9M005:     No bedroom: With cash rent: $200 to $299
+        JS9M006:     No bedroom: With cash rent: $300 to $499
+        JS9M007:     No bedroom: With cash rent: $500 to $749
+        JS9M008:     No bedroom: With cash rent: $750 to $999
+        JS9M009:     No bedroom: With cash rent: $1,000 or more
+        JS9M010:     No bedroom: No cash rent
+        JS9M011:     1 bedroom
+        JS9M012:     1 bedroom: With cash rent
+        JS9M013:     1 bedroom: With cash rent: Less than $200
+        JS9M014:     1 bedroom: With cash rent: $200 to $299
+        JS9M015:     1 bedroom: With cash rent: $300 to $499
+        JS9M016:     1 bedroom: With cash rent: $500 to $749
+        JS9M017:     1 bedroom: With cash rent: $750 to $999
+        JS9M018:     1 bedroom: With cash rent: $1,000 or more
+        JS9M019:     1 bedroom: No cash rent
+        JS9M020:     2 bedrooms
+        JS9M021:     2 bedrooms: With cash rent
+        JS9M022:     2 bedrooms: With cash rent: Less than $200
+        JS9M023:     2 bedrooms: With cash rent: $200 to $299
+        JS9M024:     2 bedrooms: With cash rent: $300 to $499
+        JS9M025:     2 bedrooms: With cash rent: $500 to $749
+        JS9M026:     2 bedrooms: With cash rent: $750 to $999
+        JS9M027:     2 bedrooms: With cash rent: $1,000 or more
+        JS9M028:     2 bedrooms: No cash rent
+        JS9M029:     3 or more bedrooms
+        JS9M030:     3 or more bedrooms: With cash rent
+        JS9M031:     3 or more bedrooms: With cash rent: Less than $200
+        JS9M032:     3 or more bedrooms: With cash rent: $200 to $299
+        JS9M033:     3 or more bedrooms: With cash rent: $300 to $499
+        JS9M034:     3 or more bedrooms: With cash rent: $500 to $749
+        JS9M035:     3 or more bedrooms: With cash rent: $750 to $999
+        JS9M036:     3 or more bedrooms: With cash rent: $1,000 or more
+        JS9M037:     3 or more bedrooms: No cash rent
+ 
+    Table 15:    Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25070
+    NHGIS code:  JTB
+        JTBM001:     Total
+        JTBM002:     Less than 10.0 percent
+        JTBM003:     10.0 to 14.9 percent
+        JTBM004:     15.0 to 19.9 percent
+        JTBM005:     20.0 to 24.9 percent
+        JTBM006:     25.0 to 29.9 percent
+        JTBM007:     30.0 to 34.9 percent
+        JTBM008:     35.0 to 39.9 percent
+        JTBM009:     40.0 to 49.9 percent
+        JTBM010:     50.0 percent or more
+        JTBM011:     Not computed
+ 
+    Table 16:    Lower Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25076
+    NHGIS code:  JTH
+        JTHM001:     Lower value quartile (dollars)
+ 
+    Table 17:    Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  JTI
+        JTIM001:     Median value (dollars)
+ 
+    Table 18:    Upper Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25078
+    NHGIS code:  JTJ
+        JTJM001:     Upper value quartile (dollars)
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Jonathan Schroeder, David Van Riper, Steven Manson, Katherine Knowles, Tracy Kugler, Finn Roberts, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 20.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2025. 
+        http://doi.org/10.18128/D050.V20.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455

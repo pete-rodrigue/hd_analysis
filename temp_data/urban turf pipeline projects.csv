@@ -1,0 +1,896 @@
+name,size,address,address_clean,number_and_street,City,State,zip,link,lat,lon,confidence,confidence_city_level,confidence_street_level,confidence_building_level,manually checked,manually edited
+600 Fifth,364,"600 5th Street NW
+ Washington, DC 20001","600 5th Street NW, Washington, DC 20001",600 5th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/835/600_Fifth,38.897461,-77.019034,1,1,1,1,,
+Skyland Town Center Condominium (Final Phase),24,"2704 Marion Barry Ave SE
+ Washington, DC 20020","2704 Marion Barry Ave SE, Washington, DC 20020",2704 Marion Barry Ave SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1289/Skyland_Town_Center_Condominium_Final_Phase,38.86043168,-76.96833968,1,1,1,1,,
+Bridge District Phase 2,272,"633 Howard Road SE
+ Washington, DC 20020","633 Howard Road SE, Washington, DC 20020",633 Howard Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1288/Bridge_District_Phase_2,38.86475626,-77.00037309,1,1,1,1,,
+Bridge District Phase 1,1575,"633 Howard Road SE
+ Washington, DC 20020","633 Howard Road SE, Washington, DC 20020",633 Howard Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1195/Bridge_District_Phase_1,38.86475626,-77.00037309,1,1,1,1,,
+Hampton East 2,28,"4750 Benning Rd SE
+ Washington, DC 20019","4750 Benning Rd SE, Washington, DC 20019",4750 Benning Rd SE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/1287/Hampton_East_2,38.8835546,-76.93215905,1,1,1,1,,
+5M,651,"5 M Street SW
+ Washington, DC 20003","5 M Street SW, Washington, DC 20003",5 M Street SW,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1191/5M,38.87637639,-77.00953786,1,1,1,1,,
+7050 Eastern Avenue NW,80,"7050 Eastern Avenue NW
+ Washington, DC 20012","7050 Eastern Avenue NW, Washington, DC 20012",7050 Eastern Avenue NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1064/7050_Eastern_Avenue_NW,38.9772098,-77.01786019,1,1,1,1,,
+Cycle House,18,"1520 North Capitol Street NW
+ Washington, DC 20002","1520 North Capitol Street NW, Washington, DC 20002",1520 North Capitol Street NW,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1166/Cycle_House,38.90986143,-77.00921963,1,1,1,1,,
+1801-1805 Maryland Avenue NE,28,"1801 Maryland Ave NE
+ Washington, DC 20002","1801 Maryland Ave NE, Washington, DC 20002",1801 Maryland Ave NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/926/18011805_Maryland_Avenue_NE,38.9022092,-76.97750697,1,1,1,1,,
+Friendship Center Redevelopment,350,"5333 Wisconsin Avenue
+ Washington, DC 20015","5333 Wisconsin Avenue, Washington, DC 20015",5333 Wisconsin Avenue,Washington,District of Columbia,20015,https://dc.urbanturf.com/pipeline/1017/Friendship_Center_Redevelopment,38.95972965,-77.08456375,0.9,1,0.9,0.9,,
+Deanwood Town Center,1383,"5110-5140 Nannie Helen Burroughs Avenue NE
+ Washington, DC 20019","5110-5140 Nannie Helen Burroughs Avenue NE, Washington, DC 20019",5110-5140 Nannie Helen Burroughs Avenue NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/758/Deanwood_Town_Center,38.8983022,-76.9179725,0.5,1,1,,,
+Manna Mixed-Use,90,"600 S Street NW
+ Washington, DC 20001","600 S Street NW, Washington, DC 20001",600 S Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1150/Manna_MixedUse,38.914008,-77.020055,1,1,1,1,,
+Portals IV,356,"1311 Maryland Avenue SW
+ Washington, DC 20024","1311 Maryland Avenue SW, Washington, DC 20024",1311 Maryland Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1044/Portals_IV,38.88455367,-77.02897867,1,1,1,1,,
+Westminster Church Living,222,"400 Eye Street SW
+ Washington, DC 20024","400 Eye Street SW, Washington, DC 20024",400 Eye Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1042/Westminster_Church_Living,38.87899078,-77.01823322,0,1,,0,1,1
+2715 M Street NW,36,"2715 M Street NW
+ Washington, DC 20007","2715 M Street NW, Washington, DC 20007",2715 M Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1104/2715_M_Street_NW,38.9054046,-77.0565584,1,1,1,1,,
+Urby,478,"1331 Yards Pl SE
+ Washington, DC 20003","1331 Yards Pl SE, Washington, DC 20003",1331 Yards Pl SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/490/Urby,38.874284,-77.004975,1,1,1,1,,
+Workforce Townhouses,26,"1004-1018 Howard Road SE
+ Washington, DC 20020","1004-1018 Howard Road SE, Washington, DC 20020",1004-1018 Howard Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/976/Workforce_Townhouses,38.86293633,-76.99604596,0.9,1,1,0.9,,
+Shalom House Redevelopment,73,"1801 4th Street NE
+ Washington, DC 20002","1801 4th Street NE, Washington, DC 20002",1801 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1175/Shalom_House_Redevelopment,38.914948,-77.000462,1,1,1,1,,
+2816-2818 Georgia Avenue NW,10,"2816-2818 Georgia Avenue NW
+ Washington, DC 20001","2816-2818 Georgia Avenue NW, Washington, DC 20001",2816-2818 Georgia Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1173/28162818_Georgia_Avenue_NW,38.92644515,-77.02313691,0.9,1,1,0.9,,
+2914 Sherman Avenue NW,18,"2914 Sherman Avenue NW
+ Washington, DC 20001","2914 Sherman Avenue NW, Washington, DC 20001",2914 Sherman Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/292/2914_Sherman_Avenue_NW,38.92723815,-77.026356,1,1,1,1,,
+Airdome,50,"1101 H Street NE
+ Washington, DC 20002","1101 H Street NE, Washington, DC 20002",1101 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/860/Airdome,38.900118,-76.991368,1,1,1,1,,
+1714-1716 14th Street NW,8,"1714-1716 14th Street NW
+ Washington, DC 20009","1714-1716 14th Street NW, Washington, DC 20009",1714-1716 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/746/17141716_14th_Street_NW,38.91320265,-77.03229377,0.7,1,1,0.7,1,1
+4801 Sargent Road NE,166,"4801 Sargent Road NE
+ Washington, DC 20017","4801 Sargent Road NE, Washington, DC 20017",4801 Sargent Road NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/1284/4801_Sargent_Road_NE,38.9483287,-76.98601196,1,1,1,1,,
+Accolade,255,"1425 New York Avenue NW
+ Washington, DC 20005","1425 New York Avenue NW, Washington, DC 20005",1425 New York Avenue NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/1016/Accolade,38.89929184,-77.03248359,1,1,1,1,,
+Kenilworth Courts Redevelopment,530,"4500 Quarles Street NE
+ Washington, DC 20019","4500 Quarles Street NE, Washington, DC 20019",4500 Quarles Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/586/Kenilworth_Courts_Redevelopment,38.9122953,-76.93652298,1,1,1,1,,
+The Residences At Mazza,321,"5300 Wisconsin Ave NW
+ Washington, DC 20015","5300 Wisconsin Ave NW, Washington, DC 20015",5300 Wisconsin Ave NW,Washington,District of Columbia,20015,https://dc.urbanturf.com/pipeline/1241/The_Residences_At_Mazza,38.960176,-77.085538,1,1,1,1,,
+2 Patterson Street,600,"2 Patterson Street NE
+ Washington, DC 20002","2 Patterson Street NE, Washington, DC 20002",2 Patterson Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/932/2_Patterson_Street,38.906531,-77.008681,1,1,1,1,,
+2420 and 2422 Martin Luther King Jr. Ave SE,44,"2420 Martin Luther King Jr Avenue SE
+ Washington, DC 20020","2420 Martin Luther King Jr Avenue SE, Washington, DC 20020",2420 Martin Luther King Jr Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1196/2420_and_2422_Martin_Luther_King_Jr_Ave_SE,38.86218495,-76.99280135,1,1,1,1,,
+Salvation Army Headquarters Redevelopment,32,"2626 Pennsylvania Avenue NW
+ Washington, DC 20037","2626 Pennsylvania Avenue NW, Washington, DC 20037",2626 Pennsylvania Avenue NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/1160/Salvation_Army_Headquarters_Redevelopment,38.9040243,-77.0553998,1,1,1,1,,
+1625 Massachusetts Avenue NW,157,"1625 Massachusetts Avenue NW
+ Washington, DC 20036","1625 Massachusetts Avenue NW, Washington, DC 20036",1625 Massachusetts Avenue NW,Washington,District of Columbia,20036,https://dc.urbanturf.com/pipeline/1172/1625_Massachusetts_Avenue_NW,38.9081322,-77.03802107,1,1,1,1,,
+1133 19th Street NW,181,"1133 19th Street NW
+ Washington, DC 20036","1133 19th Street NW, Washington, DC 20036",1133 19th Street NW,Washington,District of Columbia,20036,https://dc.urbanturf.com/pipeline/1176/1133_19th_Street_NW,38.90478375,-77.04293773,1,1,1,1,,
+Coda on Half,161,"41 L Street SE
+ Washington, DC 20003","41 L Street SE, Washington, DC 20003",41 L Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/359/Coda_on_Half,38.87744458,-77.00830982,1,1,1,1,,
+The Frederick and The Douglass,750,"633 Howard Road SE
+ Washington, DC 20020","633 Howard Road SE, Washington, DC 20020",633 Howard Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1211/The_Frederick_and_The_Douglass,38.86475626,-77.00037309,1,1,1,1,,
+1725 Montello Ave NE,17,"1725 Montello Avenue NE
+ Washington, DC 20002","1725 Montello Avenue NE, Washington, DC 20002",1725 Montello Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1193/1725_Montello_Ave_NE,38.9096872,-76.9850351,1,1,1,1,,
+District Co-Living,59,"1126 9th Street NW
+ Washington, DC 20001","1126 9th Street NW, Washington, DC 20001",1126 9th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/451/District_CoLiving,38.905219,-77.02429142,1,1,1,1,,
+509-517 H Street NW,85,"509 H Street NW
+ Washington, DC 20001","509 H Street NW, Washington, DC 20001",509 H Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1099/509517_H_Street_NW,38.89989235,-77.01914312,1,1,1,1,,
+Ontario Place,52,"2400 Ontario Road NW
+ Washington, DC 20009","2400 Ontario Road NW, Washington, DC 20009",2400 Ontario Road NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1101/Ontario_Place,38.9217438,-77.04024624,1,1,1,1,,
+Reservoir District,280,"2707 First Street NW
+ Washington, DC 20001","2707 First Street NW, Washington, DC 20001",2707 First Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1188/Reservoir_District,38.9245366,-77.0118228,1,1,1,1,,
+1401 Florida Avenue NE,28,"1401 Florida Avenue NE
+ Washington, DC 20002","1401 Florida Avenue NE, Washington, DC 20002",1401 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/382/1401_Florida_Avenue_NE,38.9004237,-76.985283,1,1,1,1,,
+Georgetown West Heating Plant,70,"1051-1055 29th Street NW
+ Washington, DC 20007","1051-1055 29th Street NW, Washington, DC 20007",1051-1055 29th Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/349/Georgetown_West_Heating_Plant,38.90360479,-77.05740225,0.7,1,1,0.7,1,1
+The Calloway,39,"2005 11th Street NW
+ Washington, DC 20001","2005 11th Street NW, Washington, DC 20001",2005 11th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1149/The_Calloway,38.91715735,-77.02692965,1,1,1,1,,
+District Towns at St. Elizabeths East,88,"1127 Sycamore Drive SE
+ Washington, DC 20032","1127 Sycamore Drive SE, Washington, DC 20032",1127 Sycamore Drive SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/1000/District_Towns_at_St_Elizabeths_East,38.8445858,-76.9910805,1,1,1,1,,
+The Lamont,9,"3225 Georgia Avenue NW
+ Washington, DC 20010","3225 Georgia Avenue NW, Washington, DC 20010",3225 Georgia Avenue NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/622/The_Lamont,38.9310542,-77.023294,1,1,1,1,,
+The Seven,32,"7700 Georgia Avenue NW
+ Washington, DC 20012","7700 Georgia Avenue NW, Washington, DC 20012",7700 Georgia Avenue NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/991/The_Seven,38.9827987,-77.0267432,1,1,1,1,,
+The Mayfair Residences,22,"1335 11th St NW
+ Washington, DC 20001","1335 11th St NW, Washington, DC 20001",1335 11th St NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1252/The_Mayfair_Residences,38.9083656,-77.02677177,1,1,1,1,,
+2009 18th Street NW,31,"2009 18th Street NW
+ Washington, DC 20009","2009 18th Street NW, Washington, DC 20009",2009 18th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1276/2009_18th_Street_NW,38.91751795,-77.04131946,1,1,1,1,,
+The Arbor at Takoma,36,"218 Cedar Street NW
+ Washington, DC 20012","218 Cedar Street NW, Washington, DC 20012",218 Cedar Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/854/The_Arbor_at_Takoma,38.9753663,-77.01602334,1,1,1,1,,
+1208 M Street,14,"1208 M Street NW
+ Washington, DC 20005","1208 M Street NW, Washington, DC 20005",1208 M Street NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/1223/1208_M_Street,38.905414,-77.028633,1,1,1,1,,
+The RiviÃ¨re,20,"2305 Nicholson Street SE
+ Washington, DC 20020","2305 Nicholson Street SE, Washington, DC 20020",2305 Nicholson Street SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1214/The_Rivire,38.873142,-76.9732854,1,1,1,1,,
+Claret,127,"950 3rd Street NW
+ Washington, DC 20001","950 3rd Street NW, Washington, DC 20001",950 3rd Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1213/Claret,38.90193311,-77.0152824,1,1,1,1,,
+Cotton Annex Redevelopment,564,"300 12th Street SW
+ Washington, DC 20024","300 12th Street SW, Washington, DC 20024",300 12th Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/992/Cotton_Annex_Redevelopment,38.885543,-77.0277485,1,1,1,1,,
+BEARDEN ARTS ON H,20,"1341 H Street NE
+ Washington, DC 20002","1341 H Street NE, Washington, DC 20002",1341 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/604/BEARDEN_ARTS_ON_H,38.9000327,-76.98680213,1,1,1,1,,
+1447 Maryland Avenue NE,9,"1447 Maryland Avenue NE
+ Washington, DC 20002","1447 Maryland Avenue NE, Washington, DC 20002",1447 Maryland Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/892/1447_Maryland_Avenue_NE,38.89959085,-76.98392632,1,1,1,1,,
+Barracks View,1-,"733 8th Street SE
+ Washington, DC 20003","733 8th Street SE, Washington, DC 20003",733 8th Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1170/Barracks_View,38.88009575,-76.99528045,1,1,1,1,,
+The Yards Phase II,1200,"3rd Street SE & Tingey Street SE
+ Washington, DC 20003","3rd Street SE & Tingey Street SE, Washington, DC 20003",3rd Street SE & Tingey Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1013/The_Yards_Phase_II,38.875018,-77.002402,0.9,1,0.9,,,
+The Langston,204,"1840 7th Street NW
+ Washington, DC 20001","1840 7th Street NW, Washington, DC 20001",1840 7th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1007/The_Langston,38.915345,-77.022155,1,1,1,1,,
+The Topanga,4,"1631 13th Street NW
+ Washington, DC 20009","1631 13th Street NW, Washington, DC 20009",1631 13th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1203/The_Topanga,38.912043,-77.029308,1,1,1,1,,
+Brookland Lanes,337,"3726 10th Street NE
+ Washington, DC 20017","3726 10th Street NE, Washington, DC 20017",3726 10th Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/1098/Brookland_Lanes,38.93596101,-76.99308631,1,1,1,1,,
+Modera H Street,325,"801 17th Street NE
+ Washington, DC 20002","801 17th Street NE, Washington, DC 20002",801 17th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1189/Modera_H_Street,38.900317,-76.978936,1,1,1,1,,
+The Geneva,500,"1825-1875 Connecticut Avenue NW
+ Washington, DC 20009","1825-1875 Connecticut Avenue NW, Washington, DC 20009",1825-1875 Connecticut Avenue NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1090/The_Geneva,38.9150452,-77.0459577,0.9,1,1,0.9,,
+Cyprus on Vine,35,"225 Vine Street NW
+ Washington, DC 20012","225 Vine Street NW, Washington, DC 20012",225 Vine Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/894/Cyprus_on_Vine,38.97395642,-77.01582585,1,1,1,1,,
+45 Q,60,"45 Q Street SW
+ Washington, DC 20024","45 Q Street SW, Washington, DC 20024",45 Q Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1046/45_Q,38.8712403,-77.01037937,1,1,1,1,,
+301 M,187,"301 M Street SW
+ Washington, DC 20024","301 M Street SW, Washington, DC 20024",301 M Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/550/301_M,38.876378,-77.0163697,1,1,1,1,,
+The Claire,26,"4111 Connecticut Avenue NW
+ Washington, DC 20008","4111 Connecticut Avenue NW, Washington, DC 20008",4111 Connecticut Avenue NW,Washington,District of Columbia,20008,https://dc.urbanturf.com/pipeline/1051/The_Claire,38.94265545,-77.06224554,1,1,1,1,,
+3836-3848 South Capitol Street SE,106,"3836-3848 South Capitol Street SE
+ Washington, DC 20032","3836-3848 South Capitol Street SE, Washington, DC 20032",3836-3848 South Capitol Street SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/939/38363848_South_Capitol_Street_SE,38.83406325,-77.00793804,0.9,1,1,0.9,,
+Parcel B at Audi Field,455,"100 S Street SW
+ Washington, DC 20024","100 S Street SW, Washington, DC 20024",100 S Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/902/Parcel_B_at_Audi_Field,38.86824631,-77.00939352,0.5,1,1,0,,
+Weaver's Row,115,"3220 Prospect Street NW
+ Washington, DC 20007","3220 Prospect Street NW, Washington, DC 20007",3220 Prospect Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1031/Weavers_Row,38.9057263,-77.063868,1,1,1,1,,
+3300 Whitehaven Street,265,"3300 Whitehaven Street NW
+ Washington, DC 20007","3300 Whitehaven Street NW, Washington, DC 20007",3300 Whitehaven Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1024/3300_Whitehaven_Street,38.917119,-77.067295,1,1,1,1,,
+101 Tingey Street,127,"101 Tingey Street
+ Washington, DC 20003","101 Tingey Street, Washington, DC 20003",101 Tingey Street,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1247/101_Tingey_Street,38.875075,-77.003216,0.9,1,0.9,0.9,,
+Paxton Apartments,285,"1611 Benning Road NE
+ Washington, DC 20002","1611 Benning Road NE, Washington, DC 20002",1611 Benning Road NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/501/Paxton_Apartments,38.8995028,-76.9810615,1,1,1,1,,
+Northeast Heights,1500,"322 40th Street NE
+ Washington, DC 20019","322 40th Street NE, Washington, DC 20019",322 40th Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/931/Northeast_Heights,38.893132,-76.9474549,1,1,1,1,,
+Brass Knob Warehouse Redevelopment,31,"2329 Champlain Street NW
+ Washington, DC 20009","2329 Champlain Street NW, Washington, DC 20009",2329 Champlain Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1103/Brass_Knob_Warehouse_Redevelopment,38.9211992,-77.0409156,1,1,1,1,,
+Cantata,351,"801 3rd Street NW
+ Washington, DC 20001","801 3rd Street NW, Washington, DC 20001",801 3rd Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/702/Cantata,38.900388,-77.01507,1,1,1,1,,
+St. Elizabeths East: Parcel 13,421,"1100 Alabama Ave SE
+ Washington, DC 20032","1100 Alabama Ave SE, Washington, DC 20032",1100 Alabama Ave SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/1164/St_Elizabeths_East_Parcel_13,38.8483075,-76.9869176,1,1,1,1,,
+The Parks at Walter Reed: Parcels A-G,143,"Georgia Avenue and Fern Street NW
+ Washington, DC 20012","Georgia Avenue and Fern Street NW, Washington, DC 20012",Georgia Avenue and Fern Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1140/The_Parks_at_Walter_Reed_Parcels_AG,38.97810346,-77.02664066,0,1,,,1,1
+1515 9th Street NW,45,"1515 9th Street NW
+ Washington, DC 20001","1515 9th Street NW, Washington, DC 20001",1515 9th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1152/1515_9th_Street_NW,38.909945,-77.023864,1,1,1,1,,
+17 Mississippi Avenue,41,"17 Mississippi Avenue SE
+ Washington, DC 20032","17 Mississippi Avenue SE, Washington, DC 20032",17 Mississippi Avenue SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/955/17_Mississippi_Avenue,38.8318279,-77.00703269,1,1,1,1,,
+Emblem,115,"301 Florida Avenue NE
+ Washington, DC 20002","301 Florida Avenue NE, Washington, DC 20002",301 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/474/Emblem,38.907666,-77.001925,1,1,1,1,,
+1610 Columbia Road NW,32,"1610 Columbia Road NW
+ Washington, DC 20009","1610 Columbia Road NW, Washington, DC 20009",1610 Columbia Road NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1233/1610_Columbia_Road_NW,38.92600578,-77.03721406,1,1,1,1,,
+Deanwood Metro Redevelopment,169,"4880 Minnesota Avenue NE
+ Washington, DC 20019","4880 Minnesota Avenue NE, Washington, DC 20019",4880 Minnesota Avenue NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/782/Deanwood_Metro_Redevelopment,38.908838,-76.933196,1,1,1,1,,
+The Bard,136,"501 I Street SW
+ Washington, DC 20024","501 I Street SW, Washington, DC 20024",501 I Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/525/The_Bard,38.879368,-77.019041,1,1,1,1,,
+1100 South Capitol,263,"1100 South Capitol Street SE
+ Washington, DC 20003","1100 South Capitol Street SE, Washington, DC 20003",1100 South Capitol Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1109/1100_South_Capitol,38.878296,-77.009229,1,1,1,1,,
+Heritage at Shaw Station,316,"1707 8th Street NW
+ Washington, DC 20001","1707 8th Street NW, Washington, DC 20001",1707 8th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1151/Heritage_at_Shaw_Station,38.9131164,-77.02270408,1,1,1,1,,
+Crummell School Redevelopment,320,"1900 Gallaudet Street NE
+ Washington, DC 20002","1900 Gallaudet Street NE, Washington, DC 20002",1900 Gallaudet Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/637/Crummell_School_Redevelopment,38.9135573,-76.9861992,1,1,1,1,,
+J Coopers Row,312,"1319 South Capitol Street SW
+ Washington, DC 20003","1319 South Capitol Street SW, Washington, DC 20003",1319 South Capitol Street SW,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/429/J_Coopers_Row,38.8742441,-77.00975894,1,1,1,1,,
+2525 Penn,15,"2525 Pennsylvania Avenue NW
+ Washington, DC 20037","2525 Pennsylvania Avenue NW, Washington, DC 20037",2525 Pennsylvania Avenue NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/1146/2525_Penn,38.9041477,-77.05393637,1,1,1,1,,
+Crawford Landing Townhomes,28,"4900-4910 East Capitol Street NE
+ Washington, DC 20019","4900-4910 East Capitol Street NE, Washington, DC 20019",4900-4910 East Capitol Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/1186/Crawford_Landing_Townhomes,38.89000859,-76.93265076,0.5,1,1,,1,1
+The Heritage DC,43,"2027 Rhode Island Ave NE
+ Washington, DC 20018","2027 Rhode Island Ave NE, Washington, DC 20018",2027 Rhode Island Ave NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/629/The_Heritage_DC,38.92938964,-76.97584352,1,1,1,1,,
+Intersect at O Townhomes,5,"1336 8th Street NW
+ Washington, DC 20001","1336 8th Street NW, Washington, DC 20001",1336 8th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1139/Intersect_at_O_Townhomes,38.908286,-77.0231336,1,1,1,1,,
+Parkside,1500,"Parkside Place NE
+ Washington, DC 20019","Parkside Place NE, Washington, DC 20019",Parkside Place NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/585/Parkside,38.90000195,-76.94968402,1,1,1,,,
+The Villages at Dakota Crossing,413,"3810 Fort Lincoln Drive NE
+ Washington, DC 20018","3810 Fort Lincoln Drive NE, Washington, DC 20018",3810 Fort Lincoln Drive NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/179/The_Villages_at_Dakota_Crossing,38.92236668,-76.95168751,1,1,1,1,,
+Penn and 4th,375,"1345 4th Street NE
+ Washington, DC 20002","1345 4th Street NE, Washington, DC 20002",1345 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1058/Penn_and_4th,38.9102205,-76.99786482,1,1,1,1,,
+2715 Pennsylvania Avenue NW,7,"2715 Pennsylvania Avenue NW
+ Washington, DC 20007","2715 Pennsylvania Avenue NW, Washington, DC 20007",2715 Pennsylvania Avenue NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/460/2715_Pennsylvania_Avenue_NW,38.90451176,-77.05610011,1,1,1,1,,
+471 H Street NW,46,"471-473 H Street NW
+ Washington, DC 20002","471-473 H Street NW, Washington, DC 20002",471-473 H Street NW,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1226/471_H_Street_NW,38.900043,-77.018511,1,1,1,1,,
+The Ana Townhomes at Howard Road,20,"1038 Howard Road SE
+ Washington, DC 20020","1038 Howard Road SE, Washington, DC 20020",1038 Howard Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1264/The_Ana_Townhomes_at_Howard_Road,38.86271172,-76.99537256,1,1,1,1,,
+Eastern Branch Boys and Girls Clubs Redevelopment,34,"261 17th Street SE
+ Washington, DC 20003","261 17th Street SE, Washington, DC 20003",261 17th Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/764/Eastern_Branch_Boys_and_Girls_Clubs_Redevelopment,38.88567315,-76.98109012,1,1,1,1,,
+Eckington Mews,26,"1710 1st Street NE
+ Washington, DC 20002","1710 1st Street NE, Washington, DC 20002",1710 1st Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1183/Eckington_Mews,38.9131468,-77.00680139,1,1,1,1,,
+3215 Mount Pleasant Street NW,9,"3215 Mount Pleasant Street NW
+ Washington, DC 20010","3215 Mount Pleasant Street NW, Washington, DC 20010",3215 Mount Pleasant Street NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/1263/3215_Mount_Pleasant_Street_NW,38.9316575,-77.03827197,1,1,1,1,,
+Parcel HK,62,"Dahlia and 13th Street NW
+ Washington, DC 20012","Dahlia and 13th Street NW, Washington, DC 20012",Dahlia and 13th Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1262/Parcel_HK,38.9758257,-77.03188445,0,1,,,1,1
+Parcel Z Townhouses,37,"7150 12th St NW
+ Washington, DC 20012","7150 12th St NW, Washington, DC 20012",7150 12th St NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1261/Parcel_Z_Townhouses,38.97656545,-77.02834528,1,1,1,1,,
+The Glade on Laurel,356,"6896 Laurel Street NW
+ Washington, DC 20012","6896 Laurel Street NW, Washington, DC 20012",6896 Laurel Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1136/The_Glade_on_Laurel,38.97373715,-77.01347893,1,1,1,1,,
+Beech Tree Place,65,"7428 Georgia Avenue NW
+ Washington, DC 20012","7428 Georgia Avenue NW, Washington, DC 20012",7428 Georgia Avenue NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1138/Beech_Tree_Place,38.97997143,-77.02658461,1,1,1,1,,
+The Faircliff,125,"2601 14th Street NW
+ Washington, DC 20009","2601 14th Street NW, Washington, DC 20009",2601 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1093/The_Faircliff,38.923892,-77.03205,1,1,1,1,,
+NOVEL 14th Street,197,"2601 14th Street NW
+ Washington, DC 20009","2601 14th Street NW, Washington, DC 20009",2601 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1094/NOVEL_14th_Street,38.923892,-77.03205,1,1,1,1,,
+The Clara,81,"2315 Martin Luther King Jr. Ave SE
+ Washington, DC 20020","2315 Martin Luther King Jr. Ave SE, Washington, DC 20020",2315 Martin Luther King Jr. Ave SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/891/The_Clara,38.8632003,-76.9918493,1,1,1,1,,
+Ozma,275,"44 M Street NE
+ Washington, DC 20002","44 M Street NE, Washington, DC 20002",44 M Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/969/Ozma,38.90572421,-77.00757356,1,1,1,1,,
+The Blagden,123,"917 M Street NW
+ Washington, DC 20001","917 M Street NW, Washington, DC 20001",917 M Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/347/The_Blagden,38.9062048,-77.0248285,1,1,1,1,,
+Europa,49,"818 Potomac Avenue SE
+ Washington, DC 20003","818 Potomac Avenue SE, Washington, DC 20003",818 Potomac Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/733/Europa,38.8769345,-76.99480564,1,1,1,1,,
+4201 Garrison Street NW,127,"4201 Garrison Street NW
+ Washington, DC 20016","4201 Garrison Street NW, Washington, DC 20016",4201 Garrison Street NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/1206/4201_Garrison_Street_NW,38.956038,-77.082184,1,1,1,1,,
+The 202,254,"202 Florida Avenue NE
+ Washington, DC 20002","202 Florida Avenue NE, Washington, DC 20002",202 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1071/The_202,38.90839453,-77.00320723,1,1,1,1,,
+The Florian,388,"1 Florida Avenue NE
+ Washington, DC 20002","1 Florida Avenue NE, Washington, DC 20002",1 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1066/The_Florian,38.91065,-77.008943,1,1,1,1,,
+Pinnacle Apartments,116,"7 New York Avenue NE
+ Studio, one-bedroom and one-bedroom and den apartments
+ Washington, DC 20002","7 New York Avenue NE, Studio, one-bedroom and one-bedroom and den apartments, Washington, DC 20002",7 New York Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1068/Pinnacle_Apartments,38.90744685,-77.00811836,1,1,1,1,,
+Capitol Rose,158,"1733 16th Street NW
+ Washington, DC 20009","1733 16th Street NW, Washington, DC 20009",1733 16th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1163/Capitol_Rose,38.91370445,-77.03579097,1,1,1,1,,
+Banner Lane,561,"44 Banner Ln
+ Washington, DC 20001","44 Banner Ln, Washington, DC 20001",44 Banner Ln,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1258/Banner_Lane,38.90443666,-77.01083385,1,1,1,1,,
+Sursum Corda Redevelopment,560,"M Street NW & 1st Street NW
+ Washington, DC 20001","M Street NW & 1st Street NW, Washington, DC 20001",M Street NW & 1st Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/472/Sursum_Corda_Redevelopment,38.90555456,-77.01238538,0.5103,1,0.5103,,1,1
+Peninsula 88,110,"88 V Street SW
+ Washington, DC 20593","88 V Street SW, Washington, DC 20593",88 V Street SW,Washington,District of Columbia,20593,https://dc.urbanturf.com/pipeline/614/Peninsula_88,38.86454401,-77.01190638,1,1,1,1,,
+Link Apartments on H Street,191,"1701 H Street NE
+ Washington, DC 20002","1701 H Street NE, Washington, DC 20002",1701 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/613/Link_Apartments_on_H_Street,38.8997195,-76.97893348,1,1,1,1,,
+The Byron,158,"101 V Street SW
+ Washington, DC 20024","101 V Street SW, Washington, DC 20024",101 V Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1242/The_Byron,38.864706,-77.012346,1,1,1,1,,
+The Stacks,2000+,"100 V Street SW
+ Washington, DC 20024","100 V Street SW, Washington, DC 20024",100 V Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/901/The_Stacks,38.864542,-77.012338,1,1,1,1,,
+Concrete Plant Redevelopment,434,"1700 Half Street SW
+ Washington, DC 20024","1700 Half Street SW, Washington, DC 20024",1700 Half Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1125/Concrete_Plant_Redevelopment,38.868119,-77.010586,1,1,1,1,,
+The Vermeer,501,"113 Potomac Avenue SW
+ Washigton, DC 20024","113 Potomac Avenue SW, Washigton, DC 20024",113 Potomac Avenue SW,Washigton,District of Columbia,20024,https://dc.urbanturf.com/pipeline/899/The_Vermeer,38.86990231,-77.01136585,1,1,1,1,,
+MDXL Flats,101,"1530 First Street SW
+ Washington, DC 20024","1530 First Street SW, Washington, DC 20024",1530 First Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1124/MDXL_Flats,38.87122045,-77.01183513,1,1,1,1,,
+Hechinger Mall Redevelopment,TBD,"1501 Maryland Avenue NE
+ Washington, DC 20002","1501 Maryland Avenue NE, Washington, DC 20002",1501 Maryland Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/861/Hechinger_Mall_Redevelopment,38.9003086,-76.9817264,1,1,1,1,,
+Tribeca NoMa,99,"40 N Street NE
+ Washington, DC 20002","40 N Street NE, Washington, DC 20002",40 N Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/842/Tribeca_NoMa,38.90755405,-77.00714525,1,1,1,1,,
+3601 M Street NW,21,"3601 M Street NW
+ Washington, DC 20007","3601 M Street NW, Washington, DC 20007",3601 M Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/71/3601_M_Street_NW,38.905109,-77.069966,1,1,1,1,,
+450 5th Street NW,500,"450 5th Street NW
+ Washington, DC 20530","450 5th Street NW, Washington, DC 20530",450 5th Street NW,Washington,District of Columbia,20530,https://dc.urbanturf.com/pipeline/1251/450_5th_Street_NW,38.89547651,-77.01903502,1,1,1,1,,
+Vivre,49,"1224 M Street NW
+ Washington, DC 20005","1224 M Street NW, Washington, DC 20005",1224 M Street NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/893/Vivre,38.905434,-77.028958,1,1,1,1,,
+Lisner-Louise Dickson-Hurt Home Senior Housing,93,"5425 Western Avenue
+ Washington, DC 20015","5425 Western Avenue, Washington, DC 20015",5425 Western Avenue,Washington,District of Columbia,20015,https://dc.urbanturf.com/pipeline/988/LisnerLouise_DicksonHurt_Home_Senior_Housing,38.961973,-77.083212,0.9,1,0.9,0.9,,
+Greenleaf Gardens Redevelopment,"1,410","203 N Street SW
+ Washington, DC 20024","203 N Street SW, Washington, DC 20024",203 N Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/905/Greenleaf_Gardens_Redevelopment,38.87506,-77.013833,1,1,1,1,,
+Intersect at O Apartments,74,"1336 8th Street NW
+ Washington, DC 20001","1336 8th Street NW, Washington, DC 20001",1336 8th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1072/Intersect_at_O_Apartments,38.908286,-77.0231336,1,1,1,1,,
+The Townhomes at Michigan Park,80,"12th & Wynton Street NE
+ Washington, DC 20017","12th & Wynton Street NE, Washington, DC 20017",12th & Wynton Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/600/The_Townhomes_at_Michigan_Park,38.94423742,-76.9900945,0.27783,1,0.27783,,1,1
+The Ladybird,219,"4330 48th Street NW
+ Washington, DC 20016","4330 48th Street NW, Washington, DC 20016",4330 48th Street NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/497/The_Ladybird,38.9458266,-77.0954802,1,1,1,1,,
+The Audra,300,"Rhode Island Ave NE & 13th Street NE
+ Washington, DC 20018","Rhode Island Ave NE & 13th Street NE, Washington, DC 20018",Rhode Island Ave NE & 13th Street NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/917/The_Audra,38.92399371,-76.98829359,0.675,1,0.675,,1,1
+Vela,379,"100 N St SE
+ Washington, DC 20024","100 N St SE, Washington, DC 20024",100 N St SE,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1110/Vela,38.87471886,-77.00699044,1,1,1,1,,
+1805 Wisconsin Avenue NW,9,"1805 Wisconsin Avenue NW
+ Washington, DC 20007","1805 Wisconsin Avenue NW, Washington, DC 20007",1805 Wisconsin Avenue NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1027/1805_Wisconsin_Avenue_NW,38.91490965,-77.0672043,1,1,1,1,,
+1000 and 1050 Thomas Jefferson Street NW,335,"1000 Thomas Jefferson Street NW
+ Washington, DC 20007","1000 Thomas Jefferson Street NW, Washington, DC 20007",1000 Thomas Jefferson Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1177/1000_and_1050_Thomas_Jefferson_Street_NW,38.90280875,-77.06062259,1,1,1,1,,
+Bond Bread Redevelopment,469,"2112-2146 Georgia Avenue NW
+ Washington, DC 20001","2112-2146 Georgia Avenue NW, Washington, DC 20001",2112-2146 Georgia Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1005/Bond_Bread_Redevelopment,38.9179427,-77.02200317,0.9,1,1,0.9,,
+Reverb Apartments,312,"2131 9th Street NW
+ Washington, DC 20001","2131 9th Street NW, Washington, DC 20001",2131 9th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1004/Reverb_Apartments,38.91874645,-77.02368836,1,1,1,1,,
+Seneca House,10,"1471 Florida Ave NW
+ Washington, DC 20009","1471 Florida Ave NW, Washington, DC 20009",1471 Florida Ave NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1114/Seneca_House,38.91972595,-77.03421768,1,1,1,1,,
+25 Potomac Avenue SE,590,"25 Potomac Avenue SE
+ Washington, DC 20003","25 Potomac Avenue SE, Washington, DC 20003",25 Potomac Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1228/25_Potomac_Avenue_SE,38.87165373,-77.00658302,1,1,1,1,,
+Congress Place,62,"1109 Congress Street NE
+ Washington, DC 20002","1109 Congress Street NE, Washington, DC 20002",1109 Congress Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/827/Congress_Place,38.90419185,-77.00259205,1,1,1,1,,
+Riggs Park Place,185,"325 Riggs Road NE
+ Washington, DC 20011","325 Riggs Road NE, Washington, DC 20011",325 Riggs Road NE,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/818/Riggs_Park_Place,38.9580024,-77.0013373,1,1,1,1,,
+2149 P St NW,66,"2149 P Street NW
+ Washington, DC 20001","2149 P Street NW, Washington, DC 20001",2149 P Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/191/2149_P_St_NW,38.909824,-77.0482514,1,1,1,1,,
+Howard Parking Lot Residences,440,"2200 block of Georgia Avenue
+ Washington, DC 20001","2200 block of Georgia Avenue, Washington, DC 20001",2200 block of Georgia Avenue,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1243/Howard_Parking_Lot_Residences,38.91907923,-77.02212934,0.25,1,,,1,1
+The Oliver,93,"2711 Georgia Ave NW
+ Washington, DC 20001","2711 Georgia Ave NW, Washington, DC 20001",2711 Georgia Ave NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1001/The_Oliver,38.92533155,-77.02258241,1,1,1,1,,
+925 5th Street NW,40,"925 5th Street NW
+ Washington, DC 20001","925 5th Street NW, Washington, DC 20001",925 5th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/605/925_5th_Street_NW,38.90167914,-77.01882242,1,1,1,1,,
+501 H Street NE,28,"501 H Street NE
+ Washington, DC 20002","501 H Street NE, Washington, DC 20002",501 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/342/501_H_Street_NE,38.89995645,-76.99910515,1,1,1,1,,
+The Magenta,37,"1200 Bladensburg Road NE
+ Washington, DC 20002","1200 Bladensburg Road NE, Washington, DC 20002",1200 Bladensburg Road NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/928/The_Magenta,38.905564,-76.980118,1,1,1,1,,
+1232 4th,98,"1232 4th Street NE
+ Washington, DC 20002","1232 4th Street NE, Washington, DC 20002",1232 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1076/1232_4th,38.90683168,-77.00069007,1,1,1,1,,
+Crosby,187,"300 K Street NW
+ Washington, DC 20024","300 K Street NW, Washington, DC 20024",300 K Street NW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1078/Crosby,38.902437,-77.015336,1,1,1,1,,
+34Fifty Apartments,49,"3450 Eads Street NE
+ Washington, DC 20019","3450 Eads Street NE, Washington, DC 20019",3450 Eads Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/615/34Fifty_Apartments,38.89564554,-76.95693369,1,1,1,1,,
+Wonder Plaza Redevelopment,280,"2301 Georgia Avenue NW
+ Washington, DC 20001","2301 Georgia Avenue NW, Washington, DC 20001",2301 Georgia Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1003/Wonder_Plaza_Redevelopment,38.9208176,-77.0218718,1,1,1,1,,
+REVEL,500,"1005 First Street NE
+ Washington, DC 20002","1005 First Street NE, Washington, DC 20002",1005 First Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/305/REVEL,38.90335815,-77.00513282,1,1,1,1,,
+The Brooks,89,"6803 Cameron Drive NW
+ Washington, DC 20012","6803 Cameron Drive NW, Washington, DC 20012",6803 Cameron Drive NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/723/The_Brooks,38.97290045,-77.02829766,1,1,1,1,,
+The Hale,500,"1150 First Street NE
+ Washington, DC 20002","1150 First Street NE, Washington, DC 20002",1150 First Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/935/The_Hale,38.90442445,-77.00652461,1,1,1,1,,
+SoNYa,321,"40 Patterson Street NE
+ Washington, DC 20002","40 Patterson Street NE, Washington, DC 20002",40 Patterson Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/933/SoNYa,38.90664735,-77.00770316,1,1,1,1,,
+1603 Good Hope Road SE,60,"1603 Good Hope Road SE
+ Washington, DC 20020","1603 Good Hope Road SE, Washington, DC 20020",1603 Good Hope Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1133/1603_Good_Hope_Road_SE,38.86585515,-76.98170523,1,1,1,1,,
+The Augusta,20,"3831 Georgia Avenue
+ Washington, DC 20011","3831 Georgia Avenue, Washington, DC 20011",3831 Georgia Avenue,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/444/The_Augusta,38.93851755,-77.02431292,0.9,1,0.9,0.9,,
+901 Monroe Street NE,230,"901 Monroe Street NE
+ Washington, DC 20017","901 Monroe Street NE, Washington, DC 20017",901 Monroe Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/266/901_Monroe_Street_NE,38.932331,-76.993526,1,1,1,1,,
+The Jacob,31,"633 21st Street NE
+ Washington, DC 20002","633 21st Street NE, Washington, DC 20002",633 21st Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/927/The_Jacob,38.898149,-76.974067,1,1,1,1,,
+Union Heights,325,"1676 Maryland Avenue NE
+ Washington, DC 20002","1676 Maryland Avenue NE, Washington, DC 20002",1676 Maryland Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/12/Union_Heights,38.90180081,-76.97954408,1,1,1,1,,
+eCasa,12,"1613-1633 Kramer Street NE
+ Washington, DC 20002","1613-1633 Kramer Street NE, Washington, DC 20002",1613-1633 Kramer Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/644/eCasa,38.89787656,-76.98162795,0.9,1,1,0.9,,
+13|U,130,"13th St NW & U Street NW
+ Washington, DC 20009","13th St NW & U Street NW, Washington, DC 20009",13th St NW & U Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/243/13U,38.9171848,-77.02991936,0.567,1,0.567,,1,1
+The Gantry,552,"300 Morse Street NE
+ Washington, DC 20002","300 Morse Street NE, Washington, DC 20002",300 Morse Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/496/The_Gantry,38.908101,-77.000313,1,1,1,1,,
+62 Forrester Street SW,12,"62 Forrester Street SW
+ Washington, DC 20032","62 Forrester Street SW, Washington, DC 20032",62 Forrester Street SW,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/1231/62_Forrester_Street_SW,38.82509594,-77.00892357,1,1,1,1,,
+1333 M Street SE,900,"1333 M Street SE
+ Washington, DC 20003","1333 M Street SE, Washington, DC 20003",1333 M Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/397/1333_M_Street_SE,38.876313,-76.9871592,1,1,1,1,,
+The Emery,22,"927 Kennedy St NW
+ Washington, DC 20011","927 Kennedy St NW, Washington, DC 20011",927 Kennedy St NW,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/998/The_Emery,38.956432,-77.02686246,1,1,1,1,,
+Alabama Avenue Residences,30,"2495 Alabama Avenue SE
+ Washington, DC 20020","2495 Alabama Avenue SE, Washington, DC 20020",2495 Alabama Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/636/Alabama_Avenue_Residences,38.8565319,-76.969679,1,1,1,1,,
+Somerset House,84,"1801 16th Street NW
+ Washington, DC 20009","1801 16th Street NW, Washington, DC 20009",1801 16th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/348/Somerset_House,38.914382,-77.036042,1,1,1,1,,
+Fortitude at Delta Towers,179,"808 Bladensburg Road NE
+ Washington, DC 20002","808 Bladensburg Road NE, Washington, DC 20002",808 Bladensburg Road NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/924/Fortitude_at_Delta_Towers,38.90054047,-76.98325361,1,1,1,1,,
+The Residences at City Center,216,"925 H Street NW
+ Washington, DC 20001","925 H Street NW, Washington, DC 20001",925 H Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/27/The_Residences_at_City_Center,38.899973,-77.024366,1,1,1,1,,
+AutoZone Redevelopment,210,"1207 H Street NE
+ Washington, DC 20002","1207 H Street NE, Washington, DC 20002",1207 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1144/AutoZone_Redevelopment,38.900119,-76.98998306,1,1,1,1,,
+11th and H,54,"1101-1107 H Street NE
+ Washington, DC 20002","1101-1107 H Street NE, Washington, DC 20002",1101-1107 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1190/11th_and_H,38.89999619,-76.99134169,0.7,1,1,0.7,,
+1371 H Street NE,30,"1365-1375 H Street NE
+ Washington, DC 20002","1365-1375 H Street NE, Washington, DC 20002",1365-1375 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/395/1371_H_Street_NE,38.89994915,-76.98616465,0.9,1,1,0.9,,
+The Barker,29,"2310 4th Street NE Washington, DC 20002
+ Washington, DC 20002","2310 4th Street NE Washington, DC 20002, Washington, DC 20002",2310 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1061/The_Barker,38.9206243,-77.00084475,1,1,1,1,,
+1818 Rhode Island Avenue,6,"1818 Rhode Island Avenue
+ Washington, DC 20018","1818 Rhode Island Avenue, Washington, DC 20018",1818 Rhode Island Avenue,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/921/1818_Rhode_Island_Avenue,38.92853185,-76.9779027,0.9,1,0.9,0.9,,
+2234 11th St NW,9,"2234 11th St NW
+ Washington, DC 20001","2234 11th St NW, Washington, DC 20001",2234 11th St NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1049/2234_11th_St_NW,38.91976882,-77.027141,1,1,1,1,,
+Mills Place Apartments,61,"1736 Rhode Island Avenue NE
+ Washington, DC 20018","1736 Rhode Island Avenue NE, Washington, DC 20018",1736 Rhode Island Avenue NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/920/Mills_Place_Apartments,38.92781545,-76.9796042,1,1,1,1,,
+Bailey Flats on Blagden,15,"926 N Street NW
+ Washington, DC 20001","926 N Street NW, Washington, DC 20001",926 N Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/201/Bailey_Flats_on_Blagden,38.906988,-77.02513886,1,1,1,1,,
+The John and Jill Ker Conway Residence,124,"1005 North Capitol Street NW
+ Washington, DC 20002","1005 North Capitol Street NW, Washington, DC 20002",1005 North Capitol Street NW,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/477/The_John_and_Jill_Ker_Conway_Residence,38.9028016,-77.0091067,1,1,1,1,,
+The Bixby,193,"601 L Street SE
+ Washington, DC 20003","601 L Street SE, Washington, DC 20003",601 L Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/557/The_Bixby,38.87744453,-76.99762741,1,1,1,1,,
+450 K,233,"450 K Street NW
+ Washington, DC 20001","450 K Street NW, Washington, DC 20001",450 K Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/78/450_K,38.9023198,-77.0180591,1,1,1,1,,
+1544 Rhode Island Avenue,49,"1544 Rhode Island Avenue NE
+ Washington, DC 20018","1544 Rhode Island Avenue NE, Washington, DC 20018",1544 Rhode Island Avenue NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/919/1544_Rhode_Island_Avenue,38.9262631,-76.98263554,1,1,1,1,,
+Big Sky Flats,108,"1400 Montana Avenue NE
+ Washington, DC 20018","1400 Montana Avenue NE, Washington, DC 20018",1400 Montana Avenue NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/918/Big_Sky_Flats,38.924215,-76.985116,1,1,1,1,,
+1125 15th Street NW,264,"1125 15th Street NW
+ Washington, DC 20005","1125 15th Street NW, Washington, DC 20005",1125 15th Street NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/1178/1125_15th_Street_NW,38.90426701,-77.03446744,1,1,1,1,,
+RIA DC,1760,"Rhode Island Avenue NE and Montana Ave NE
+ Washington, DC 20018","Rhode Island Avenue NE and Montana Ave NE, Washington, DC 20018",Rhode Island Avenue NE and Montana Ave NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/602/RIA_DC,38.9243,-76.9859,0.9,1,0.9,,,
+Perla,66,"810 O Street NW
+ Washington, DC 20001","810 O Street NW, Washington, DC 20001",810 O Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/436/Perla,38.908433,-77.023572,1,1,1,1,,
+The Exchange,27,"3619 Georgia Avenue NW
+ Washington, DC 20010","3619 Georgia Avenue NW, Washington, DC 20010",3619 Georgia Avenue NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/372/The_Exchange,38.9350296,-77.0238048,1,1,1,1,,
+Rowan Brookland,353,"2607 Reed Street NE
+ Washington, DC 20018","2607 Reed Street NE, Washington, DC 20018",2607 Reed Street NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/916/Rowan_Brookland,38.923827,-76.9935844,1,1,1,1,,
+The Residences at Eastern Market,162,"777 C Street SE
+ Washington, DC 20003","777 C Street SE, Washington, DC 20003",777 C Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/46/The_Residences_at_Eastern_Market,38.88594924,-76.99532727,1,1,1,1,,
+1735 K Street NW,50,"1735 K Street NW
+ Washington, DC 20006","1735 K Street NW, Washington, DC 20006",1735 K Street NW,Washington,District of Columbia,20006,https://dc.urbanturf.com/pipeline/1227/1735_K_Street_NW,38.9028961,-77.0409302,1,1,1,1,,
+Ward Place Redevelopment,48,"2112 Ward Place
+ Washington, DC 20037","2112 Ward Place, Washington, DC 20037",2112 Ward Place,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/1222/Ward_Place_Redevelopment,38.9062913,-77.0481468,0.9,1,0.9,0.9,,
+The Colonel,70,"1250 9th Street NW
+ Washington, DC 20001","1250 9th Street NW, Washington, DC 20001",1250 9th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/208/The_Colonel,38.90691075,-77.02433481,1,1,1,1,,
+AVA NoMa,438,"55 M Street NE
+ Washington, DC 20002","55 M Street NE, Washington, DC 20002",55 M Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/543/AVA_NoMa,38.905457,-77.007015,1,1,1,1,,
+Longfellow Building Conversion,161,"1201 Connecticut Avenue NW
+ Washington, DC 20036","1201 Connecticut Avenue NW, Washington, DC 20036",1201 Connecticut Avenue NW,Washington,District of Columbia,20036,https://dc.urbanturf.com/pipeline/1208/Longfellow_Building_Conversion,38.90654273,-77.04175745,1,1,1,1,,
+2100 M Street NW,400,"2100 M Street NW
+ Washington, DC 20037","2100 M Street NW, Washington, DC 20037",2100 M Street NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/1221/2100_M_Street_NW,38.905496,-77.046741,1,1,1,1,,
+South Cathedral Mansions,165,"2900 Connecticut Avenue NW
+ Washington, DC 20008","2900 Connecticut Avenue NW, Washington, DC 20008",2900 Connecticut Avenue NW,Washington,District of Columbia,20008,https://dc.urbanturf.com/pipeline/492/South_Cathedral_Mansions,38.929121,-77.05488,1,1,1,1,,
+2033 11th Street NW,65,"2033 11th Street NW
+ Washington, DC 20001","2033 11th Street NW, Washington, DC 20001",2033 11th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1204/2033_11th_Street_NW,38.917947,-77.026676,1,1,1,1,,
+Meridian on First,275,"1000 First Street SE
+ Washington, DC 20003","1000 First Street SE, Washington, DC 20003",1000 First Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1012/Meridian_on_First,38.8781391,-77.00557947,1,1,1,1,,
+The Lexicon,182,"50 Florida Avenue NE
+ Washington, DC 20002","50 Florida Avenue NE, Washington, DC 20002",50 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/540/The_Lexicon,38.91038,-77.00723,1,1,1,1,,
+Bryant Street Development,1650,"680 Rhode Island Avenue NE
+ Washington, DC 20002","680 Rhode Island Avenue NE, Washington, DC 20002",680 Rhode Island Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/457/Bryant_Street_Development,38.92120856,-76.99675949,1,1,1,1,,
+Coda on Bryant St,150,"600 Rhode Island Ave NE
+ Washington, DC 20002","600 Rhode Island Ave NE, Washington, DC 20002",600 Rhode Island Ave NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/915/Coda_on_Bryant_St,38.920831,-76.998774,1,1,1,1,,
+Edgewood Commons 635,151,"635 Edgewood Street NE
+ Washington, DC 20017","635 Edgewood Street NE, Washington, DC 20017",635 Edgewood Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/914/Edgewood_Commons_635,38.9234417,-76.99674396,1,1,1,1,,
+Fox 5 Headquarters Redevelopment,210,"5151 Wisconsin Avenue NW
+ Washington, DC 20016","5151 Wisconsin Avenue NW, Washington, DC 20016",5151 Wisconsin Avenue NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/834/Fox_5_Headquarters_Redevelopment,38.956662,-77.083052,1,1,1,1,,
+The Fold,30,"1925 Vermont Avenue NW
+ Washington, DC 20001","1925 Vermont Avenue NW, Washington, DC 20001",1925 Vermont Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/401/The_Fold,38.91573563,-77.02616945,1,1,1,1,,
+Kennedy on L,74,"37 L Street SE
+ Washington, DC 20003","37 L Street SE, Washington, DC 20003",37 L Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/785/Kennedy_on_L,38.877228,-77.00808217,1,1,1,1,,
+The Everton,158,"701 Monroe Street NE
+ Washington, DC 20017","701 Monroe Street NE, Washington, DC 20017",701 Monroe Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/913/The_Everton,38.9320297,-76.995147,1,1,1,1,,
+Hanover 8th,377,"3201 8th Street NE
+ Washington, DC 20017","3201 8th Street NE, Washington, DC 20017",3201 8th Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/912/Hanover_8th,38.9298013,-76.99460099,1,1,1,1,,
+MIRV Mixed Use Development,TBD,"Irving St NE
+ Washington, DC 20017","Irving St NE, Washington, DC 20017",Irving St NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/911/MIRV_Mixed_Use_Development,38.9287645,-76.98730453,1,1,1,,,
+MODO,17,"3701 New Hampshire Avenue NW
+ Washington, DC 20010","3701 New Hampshire Avenue NW, Washington, DC 20010",3701 New Hampshire Avenue NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/459/MODO,38.9366197,-77.02376978,1,1,1,1,,
+The Modern at Art Place,929,"400 Galloway Street NE
+ Washington, DC 20011","400 Galloway Street NE, Washington, DC 20011",400 Galloway Street NE,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/324/The_Modern_at_Art_Place,38.95306865,-76.99828546,1,1,1,1,,
+Brookland/CUA Metro Development,280,"Monroe Street NE & 10th Street NE
+ Washington, DC 20017","Monroe Street NE & 10th Street NE, Washington, DC 20017",Monroe Street NE & 10th Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/376/BrooklandCUA_Metro_Development,38.932471,-76.993355,0.9,1,0.9,,,
+The Martin and the Malcolm,500,"2724 Martin Luther King Jr. Avenue SE
+ Washington, DC 20020","2724 Martin Luther King Jr. Avenue SE, Washington, DC 20020",2724 Martin Luther King Jr. Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1219/The_Martin_and_the_Malcolm,38.85471047,-76.99592647,1,1,1,1,,
+Church Street Microunits,37,"1456-1460 Church Street NW
+ Washington, DC 20009","1456-1460 Church Street NW, Washington, DC 20009",1456-1460 Church Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/289/Church_Street_Microunits,38.9102596,-77.0339148,0.9,1,1,0.9,,
+375 and 425 M,598,"375-425 M Street SW
+ Washington, DC 20024","375-425 M Street SW, Washington, DC 20024",375-425 M Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/741/375_and_425_M,38.87637863,-77.01716181,1,1,1,1,,
+The Aspen,133,"1011 4th Street NW
+ Washington, DC 20001","1011 4th Street NW, Washington, DC 20001",1011 4th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/627/The_Aspen,38.90274097,-77.01606895,1,1,1,1,,
+Ã¢me at Meridian Hill,206,"2601 16th Street NW
+ Washington, DC 20009","2601 16th Street NW, Washington, DC 20009",2601 16th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/524/me_at_Meridian_Hill,38.923373,-77.036384,1,1,1,1,,
+Twelve12,250,"1212 4th Street SE
+ Washington, DC 20003","1212 4th Street SE, Washington, DC 20003",1212 4th Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/81/Twelve12,38.8762516,-77.00047179,1,1,1,1,,
+4401-4435 Benning Road NE,109,"4401-4435 Benning Road NE
+ Washington, DC 20019","4401-4435 Benning Road NE, Washington, DC 20019",4401-4435 Benning Road NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/1218/44014435_Benning_Road_NE,38.891388,-76.939138,0.9,1,1,0.9,,
+Park Morton Phase I,142,"600 Park Road NW
+ Washington, DC 20010","600 Park Road NW, Washington, DC 20010",600 Park Road NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/616/Park_Morton_Phase_I,38.9328322,-77.02180698,1,1,1,1,,
+Rhode Island Row,274,"2300 Washington Place NE
+ Washington, DC 20018","2300 Washington Place NE, Washington, DC 20018",2300 Washington Place NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/186/Rhode_Island_Row,38.9207348,-76.9945103,1,1,1,1,,
+MRP Navy Yard Project,590,"71 Potomac Avenue SE
+ Washington, DC 20003","71 Potomac Avenue SE, Washington, DC 20003",71 Potomac Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1216/MRP_Navy_Yard_Project,38.87149414,-77.00697214,1,1,1,1,,
+Dock 79,305,"79 Potomac Avenue SE
+ Washington, DC 20003","79 Potomac Avenue SE, Washington, DC 20003",79 Potomac Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/83/Dock_79,38.8714942,-77.0065788,1,1,1,1,,
+360Â° H Street,215,"360 H Street NE
+ Washington, DC 20002","360 H Street NE, Washington, DC 20002",360 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/63/360_H_Street,38.90042935,-77.0009363,1,1,1,1,,
+The Batley,432,"1270 4th Street NE
+ Washington, DC 20002","1270 4th Street NE, Washington, DC 20002",1270 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/352/The_Batley,38.9088899,-76.99971712,1,1,1,1,,
+The Frequency,100,"4000 Brandywine Street NW
+ Washington, DC 20016","4000 Brandywine Street NW, Washington, DC 20016",4000 Brandywine Street NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/527/The_Frequency,38.9495084,-77.07934791,1,1,1,1,,
+Incanto,148,"770 Maine Avenue SW
+ Washington, DC 20024","770 Maine Avenue SW, Washington, DC 20024",770 Maine Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/710/Incanto,38.87821374,-77.0220462,1,1,1,1,,
+Atlantic Plumbing,375,"2112 8th Street NW
+ Washington, DC 20001","2112 8th Street NW, Washington, DC 20001",2112 8th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/597/Atlantic_Plumbing,38.91826405,-77.02319111,1,1,1,1,,
+Reunion Square,480,"Martin Luther King Jr Avenue SE & Chicago Street S
+ Washington, DC 20020","Martin Luther King Jr Avenue SE & Chicago Street S, Washington, DC 20020",Martin Luther King Jr Avenue SE & Chicago Street S,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/478/Reunion_Square,38.86354523,-76.99131258,0.5,1,,,1,1
+Barry Farm Redevelopment,"1,000","Firth Sterling Avenue SE & Eaton Road SE
+ Washington, DC 20020","Firth Sterling Avenue SE & Eaton Road SE, Washington, DC 20020",Firth Sterling Avenue SE & Eaton Road SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/579/Barry_Farm_Redevelopment,38.86089799,-77.00024859,0.5,1,,,1,1
+The Woodley,212,"2700 Woodley Road NW
+ Washington, DC 20008","2700 Woodley Road NW, Washington, DC 20008",2700 Woodley Road NW,Washington,District of Columbia,20008,https://dc.urbanturf.com/pipeline/210/The_Woodley,38.92515445,-77.0557091,1,1,1,1,,
+Reed Row,132,"2101 Champlain Street NW
+ Washington, DC 20009","2101 Champlain Street NW, Washington, DC 20009",2101 Champlain Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/673/Reed_Row,38.918198,-77.040099,1,1,1,1,,
+1214 Meigs Condominiums,4,"1214 Meigs Place NE
+ Washington, DC 20002","1214 Meigs Place NE, Washington, DC 20002",1214 Meigs Place NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1215/1214_Meigs_Condominiums,38.9081926,-76.98547112,1,1,1,1,,
+Westminster Presbyterian Church Redevelopment,222,"400 I Street SW
+ Washington, DC 20024","400 I Street SW, Washington, DC 20024",400 I Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/903/Westminster_Presbyterian_Church_Redevelopment,38.879203,-77.017705,1,1,1,1,,
+The Elliott (DC),5,"3255 Prospect Street NW
+ Washington, DC 20007","3255 Prospect Street NW, Washington, DC 20007",3255 Prospect Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/672/The_Elliott_DC,38.90621975,-77.06477625,1,1,1,1,,
+Shops at Georgetown Park Conversions,166,"3270 M Street NW
+ Washington, DC 20007","3270 M Street NW, Washington, DC 20007",3270 M Street NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1029/Shops_at_Georgetown_Park_Conversions,38.9047065,-77.0647524,1,1,1,1,,
+New CityDC,859,"1923 New York Avenue NE
+ Washington, DC 20002","1923 New York Avenue NE, Washington, DC 20002",1923 New York Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/593/New_CityDC,38.9173427,-76.9752399,1,1,1,1,,
+Legacy West End,197,"1255 22nd Street NW
+ Washington, DC 20037","1255 22nd Street NW, Washington, DC 20037",1255 22nd Street NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/820/Legacy_West_End,38.90665465,-77.04836178,1,1,1,1,,
+Eckington Rowhome Development,26,"1708-1710 1st Street NE
+ Washington, DC 20002","1708-1710 1st Street NE, Washington, DC 20002",1708-1710 1st Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1212/Eckington_Rowhome_Development,38.91304826,-77.00688349,0.5,1,1,0,1,1
+Eliot on 4th,377,"1001 4th Street SE
+ Washington, DC 20003","1001 4th Street SE, Washington, DC 20003",1001 4th Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/556/Eliot_on_4th,38.87828,-77.000686,1,1,1,1,,
+Chapman Stables,114,"57 N Street NW
+ Washington, DC 20001","57 N Street NW, Washington, DC 20001",57 N Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/431/Chapman_Stables,38.907447,-77.011114,1,1,1,1,,
+Kiley Apartments,330,"600 4th Street
+ Washington, DC 20024","600 4th Street, Washington, DC 20024",600 4th Street,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/446/Kiley_Apartments,38.882063,-77.016494,0.9,1,0.9,0.9,,
+3309 12th Street NE,14,"3309 12th Street NE
+ Washington, DC 20017","3309 12th Street NE, Washington, DC 20017",3309 12th Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/1210/3309_12th_Street_NE,38.93093,-76.99062229,1,1,1,1,,
+Amaris,96,"601 Wharf Street SW
+ Washington, DC 20024","601 Wharf Street SW, Washington, DC 20024",601 Wharf Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1022/Amaris,38.878006,-77.023695,1,1,1,1,,
+Disabled American Veterans Building Redevelopment,207,"807 Maine Avenue SW
+ Washington, DC 20024","807 Maine Avenue SW, Washington, DC 20024",807 Maine Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1019/Disabled_American_Veterans_Building_Redevelopment,38.87832568,-77.0221884,1,1,1,1,,
+Department of Agriculture Building Redevelopment,498,"899 Maine Avenue SW
+ Washington, DC 20024","899 Maine Avenue SW, Washington, DC 20024",899 Maine Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1018/Department_of_Agriculture_Building_Redevelopment,38.878604,-77.022542,1,1,1,1,,
+Avec on H,419,"901 H Street NE
+ Washington, DC 20002","901 H Street NE, Washington, DC 20002",901 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/792/Avec_on_H,38.89987935,-76.99432364,1,1,1,1,,
+Plaza West,223,"1035 4th Street NW
+ Washington, DC 20001","1035 4th Street NW, Washington, DC 20001",1035 4th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/489/Plaza_West,38.9036283,-77.0157762,1,1,1,1,,
+Skyland Town Center: Final Phase,201,"2704 Marion Barry Avenue SE
+ Washington, DC 20020","2704 Marion Barry Avenue SE, Washington, DC 20020",2704 Marion Barry Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/583/Skyland_Town_Center_Final_Phase,38.86043168,-76.96833968,1,1,1,1,,
+Verge,344,"1800 Half Street SW
+ Washington, DC 20024","1800 Half Street SW, Washington, DC 20024",1800 Half Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/900/Verge,38.86770105,-77.01028601,1,1,1,1,,
+Watermark at Buzzard Point,453,"1900 Half Street SW
+ Washington, DC 20024","1900 Half Street SW, Washington, DC 20024",1900 Half Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/537/Watermark_at_Buzzard_Point,38.866625,-77.009932,1,1,1,1,,
+Takoma Central,150,"235 Carroll Street NW
+ Washington, DC 20012","235 Carroll Street NW, Washington, DC 20012",235 Carroll Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/192/Takoma_Central,38.9750439,-77.0151611,1,1,1,1,,
+Entwine Apartments,129,"218 Vine Street NW
+ Washington, DC 20012","218 Vine Street NW, Washington, DC 20012",218 Vine Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/708/Entwine_Apartments,38.97369025,-77.01604691,1,1,1,1,,
+New Bethany Infill Development,45,"1301 11th Street NW
+ Washington, DC 20001","1301 11th Street NW, Washington, DC 20001",1301 11th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1153/New_Bethany_Infill_Development,38.907363,-77.026931,1,1,1,1,,
+Camden South Capitol,276,"1345 South Capitol Street SW
+ Washington, DC 20003","1345 South Capitol Street SW, Washington, DC 20003",1345 South Capitol Street SW,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/98/Camden_South_Capitol,38.87339075,-77.00947115,1,1,1,1,,
+The Hepburn,195,"1901 Connecticut Avenue NW
+ Washington, DC 20009","1901 Connecticut Avenue NW, Washington, DC 20009",1901 Connecticut Avenue NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/526/The_Hepburn,38.91656488,-77.0467425,1,1,1,1,,
+MDL Flats,177,"1530-1550 First Street SW
+ Washington, DC 20024","1530-1550 First Street SW, Washington, DC 20024",1530-1550 First Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/714/MDL_Flats,38.87122045,-77.01183513,0.9,1,1,0.9,,
+RiverPoint,485,"2100 2nd Street SW
+ Washington, DC 20593","2100 2nd Street SW, Washington, DC 20593",2100 2nd Street SW,Washington,District of Columbia,20593,https://dc.urbanturf.com/pipeline/674/RiverPoint,38.863838,-77.013374,1,1,1,1,,
+The Heywood,17,"716 L Street SE
+ Washington, DC 20003","716 L Street SE, Washington, DC 20003",716 L Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1014/The_Heywood,38.8776855,-76.99561335,1,1,1,1,,
+Station U and O,108,"1707 7th Street NW
+ Washington, DC 20001","1707 7th Street NW, Washington, DC 20001",1707 7th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/638/Station_U_and_O,38.91283915,-77.02153145,1,1,1,1,,
+1322 9th Street NW,40,"1322 9th Street NW
+ Washington, DC 20001","1322 9th Street NW, Washington, DC 20001",1322 9th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1117/1322_9th_Street_NW,38.9080241,-77.02442788,1,1,1,1,,
+3825 Georgia,32,"3825 Georgia Avenue NW
+ Washington, DC 20011","3825 Georgia Avenue NW, Washington, DC 20011",3825 Georgia Avenue NW,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/624/3825_Georgia,38.93794742,-77.0244448,1,1,1,1,,
+7th Flats,205,"1825 7th Street NW
+ Washington, DC 20001","1825 7th Street NW, Washington, DC 20001",1825 7th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/190/7th_Flats,38.914834,-77.02154729,1,1,1,1,,
+Crossing,415,"949 First Street SE
+ Washington, DC 20003","949 First Street SE, Washington, DC 20003",949 First Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1011/Crossing,38.87885197,-77.00598592,1,1,1,1,,
+Illume,756,"861 New Jersey Ave SE
+ Washington, DC 20003","861 New Jersey Ave SE, Washington, DC 20003",861 New Jersey Ave SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1010/Illume,38.87895384,-77.00516561,1,1,1,1,,
+Common Bowman,14,"819 6th Street NW
+ Washington, DC 20001","819 6th Street NW, Washington, DC 20001",819 6th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/754/Common_Bowman,38.9004928,-77.01963379,1,1,1,1,,
+Burnham Place,1300,"First Street NE & G Place NE
+ Washington, DC 20002","First Street NE & G Place NE, Washington, DC 20002",First Street NE & G Place NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/92/Burnham_Place,38.89974324,-77.00719979,0,1,,,1,1
+DCHA Headquarters Redevelopment,"1,100","1133 North Capitol Street NE
+ Washington, DC 20002","1133 North Capitol Street NE, Washington, DC 20002",1133 North Capitol Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/934/DCHA_Headquarters_Redevelopment,38.9051735,-77.00809311,1,1,1,1,,
+Firehouse Block Redevelopment,300,"5760 Georgia Avenue NW
+ Washington, DC 20012","5760 Georgia Avenue NW, Washington, DC 20012",5760 Georgia Avenue NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/898/Firehouse_Block_Redevelopment,38.95921111,-77.02828228,1,1,1,1,,
+Woodcrest Villas,92,"456 Woodcrest Drive SE
+ Washington, DC 20032","456 Woodcrest Drive SE, Washington, DC 20032",456 Woodcrest Drive SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/415/Woodcrest_Villas,38.83761239,-76.99931,1,1,1,1,,
+71 Kennedy Street NW,47,"71 Kennedy Street NW
+ Washington, DC 20011","71 Kennedy Street NW, Washington, DC 20011",71 Kennedy Street NW,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/1205/71_Kennedy_Street_NW,38.9567573,-77.0112564,1,1,1,1,,
+The Vale,301,"1000 Butternut Street NW
+ Washington, DC 20012","1000 Butternut Street NW, Washington, DC 20012",1000 Butternut Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/895/The_Vale,38.973532,-77.027043,1,1,1,1,,
+The Hartley,323,"7150 12th Street NW
+ Washington, DC 20012","7150 12th Street NW, Washington, DC 20012",7150 12th Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/896/The_Hartley,38.97656545,-77.02834528,1,1,1,1,,
+St. Elizabeths East: Parcel 15,300,"1100 Alabama Avenue SE
+ Washington, DC 20032","1100 Alabama Avenue SE, Washington, DC 20032",1100 Alabama Avenue SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/938/St_Elizabeths_East_Parcel_15,38.8483075,-76.9869176,1,1,1,1,,
+Terrace Manor Redevelopment,130,"2270-2276 Savannah Street SE
+ Washington, DC 20020","2270-2276 Savannah Street SE, Washington, DC 20020",2270-2276 Savannah Street SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/794/Terrace_Manor_Redevelopment,38.8479339,-76.9719073,0.9,1,1,0.9,,
+Quincy Lane,224,"1625 Eckington Place NE
+ Washington, DC 20002","1625 Eckington Place NE, Washington, DC 20002",1625 Eckington Place NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/851/Quincy_Lane,38.91202329,-77.00442621,1,1,1,1,,
+1331 5th Street NE,647,"1331 5th Street NE
+ Washington, DC 20002","1331 5th Street NE, Washington, DC 20002",1331 5th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1055/1331_5th_Street_NE,38.90989585,-76.99697421,1,1,1,1,,
+Gables Union Market,301,"1329 5th Street NE
+ Washington, DC 20002","1329 5th Street NE, Washington, DC 20002",1329 5th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1059/Gables_Union_Market,38.90908687,-76.99764892,1,1,1,1,,
+The MO,299,"500 Penn Street NE
+ Washington, DC 20002","500 Penn Street NE, Washington, DC 20002",500 Penn Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/715/The_MO,38.910626,-76.997882,1,1,1,1,,
+Margarite,260,"340 Morse Street NE
+ Washington, DC 20002","340 Morse Street NE, Washington, DC 20002",340 Morse Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1057/Margarite,38.90805884,-77.0002149,1,1,1,1,,
+Brookland Press,296,"805 Channing Place NE
+ Washington, DC 20018","805 Channing Place NE, Washington, DC 20018",805 Channing Place NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/396/Brookland_Press,38.9225502,-76.9944927,1,1,1,1,,
+2501M,59,"2501 M Street NW
+ Washington, DC 20037","2501 M Street NW, Washington, DC 20037",2501 M Street NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/530/2501M,38.90548495,-77.05381878,1,1,1,1,,
+455 Eye Street Apartments,176,"455 Eye Street NW
+ Washington, DC 20001","455 Eye Street NW, Washington, DC 20001",455 Eye Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/178/455_Eye_Street_Apartments,38.9015288,-77.01815899,0.5,1,1,0.007792208,1,1
+eNvy,127,"70 N Street SE
+ Washington, DC 20003","70 N Street SE, Washington, DC 20003",70 N Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/565/eNvy,38.87471805,-77.00728722,1,1,1,1,,
+Yale West,218,"437 New York Avenue NW
+ Washington, DC 20001","437 New York Avenue NW, Washington, DC 20001",437 New York Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/115/Yale_West,38.90501475,-77.01685738,1,1,1,1,,
+Takoma Metro Development,435,"327 Cedar Street NW
+ Washington, DC 20012","327 Cedar Street NW, Washington, DC 20012",327 Cedar Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1015/Takoma_Metro_Development,38.9748496,-77.01778782,1,1,1,1,,
+300 Carroll Street,159,"300-308 Carroll Street NW
+ Washington, DC 20012","300-308 Carroll Street NW, Washington, DC 20012",300-308 Carroll Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/863/300_Carroll_Street,38.9747243,-77.01641429,1,1,1,1,,
+6928 Maple,49,"6928 Maple Street NW
+ Washington, DC 20012","6928 Maple Street NW, Washington, DC 20012",6928 Maple Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/1137/6928_Maple,38.97508671,-77.01482243,1,1,1,1,,
+Portals I,446,"1250 Maryland Avenue SW
+ Washington, DC 20004","1250 Maryland Avenue SW, Washington, DC 20004",1250 Maryland Avenue SW,Washington,District of Columbia,20004,https://dc.urbanturf.com/pipeline/1060/Portals_I,38.8836948,-77.0294307,1,1,1,1,,
+The Westerly,449,"1000 4th Street SW
+ Washington, DC 20024","1000 4th Street SW, Washington, DC 20024",1000 4th Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/488/The_Westerly,38.87884029,-77.01745107,1,1,1,1,,
+Last Stop Liquor Redevelopment,49,"1307 South Capitol Street SW
+ Washington, DC 20024","1307 South Capitol Street SW, Washington, DC 20024",1307 South Capitol Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1047/Last_Stop_Liquor_Redevelopment,38.8743572,-77.00937168,1,1,1,1,,
+1331,373,"1331 Maryland Avenue SW
+ Washington, DC 20024","1331 Maryland Avenue SW, Washington, DC 20024",1331 Maryland Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/707/1331,38.88418275,-77.03109083,1,1,1,1,,
+Maddox,18,"2905 Georgia Avenue NW
+ Washington, DC 20001","2905 Georgia Avenue NW, Washington, DC 20001",2905 Georgia Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/993/Maddox,38.9275198,-77.02275491,1,1,1,1,,
+Meridian at Mount Vernon Triangle,390,"425 L Street NW
+ Washington, DC 20001","425 L Street NW, Washington, DC 20001",425 L Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/64/Meridian_at_Mount_Vernon_Triangle,38.9042446,-77.01718359,1,1,1,1,,
+City Market at O,435,"800 P Street NW
+ Washington, DC 20001","800 P Street NW, Washington, DC 20001",800 P Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/69/City_Market_at_O,38.9092037,-77.023111,1,1,1,1,,
+F1RST,325,"1263 First Street SE
+ Washington, DC 20003","1263 First Street SE, Washington, DC 20003",1263 First Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/562/F1RST,38.8752186,-77.0062548,1,1,1,1,,
+Lex and Leo at Waterfront Station,500,"1150 4th Street SW
+ Washington, DC 20024","1150 4th Street SW, Washington, DC 20024",1150 4th Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/647/Lex_and_Leo_at_Waterfront_Station,38.87741591,-77.01756526,1,1,1,1,,
+Mai Place DC,30,"1400 14th Street NW
+ Washington, DC 20005","1400 14th Street NW, Washington, DC 20005",1400 14th Street NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/225/Mai_Place_DC,38.908961,-77.032056,1,1,1,1,,
+Arris,327,"1331 4th Street SE
+ Washington, DC 20003","1331 4th Street SE, Washington, DC 20003",1331 4th Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/422/Arris,38.8747546,-77.0011131,1,1,1,1,,
+The Yards: Buildings G1 and G2,671,"125 O Street SE
+ Washington, DC 20003","125 O Street SE, Washington, DC 20003",125 O Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1065/The_Yards_Buildings_G1_and_G2,38.87298805,-77.00417529,1,1,1,1,,
+Navy Yard All-Affordable Development,127,"Tingey St SE & New Jersey Ave SE
+ Washington, DC 20003","Tingey St SE & New Jersey Ave SE, Washington, DC 20003",Tingey St SE & New Jersey Ave SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1182/Navy_Yard_AllAffordable_Development,38.87503802,-77.00396091,0.35721,1,0.35721,,1,1
+1 K Street SW,352,"1 K Street SW
+ Washington, DC 20024","1 K Street SW, Washington, DC 20024",1 K Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1185/1_K_Street_SW,38.878492,-77.010805,1,1,1,1,,
+3427 Wisconsin Avenue NW,23,"3427 Wisconsin Avenue NW
+ Washington, DC 20016","3427 Wisconsin Avenue NW, Washington, DC 20016",3427 Wisconsin Avenue NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/1201/3427_Wisconsin_Avenue_NW,38.93588,-77.072752,1,1,1,1,,
+Howard East Development,235,"2200 8th Street NW
+ Washington, DC 20001","2200 8th Street NW, Washington, DC 20001",2200 8th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1105/Howard_East_Development,38.91928089,-77.02305729,1,1,1,1,,
+Ore 82,227,"82 I Street SE
+ Washington, DC 20003","82 I Street SE, Washington, DC 20003",82 I Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/295/Ore_82,38.8796305,-77.0054545,1,1,1,1,,
+1350 Florida,30,"1350 Florida Avenue NW
+ Washington, DC 20009","1350 Florida Avenue NW, Washington, DC 20009",1350 Florida Avenue NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/159/1350_Florida,38.9199936,-77.0316887,1,1,1,1,,
+1221 Van,291,"1221 Van Street SE
+ Washington, DC 20003","1221 Van Street SE, Washington, DC 20003",1221 Van Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/373/1221_Van,38.875036,-77.008396,1,1,1,1,,
+Affinity at 2M,314,"2 M Street NE
+ Washington, DC 20002","2 M Street NE, Washington, DC 20002",2 M Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/274/Affinity_at_2M,38.9060857,-77.00873437,1,1,1,1,,
+Holm,38,"1550 11th Street NW
+ Washington, DC 20001","1550 11th Street NW, Washington, DC 20001",1550 11th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/306/Holm,38.91084021,-77.027145,1,1,1,1,,
+2419 Ontario Road NW,9,"2419 Ontario Rd NW
+ Washington, DC 20009","2419 Ontario Rd NW, Washington, DC 20009",2419 Ontario Rd NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/979/2419_Ontario_Road_NW,38.9220462,-77.0399791,1,1,1,1,,
+Anthology,307,"625 H Street NE
+ Washington, DC 20002","625 H Street NE, Washington, DC 20002",625 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/170/Anthology,38.9000559,-76.997083,1,1,1,1,,
+2328 Georgia Avenue NW,440,"2328 Georgia Ave NW
+ Washington, DC 20001","2328 Georgia Ave NW, Washington, DC 20001",2328 Georgia Ave NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1002/2328_Georgia_Avenue_NW,38.92031214,-77.02207357,1,1,1,1,,
+1445 Church Street,65,"1455-1457 Church Street NW
+ Washington, DC 20005","1455-1457 Church Street NW, Washington, DC 20005",1455-1457 Church Street NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/1096/1445_Church_Street,38.91050565,-77.0337619,0.7,1,1,0.7,1,1
+Reeves Center Redevelopment,322,"14th Street NW & U Street NW
+ Washington, DC 20009","14th Street NW & U Street NW, Washington, DC 20009",14th Street NW & U Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1156/Reeves_Center_Redevelopment,38.91724685,-77.03230608,0.567,1,0.567,,1,1
+Temperance Mews at U Street Metro,117-143,"13th and U Streets NW
+ Washington, DC 20009","13th and U Streets NW, Washington, DC 20009",13th and U Streets NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1095/Temperance_Mews_at_U_Street_Metro,38.91719713,-77.02988361,0.6561,1,0.6561,,1,1
+The Louis,267,"1920 14th Street NW
+ Washington, DC 20009","1920 14th Street NW, Washington, DC 20009",1920 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/103/The_Louis,38.9159561,-77.0321398,1,1,1,1,,
+2001-2027 Martin Luther King Jr. Avenue,125,"2001-2027 Martin Luther King Jr. Avenue SE
+ Washington, DC 20020","2001-2027 Martin Luther King Jr. Avenue SE, Washington, DC 20020",2001-2027 Martin Luther King Jr. Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/590/20012027_Martin_Luther_King_Jr_Avenue,38.86683151,-76.98912353,0.5,1,1,,1,1
+The Hecht Warehouse at Ivy City,335,"1401 New York Avenue NE
+ Washington, DC 20002","1401 New York Avenue NE, Washington, DC 20002",1401 New York Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/337/The_Hecht_Warehouse_at_Ivy_City,38.915601,-76.98400083,1,1,1,1,,
+Gallery 64,492,"64 H Street SW
+ Washington, DC 20024","64 H Street SW, Washington, DC 20024",64 H Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1043/Gallery_64,38.8799439,-77.01091271,1,1,1,1,,
+2200 P Street NW,34,"2200 P Street NW
+ Washington, DC 20037","2200 P Street NW, Washington, DC 20037",2200 P Street NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/633/2200_P_Street_NW,38.909315,-77.049162,1,1,1,1,,
+Kaye Stern Ward 8 Development,820,"4347 Martin Luther King, Jr. Avenue SW
+ Washington, DC 20032","4347 Martin Luther King, Jr. Avenue SW, Washington, DC 20032",4347 Martin Luther King Jr. Avenue SW,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/1198/Kaye_Stern_Ward_8_Development,38.827173,-77.013712,1,1,1,1,,
+EucKal,25,"1724 Kalorama Road NW
+ Washington, DC 20009","1724 Kalorama Road NW, Washington, DC 20009",1724 Kalorama Road NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/424/EucKal,38.9207939,-77.0394546,1,1,1,1,,
+1722-1724 Euclid Street,22,"1722-1724 Euclid Street
+ Washington, DC 20009","1722-1724 Euclid Street, Washington, DC 20009",1722-1724 Euclid Street,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/1100/17221724_Euclid_Street,38.92292821,-77.03982827,0.81,1,0.9,0.81,1,1
+Franklin & Reed Development,700,"2640 Reed Street NE
+ Washington, DC 20018","2640 Reed Street NE, Washington, DC 20018",2640 Reed Street NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/974/Franklin__Reed_Development,38.92407995,-76.9942408,1,1,1,1,,
+Fort Totten Square,350,"5601 3rd Street NE
+ Washington, DC 20011","5601 3rd Street NE, Washington, DC 20011",5601 3rd Street NE,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/62/Fort_Totten_Square,38.956972,-77.002423,1,1,1,1,,
+The Atrium Apartments,376,"4020 Minnesota Avenue NE
+ Washington, DC 20019","4020 Minnesota Avenue NE, Washington, DC 20019",4020 Minnesota Avenue NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/399/The_Atrium_Apartments,38.8960244,-76.9487797,1,1,1,1,,
+Elysium Fourteen,56,"1925 14th Street NW
+ Washington, DC 20009","1925 14th Street NW, Washington, DC 20009",1925 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/301/Elysium_Fourteen,38.91651795,-77.03157208,1,1,1,1,,
+Bonsai,41,"1214-1216 Bladensburg Road NE
+ Washington, DC 20002","1214-1216 Bladensburg Road NE, Washington, DC 20002",1214-1216 Bladensburg Road NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/929/Bonsai,38.90591343,-76.97942667,0.9,1,1,0.9,,
+Reservation 13,1068,"19th Street SE & Massachusetts Avenue SE
+ Washington, DC 20003","19th Street SE & Massachusetts Avenue SE, Washington, DC 20003",19th Street SE & Massachusetts Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/310/Reservation_13,38.88448049,-76.97735553,0.675,1,0.675,,1,1
+2100 Martin Luther King Jr. Avenue SE,21,"2100 Martin Luther King Jr. Avenue SE
+ Washington, DC 20020","2100 Martin Luther King Jr. Avenue SE, Washington, DC 20020",2100 Martin Luther King Jr. Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/577/2100_Martin_Luther_King_Jr_Avenue_SE,38.8652656,-76.98926031,1,1,1,1,,
+Bethel Christian Redevelopment,38,"2220 Martin Luther King Jr Avenue SE
+ Washington, DC 20020","2220 Martin Luther King Jr Avenue SE, Washington, DC 20020",2220 Martin Luther King Jr Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1197/Bethel_Christian_Redevelopment,38.864104,-76.98986607,1,1,1,1,,
+Fahrenheit,31,"3930 Georgia Avenue NW
+ Washington, DC 20011","3930 Georgia Avenue NW, Washington, DC 20011",3930 Georgia Avenue NW,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/272/Fahrenheit,38.9394342,-77.0250907,1,1,1,1,,
+1600 Pennsylvania Avenue SE,77,"1600 Pennsylvania Avenue SE
+ Washington, DC 20003","1600 Pennsylvania Avenue SE, Washington, DC 20003",1600 Pennsylvania Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/267/1600_Pennsylvania_Avenue_SE,38.87922555,-76.98195012,1,1,1,1,,
+Watkins Alley,44,"1309 E Street SE
+ Washington, DC 20003","1309 E Street SE, Washington, DC 20003",1309 E Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/400/Watkins_Alley,38.882759,-76.98791522,1,1,1,1,,
+Park Chelsea at The Collective,429,"880 New Jersey Avenue SE
+ Washington, DC 20003","880 New Jersey Avenue SE, Washington, DC 20003",880 New Jersey Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/125/Park_Chelsea_at_The_Collective,38.8796049,-77.0050112,1,1,1,1,,
+Tenley View,60,"4600 Wisconsin Avenue NW
+ Washington, DC 20016","4600 Wisconsin Avenue NW, Washington, DC 20016",4600 Wisconsin Avenue NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/132/Tenley_View,38.9499469,-77.0808274,1,1,1,1,,
+Define Glover,36,"2210 Wisconsin Avenue NW
+ Washington, DC 20007","2210 Wisconsin Avenue NW, Washington, DC 20007",2210 Wisconsin Avenue NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/1028/Define_Glover,38.91933092,-77.07087824,1,1,1,1,,
+Maple View Flats,114,"2252 Martin Luther King Jr. Avenue SE
+ Washington, DC 20020","2252 Martin Luther King Jr. Avenue SE, Washington, DC 20020",2252 Martin Luther King Jr. Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/576/Maple_View_Flats,38.863324,-76.991024,1,1,1,1,,
+Cathedral Commons,145,"3401 Idaho Avenue NW
+ Washington, DC 20016","3401 Idaho Avenue NW, Washington, DC 20016",3401 Idaho Avenue NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/87/Cathedral_Commons,38.935148,-77.073798,1,1,1,1,,
+2001 Rhode Island Avenue NE,50,"2001 Rhode Island Avenue NE
+ Washington, DC 20018","2001 Rhode Island Avenue NE, Washington, DC 20018",2001 Rhode Island Avenue NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/1194/2001_Rhode_Island_Avenue_NE,38.92889025,-76.9758451,1,1,1,1,,
+1100 6th Street NW,75,"1100 6th Street NW
+ Washington, DC 20001","1100 6th Street NW, Washington, DC 20001",1100 6th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1192/1100_6th_Street_NW,38.90432615,-77.02022577,1,1,1,1,,
+1400 9th Street NW,7,"1400 9th Street NW
+ Washington, DC 20001","1400 9th Street NW, Washington, DC 20001",1400 9th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/960/1400_9th_Street_NW,38.90880005,-77.02417619,1,1,1,1,,
+City Ridge,687,"3939 Wisconsin Avenue NW
+ Washington, DC 20016","3939 Wisconsin Avenue NW, Washington, DC 20016",3939 Wisconsin Avenue NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/651/City_Ridge,38.940928,-77.075369,1,1,1,1,,
+Upton Place,689,"4000 Wisconsin Avenue NW
+ Washington, DC 20015","4000 Wisconsin Avenue NW, Washington, DC 20015",4000 Wisconsin Avenue NW,Washington,District of Columbia,20015,https://dc.urbanturf.com/pipeline/696/Upton_Place,38.94171,-77.077253,1,1,1,1,,
+850 South Capitol,520,"850 South Capitol Street SE
+ Washington, DC 20003","850 South Capitol Street SE, Washington, DC 20003",850 South Capitol Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/1184/850_South_Capitol,38.879553,-77.0092435,1,1,1,1,,
+2220 11th Street,60,"2220 11th Street NW
+ Washington, DC 20001","2220 11th Street NW, Washington, DC 20001",2220 11th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/956/2220_11th_Street,38.919914,-77.027345,1,1,1,1,,
+The Drake,218,"1355 17th Street NW
+ Washington, DC 20036","1355 17th Street NW, Washington, DC 20036",1355 17th Street NW,Washington,District of Columbia,20036,https://dc.urbanturf.com/pipeline/133/The_Drake,38.90761028,-77.03860158,1,1,1,1,,
+Flats 130 at Constitution Square,203,"130 M Street NE
+ Washington, DC 20002","130 M Street NE, Washington, DC 20002",130 M Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/101/Flats_130_at_Constitution_Square,38.90595,-77.00517,1,1,1,1,,
+Aria,60,"300 L Street NE
+ Washington, DC 20002","300 L Street NE, Washington, DC 20002",300 L Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/120/Aria,38.903811,-77.001884,1,1,1,1,,
+77H,303,"77 H Street NW
+ Washington, DC 20001","77 H Street NW, Washington, DC 20001",77 H Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/113/77H,38.90078815,-77.01158907,1,1,1,1,,
+Camden NoMa,730,"61 Pierce Street NE
+ Washington, DC 20002","61 Pierce Street NE, Washington, DC 20002",61 Pierce Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/129/Camden_NoMa,38.9046052,-77.00715532,1,1,1,1,,
+Avalon First and M,469,"1160 1st Street NE
+ Washington, DC 20002","1160 1st Street NE, Washington, DC 20002",1160 1st Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/128/Avalon_First_and_M,38.9048494,-77.0067067,1,1,1,1,,
+Jefferson MarketPlace,281,"1550 7th Street NW
+ Washington, DC 20001","1550 7th Street NW, Washington, DC 20001",1550 7th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/198/Jefferson_MarketPlace,38.9109586,-77.0221303,1,1,1,1,,
+Coda on H,112,"315 H Street NE
+ Washington, DC 20002","315 H Street NE, Washington, DC 20002",315 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/402/Coda_on_H,38.899978,-77.001265,1,1,1,1,,
+Lydian + Lyric,558,"400 K Street NW
+ Washington, DC 20001","400 K Street NW, Washington, DC 20001",400 K Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/701/Lydian__Lyric,38.9023172,-77.0166022,1,1,1,1,,
+Madison House,55,"1772 Church Street NW
+ Washington, DC 20036","1772 Church Street NW, Washington, DC 20036",1772 Church Street NW,Washington,District of Columbia,20036,https://dc.urbanturf.com/pipeline/417/Madison_House,38.91030551,-77.0407509,1,1,1,1,,
+The Swift,220,"3828 Georgia Avenue NW
+ Washington, DC 20011","3828 Georgia Avenue NW, Washington, DC 20011",3828 Georgia Avenue NW,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/119/The_Swift,38.938323,-77.025152,1,1,1,1,,
+The Harper,144,"1919 14th Street NW
+ Washington, DC 20009","1919 14th Street NW, Washington, DC 20009",1919 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/145/The_Harper,38.916176,-77.0316152,1,1,1,1,,
+Station House,377,"701 2nd Street NE
+ Washington, DC 20002","701 2nd Street NE, Washington, DC 20002",701 2nd Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/263/Station_House,38.89980475,-77.0030583,1,1,1,1,,
+The Bentley,53,"1328 14th Street NW
+ Washington, DC 20005","1328 14th Street NW, Washington, DC 20005",1328 14th Street NW,Washington,District of Columbia,20005,https://dc.urbanturf.com/pipeline/158/The_Bentley,38.90824915,-77.03234581,1,1,1,1,,
+Bailey Park,16,"625 Rhode Island Avenue NW
+ Washington, DC 20001","625 Rhode Island Avenue NW, Washington, DC 20001",625 Rhode Island Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/25/Bailey_Park,38.91313745,-77.02097666,1,1,1,1,,
+The Shaw,69,"618 T Street NW
+ Washington, DC 20001","618 T Street NW, Washington, DC 20001",618 T Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/454/The_Shaw,38.91528,-77.020661,1,1,1,1,,
+Insignia on M,324,"1111 New Jersey Ave SE
+ Washington, DC 20003","1111 New Jersey Ave SE, Washington, DC 20003",1111 New Jersey Ave SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/560/Insignia_on_M,38.87730645,-77.00457827,1,1,1,1,,
+Off Twelfth Condominiums,24,"919 12th Street NE
+ Washington, DC 20002","919 12th Street NE, Washington, DC 20002",919 12th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1052/Off_Twelfth_Condominiums,38.90160924,-76.99013782,1,1,1,1,,
+The Citadel,39,"1631 Kalorama Road NW
+ Washington, DC 20009","1631 Kalorama Road NW, Washington, DC 20009",1631 Kalorama Road NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/265/The_Citadel,38.9218478,-77.0383963,1,1,1,1,,
+The Collection at R Street,21,"424 R Street NW
+ Washington, DC 20001","424 R Street NW, Washington, DC 20001",424 R Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/1088/The_Collection_at_R_Street,38.91252294,-77.01755382,1,1,1,1,,
+Kite House,109,"1000 Butternut Street NW
+ Washington, DC 20012","1000 Butternut Street NW, Washington, DC 20012",1000 Butternut Street NW,Washington,District of Columbia,20012,https://dc.urbanturf.com/pipeline/954/Kite_House,38.973532,-77.027043,1,1,1,1,,
+The Gale Eckington,603,"151 Q Street NE
+ Washington, DC 20002","151 Q Street NE, Washington, DC 20002",151 Q Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/187/The_Gale_Eckington,38.91088755,-77.00416826,1,1,1,1,,
+The Wren,433,"965 Florida Avenue NW
+ Washington, DC 20001","965 Florida Avenue NW, Washington, DC 20001",965 Florida Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/476/The_Wren,38.9195254,-77.02443686,1,1,1,1,,
+The Silva,172,"2800 16th Street NW
+ Washington, DC 20009","2800 16th Street NW, Washington, DC 20009",2800 16th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/502/The_Silva,38.925479,-77.037052,1,1,1,1,,
+AdMo Heights,120,"1777 Columbia Road NW
+ Washington, DC 20009","1777 Columbia Road NW, Washington, DC 20009",1777 Columbia Road NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/678/AdMo_Heights,38.92346215,-77.04219895,1,1,1,1,,
+AVA H Street,140,"318 I Street NE
+ Washington, DC 20002","318 I Street NE, Washington, DC 20002",318 I Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/67/AVA_H_Street,38.90169795,-77.00082081,1,1,1,1,,
+Madrona Apartments,56,"2213 14th Street NW
+ Washington, DC 20009","2213 14th Street NW, Washington, DC 20009",2213 14th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/612/Madrona_Apartments,38.91938539,-77.03184314,1,1,1,1,,
+Brookland Grove,60,"436 Holmwood Drive NE
+ Washington, DC 20017","436 Holmwood Drive NE, Washington, DC 20017",436 Holmwood Drive NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/982/Brookland_Grove,38.928499,-76.999691,1,1,1,1,,
+Collection14,233,"1400 W Street NW
+ Washington, DC 20009","1400 W Street NW, Washington, DC 20009",1400 W Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/779/Collection14,38.919041,-77.0322087,1,1,1,1,,
+The Apollo,430,"600 H Street NE
+ Washington, DC 20002","600 H Street NE, Washington, DC 20002",600 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/242/The_Apollo,38.900391,-76.9972548,1,1,1,1,,
+The Edison,187,"1240 4th Street NE
+ Washington, DC 20002","1240 4th Street NE, Washington, DC 20002",1240 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/318/The_Edison,38.907077,-77.00065,1,1,1,1,,
+1800 Hamlin Street NE,70,"1800 Hamlin St NE
+ Washington, DC 20018","1800 Hamlin St NE, Washington, DC 20018",1800 Hamlin St NE,Washington,District of Columbia,20018,https://dc.urbanturf.com/pipeline/1165/1800_Hamlin_Street_NE,38.9284864,-76.97895979,1,1,1,1,,
+Blackbird,167,"1401 Pennsylvania Avenue SE
+ Washington, DC 20003","1401 Pennsylvania Avenue SE, Washington, DC 20003",1401 Pennsylvania Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/449/Blackbird,38.87981629,-76.98376058,1,1,1,1,,
+The Baldwin,33,"1300 H Street NE
+ Washington, DC 20002","1300 H Street NE, Washington, DC 20002",1300 H Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/440/The_Baldwin,38.90048515,-76.98805141,1,1,1,1,,
+Cielo,425,"300 M Street NE
+ Washington, DC 20002","300 M Street NE, Washington, DC 20002",300 M Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/385/Cielo,38.90608945,-77.00174529,1,1,1,1,,
+Dorchester House,117,"2480 16th Street NW
+ Washington, DC 20009","2480 16th Street NW, Washington, DC 20009",2480 16th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/239/Dorchester_House,38.922855,-77.036594,1,1,1,1,,
+32thirty-two Apartments,69,"3232 Georgia Avenue NW
+ Washington, DC 20010","3232 Georgia Avenue NW, Washington, DC 20010",3232 Georgia Avenue NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/215/32thirtytwo_Apartments,38.930822,-77.023778,1,1,1,1,,
+The Kelvin,310,"1250 Half Street SE
+ Washington, DC 20003","1250 Half Street SE, Washington, DC 20003",1250 Half Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/787/The_Kelvin,38.8748339,-77.0072681,1,1,1,1,,
+5333 Connecticut,263,"5333 Connecticut Avenue NW
+ Washington, DC 20015","5333 Connecticut Avenue NW, Washington, DC 20015",5333 Connecticut Avenue NW,Washington,District of Columbia,20015,https://dc.urbanturf.com/pipeline/346/5333_Connecticut,38.9606403,-77.07254164,1,1,1,1,,
+Portner Flats,96,"1440 V Street NW
+ Washington, DC 20009","1440 V Street NW, Washington, DC 20009",1440 V Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/345/Portner_Flats,38.9178846,-77.0333758,1,1,1,1,,
+Motif,30,"5508 7th Street NW
+ Washington, DC 20011","5508 7th Street NW, Washington, DC 20011",5508 7th Street NW,Washington,District of Columbia,20011,https://dc.urbanturf.com/pipeline/870/Motif,38.956826,-77.022577,1,1,1,1,,
+The Mission Apartments,51,"1350 R Street NW
+ Washington, DC 20009","1350 R Street NW, Washington, DC 20009",1350 R Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/247/The_Mission_Apartments,38.9124133,-77.0314797,1,1,1,1,,
+The Channel,501,"950 Maine Avenue SW
+ Washington, DC 20024","950 Maine Avenue SW, Washington, DC 20024",950 Maine Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/549/The_Channel,38.87890333,-77.02319777,1,1,1,1,,
+i5 Union Market,318,"320 Florida Avenue NE
+ Washington, DC 20002","320 Florida Avenue NE, Washington, DC 20002",320 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/403/i5_Union_Market,38.9079014,-77.00151431,1,1,1,1,,
+100K,222,"100 K Street NE
+ Washington, DC 20002","100 K Street NE, Washington, DC 20002",100 K Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/739/100K,38.90281755,-77.00531815,1,1,1,1,,
+The Banks,173,"900 7th Street SW
+ Washington, DC 20024","900 7th Street SW, Washington, DC 20024",900 7th Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/430/The_Banks,38.879147,-77.021903,1,1,1,1,,
+Monroe Street Market,156,"625 Monroe Street NE
+ Washington, DC 20017","625 Monroe Street NE, Washington, DC 20017",625 Monroe Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/126/Monroe_Street_Market,38.9318392,-76.9965046,1,1,1,1,,
+Beckert's Park,325,"1350 E Street SE
+ Washington, DC 20003","1350 E Street SE, Washington, DC 20003",1350 E Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/634/Beckerts_Park,38.88292032,-76.986551,1,1,1,1,,
+Liz,78,"1357 R Street NW
+ Washington, DC 20009","1357 R Street NW, Washington, DC 20009",1357 R Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/521/Liz,38.91308575,-77.03148541,1,1,1,1,,
+Capitol Vista,164,"810 New Jersey Avenue NW
+ Washington, DC 20001","810 New Jersey Avenue NW, Washington, DC 20001",810 New Jersey Avenue NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/683/Capitol_Vista,38.9006491,-77.01342623,1,1,1,1,,
+House of Ruth Development,40,"1815-1819 Minnesota Avenue SE
+ Washington, DC 20020","1815-1819 Minnesota Avenue SE, Washington, DC 20020",1815-1819 Minnesota Avenue SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/1162/House_of_Ruth_Development,38.86968431,-76.97801906,0.7,1,1,0.7,1,1
+West Half,465,"1201 Half Street SE
+ Washington, DC 20003","1201 Half Street SE, Washington, DC 20003",1201 Half Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/528/West_Half,38.8754631,-77.0076304,1,1,1,1,,
+RESA,326,"22 M Street NE
+ Washington, DC 20002","22 M Street NE, Washington, DC 20002",22 M Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/645/RESA,38.90607115,-77.00789722,1,1,1,1,,
+ProFish Redevelopment,123,"1900 Fenwick Street NE
+ Washington, DC 20002","1900 Fenwick Street NE, Washington, DC 20002",1900 Fenwick Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/1158/ProFish_Redevelopment,38.91421375,-76.98475295,1,1,1,1,,
+Gallaudet Redevelopment,1769,"Florida Avenue NE & 6th Street NE
+ Washington, DC 20002","Florida Avenue NE & 6th Street NE, Washington, DC 20002",Florida Avenue NE & 6th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/486/Gallaudet_Redevelopment,38.90634602,-76.99808182,0.6666666667,1,0.6666666667,,1,1
+Boathouse,250,"2601 Virginia Avenue NW
+ Washington, DC 20037","2601 Virginia Avenue NW, Washington, DC 20037",2601 Virginia Avenue NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/596/Boathouse,38.8996379,-77.05502503,1,1,1,1,,
+Westlight Condominiums,71,"1111 24th Street NW
+ Washington, DC 20037","1111 24th Street NW, Washington, DC 20037",1111 24th Street NW,Washington,District of Columbia,20037,https://dc.urbanturf.com/pipeline/625/Westlight_Condominiums,38.90391045,-77.05130787,1,1,1,1,,
+Valo,221,"222 M Street SW
+ Washington, DC 20024","222 M Street SW, Washington, DC 20024",222 M Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/551/Valo,38.876378,-77.01552027,1,1,1,1,,
+The Clifton,156,"1309-1315 Clifton Street NW
+ Washington, DC 20009","1309-1315 Clifton Street NW, Washington, DC 20009",1309-1315 Clifton Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/406/The_Clifton,38.92265817,-77.0304275,0.7,1,1,0.7,1,1
+The Lockwood Apartments,145,"1339-1355 E Street SE
+ Washington, DC 20003","1339-1355 E Street SE, Washington, DC 20003",1339-1355 E Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/575/The_Lockwood_Apartments,38.8826412,-76.9866492,0.9,1,1,0.9,,
+The Shay,245,"1921 8th Street NW
+ Washington, DC 20001","1921 8th Street NW, Washington, DC 20001",1921 8th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/181/The_Shay,38.9162754,-77.02256323,1,1,1,1,,
+The Rushmore,117,"1234 Pennsylvania Avenue SE
+ Washington, DC 20003","1234 Pennsylvania Avenue SE, Washington, DC 20003",1234 Pennsylvania Avenue SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/573/The_Rushmore,38.8820991,-76.9891136,1,1,1,1,,
+The Glover House,225,"2101 Wisconsin Ave NW
+ Washington, DC 20007","2101 Wisconsin Ave NW, Washington, DC 20007",2101 Wisconsin Ave NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/631/The_Glover_House,38.9175636,-77.06875244,1,1,1,1,,
+The Vintage on 16th,85,"3146 16th Street NW
+ Washington, DC 20010","3146 16th Street NW, Washington, DC 20010",3146 16th Street NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/138/The_Vintage_on_16th,38.92990515,-77.03700154,1,1,1,1,,
+Trellis House,319,"907 Barry Place NW
+ Washington, DC 20001","907 Barry Place NW, Washington, DC 20001",907 Barry Place NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/381/Trellis_House,38.92083949,-77.02428557,1,1,1,1,,
+Park Van Ness,271,"4455 Connecticut Avenue NW
+ Washington, DC 20008","4455 Connecticut Avenue NW, Washington, DC 20008",4455 Connecticut Avenue NW,Washington,District of Columbia,20008,https://dc.urbanturf.com/pipeline/270/Park_Van_Ness,38.94696125,-77.06465049,1,1,1,1,,
+Arcade Sunshine,225,"713 Lamont Street NW
+ Washington, DC 20010","713 Lamont Street NW, Washington, DC 20010",713 Lamont Street NW,Washington,District of Columbia,20010,https://dc.urbanturf.com/pipeline/375/Arcade_Sunshine,38.9312077,-77.0247597,1,1,1,1,,
+CityCenterDC,458,"825 & 875 10th Street NW
+ Washington, DC 20001","825 & 875 10th Street NW, Washington, DC 20001",825 & 875 10th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/108/CityCenterDC,38.90027182,-77.02580674,0.3969,1,0.3969,0.3969,1,1
+The Residences at St. Elizabeths East,252,"1201 Oak Drive SE
+ Washington, DC 20032","1201 Oak Drive SE, Washington, DC 20032",1201 Oak Drive SE,Washington,District of Columbia,20032,https://dc.urbanturf.com/pipeline/578/The_Residences_at_St_Elizabeths_East,38.846978,-76.992399,1,1,1,1,,
+NOVEL South Capitol,523,"2 Eye Street SE
+ Washington, DC 20003","2 Eye Street SE, Washington, DC 20003",2 Eye Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/491/NOVEL_South_Capitol,38.87969318,-77.00835484,0.25,1,,,1,1
+One Hill South,383,"28 K Street SE
+ Washington, DC 20003","28 K Street SE, Washington, DC 20003",28 K Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/774/One_Hill_South,38.87881635,-77.00769678,1,1,1,1,,
+The Parks at Walter Reed: Parcel M,102,"1250 Dahlia Street NW
+ Washington, DC 20307","1250 Dahlia Street NW, Washington, DC 20307",1250 Dahlia Street NW,Washington,District of Columbia,20307,https://dc.urbanturf.com/pipeline/1143/The_Parks_at_Walter_Reed_Parcel_M,38.97560409,-77.02780125,1,1,1,1,,
+The Tides,255,"760 Maine Avenue SW
+ Washington, DC 20024","760 Maine Avenue SW, Washington, DC 20024",760 Maine Avenue SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/1021/The_Tides,38.87818349,-77.02200776,1,1,1,1,,
+Broadcast,144,"4620-4624 Wisconsin Avenue NW
+ Washington, DC 20016","4620-4624 Wisconsin Avenue NW, Washington, DC 20016",4620-4624 Wisconsin Avenue NW,Washington,District of Columbia,20016,https://dc.urbanturf.com/pipeline/646/Broadcast,38.95002194,-77.08058556,0.9,1,1,0.9,,
+4915 Quarles Street NE,36,"4915 Quarles Street NE
+ Washington, DC 20019","4915 Quarles Street NE, Washington, DC 20019",4915 Quarles Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/1113/4915_Quarles_Street_NE,38.9083169,-76.92988081,1,1,1,1,,
+RIALTO,74,"410 Rhode Island Avenue NE
+ Washington, DC 20002","410 Rhode Island Avenue NE, Washington, DC 20002",410 Rhode Island Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/852/RIALTO,38.920368,-76.99995,1,1,1,1,,
+2002 11th Street NW,27,"2002 11th Street NW
+ Washington, DC 20001","2002 11th Street NW, Washington, DC 20001",2002 11th Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/442/2002_11th_Street_NW,38.917252,-77.027352,1,1,1,1,,
+Residences at Hayes,150,"5201 Hayes Street NE
+ Washington, DC 20019","5201 Hayes Street NE, Washington, DC 20019",5201 Hayes Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/434/Residences_at_Hayes,38.89946095,-76.92724203,1,1,1,1,,
+Estate at the Yards,270,"3 Tingey Square SE
+ Washington, DC 20003","3 Tingey Square SE, Washington, DC 20003",3 Tingey Square SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/595/Estate_at_the_Yards,38.874513,-77.002749,1,1,1,1,,
+Northwest One Redevelopment,750,"2 L Street NW
+ Washington, DC 20001","2 L Street NW, Washington, DC 20001",2 L Street NW,Washington,District of Columbia,20001,https://dc.urbanturf.com/pipeline/770/Northwest_One_Redevelopment,38.9034615,-77.00986932,1,1,1,1,,
+550 Morse,280,"550 Morse Street NE
+ Washington, DC 20002","550 Morse Street NE, Washington, DC 20002",550 Morse Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/535/550_Morse,38.90745315,-76.99839057,1,1,1,1,,
+Ledger Union Market,134,"1320 4th Street NE
+ Washington, DC 20002","1320 4th Street NE, Washington, DC 20002",1320 4th Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/908/Ledger_Union_Market,38.90950689,-76.99896089,1,1,1,1,,
+The Lanes at Union Market,110,"400 Florida Avenue NE
+ Washington, DC 20002","400 Florida Avenue NE, Washington, DC 20002",400 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/688/The_Lanes_at_Union_Market,38.907167,-77.000295,1,1,1,1,,
+One 501,327,"1501 Harry Thomas Way NE
+ Washington, DC 20002","1501 Harry Thomas Way NE, Washington, DC 20002",1501 Harry Thomas Way NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/681/One_501,38.912019,-77.001783,1,1,1,1,,
+OSLOatlas,8,"1219 Florida Ave NE
+ Washington, DC 20002","1219 Florida Ave NE, Washington, DC 20002",1219 Florida Ave NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/561/OSLOatlas,38.90205965,-76.98905632,1,1,1,1,,
+10K Hill South,305,"10 K Street SE
+ Washington, DC 20003","10 K Street SE, Washington, DC 20003",10 K Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/937/10K_Hill_South,38.8784938,-77.00879582,1,1,1,1,,
+Press House,356,"301 N Street NE
+ Washington, DC 20002","301 N Street NE, Washington, DC 20002",301 N Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/439/Press_House,38.907151,-77.001872,1,1,1,1,,
+The Crest at Skyland Town Center,263,"2219 Town Center Drive SE
+ Washington, DC 20020","2219 Town Center Drive SE, Washington, DC 20020",2219 Town Center Drive SE,Washington,District of Columbia,20020,https://dc.urbanturf.com/pipeline/936/The_Crest_at_Skyland_Town_Center,38.861247,-76.967889,1,1,1,1,,
+The Garrett at The Collective,373,"150 Eye Street SE
+ Washington, DC 20003","150 Eye Street SE, Washington, DC 20003",150 Eye Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/554/The_Garrett_at_The_Collective,38.87947949,-77.00413978,0.25,1,,,1,1
+The Strand Residences,86,"5119-5123 Nannie Helen Burroughs Avenue NE
+ Washington, DC 20019","5119-5123 Nannie Helen Burroughs Avenue NE, Washington, DC 20019",5119-5123 Nannie Helen Burroughs Avenue NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/699/The_Strand_Residences,38.89812929,-76.92636245,0.7,1,1,0.7,1,1
+Providence Place,93,"599 50th Street NE
+ Washington, DC 20019","599 50th Street NE, Washington, DC 20019",599 50th Street NE,Washington,District of Columbia,20019,https://dc.urbanturf.com/pipeline/690/Providence_Place,38.89690305,-76.92978523,1,1,1,1,,
+Sonnet,288,"1441 U Street NW
+ Washington, DC 20009","1441 U Street NW, Washington, DC 20009",1441 U Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/340/Sonnet,38.91708019,-77.03358196,1,1,1,1,,
+2255 Wisconsin,81,"2255 Wisconsin Avenue NW
+ Washington, DC 20007","2255 Wisconsin Avenue NW, Washington, DC 20007",2255 Wisconsin Avenue NW,Washington,District of Columbia,20007,https://dc.urbanturf.com/pipeline/443/2255_Wisconsin,38.920074,-77.071261,1,1,1,1,,
+Union Place II,525,"200 K Street NE
+ Washington, DC 20002","200 K Street NE, Washington, DC 20002",200 K Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/740/Union_Place_II,38.9029097,-77.0032689,1,1,1,1,,
+3315 12th Street NE,12,"3315 12th Street NE
+ Washington, DC 20017","3315 12th Street NE, Washington, DC 20017",3315 12th Street NE,Washington,District of Columbia,20017,https://dc.urbanturf.com/pipeline/1079/3315_12th_Street_NE,38.9311113,-76.99065151,1,1,1,1,,
+The Belgard,346,"33 N Street NE
+ Washington, DC 20002","33 N Street NE, Washington, DC 20002",33 N Street NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/825/The_Belgard,38.9070351,-77.00770508,1,1,1,1,,
+Modern on M,276,"465 M Street SW
+ Washington, DC 20024","465 M Street SW, Washington, DC 20024",465 M Street SW,Washington,District of Columbia,20024,https://dc.urbanturf.com/pipeline/428/Modern_on_M,38.8767398,-77.01937744,1,1,1,1,,
+Modera Sedici,135,"2700 16th Street NW
+ Washington, DC 20009","2700 16th Street NW, Washington, DC 20009",2700 16th Street NW,Washington,District of Columbia,20009,https://dc.urbanturf.com/pipeline/679/Modera_Sedici,38.9250153,-77.0368568,1,1,1,1,,
+Parc Riverside,314,"1011 1st Street SE
+ Washington, DC 20003","1011 1st Street SE, Washington, DC 20003",1011 1st Street SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/332/Parc_Riverside,38.8777143,-77.0061707,1,1,1,1,,
+Agora at the Collective,336,"800 New Jersey Ave SE
+ Washington, DC 20003","800 New Jersey Ave SE, Washington, DC 20003",800 New Jersey Ave SE,Washington,District of Columbia,20003,https://dc.urbanturf.com/pipeline/553/Agora_at_the_Collective,38.8801779,-77.0052196,1,1,1,1,,
+The Hendrix,45,"1326 Florida Avenue NE
+ Washington, DC 20002","1326 Florida Avenue NE, Washington, DC 20002",1326 Florida Avenue NE,Washington,District of Columbia,20002,https://dc.urbanturf.com/pipeline/383/The_Hendrix,38.9015795,-76.9870577,1,1,1,1,,

@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin/>
+                <pubdate>20180105</pubdate>
+                <title>Census Tracts - 1940</title>
+                <geoform>vector digital data</geoform>
+                <pubinfo>
+                    <publish>DC GIS</publish>
+                </pubinfo>
+                <lworkcit>
+                    <citeinfo>
+                        <origin/>
+                        <title>DC Geographic Information System</title>
+                        <geoform>vector digital data</geoform>
+                    </citeinfo>
+                </lworkcit>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>Census Year 1940 Census Tracts. The dataset contains polygons representing CY 1940 census tracts, created as part of the D.C. Geographic Information System (DC GIS) for the D.C. Office of the Chief Technology Officer (OCTO) and participating D.C. government agencies. Census tracts were identified from maps provided by the U.S. Census Bureau and the D.C. Office of Planning. The tract polygons were created by selecting street arcs from the WGIS planimetric street centerlines. Where necessary, polygons were also heads-up digitized from 1995/1999 orthophotographs.</abstract>
+            <purpose>This data is used for the planning and management of Washington, D.C. by local government agencies.</purpose>
+        </descript>
+        <timeperd>
+            <timeinfo>
+                <sngdate>
+                    <caldate>19400101</caldate>
+                </sngdate>
+            </timeinfo>
+            <current>ground condition</current>
+        </timeperd>
+        <status>
+            <progress>Complete</progress>
+            <update>As needed</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-77.119501</westbc>
+                <eastbc>-76.909265</eastbc>
+                <northbc>38.995117</northbc>
+                <southbc>38.801755</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>Government Jurisdiction</themekey>
+                <themekey>boundary</themekey>
+                <themekey>Census</themekey>
+                <themekey>Tract</themekey>
+                <themekey>Census Tract</themekey>
+                <themekey>society</themekey>
+            </theme>
+            <theme>
+                <themekt>ISO 19115 Topic Categories</themekt>
+                <themekey>society</themekey>
+                <themekey>boundaries</themekey>
+            </theme>
+            <place>
+                <placekt>None</placekt>
+                <placekey>Washington</placekey>
+                <placekey>D.C.</placekey>
+                <placekey>DC GIS</placekey>
+                <placekey>DCGIS</placekey>
+                <placekey>DC</placekey>
+                <placekey>District of Columbia</placekey>
+            </place>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>This work is licensed under a Creative Commons Attribution 4.0 International License.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>D.C. Office of Planning, U.S. Census Bureau</datacred>
+    </idinfo>
+    <dataqual>
+        <attracc>
+            <attraccr>Data believed to be complete and accurate as of the time period cited. Subject to change. Digital version compared with original source data for accuracy and completeness. In process of validation by source and/or responsible agency.</attraccr>
+        </attracc>
+        <logic>In process of validation by source and/or responsible agency.</logic>
+        <complete>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. In process of validation by source and/or responsible agency.</complete>
+        <posacc>
+            <horizpa>
+                <horizpar>In process of validation by source and/or responsible agency.</horizpar>
+            </horizpa>
+        </posacc>
+        <posacc>
+            <vertacc>
+                <vertaccr>N/A</vertaccr>
+            </vertacc>
+        </posacc>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <pubdate>19400101</pubdate>
+                        <title>District of Columbia by Census Tracts 1940</title>
+                        <geoform>map</geoform>
+                    </citeinfo>
+                </srccite>
+                <srcscale>64000</srcscale>
+                <typesrc>hardcopyPaper</typesrc>
+                <srccitea>1940 Census Tracts</srccitea>
+                <srccontr>boundaries and attributes</srccontr>
+            </srcinfo>
+            <procstep>
+                <procdesc>1940 Census tracts were identified from public records (U.S. Census Bureau and D.C. Office of Planning) and initially created by selecting street arcs from the WGIS planimetric street centerlines. Where necessary, tracts were also heads-up digitized from 1995 orthophotographs. The digitized arcs and polygons were converted to shapefiles. The census tract datasets were selected using the shapefile from the snapbase coverage, creating coincident geography with the other DC GIS datasets. Digitized lines lacking a corresponding planimetric feature were retained. Snapbase arc attributes were populated with appropriate census designations. These planimetric features were built as lines and converted to polygons. Census coverages from each census year were built together since they share topology. Planimetrics were created at a scale of 1:1,000. This means that a well defined feature falls within two feet of true position. When imported into the DC GIS geodatabase, the coverages shift 0.01mm since the geodatabase supports only 11 digits of precision, not double precision (16 digits). Line coverages, containing the polygon bounding attributes, accompany all polygons and are made available for editing and updating purposes. Census tracts are the only line coverages used to build polygons which carry attributes. Attribute data, kept in separate tables, was provided by US Census Bureau and the DC Office of Planning. In this case, street names were maintained at the request of the Office of Planning for ease of labeling. All DC GIS data is stored and exported in Maryland State Plane coordinates NAD 83 meters.</procdesc>
+                <procdate>20010806</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>200 I Street SE, 5th Floor</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntfax>(202) 727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Staff updated the dataset using the lastest layer from OP</procdesc>
+                <procdate>20180105</procdate>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                            <cntper>GIS Data Coordinator</cntper>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>200 I Street SE, 5th Floor</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20003</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntfax>(202) 727-5660</cntfax>
+                        <cntemail>dcgis@dc.gov</cntemail>
+                        <hours>8:30 am - 5 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>GT-polygon composed of chains</sdtstype>
+                <ptvctcnt>96</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>Tract40Ply</enttypl>
+            </enttyp>
+            <attr>
+                <attrlabl>OBJECTID</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>Esri</attrdefs>
+                <attrdomv>
+                              
+                    <udom>Coordinates defining the features.</udom>
+                            
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>NHGISST</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>NHGISCTY</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>GISJOIN</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>GISJOIN2</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SQMI</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>CENSUS_YEAR</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>STATE_NAME</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>TRACT_NUMBER</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>TRACT_NAME</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUB01</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ01</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ02</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ03</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ04</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ05</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ06</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ07</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ08</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ09</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ10</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ11</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ12</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ13</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ14</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ15</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ16</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ17</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ18</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ19</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUJ20</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVS001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVS001P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVS002</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVS002P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUQ001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUQ001P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUQ002</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUQ002P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUP1</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUP1P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUP2</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUP2P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU1001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6002</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6003</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6004</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6005</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6006</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6007</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6008</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6009</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6010</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6011</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVP001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7002</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7003</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7004</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7005</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7006</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7007</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7008</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7009</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7010</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7011</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVQ001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU4001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU4002</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU2001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU2001P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU2002</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU2002P</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVC001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BVJ001</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH01</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH02</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH03</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH04</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH05</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH06</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH07</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH08</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH09</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUH10</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUW0</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUW1</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUW2</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX1</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX2</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX3</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX4</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX5</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX6</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX7</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUX8</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUZ01</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BUZ02</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU1</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU2</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU3</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU4</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU5</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU6</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU7</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU8</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU9</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU10</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>BU11</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.AREA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.LEN</attrlabl>
+            </attr>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </distrib>
+        <distliab>See access and use constraints information.</distliab>
+        <custom>DC datasets can be downloaded from "http://opendata.dc.gov".</custom>
+    </distinfo>
+    <metainfo>
+        <metd>20180928</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>D.C. Office of the Chief Technology Officer</cntorg>
+                    <cntper>GIS Data Coordinator</cntper>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>200 I Street SE, 5th Floor</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20003</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntfax>(202) 727-5660</cntfax>
+                <cntemail>dcgis@dc.gov</cntemail>
+                <hours>8:30 am - 5 pm</hours>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+    </metainfo>
+</metadata>

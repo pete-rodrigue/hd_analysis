@@ -1,0 +1,184 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0099_ds244_20195_blck_grp'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2015-2019
+Geographic level: Block Group (by State--County--Census Tract)
+Extent:           District of Columbia
+Dataset:          2019 American Community Survey: 5-Year Data [2015-2019, Block Groups & Larger Areas]
+   NHGIS code:    2015_2019_ACS5a
+   NHGIS ID:      ds244
+Breakdown(s):     Geographic Component:
+                     Total area (00)
+Data type(s):     (E) Estimates
+                  (M) Margins of error
+ 
+Tables:
+ 
+1. Occupancy Status
+   Universe:    Housing units
+   Source code: B25002
+   NHGIS code:  ALZK
+ 
+2. Mortgage Status
+   Universe:    Owner-occupied housing units
+   Source code: B25081
+   NHGIS code:  AL1L
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        STUSAB:      State Postal Abbreviation
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place Code
+        TRACTA:      Census Tract Code
+        BLKGRPA:     Block Group Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land Code
+        AIHHTLI:     American Indian Trust Land/ Hawaiian Home Land Indicator
+        AITSCEA:     Tribal Subdivision/Remainder Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        NECTAA:      New England City and Town Area Code
+        CNECTAA:     Combined New England City and Town Area Code
+        NECTADIVA:   New England City and Town Area Division Code
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (2019-2021, 116th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        ZCTA5A:      5-Digit ZIP Code Tabulation Area Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        PCI:         Principal City Indicator
+        PUMAA:       Public Use Microdata Area Code
+        GEOID:       Census Geographic Identifier
+        BTTRA:       Tribal Census Tract Code
+        BTBGA:       Tribal Block Group Code
+ 
+Data Type (E):
+    Estimates
+ 
+        NAME_E:      Area Name
+ 
+    Table 1:     Occupancy Status
+    Universe:    Housing units
+    Source code: B25002
+    NHGIS code:  ALZK
+        ALZKE001:    Total
+        ALZKE002:    Occupied
+        ALZKE003:    Vacant
+ 
+    Table 2:     Mortgage Status
+    Universe:    Owner-occupied housing units
+    Source code: B25081
+    NHGIS code:  AL1L
+        AL1LE001:    Total
+        AL1LE002:    Housing units with a mortgage, contract to purchase, or similar debt
+        AL1LE003:    Housing units with a mortgage, contract to purchase, or similar debt: With either a second mortgage or home equity loan, but not both
+        AL1LE004:    Housing units with a mortgage, contract to purchase, or similar debt: With either a second mortgage or home equity loan, but not both: Second mortgage only
+        AL1LE005:    Housing units with a mortgage, contract to purchase, or similar debt: With either a second mortgage or home equity loan, but not both: Home equity loan only
+        AL1LE006:    Housing units with a mortgage, contract to purchase, or similar debt: Both second mortgage and home equity loan
+        AL1LE007:    Housing units with a mortgage, contract to purchase, or similar debt: No second mortgage and no home equity loan
+        AL1LE008:    Housing units without a mortgage
+ 
+Data Type (M):
+    Margins of error
+ 
+        NAME_M:      Area Name
+ 
+    Table 1:     Occupancy Status
+    Universe:    Housing units
+    Source code: B25002
+    NHGIS code:  ALZK
+        ALZKM001:    Total
+        ALZKM002:    Occupied
+        ALZKM003:    Vacant
+ 
+    Table 2:     Mortgage Status
+    Universe:    Owner-occupied housing units
+    Source code: B25081
+    NHGIS code:  AL1L
+        AL1LM001:    Total
+        AL1LM002:    Housing units with a mortgage, contract to purchase, or similar debt
+        AL1LM003:    Housing units with a mortgage, contract to purchase, or similar debt: With either a second mortgage or home equity loan, but not both
+        AL1LM004:    Housing units with a mortgage, contract to purchase, or similar debt: With either a second mortgage or home equity loan, but not both: Second mortgage only
+        AL1LM005:    Housing units with a mortgage, contract to purchase, or similar debt: With either a second mortgage or home equity loan, but not both: Home equity loan only
+        AL1LM006:    Housing units with a mortgage, contract to purchase, or similar debt: Both second mortgage and home equity loan
+        AL1LM007:    Housing units with a mortgage, contract to purchase, or similar debt: No second mortgage and no home equity loan
+        AL1LM008:    Housing units without a mortgage
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Jonathan Schroeder, David Van Riper, Steven Manson, Katherine Knowles, Tracy Kugler, Finn Roberts, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 20.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2025. 
+        http://doi.org/10.18128/D050.V20.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455

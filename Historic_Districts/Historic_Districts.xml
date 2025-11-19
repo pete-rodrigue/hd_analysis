@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin/>
+                <origin/>
+                <pubdate>20201014</pubdate>
+                <title>Histotric Districts</title>
+                <edition>5th Edition</edition>
+                <geoform>vector digital data</geoform>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>This dataset contains Historic Districts officially designated by the District of Columbia. Additional data sets are also available providing information on (1) historic landmarks in the District of Columbia.</abstract>
+            <purpose>This a spatial data set of record for the storage, maintenance, and display of historically significant areas within the District of Columbia for planning and management purposes.</purpose>
+            <supplinf>The original data source for this dataset is the "District of Columbia Inventory of Historic Sites", published in September 2004 by the DC State Historic Preservation Office (HP). Updates at the Office of Planning in December 2006 were based on manual review of hard-copy maps and subsequent on-screen digitizing of updates as provided by David Maloney of the State Historic Preservation Office. This update (2012) re-organizes the schema and updates with new districts and incorporates other historic areas.</supplinf>
+        </descript>
+        <status>
+            <progress>Complete</progress>
+            <update>As needed</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-77.119888</westbc>
+                <eastbc>-76.938229</eastbc>
+                <northbc>38.991177</northbc>
+                <southbc>38.824740</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>Historic Preservation</themekey>
+                <themekey>National Register of Historic Places</themekey>
+                <themekey>National Historic Parks</themekey>
+                <themekey>National Historic Sites</themekey>
+                <themekey>Historic Districts</themekey>
+            </theme>
+            <place>
+                <placekt>None</placekt>
+                <placekey>DC</placekey>
+                <placekey>Washington</placekey>
+                <placekey>D.C.</placekey>
+                <placekey>District of Columbia</placekey>
+            </place>
+            <temporal>
+                <tempkt>None</tempkt>
+                <tempkey>2012</tempkey>
+            </temporal>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>This work is licensed under a Creative Commons Attribution 4.0 International License.</useconst>
+        <ptcontac>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>DC Office of Planning</cntorg>
+                    <cntper>David Maloney</cntper>
+                </cntorgp>
+                <cntpos>Deputy State Historic Preservation Office</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>801 North Capitol St, NE # 4000</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20002</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>202-442-7600</cntvoice>
+                <cntfax>202-442-7637</cntfax>
+                <hours>8:30 am - 5:00 pm</hours>
+            </cntinfo>
+        </ptcontac>
+        <datacred>https://planning.dc.gov; DC State Historic Preservation Office (HP)</datacred>
+        <secinfo>
+            <secclass>Unclassified</secclass>
+        </secinfo>
+    </idinfo>
+    <dataqual>
+        <attracc>
+            <attraccr>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. Validated by source and/or responsible agency.</attraccr>
+        </attracc>
+        <logic>Data believed to be complete and accurate, subject to change.</logic>
+        <complete>Data believed to be complete and accurate, subject to change. Digital version compared with original source data for accuracy and completeness. Validated by source and/or responsible agency.</complete>
+        <posacc>
+            <horizpa>
+                <horizpar>Data believed to sufficiently accurate for planning purposes. Boundaries may not align perfectly with other DC GIS data sets.</horizpar>
+            </horizpa>
+        </posacc>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <origin/>
+                        <origin/>
+                        <title>Historic Landmarks (LandmrkPly)</title>
+                        <edition>1st Edition</edition>
+                        <geoform>vector digital data</geoform>
+                        <othercit>Historic Lanmarks from DCGIS (LandmrkPly)</othercit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>2400</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>LandmrkPly</srccitea>
+                <srccontr>National Capitol Planning Commission (NCPC) National Park Service (NPS) DCGIS</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>Landmarks Inventory Database (LandmarkDb.mdb)</title>
+                        <edition>2nd Edition</edition>
+                        <geoform>tabular digital data</geoform>
+                        <othercit>Tabular component of Landmark Spatial data. Contains full attribute information of features identified in the "Inventory of Historic Sites" document, plus ID fields that relate to spatial datasets (Landmark Areas, Landmark Structures, and Landmark Sites).</othercit>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Inventory Database (2005)</srccitea>
+                <srccontr>DC Office of Planning (OP)</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <origin/>
+                        <title>Orthophotos (2003)</title>
+                        <geoform>raster digital data</geoform>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Orthophotos (2003)</srccitea>
+                <srccontr>National Geospatial Intelligence Agency (NGA) DCGIS</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>Orthophotos (2002)</title>
+                        <geoform>raster digital data</geoform>
+                        <othercit>Contains holes cut out for security reasons.</othercit>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Orthophotos (2002)</srccitea>
+                <srccontr>DCGIS</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>DC Public Reservations (Reservations)</title>
+                        <edition>2nd Edition</edition>
+                        <geoform>vector digital data</geoform>
+                        <othercit>Consolidated Reservations dataset from DC Office of Planning (DCOP). Dataset is considered DRAFT.</othercit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>2400</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>Reservations</srccitea>
+                <srccontr>DC Office of Planning (OP)</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <origin/>
+                        <title>DC Historic Districts (HistDistPly)</title>
+                        <edition>5th edition</edition>
+                        <geoform>vector digital data</geoform>
+                        <othercit>Historic Districts from DC State Historic Preservation Office</othercit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>2400</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>HistDistPly</srccitea>
+                <srccontr>DC State Historic Preservation Office (HP) DC Office of Planning (OP)</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>Inventory Database 2002</title>
+                        <edition>1st Edition</edition>
+                        <geoform>Database</geoform>
+                        <othercit>Inventory Database 2002.mdb</othercit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>0</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>Inventory Database 2002.mdb</srccitea>
+                <srccontr>DC State Historic Preservation Office (HP)</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>District of Columbia Inventory of Historic Sites (2004)</title>
+                        <edition>2nd Edition</edition>
+                        <geoform>document</geoform>
+                        <othercit>Inventory 2002 July.doc</othercit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>0</srcscale>
+                <typesrc>None</typesrc>
+                <srctime>
+                    <timeinfo>
+                        <sngdate>
+                            <caldate>20040101</caldate>
+                        </sngdate>
+                    </timeinfo>
+                    <srccurr>publication date</srccurr>
+                </srctime>
+                <srccitea>District of Columbia Inventory of Historic Sites (2004)</srccitea>
+                <srccontr>DC State Historic Preservation Office (HP)</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <title>Orthophotos (1999)</title>
+                        <geoform>raster digital data</geoform>
+                    </citeinfo>
+                </srccite>
+                <typesrc>None</typesrc>
+                <srccitea>Orthophotos (1999)</srccitea>
+                <srccontr>DCGIS</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <origin/>
+                        <title>Pictometry</title>
+                        <geoform>remote-sensing image</geoform>
+                    </citeinfo>
+                </srccite>
+                <typesrc>hardcopyPhoto</typesrc>
+                <srccitea>Pictometry</srccitea>
+                <srccontr>Pictometry</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <origin/>
+                        <origin/>
+                        <title>Road Boundaries (RoadPly) - Planimetrics</title>
+                        <edition>1st Edition</edition>
+                        <geoform>vector digital data</geoform>
+                        <othercit>Road Boundaries from DCGIS (RoadPly) - Planimetrics</othercit>
+                    </citeinfo>
+                </srccite>
+                <srcscale>2400</srcscale>
+                <typesrc>None</typesrc>
+                <srccitea>RoadPly</srccitea>
+                <srccontr>DCGIS</srccontr>
+            </srcinfo>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin/>
+                        <origin/>
+                        <pubdate>19590101</pubdate>
+                        <title>Baist Volume Index (1959)</title>
+                        <geoform>map</geoform>
+                        <othercit>Surveys of Washington, District of Columbia (Volumes 1, 2, 3, &amp; 4) within DC State Historic Preservation Office (HP)</othercit>
+                    </citeinfo>
+                </srccite>
+                <typesrc>hardcopyPaper</typesrc>
+                <srctime>
+                    <timeinfo>
+                        <sngdate>
+                            <caldate>19590101</caldate>
+                        </sngdate>
+                    </timeinfo>
+                    <srccurr>publication date</srccurr>
+                </srctime>
+                <srccitea>Baist Volume Index (1959)</srccitea>
+                <srccontr>Baist's Real Estate Atlas (1959)</srccontr>
+            </srcinfo>
+            <procstep>
+                <procdesc>Phase I - Historic Inventory Database Version 1 Attribute Analysis Historic Preservation staff performed research and update against the Inventory database (Version 1) to clarify discrepancies between the current Inventory document and the current spatial datasets.</procdesc>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC State Historic Preservation Office (HP)</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 N. Capitol St., NE # 3000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7600</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Phase I - Historic Inventory Database Version 1 Attribute Analysis Attribute components of the spatial datasets (Historic Landmark Sites, Historic Landmark Areas, and Historic Districts) were imported to an MS Access database. Began process to convert text document ("Inventory of Historic Sites - 2000") from text format into tabular format. Fields were made for block text entries and detailed data was extracted from these. Created fields that corresponded to spatial dataset attributes for future comparative analysis. Loaded spatial dataset values and determined associations between spatial data features and Inventory items. Identified inconsistencies between spatial dataset attributes and Inventory attributes.</procdesc>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning (DCOP)</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 North Capitol St, NE # 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Boundary of Georgetown Historic District was updated 2/9/2007 to better reflect the boundary of the Potomac River and Rock Creek Parkway.</procdesc>
+                <srcused>Rock Creek and Potamac Parkway Documentation Project 1991-1992</srcused>
+            </procstep>
+            <procstep>
+                <procdesc>Foxhall Historic District feature dataset added.</procdesc>
+            </procstep>
+            <procstep>
+                <procdesc>Process description: Boundaries of 16th Street Historic District and Greater 14th Street Historic District modified to reflect expansion of these districts.</procdesc>
+            </procstep>
+            <procstep>
+                <procdesc>Phase V - Spatial Data Validation All address points have been validated against the Master Address Repository (MAR) dataset and the current DRAFT Taxlot and Recordlot property boundaries. Only the first 93 entries from the Inventory of Historic Sites document were validated in this phase, plus updating the attribution of the Landmark Areas / Historic Districts dataset. This constitutes the first major section of the document, "The Federal City". Subsequent document chapters will be processed and validated sequentially. After the major issues were addressed, Historic Preservation Staff reviewed the Location and names of all landmark structures and sites within the dataset. Proof maps were generated and changes or updates were noted where appropriate. DC Office of Planning GIS Staff reviewed and prepared the updates.</procdesc>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 North Capitol St, NE Suite 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20002</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Phase II - Historic Inventory Database Version 2 Between 07/16/2002 and 09/22/2004, the content and structure of the "Inventory of Historic Sites" document was updated, revised, and reformatted. In addition to supplying new content, the structure of the document was changed from an alphabetical ordering to an ordering by historical eras and cultural themes. Most of the original landmark entries still existed, but many underwent name changes or content expansion. The Historic Inventory database underwent a corresponding upgrade. Fields were added to accomodate the Era/Theme hierarchy of the new document. New entries were added and records updated, as appropriate. The Inventory document contains entries for many types of historical entities. It can also have single entries which contain a listing of individual locations. Three types of spatial features were determined to describe entities within the Inventory document, Landmark Areas (Historic Districts, Parks, Cemeteries, etc.), Landmark Structures (Buildings, Memorials, Fountains, etc.), and Landmark Sites (Point Locations). Overlap between spatial features was expected between Landmark Sites and Landmark Areas or Structures. In addition, individual Landmark Sites or Areas might exist. Three GIS ID fields were used to link records in the Inventory Database to their corresponding spatial entity (Landmark Areas, Structures, or Sites). These fields were added to the original Inventory table and to a Collections table that tracked individual locations within single Inventory document entries.</procdesc>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning (DCOP)</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 North Capitol St, NE # 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Phase I - Historic Inventory Database Version 1 Spatial Analysis Analytical review of spatial historic datasets in DC Atlas. These include Historic Landmark Sites, Historic Landmark Areas, and Historic Districts. On the whole, the data sets were found to be coarsely digitized and their attributes were referenced against a document that was several years out of date.</procdesc>
+                <srcused>withheld</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning (DCOP)</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 North Capitol St, NE # 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20001</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Phase I - Historic Inventory Database Version 1 Attribute Analysis Updated Inventory database with values from new Inventory document (July 2002). Identified inconsistencies between spatial dataset attributes and Inventory attributes.</procdesc>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning (DCOP)</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 N. Capitol St, NE # 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20002</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Phase III - Spatial Data Collection and Creation The "Inventory of Historic Sites" document addresses a wide variety of features. Using the current DCGIS historic spatial features as a guide (Historic Districts, Landmark Areas, Landmark Sites), DCOP staff began assembling related spatial data sources. A simple attribution scheme was defined for the three spatial datasets (GIS_ID, NAME, ADDRESS, SSL). Detailed attribution that mirrored the content of the Inventory document would be managed in the Inventory database and would be linked to the appropriate spatial dataset(s) by a unique GIS ID. The assembled spatial data sources were stripped of attribution and replaced with the simple attribution scheme (GIS_ID, NAME, ADDRESS, SSL). The table below details the relationships between the GIS ID in the Inventory database to the individual spatial datasets. Landmark Inventory Format Spatial GIS Link Type ID Dataset Area LND_ID LND_0000 LandmarkPly GIS_ID Structures HSE_ID HSE_0000 LandmarkBldg GIS_ID Sites SSL_ID SSL_0000 LandmarkPt GIS_ID Assembled all data sources that had undergone attribute reduction and consistency into source Personal Geo-database. Developed ArcMap MXD for updating component data sources including: Landmark Areas HistDisPly Historic Districts (DCOP) Reservations DC Reservations (DCOP) CemeteryPly Cemeteries (DCGIS) LandmrkPly Old Landmark Areas (DCGIS) WaterPly River Boundaries (DCGIS) RoadPly Road Boundaries (DCGIS) ParkPly NPS Parks (NPS) Landmark Structures BldgPly Building Footprints (DCGIS) Landmark Sites OwnerPt Owner Points (DCGIS) PlacesOfWorship Churches (DCGIS) Concurrently walked through the Inventory Document, Inventory Database, and Spatial Data Locator (ArcMap). Determined that each document entry has a spatial data equivalent. Concurrently assign a unique GIS ID to Inventory Database and associated spatial dataset. If no spatial data exists, designate "GIS Placeholder" within Inventory Document text. In the event that a single Inventory Document entry references multiple spatial locations (collections), individual location records were created in a separate table. GIS features were created and/or attributed, as appropriate. Collection records included a link back to the original Record ID as well as simple descriptive information. The location and visual validation of the Landmark Structures and Landmark Sites was facilitated by two tools developed by DC Office of Planning (DCOP) staff. An address geocoder utility allowed GIS staff to zoom into a specific location (address) as defined in the Inventory record. In addition, a Pictometry Viewing utility enebled staff to view a given location (structure) close enough for visual clues. These two tools in conjunction with referencing to Historic American Building Survey (HABS) website found the majority of sites.</procdesc>
+                <srcused>withheld</srcused>
+                <srcused>withheld</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning (DCOP)</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 North Capitol St, NE # 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20002</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Phase IV - Spatial Data Validation Several fields were added to maintain consistency with the DCGIS spatial data model ([OBJECTID], [AID], [WEB_URL], and [UPDATE_DATE]). Two additional fields ([LABEL] and [NR_ELIGIBLE]) were incorporated into the updated dataset. [LABEL] is used to indicate a feature's name on a display or map. [NR_ELIGIBLE] is a flags that indicates whether the feature is eligible for entry in the National Register list. DCOP and Historic Preservation staff performed a visual validation of the Landmark Areas dataset. Area boundaries were plotted and checked against DRAFT vectorized lot lines (Tax lot / Record lot), as well as planimetric features, as needed. Numerous new Landmark areas and Historic Districts were added to the dataset.</procdesc>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning</cntorg>
+                        </cntorgp>
+                        <cntaddr>
+                            <addrtype>mailing and physical</addrtype>
+                            <address>801 N Capitol St, NE # 4000</address>
+                            <city>Washington</city>
+                            <state>DC</state>
+                            <postal>20002</postal>
+                            <country>US</country>
+                        </cntaddr>
+                        <cntvoice>202-442-7600</cntvoice>
+                        <cntfax>202-442-7637</cntfax>
+                        <hours>8:30 am - 5:00 pm</hours>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Updated Historic Inventory by adding new Historic Districts, and added NPS &amp; NHS as area types. Added column for 'historic designation' and 'eligibilty.' Updated 'label' column to make labels more compact.</procdesc>
+                <srcused>David Maloney &amp; "D.C. Inventiry of Historic Sites, 2004" document</srcused>
+                <proccont>
+                    <cntinfo>
+                        <cntorgp>
+                            <cntorg>DC Office of Planning</cntorg>
+                            <cntper>Erica Frank</cntper>
+                        </cntorgp>
+                    </cntinfo>
+                </proccont>
+            </procstep>
+            <procstep>
+                <procdesc>Schema revised. Updates from 2006 through 2011</procdesc>
+                <procdate>20120201</procdate>
+            </procstep>
+            <procstep>
+                <procdesc>Added new Historic District (Meridian Hill)</procdesc>
+                <procdate>20140416</procdate>
+            </procstep>
+            <procstep>
+                <procdesc>Add 2 new districts: George Washington University / Old West End HD and Walter Reed Medical Center HD</procdesc>
+                <procdate>20141110</procdate>
+            </procstep>
+            <procstep>
+                <procdesc>Add new Grant Circle Historic District and Realigned Fort Circle Parks Historic District boundaries.</procdesc>
+                <procdate>20150414</procdate>
+                <proctime>120000</proctime>
+            </procstep>
+            <procstep>
+                <procdesc>new data from OP.</procdesc>
+                <procdate>20201009</procdate>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>GT-polygon composed of chains</sdtstype>
+                <ptvctcnt>0</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>HistDisPly</enttypl>
+                <enttypd>Historic Districts, National Historic Sites, National Historic Parks</enttypd>
+                <enttypds>DC Office of Planning</enttypds>
+            </enttyp>
+            <attr>
+                <attrlabl>OBJECTID</attrlabl>
+                <attrdef>Internal feature number.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                                        
+                    <udom>Sequential unique whole numbers that are automatically generated.</udom>
+                                    
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>NAME</attrlabl>
+                <attrdef>Name of District or NHS or NHP</attrdef>
+                <attrdefs>DC Office of Planning</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>LABEL</attrlabl>
+                <attrdef>Placement Label</attrdef>
+                <attrdefs>DC Office of Planning</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>ADDRESS</attrlabl>
+                <attrdef>Address Description</attrdef>
+                <attrdefs>DC Office of Planning</attrdefs>
+            </attr>
+            <attr>
+                <attrlabl>NR</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>NM</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>NHL</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>NHS</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>NHP</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>STATUS</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>DESIGNATION_DATE</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>EDIT_DATE</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>Designation</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE</attrlabl>
+                <attrdef>Feature geometry.</attrdef>
+                <attrdefs>ESRI</attrdefs>
+                <attrdomv>
+                                        
+                    <udom>Coordinates defining the features.</udom>
+                                    
+                </attrdomv>
+            </attr>
+            <attr>
+                <attrlabl>UniqueID</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>HIType</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.AREA</attrlabl>
+            </attr>
+            <attr>
+                <attrlabl>SHAPE.LEN</attrlabl>
+            </attr>
+        </detailed>
+        <overview>
+            <eaover>
+A GIS_ID field is also provided which links back to a comprehensive database that captures feature data identified in the Inventory of Historic Sites document.  The field is GIS_ID.
+
+Recommended Layer File definition queries:
+
+To show Historic Districts only (currently designated ):	
+AREA_TYPE = 'HD' 
+
+To show National Historic Sites &amp; National Historic Park Areas:
+AREA_TYPE = 'NHS' OR AREA_TYPE = 'NHP'
+</eaover>
+        </overview>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>DC Office of Planning</cntorg>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>801 North Capitol St, NE # 4000</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20002</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>202-442-7600</cntvoice>
+                <hours>8:30 am - 5:00 pm</hours>
+            </cntinfo>
+        </distrib>
+        <distliab>See access and use constraints information.</distliab>
+    </distinfo>
+    <metainfo>
+        <metd>20201013</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>DC Office of Planning</cntorg>
+                </cntorgp>
+                <cntaddr>
+                    <addrtype>mailing and physical</addrtype>
+                    <address>801 North Capitol St, NE # 4000</address>
+                    <city>Washington</city>
+                    <state>DC</state>
+                    <postal>20002</postal>
+                    <country>US</country>
+                </cntaddr>
+                <cntvoice>202-442-7600</cntvoice>
+                <cntvoice>202-442-4162</cntvoice>
+                <cntfax>202-442-7637</cntfax>
+                <hours>8:30 am - 5:00 pm</hours>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+        <metsi>
+            <metsc>Unclassified</metsc>
+        </metsi>
+    </metainfo>
+</metadata>

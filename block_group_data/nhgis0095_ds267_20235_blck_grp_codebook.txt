@@ -1,0 +1,1022 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0095_ds267_20235_blck_grp'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2019-2023
+Geographic level: Block Group (by State--County--Census Tract)
+Extent:           District of Columbia
+Dataset:          2023 American Community Survey: 5-Year Data [2019-2023, Block Groups & Larger Areas]
+   NHGIS code:    2019_2023_ACS5a
+   NHGIS ID:      ds267
+Breakdown(s):     Geographic Component:
+                     Total area (00)
+Data type(s):     (E) Estimates
+                  (M) Margins of error
+ 
+Tables:
+ 
+1. Median Age by Sex
+   Universe:    Total population
+   Source code: B01002
+   NHGIS code:  ASNR
+ 
+2. Hispanic or Latino Origin by Race
+   Universe:    Total population
+   Source code: B03002
+   NHGIS code:  ASOA
+ 
+3. Means of Transportation to Work
+   Universe:    Workers 16 years and over
+   Source code: B08301
+   NHGIS code:  ASOR
+ 
+4. Travel Time to Work
+   Universe:    Workers 16 years and over who did not work from home
+   Source code: B08303
+   NHGIS code:  ASOT
+ 
+5. Sex by Marital Status for the Population 15 Years and Over
+   Universe:    Population 15 years and over
+   Source code: B12001
+   NHGIS code:  ASPP
+ 
+6. Sex by Educational Attainment for the Population 25 Years and Over
+   Universe:    Population 25 years and over
+   Source code: B15002
+   NHGIS code:  ASP2
+ 
+7. Poverty Status in the Past 12 Months by Household Type by Age of Householder
+   Universe:    Households
+   Source code: B17017
+   NHGIS code:  ASQL
+ 
+8. Median Household Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) by Age of Householder
+   Universe:    Households
+   Source code: B19049
+   NHGIS code:  ASQ1
+ 
+9. Sex by Industry for the Civilian Employed Population 16 Years and Over
+   Universe:    Civilian employed population 16 years and over
+   Source code: C24030
+   NHGIS code:  ASS5
+ 
+10. Housing Units
+    Universe:    Housing units
+    Source code: B25001
+    NHGIS code:  ASS7
+ 
+11. Year Structure Built
+    Universe:    Housing units
+    Source code: B25034
+    NHGIS code:  ASUJ
+ 
+12. Median Year Structure Built
+    Universe:    Housing units
+    Source code: B25035
+    NHGIS code:  ASUK
+ 
+13. Tenure by Vehicles Available
+    Universe:    Occupied housing units
+    Source code: B25044
+    NHGIS code:  ASUT
+ 
+14. Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  ASVF
+ 
+15. Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25070
+    NHGIS code:  ASVH
+ 
+16. Lower Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25076
+    NHGIS code:  ASVM
+ 
+17. Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  ASVN
+ 
+18. Upper Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25078
+    NHGIS code:  ASVX
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        STUSAB:      State Postal Abbreviation
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATE:       State Name
+        STATEA:      State Code
+        COUNTY:      County Name
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place/Remainder Code
+        TRACTA:      Census Tract Code
+        BLKGRPA:     Block Group Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land Code
+        AIHHTLI:     American Indian/Hawaiian Home Land Trust Land Indicator
+        AITSA:       Tribal Subdivision/Remainder Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        CNECTA:      New England City and Town Combined Statistical Area
+        NECTADIV:    New England City and Town Area Division
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (2023-2025, 118th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        ZCTA5A:      5-Digit ZIP Code Tabulation Area Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        PCI:         Principal City Indicator
+        PUMAA:       Public Use Microdata Area Code
+        GEO_ID:      Census Geographic Area Identifier
+        BTTRA:       Tribal Census Tract Code
+        BTBGA:       Tribal Block Group Code
+        TL_GEO_ID:   TIGER/Line Shapefile Geographic Area Identifier
+ 
+Data Type (E):
+    Estimates
+ 
+        NAME_E:      Area Name
+ 
+    Table 1:     Median Age by Sex
+    Universe:    Total population
+    Source code: B01002
+    NHGIS code:  ASNR
+        ASNRE001:    Median age: Total
+        ASNRE002:    Median age: Male
+        ASNRE003:    Median age: Female
+ 
+    Table 2:     Hispanic or Latino Origin by Race
+    Universe:    Total population
+    Source code: B03002
+    NHGIS code:  ASOA
+        ASOAE001:    Total
+        ASOAE002:    Not Hispanic or Latino
+        ASOAE003:    Not Hispanic or Latino: White alone
+        ASOAE004:    Not Hispanic or Latino: Black or African American alone
+        ASOAE005:    Not Hispanic or Latino: American Indian and Alaska Native alone
+        ASOAE006:    Not Hispanic or Latino: Asian alone
+        ASOAE007:    Not Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        ASOAE008:    Not Hispanic or Latino: Some other race alone
+        ASOAE009:    Not Hispanic or Latino: Two or more races
+        ASOAE010:    Not Hispanic or Latino: Two or more races: Two races including Some other race
+        ASOAE011:    Not Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+        ASOAE012:    Hispanic or Latino
+        ASOAE013:    Hispanic or Latino: White alone
+        ASOAE014:    Hispanic or Latino: Black or African American alone
+        ASOAE015:    Hispanic or Latino: American Indian and Alaska Native alone
+        ASOAE016:    Hispanic or Latino: Asian alone
+        ASOAE017:    Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        ASOAE018:    Hispanic or Latino: Some other race alone
+        ASOAE019:    Hispanic or Latino: Two or more races
+        ASOAE020:    Hispanic or Latino: Two or more races: Two races including Some other race
+        ASOAE021:    Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+ 
+    Table 3:     Means of Transportation to Work
+    Universe:    Workers 16 years and over
+    Source code: B08301
+    NHGIS code:  ASOR
+        ASORE001:    Total
+        ASORE002:    Car, truck, or van
+        ASORE003:    Car, truck, or van: Drove alone
+        ASORE004:    Car, truck, or van: Carpooled
+        ASORE005:    Car, truck, or van: Carpooled: In 2-person carpool
+        ASORE006:    Car, truck, or van: Carpooled: In 3-person carpool
+        ASORE007:    Car, truck, or van: Carpooled: In 4-person carpool
+        ASORE008:    Car, truck, or van: Carpooled: In 5- or 6-person carpool
+        ASORE009:    Car, truck, or van: Carpooled: In 7-or-more-person carpool
+        ASORE010:    Public transportation (excluding taxicab)
+        ASORE011:    Public transportation (excluding taxicab): Bus
+        ASORE012:    Public transportation (excluding taxicab): Subway or elevated rail
+        ASORE013:    Public transportation (excluding taxicab): Long-distance train or commuter rail
+        ASORE014:    Public transportation (excluding taxicab): Light rail, streetcar or trolley (carro publico in Puerto Rico)
+        ASORE015:    Public transportation (excluding taxicab): Ferryboat
+        ASORE016:    Taxicab
+        ASORE017:    Motorcycle
+        ASORE018:    Bicycle
+        ASORE019:    Walked
+        ASORE020:    Other means
+        ASORE021:    Worked from home
+ 
+    Table 4:     Travel Time to Work
+    Universe:    Workers 16 years and over who did not work from home
+    Source code: B08303
+    NHGIS code:  ASOT
+        ASOTE001:    Total
+        ASOTE002:    Less than 5 minutes
+        ASOTE003:    5 to 9 minutes
+        ASOTE004:    10 to 14 minutes
+        ASOTE005:    15 to 19 minutes
+        ASOTE006:    20 to 24 minutes
+        ASOTE007:    25 to 29 minutes
+        ASOTE008:    30 to 34 minutes
+        ASOTE009:    35 to 39 minutes
+        ASOTE010:    40 to 44 minutes
+        ASOTE011:    45 to 59 minutes
+        ASOTE012:    60 to 89 minutes
+        ASOTE013:    90 or more minutes
+ 
+    Table 5:     Sex by Marital Status for the Population 15 Years and Over
+    Universe:    Population 15 years and over
+    Source code: B12001
+    NHGIS code:  ASPP
+        ASPPE001:    Total
+        ASPPE002:    Male
+        ASPPE003:    Male: Never married
+        ASPPE004:    Male: Now married
+        ASPPE005:    Male: Now married: Married, spouse present
+        ASPPE006:    Male: Now married: Married, spouse absent
+        ASPPE007:    Male: Now married: Married, spouse absent: Separated
+        ASPPE008:    Male: Now married: Married, spouse absent: Other
+        ASPPE009:    Male: Widowed
+        ASPPE010:    Male: Divorced
+        ASPPE011:    Female
+        ASPPE012:    Female: Never married
+        ASPPE013:    Female: Now married
+        ASPPE014:    Female: Now married: Married, spouse present
+        ASPPE015:    Female: Now married: Married, spouse absent
+        ASPPE016:    Female: Now married: Married, spouse absent: Separated
+        ASPPE017:    Female: Now married: Married, spouse absent: Other
+        ASPPE018:    Female: Widowed
+        ASPPE019:    Female: Divorced
+ 
+    Table 6:     Sex by Educational Attainment for the Population 25 Years and Over
+    Universe:    Population 25 years and over
+    Source code: B15002
+    NHGIS code:  ASP2
+        ASP2E001:    Total
+        ASP2E002:    Male
+        ASP2E003:    Male: No schooling completed
+        ASP2E004:    Male: Nursery to 4th grade
+        ASP2E005:    Male: 5th and 6th grade
+        ASP2E006:    Male: 7th and 8th grade
+        ASP2E007:    Male: 9th grade
+        ASP2E008:    Male: 10th grade
+        ASP2E009:    Male: 11th grade
+        ASP2E010:    Male: 12th grade, no diploma
+        ASP2E011:    Male: High school graduate (includes equivalency)
+        ASP2E012:    Male: Some college, less than 1 year
+        ASP2E013:    Male: Some college, 1 or more years, no degree
+        ASP2E014:    Male: Associate's degree
+        ASP2E015:    Male: Bachelor's degree
+        ASP2E016:    Male: Master's degree
+        ASP2E017:    Male: Professional school degree
+        ASP2E018:    Male: Doctorate degree
+        ASP2E019:    Female
+        ASP2E020:    Female: No schooling completed
+        ASP2E021:    Female: Nursery to 4th grade
+        ASP2E022:    Female: 5th and 6th grade
+        ASP2E023:    Female: 7th and 8th grade
+        ASP2E024:    Female: 9th grade
+        ASP2E025:    Female: 10th grade
+        ASP2E026:    Female: 11th grade
+        ASP2E027:    Female: 12th grade, no diploma
+        ASP2E028:    Female: High school graduate (includes equivalency)
+        ASP2E029:    Female: Some college, less than 1 year
+        ASP2E030:    Female: Some college, 1 or more years, no degree
+        ASP2E031:    Female: Associate's degree
+        ASP2E032:    Female: Bachelor's degree
+        ASP2E033:    Female: Master's degree
+        ASP2E034:    Female: Professional school degree
+        ASP2E035:    Female: Doctorate degree
+ 
+    Table 7:     Poverty Status in the Past 12 Months by Household Type by Age of Householder
+    Universe:    Households
+    Source code: B17017
+    NHGIS code:  ASQL
+        ASQLE001:    Total
+        ASQLE002:    Income in the past 12 months below poverty level
+        ASQLE003:    Income in the past 12 months below poverty level: Family households
+        ASQLE004:    Income in the past 12 months below poverty level: Family households: Married-couple family
+        ASQLE005:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder under 25 years
+        ASQLE006:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        ASQLE007:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        ASQLE008:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 65 years and over
+        ASQLE009:    Income in the past 12 months below poverty level: Family households: Other family
+        ASQLE010:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present
+        ASQLE011:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder under 25 years
+        ASQLE012:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder 25 to 44 years
+        ASQLE013:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder 45 to 64 years
+        ASQLE014:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder 65 years and over
+        ASQLE015:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present
+        ASQLE016:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder under 25 years
+        ASQLE017:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder 25 to 44 years
+        ASQLE018:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder 45 to 64 years
+        ASQLE019:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder 65 years and over
+        ASQLE020:    Income in the past 12 months below poverty level: Nonfamily households
+        ASQLE021:    Income in the past 12 months below poverty level: Nonfamily households: Male householder
+        ASQLE022:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder under 25 years
+        ASQLE023:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        ASQLE024:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        ASQLE025:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        ASQLE026:    Income in the past 12 months below poverty level: Nonfamily households: Female householder
+        ASQLE027:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder under 25 years
+        ASQLE028:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        ASQLE029:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        ASQLE030:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 65 years and over
+        ASQLE031:    Income in the past 12 months at or above poverty level
+        ASQLE032:    Income in the past 12 months at or above poverty level: Family households
+        ASQLE033:    Income in the past 12 months at or above poverty level: Family households: Married-couple family
+        ASQLE034:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder under 25 years
+        ASQLE035:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        ASQLE036:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        ASQLE037:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 65 years and over
+        ASQLE038:    Income in the past 12 months at or above poverty level: Family households: Other family
+        ASQLE039:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present
+        ASQLE040:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder under 25 years
+        ASQLE041:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder 25 to 44 years
+        ASQLE042:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder 45 to 64 years
+        ASQLE043:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder 65 years and over
+        ASQLE044:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present
+        ASQLE045:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder under 25 years
+        ASQLE046:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder 25 to 44 years
+        ASQLE047:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder 45 to 64 years
+        ASQLE048:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder 65 years and over
+        ASQLE049:    Income in the past 12 months at or above poverty level: Nonfamily households
+        ASQLE050:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder
+        ASQLE051:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder under 25 years
+        ASQLE052:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        ASQLE053:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        ASQLE054:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        ASQLE055:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder
+        ASQLE056:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder under 25 years
+        ASQLE057:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        ASQLE058:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        ASQLE059:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 65 years and over
+ 
+    Table 8:     Median Household Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) by Age of Householder
+    Universe:    Households
+    Source code: B19049
+    NHGIS code:  ASQ1
+        ASQ1E001:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Total
+        ASQ1E002:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder under 25 years
+        ASQ1E003:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder 25 to 44 years
+        ASQ1E004:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder 45 to 64 years
+        ASQ1E005:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder 65 years and over
+ 
+    Table 9:     Sex by Industry for the Civilian Employed Population 16 Years and Over
+    Universe:    Civilian employed population 16 years and over
+    Source code: C24030
+    NHGIS code:  ASS5
+        ASS5E001:    Total
+        ASS5E002:    Male
+        ASS5E003:    Male: Agriculture, forestry, fishing and hunting, and mining
+        ASS5E004:    Male: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        ASS5E005:    Male: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        ASS5E006:    Male: Construction
+        ASS5E007:    Male: Manufacturing
+        ASS5E008:    Male: Wholesale trade
+        ASS5E009:    Male: Retail trade
+        ASS5E010:    Male: Transportation and warehousing, and utilities
+        ASS5E011:    Male: Transportation and warehousing, and utilities: Transportation and warehousing
+        ASS5E012:    Male: Transportation and warehousing, and utilities: Utilities
+        ASS5E013:    Male: Information
+        ASS5E014:    Male: Finance and insurance, and real estate, and rental and leasing
+        ASS5E015:    Male: Finance and insurance, and real estate, and rental and leasing: Finance and insurance
+        ASS5E016:    Male: Finance and insurance, and real estate, and rental and leasing: Real estate and rental and leasing
+        ASS5E017:    Male: Professional, scientific, and management, and administrative, and waste management services
+        ASS5E018:    Male: Professional, scientific, and management, and administrative, and waste management services: Professional, scientific, and technical services
+        ASS5E019:    Male: Professional, scientific, and management, and administrative, and waste management services: Management of companies and enterprises
+        ASS5E020:    Male: Professional, scientific, and management, and administrative, and waste management services: Administrative and support and waste management services
+        ASS5E021:    Male: Educational services, and health care and social assistance
+        ASS5E022:    Male: Educational services, and health care and social assistance: Educational services
+        ASS5E023:    Male: Educational services, and health care and social assistance: Health care and social assistance
+        ASS5E024:    Male: Arts, entertainment, and recreation, and accommodation and food services
+        ASS5E025:    Male: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        ASS5E026:    Male: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        ASS5E027:    Male: Other services, except public administration
+        ASS5E028:    Male: Public administration
+        ASS5E029:    Female
+        ASS5E030:    Female: Agriculture, forestry, fishing and hunting, and mining
+        ASS5E031:    Female: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        ASS5E032:    Female: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        ASS5E033:    Female: Construction
+        ASS5E034:    Female: Manufacturing
+        ASS5E035:    Female: Wholesale trade
+        ASS5E036:    Female: Retail trade
+        ASS5E037:    Female: Transportation and warehousing, and utilities
+        ASS5E038:    Female: Transportation and warehousing, and utilities: Transportation and warehousing
+        ASS5E039:    Female: Transportation and warehousing, and utilities: Utilities
+        ASS5E040:    Female: Information
+        ASS5E041:    Female: Finance and insurance, and real estate, and rental and leasing
+        ASS5E042:    Female: Finance and insurance, and real estate, and rental and leasing: Finance and insurance
+        ASS5E043:    Female: Finance and insurance, and real estate, and rental and leasing: Real estate and rental and leasing
+        ASS5E044:    Female: Professional, scientific, and management, and administrative, and waste management services
+        ASS5E045:    Female: Professional, scientific, and management, and administrative, and waste management services: Professional, scientific, and technical services
+        ASS5E046:    Female: Professional, scientific, and management, and administrative, and waste management services: Management of companies and enterprises
+        ASS5E047:    Female: Professional, scientific, and management, and administrative, and waste management services: Administrative and support and waste management services
+        ASS5E048:    Female: Educational services, and health care and social assistance
+        ASS5E049:    Female: Educational services, and health care and social assistance: Educational services
+        ASS5E050:    Female: Educational services, and health care and social assistance: Health care and social assistance
+        ASS5E051:    Female: Arts, entertainment, and recreation, and accommodation and food services
+        ASS5E052:    Female: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        ASS5E053:    Female: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        ASS5E054:    Female: Other services, except public administration
+        ASS5E055:    Female: Public administration
+ 
+    Table 10:    Housing Units
+    Universe:    Housing units
+    Source code: B25001
+    NHGIS code:  ASS7
+        ASS7E001:    Total
+ 
+    Table 11:    Year Structure Built
+    Universe:    Housing units
+    Source code: B25034
+    NHGIS code:  ASUJ
+        ASUJE001:    Total
+        ASUJE002:    Built 2020 or later
+        ASUJE003:    Built 2010 to 2019
+        ASUJE004:    Built 2000 to 2009
+        ASUJE005:    Built 1990 to 1999
+        ASUJE006:    Built 1980 to 1989
+        ASUJE007:    Built 1970 to 1979
+        ASUJE008:    Built 1960 to 1969
+        ASUJE009:    Built 1950 to 1959
+        ASUJE010:    Built 1940 to 1949
+        ASUJE011:    Built 1939 or earlier
+ 
+    Table 12:    Median Year Structure Built
+    Universe:    Housing units
+    Source code: B25035
+    NHGIS code:  ASUK
+        ASUKE001:    Median year structure built
+ 
+    Table 13:    Tenure by Vehicles Available
+    Universe:    Occupied housing units
+    Source code: B25044
+    NHGIS code:  ASUT
+        ASUTE001:    Total
+        ASUTE002:    Owner occupied
+        ASUTE003:    Owner occupied: No vehicle available
+        ASUTE004:    Owner occupied: 1 vehicle available
+        ASUTE005:    Owner occupied: 2 vehicles available
+        ASUTE006:    Owner occupied: 3 vehicles available
+        ASUTE007:    Owner occupied: 4 vehicles available
+        ASUTE008:    Owner occupied: 5 or more vehicles available
+        ASUTE009:    Renter occupied
+        ASUTE010:    Renter occupied: No vehicle available
+        ASUTE011:    Renter occupied: 1 vehicle available
+        ASUTE012:    Renter occupied: 2 vehicles available
+        ASUTE013:    Renter occupied: 3 vehicles available
+        ASUTE014:    Renter occupied: 4 vehicles available
+        ASUTE015:    Renter occupied: 5 or more vehicles available
+ 
+    Table 14:    Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  ASVF
+        ASVFE001:    Total
+        ASVFE002:    No bedroom
+        ASVFE003:    No bedroom: With cash rent
+        ASVFE004:    No bedroom: With cash rent: Less than $300
+        ASVFE005:    No bedroom: With cash rent: $300 to $499
+        ASVFE006:    No bedroom: With cash rent: $500 to $749
+        ASVFE007:    No bedroom: With cash rent: $750 to $999
+        ASVFE008:    No bedroom: With cash rent: $1,000 to $1,499
+        ASVFE009:    No bedroom: With cash rent: $1,500 or more
+        ASVFE010:    No bedroom: No cash rent
+        ASVFE011:    1 bedroom
+        ASVFE012:    1 bedroom: With cash rent
+        ASVFE013:    1 bedroom: With cash rent: Less than $300
+        ASVFE014:    1 bedroom: With cash rent: $300 to $499
+        ASVFE015:    1 bedroom: With cash rent: $500 to $749
+        ASVFE016:    1 bedroom: With cash rent: $750 to $999
+        ASVFE017:    1 bedroom: With cash rent: $1,000 to $1,499
+        ASVFE018:    1 bedroom: With cash rent: $1,500 or more
+        ASVFE019:    1 bedroom: No cash rent
+        ASVFE020:    2 bedrooms
+        ASVFE021:    2 bedrooms: With cash rent
+        ASVFE022:    2 bedrooms: With cash rent: Less than $300
+        ASVFE023:    2 bedrooms: With cash rent: $300 to $499
+        ASVFE024:    2 bedrooms: With cash rent: $500 to $749
+        ASVFE025:    2 bedrooms: With cash rent: $750 to $999
+        ASVFE026:    2 bedrooms: With cash rent: $1,000 to $1,499
+        ASVFE027:    2 bedrooms: With cash rent: $1,500 or more
+        ASVFE028:    2 bedrooms: No cash rent
+        ASVFE029:    3 or more bedrooms
+        ASVFE030:    3 or more bedrooms: With cash rent
+        ASVFE031:    3 or more bedrooms: With cash rent: Less than $300
+        ASVFE032:    3 or more bedrooms: With cash rent: $300 to $499
+        ASVFE033:    3 or more bedrooms: With cash rent: $500 to $749
+        ASVFE034:    3 or more bedrooms: With cash rent: $750 to $999
+        ASVFE035:    3 or more bedrooms: With cash rent: $1,000 to $1,499
+        ASVFE036:    3 or more bedrooms: With cash rent: $1,500 or more
+        ASVFE037:    3 or more bedrooms: No cash rent
+ 
+    Table 15:    Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25070
+    NHGIS code:  ASVH
+        ASVHE001:    Total
+        ASVHE002:    Less than 10.0 percent
+        ASVHE003:    10.0 to 14.9 percent
+        ASVHE004:    15.0 to 19.9 percent
+        ASVHE005:    20.0 to 24.9 percent
+        ASVHE006:    25.0 to 29.9 percent
+        ASVHE007:    30.0 to 34.9 percent
+        ASVHE008:    35.0 to 39.9 percent
+        ASVHE009:    40.0 to 49.9 percent
+        ASVHE010:    50.0 percent or more
+        ASVHE011:    Not computed
+ 
+    Table 16:    Lower Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25076
+    NHGIS code:  ASVM
+        ASVME001:    Lower value quartile (dollars)
+ 
+    Table 17:    Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  ASVN
+        ASVNE001:    Median value (dollars)
+ 
+    Table 18:    Upper Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25078
+    NHGIS code:  ASVX
+        ASVXE001:    Upper value quartile (dollars)
+ 
+Data Type (M):
+    Margins of error
+ 
+        NAME_M:      Area Name
+ 
+    Table 1:     Median Age by Sex
+    Universe:    Total population
+    Source code: B01002
+    NHGIS code:  ASNR
+        ASNRM001:    Median age: Total
+        ASNRM002:    Median age: Male
+        ASNRM003:    Median age: Female
+ 
+    Table 2:     Hispanic or Latino Origin by Race
+    Universe:    Total population
+    Source code: B03002
+    NHGIS code:  ASOA
+        ASOAM001:    Total
+        ASOAM002:    Not Hispanic or Latino
+        ASOAM003:    Not Hispanic or Latino: White alone
+        ASOAM004:    Not Hispanic or Latino: Black or African American alone
+        ASOAM005:    Not Hispanic or Latino: American Indian and Alaska Native alone
+        ASOAM006:    Not Hispanic or Latino: Asian alone
+        ASOAM007:    Not Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        ASOAM008:    Not Hispanic or Latino: Some other race alone
+        ASOAM009:    Not Hispanic or Latino: Two or more races
+        ASOAM010:    Not Hispanic or Latino: Two or more races: Two races including Some other race
+        ASOAM011:    Not Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+        ASOAM012:    Hispanic or Latino
+        ASOAM013:    Hispanic or Latino: White alone
+        ASOAM014:    Hispanic or Latino: Black or African American alone
+        ASOAM015:    Hispanic or Latino: American Indian and Alaska Native alone
+        ASOAM016:    Hispanic or Latino: Asian alone
+        ASOAM017:    Hispanic or Latino: Native Hawaiian and Other Pacific Islander alone
+        ASOAM018:    Hispanic or Latino: Some other race alone
+        ASOAM019:    Hispanic or Latino: Two or more races
+        ASOAM020:    Hispanic or Latino: Two or more races: Two races including Some other race
+        ASOAM021:    Hispanic or Latino: Two or more races: Two races excluding Some other race, and three or more races
+ 
+    Table 3:     Means of Transportation to Work
+    Universe:    Workers 16 years and over
+    Source code: B08301
+    NHGIS code:  ASOR
+        ASORM001:    Total
+        ASORM002:    Car, truck, or van
+        ASORM003:    Car, truck, or van: Drove alone
+        ASORM004:    Car, truck, or van: Carpooled
+        ASORM005:    Car, truck, or van: Carpooled: In 2-person carpool
+        ASORM006:    Car, truck, or van: Carpooled: In 3-person carpool
+        ASORM007:    Car, truck, or van: Carpooled: In 4-person carpool
+        ASORM008:    Car, truck, or van: Carpooled: In 5- or 6-person carpool
+        ASORM009:    Car, truck, or van: Carpooled: In 7-or-more-person carpool
+        ASORM010:    Public transportation (excluding taxicab)
+        ASORM011:    Public transportation (excluding taxicab): Bus
+        ASORM012:    Public transportation (excluding taxicab): Subway or elevated rail
+        ASORM013:    Public transportation (excluding taxicab): Long-distance train or commuter rail
+        ASORM014:    Public transportation (excluding taxicab): Light rail, streetcar or trolley (carro publico in Puerto Rico)
+        ASORM015:    Public transportation (excluding taxicab): Ferryboat
+        ASORM016:    Taxicab
+        ASORM017:    Motorcycle
+        ASORM018:    Bicycle
+        ASORM019:    Walked
+        ASORM020:    Other means
+        ASORM021:    Worked from home
+ 
+    Table 4:     Travel Time to Work
+    Universe:    Workers 16 years and over who did not work from home
+    Source code: B08303
+    NHGIS code:  ASOT
+        ASOTM001:    Total
+        ASOTM002:    Less than 5 minutes
+        ASOTM003:    5 to 9 minutes
+        ASOTM004:    10 to 14 minutes
+        ASOTM005:    15 to 19 minutes
+        ASOTM006:    20 to 24 minutes
+        ASOTM007:    25 to 29 minutes
+        ASOTM008:    30 to 34 minutes
+        ASOTM009:    35 to 39 minutes
+        ASOTM010:    40 to 44 minutes
+        ASOTM011:    45 to 59 minutes
+        ASOTM012:    60 to 89 minutes
+        ASOTM013:    90 or more minutes
+ 
+    Table 5:     Sex by Marital Status for the Population 15 Years and Over
+    Universe:    Population 15 years and over
+    Source code: B12001
+    NHGIS code:  ASPP
+        ASPPM001:    Total
+        ASPPM002:    Male
+        ASPPM003:    Male: Never married
+        ASPPM004:    Male: Now married
+        ASPPM005:    Male: Now married: Married, spouse present
+        ASPPM006:    Male: Now married: Married, spouse absent
+        ASPPM007:    Male: Now married: Married, spouse absent: Separated
+        ASPPM008:    Male: Now married: Married, spouse absent: Other
+        ASPPM009:    Male: Widowed
+        ASPPM010:    Male: Divorced
+        ASPPM011:    Female
+        ASPPM012:    Female: Never married
+        ASPPM013:    Female: Now married
+        ASPPM014:    Female: Now married: Married, spouse present
+        ASPPM015:    Female: Now married: Married, spouse absent
+        ASPPM016:    Female: Now married: Married, spouse absent: Separated
+        ASPPM017:    Female: Now married: Married, spouse absent: Other
+        ASPPM018:    Female: Widowed
+        ASPPM019:    Female: Divorced
+ 
+    Table 6:     Sex by Educational Attainment for the Population 25 Years and Over
+    Universe:    Population 25 years and over
+    Source code: B15002
+    NHGIS code:  ASP2
+        ASP2M001:    Total
+        ASP2M002:    Male
+        ASP2M003:    Male: No schooling completed
+        ASP2M004:    Male: Nursery to 4th grade
+        ASP2M005:    Male: 5th and 6th grade
+        ASP2M006:    Male: 7th and 8th grade
+        ASP2M007:    Male: 9th grade
+        ASP2M008:    Male: 10th grade
+        ASP2M009:    Male: 11th grade
+        ASP2M010:    Male: 12th grade, no diploma
+        ASP2M011:    Male: High school graduate (includes equivalency)
+        ASP2M012:    Male: Some college, less than 1 year
+        ASP2M013:    Male: Some college, 1 or more years, no degree
+        ASP2M014:    Male: Associate's degree
+        ASP2M015:    Male: Bachelor's degree
+        ASP2M016:    Male: Master's degree
+        ASP2M017:    Male: Professional school degree
+        ASP2M018:    Male: Doctorate degree
+        ASP2M019:    Female
+        ASP2M020:    Female: No schooling completed
+        ASP2M021:    Female: Nursery to 4th grade
+        ASP2M022:    Female: 5th and 6th grade
+        ASP2M023:    Female: 7th and 8th grade
+        ASP2M024:    Female: 9th grade
+        ASP2M025:    Female: 10th grade
+        ASP2M026:    Female: 11th grade
+        ASP2M027:    Female: 12th grade, no diploma
+        ASP2M028:    Female: High school graduate (includes equivalency)
+        ASP2M029:    Female: Some college, less than 1 year
+        ASP2M030:    Female: Some college, 1 or more years, no degree
+        ASP2M031:    Female: Associate's degree
+        ASP2M032:    Female: Bachelor's degree
+        ASP2M033:    Female: Master's degree
+        ASP2M034:    Female: Professional school degree
+        ASP2M035:    Female: Doctorate degree
+ 
+    Table 7:     Poverty Status in the Past 12 Months by Household Type by Age of Householder
+    Universe:    Households
+    Source code: B17017
+    NHGIS code:  ASQL
+        ASQLM001:    Total
+        ASQLM002:    Income in the past 12 months below poverty level
+        ASQLM003:    Income in the past 12 months below poverty level: Family households
+        ASQLM004:    Income in the past 12 months below poverty level: Family households: Married-couple family
+        ASQLM005:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder under 25 years
+        ASQLM006:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        ASQLM007:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        ASQLM008:    Income in the past 12 months below poverty level: Family households: Married-couple family: Householder 65 years and over
+        ASQLM009:    Income in the past 12 months below poverty level: Family households: Other family
+        ASQLM010:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present
+        ASQLM011:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder under 25 years
+        ASQLM012:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder 25 to 44 years
+        ASQLM013:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder 45 to 64 years
+        ASQLM014:    Income in the past 12 months below poverty level: Family households: Other family: Male householder, no spouse present: Householder 65 years and over
+        ASQLM015:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present
+        ASQLM016:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder under 25 years
+        ASQLM017:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder 25 to 44 years
+        ASQLM018:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder 45 to 64 years
+        ASQLM019:    Income in the past 12 months below poverty level: Family households: Other family: Female householder, no spouse present: Householder 65 years and over
+        ASQLM020:    Income in the past 12 months below poverty level: Nonfamily households
+        ASQLM021:    Income in the past 12 months below poverty level: Nonfamily households: Male householder
+        ASQLM022:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder under 25 years
+        ASQLM023:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        ASQLM024:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        ASQLM025:    Income in the past 12 months below poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        ASQLM026:    Income in the past 12 months below poverty level: Nonfamily households: Female householder
+        ASQLM027:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder under 25 years
+        ASQLM028:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        ASQLM029:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        ASQLM030:    Income in the past 12 months below poverty level: Nonfamily households: Female householder: Householder 65 years and over
+        ASQLM031:    Income in the past 12 months at or above poverty level
+        ASQLM032:    Income in the past 12 months at or above poverty level: Family households
+        ASQLM033:    Income in the past 12 months at or above poverty level: Family households: Married-couple family
+        ASQLM034:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder under 25 years
+        ASQLM035:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 25 to 44 years
+        ASQLM036:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 45 to 64 years
+        ASQLM037:    Income in the past 12 months at or above poverty level: Family households: Married-couple family: Householder 65 years and over
+        ASQLM038:    Income in the past 12 months at or above poverty level: Family households: Other family
+        ASQLM039:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present
+        ASQLM040:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder under 25 years
+        ASQLM041:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder 25 to 44 years
+        ASQLM042:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder 45 to 64 years
+        ASQLM043:    Income in the past 12 months at or above poverty level: Family households: Other family: Male householder, no spouse present: Householder 65 years and over
+        ASQLM044:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present
+        ASQLM045:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder under 25 years
+        ASQLM046:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder 25 to 44 years
+        ASQLM047:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder 45 to 64 years
+        ASQLM048:    Income in the past 12 months at or above poverty level: Family households: Other family: Female householder, no spouse present: Householder 65 years and over
+        ASQLM049:    Income in the past 12 months at or above poverty level: Nonfamily households
+        ASQLM050:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder
+        ASQLM051:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder under 25 years
+        ASQLM052:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 25 to 44 years
+        ASQLM053:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 45 to 64 years
+        ASQLM054:    Income in the past 12 months at or above poverty level: Nonfamily households: Male householder: Householder 65 years and over
+        ASQLM055:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder
+        ASQLM056:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder under 25 years
+        ASQLM057:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 25 to 44 years
+        ASQLM058:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 45 to 64 years
+        ASQLM059:    Income in the past 12 months at or above poverty level: Nonfamily households: Female householder: Householder 65 years and over
+ 
+    Table 8:     Median Household Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) by Age of Householder
+    Universe:    Households
+    Source code: B19049
+    NHGIS code:  ASQ1
+        ASQ1M001:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Total
+        ASQ1M002:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder under 25 years
+        ASQ1M003:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder 25 to 44 years
+        ASQ1M004:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder 45 to 64 years
+        ASQ1M005:    Median household income in the past 12 months (in 2023 inflation-adjusted dollars): Householder 65 years and over
+ 
+    Table 9:     Sex by Industry for the Civilian Employed Population 16 Years and Over
+    Universe:    Civilian employed population 16 years and over
+    Source code: C24030
+    NHGIS code:  ASS5
+        ASS5M001:    Total
+        ASS5M002:    Male
+        ASS5M003:    Male: Agriculture, forestry, fishing and hunting, and mining
+        ASS5M004:    Male: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        ASS5M005:    Male: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        ASS5M006:    Male: Construction
+        ASS5M007:    Male: Manufacturing
+        ASS5M008:    Male: Wholesale trade
+        ASS5M009:    Male: Retail trade
+        ASS5M010:    Male: Transportation and warehousing, and utilities
+        ASS5M011:    Male: Transportation and warehousing, and utilities: Transportation and warehousing
+        ASS5M012:    Male: Transportation and warehousing, and utilities: Utilities
+        ASS5M013:    Male: Information
+        ASS5M014:    Male: Finance and insurance, and real estate, and rental and leasing
+        ASS5M015:    Male: Finance and insurance, and real estate, and rental and leasing: Finance and insurance
+        ASS5M016:    Male: Finance and insurance, and real estate, and rental and leasing: Real estate and rental and leasing
+        ASS5M017:    Male: Professional, scientific, and management, and administrative, and waste management services
+        ASS5M018:    Male: Professional, scientific, and management, and administrative, and waste management services: Professional, scientific, and technical services
+        ASS5M019:    Male: Professional, scientific, and management, and administrative, and waste management services: Management of companies and enterprises
+        ASS5M020:    Male: Professional, scientific, and management, and administrative, and waste management services: Administrative and support and waste management services
+        ASS5M021:    Male: Educational services, and health care and social assistance
+        ASS5M022:    Male: Educational services, and health care and social assistance: Educational services
+        ASS5M023:    Male: Educational services, and health care and social assistance: Health care and social assistance
+        ASS5M024:    Male: Arts, entertainment, and recreation, and accommodation and food services
+        ASS5M025:    Male: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        ASS5M026:    Male: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        ASS5M027:    Male: Other services, except public administration
+        ASS5M028:    Male: Public administration
+        ASS5M029:    Female
+        ASS5M030:    Female: Agriculture, forestry, fishing and hunting, and mining
+        ASS5M031:    Female: Agriculture, forestry, fishing and hunting, and mining: Agriculture, forestry, fishing and hunting
+        ASS5M032:    Female: Agriculture, forestry, fishing and hunting, and mining: Mining, quarrying, and oil and gas extraction
+        ASS5M033:    Female: Construction
+        ASS5M034:    Female: Manufacturing
+        ASS5M035:    Female: Wholesale trade
+        ASS5M036:    Female: Retail trade
+        ASS5M037:    Female: Transportation and warehousing, and utilities
+        ASS5M038:    Female: Transportation and warehousing, and utilities: Transportation and warehousing
+        ASS5M039:    Female: Transportation and warehousing, and utilities: Utilities
+        ASS5M040:    Female: Information
+        ASS5M041:    Female: Finance and insurance, and real estate, and rental and leasing
+        ASS5M042:    Female: Finance and insurance, and real estate, and rental and leasing: Finance and insurance
+        ASS5M043:    Female: Finance and insurance, and real estate, and rental and leasing: Real estate and rental and leasing
+        ASS5M044:    Female: Professional, scientific, and management, and administrative, and waste management services
+        ASS5M045:    Female: Professional, scientific, and management, and administrative, and waste management services: Professional, scientific, and technical services
+        ASS5M046:    Female: Professional, scientific, and management, and administrative, and waste management services: Management of companies and enterprises
+        ASS5M047:    Female: Professional, scientific, and management, and administrative, and waste management services: Administrative and support and waste management services
+        ASS5M048:    Female: Educational services, and health care and social assistance
+        ASS5M049:    Female: Educational services, and health care and social assistance: Educational services
+        ASS5M050:    Female: Educational services, and health care and social assistance: Health care and social assistance
+        ASS5M051:    Female: Arts, entertainment, and recreation, and accommodation and food services
+        ASS5M052:    Female: Arts, entertainment, and recreation, and accommodation and food services: Arts, entertainment, and recreation
+        ASS5M053:    Female: Arts, entertainment, and recreation, and accommodation and food services: Accommodation and food services
+        ASS5M054:    Female: Other services, except public administration
+        ASS5M055:    Female: Public administration
+ 
+    Table 10:    Housing Units
+    Universe:    Housing units
+    Source code: B25001
+    NHGIS code:  ASS7
+        ASS7M001:    Total
+ 
+    Table 11:    Year Structure Built
+    Universe:    Housing units
+    Source code: B25034
+    NHGIS code:  ASUJ
+        ASUJM001:    Total
+        ASUJM002:    Built 2020 or later
+        ASUJM003:    Built 2010 to 2019
+        ASUJM004:    Built 2000 to 2009
+        ASUJM005:    Built 1990 to 1999
+        ASUJM006:    Built 1980 to 1989
+        ASUJM007:    Built 1970 to 1979
+        ASUJM008:    Built 1960 to 1969
+        ASUJM009:    Built 1950 to 1959
+        ASUJM010:    Built 1940 to 1949
+        ASUJM011:    Built 1939 or earlier
+ 
+    Table 12:    Median Year Structure Built
+    Universe:    Housing units
+    Source code: B25035
+    NHGIS code:  ASUK
+        ASUKM001:    Median year structure built
+ 
+    Table 13:    Tenure by Vehicles Available
+    Universe:    Occupied housing units
+    Source code: B25044
+    NHGIS code:  ASUT
+        ASUTM001:    Total
+        ASUTM002:    Owner occupied
+        ASUTM003:    Owner occupied: No vehicle available
+        ASUTM004:    Owner occupied: 1 vehicle available
+        ASUTM005:    Owner occupied: 2 vehicles available
+        ASUTM006:    Owner occupied: 3 vehicles available
+        ASUTM007:    Owner occupied: 4 vehicles available
+        ASUTM008:    Owner occupied: 5 or more vehicles available
+        ASUTM009:    Renter occupied
+        ASUTM010:    Renter occupied: No vehicle available
+        ASUTM011:    Renter occupied: 1 vehicle available
+        ASUTM012:    Renter occupied: 2 vehicles available
+        ASUTM013:    Renter occupied: 3 vehicles available
+        ASUTM014:    Renter occupied: 4 vehicles available
+        ASUTM015:    Renter occupied: 5 or more vehicles available
+ 
+    Table 14:    Bedrooms by Gross Rent
+    Universe:    Renter-occupied housing units
+    Source code: B25068
+    NHGIS code:  ASVF
+        ASVFM001:    Total
+        ASVFM002:    No bedroom
+        ASVFM003:    No bedroom: With cash rent
+        ASVFM004:    No bedroom: With cash rent: Less than $300
+        ASVFM005:    No bedroom: With cash rent: $300 to $499
+        ASVFM006:    No bedroom: With cash rent: $500 to $749
+        ASVFM007:    No bedroom: With cash rent: $750 to $999
+        ASVFM008:    No bedroom: With cash rent: $1,000 to $1,499
+        ASVFM009:    No bedroom: With cash rent: $1,500 or more
+        ASVFM010:    No bedroom: No cash rent
+        ASVFM011:    1 bedroom
+        ASVFM012:    1 bedroom: With cash rent
+        ASVFM013:    1 bedroom: With cash rent: Less than $300
+        ASVFM014:    1 bedroom: With cash rent: $300 to $499
+        ASVFM015:    1 bedroom: With cash rent: $500 to $749
+        ASVFM016:    1 bedroom: With cash rent: $750 to $999
+        ASVFM017:    1 bedroom: With cash rent: $1,000 to $1,499
+        ASVFM018:    1 bedroom: With cash rent: $1,500 or more
+        ASVFM019:    1 bedroom: No cash rent
+        ASVFM020:    2 bedrooms
+        ASVFM021:    2 bedrooms: With cash rent
+        ASVFM022:    2 bedrooms: With cash rent: Less than $300
+        ASVFM023:    2 bedrooms: With cash rent: $300 to $499
+        ASVFM024:    2 bedrooms: With cash rent: $500 to $749
+        ASVFM025:    2 bedrooms: With cash rent: $750 to $999
+        ASVFM026:    2 bedrooms: With cash rent: $1,000 to $1,499
+        ASVFM027:    2 bedrooms: With cash rent: $1,500 or more
+        ASVFM028:    2 bedrooms: No cash rent
+        ASVFM029:    3 or more bedrooms
+        ASVFM030:    3 or more bedrooms: With cash rent
+        ASVFM031:    3 or more bedrooms: With cash rent: Less than $300
+        ASVFM032:    3 or more bedrooms: With cash rent: $300 to $499
+        ASVFM033:    3 or more bedrooms: With cash rent: $500 to $749
+        ASVFM034:    3 or more bedrooms: With cash rent: $750 to $999
+        ASVFM035:    3 or more bedrooms: With cash rent: $1,000 to $1,499
+        ASVFM036:    3 or more bedrooms: With cash rent: $1,500 or more
+        ASVFM037:    3 or more bedrooms: No cash rent
+ 
+    Table 15:    Gross Rent as a Percentage of Household Income in the Past 12 Months
+    Universe:    Renter-occupied housing units
+    Source code: B25070
+    NHGIS code:  ASVH
+        ASVHM001:    Total
+        ASVHM002:    Less than 10.0 percent
+        ASVHM003:    10.0 to 14.9 percent
+        ASVHM004:    15.0 to 19.9 percent
+        ASVHM005:    20.0 to 24.9 percent
+        ASVHM006:    25.0 to 29.9 percent
+        ASVHM007:    30.0 to 34.9 percent
+        ASVHM008:    35.0 to 39.9 percent
+        ASVHM009:    40.0 to 49.9 percent
+        ASVHM010:    50.0 percent or more
+        ASVHM011:    Not computed
+ 
+    Table 16:    Lower Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25076
+    NHGIS code:  ASVM
+        ASVMM001:    Lower value quartile (dollars)
+ 
+    Table 17:    Median Value (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25077
+    NHGIS code:  ASVN
+        ASVNM001:    Median value (dollars)
+ 
+    Table 18:    Upper Value Quartile (Dollars)
+    Universe:    Owner-occupied housing units
+    Source code: B25078
+    NHGIS code:  ASVX
+        ASVXM001:    Upper value quartile (dollars)
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Jonathan Schroeder, David Van Riper, Steven Manson, Katherine Knowles, Tracy Kugler, Finn Roberts, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 20.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2025. 
+        http://doi.org/10.18128/D050.V20.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455
