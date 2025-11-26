@@ -124,11 +124,11 @@ Main findings from the DC-specific analysis:
 
 1. HDs cover a lot of DC: almost 20% of all residential-zoned land. This is significantly higher than in comparable cities.
 2. HDs tend to overlap more with "residential flat" zones (think rowhouses), because rowhouse areas are more likely to be in older parts of the District. Conversely, outside of HDs, there's both suburban zone and apartment zone area.
-3. There is some heterogeneity among historic districts, but in general, DC's HDs are significantly wealthier and whiter than the rest of the District. That said, moderate-income renters in HDs are more likely to be rent-burdened than moderate-income renters outside of HDs.
+3. There is some heterogeneity among historic districts, but in general, DC's HDs are significantly wealthier and whiter than the rest of the District. HDs are 59% residents that identify as "white alone" compared to 37% of DC as a whole. The median household income in HDs is almost \$27,000 higher than non-HD parts of DC. That said, moderate-income renters, making less than \$75,000/year, are 10 percentage points more likely to be rent burdened in HDs than moderate-income renters outside of HDs.
 4. After HD designation, HDs tended to become whiter and less dense, relative to non-HD areas nearby. The difference is approximately 9 people per acre. If HDs's population density had grown apace with similar nearby areas, 27,404 more people might be living in HDs now. That is roughly the number of people that live within a mile of the Van Ness Metro station.
 5. There's a pattern in which some HDs, especially in Northwest, don't seem to have many new affordable housing projects (or new housing construction in general) relative to areas outside HDs. Overall, HDs have half the affordable housing projects you would expect, based on their share of DC's land area. (Some HDs have been building more new housing, at least in certain areas; Takoma is one example).
 6. Like many neighborhoods in DC, many HDs have a significant share of homes that were subject to racially-discriminatory covenants. The HD nomination documents sometimes do not address this, or address it in odd ways. 
-7. Overall, houses in HDs lag in terms of solar adoption, especially in detached house neighborhoods.
+7. Overall, houses in HDs lag in terms of solar adoption, especially in detached house neighborhoods. We do not find large differences in building energy performance inside versus outside HDs for bigger buildings, although in general older buildings have worse energy efficiency.
 
 <br>
 
@@ -3230,10 +3230,9 @@ leaflet() %>%
   hideGroup("permits") %>% hideGroup("blocks") %>% hideGroup("ZR16 zones")
 ```
 
-As an aside, here are the mean and median amounts paid in dollars on all permits in and outside of historic districts, as well as the 5th, 25th, 75th, and 95th percentile values. In general, the fee amounts are higher inside HDs. This could be because the repairs and alterations are more expensive. It could also be because HD residents tend to be richer and may engage in more expensive repairs and alterations.
+As an aside, here are the mean and median amounts paid in dollars on all permits in and outside of historic districts, as well as the 5th, 25th, 75th, and 95th percentile values. In general, the fee amounts are higher inside HDs. This could be because the repairs and alterations are more expensive. It could also be because HD residents tend to be richer and may engage in more expensive repairs and alterations. When we run regressions that account for block group income and permit type we do not find significant differences is fees inside and outside HDs (see code). This suggests that the types of work being done inside versus outside of HDs is different. 
 
-
-```{r}
+```{r permit_fees}
 bp <- readr::read_csv("building_permits/Building_Permits_in_2024.csv", show_col_types = F)
 
 bp_shp <- st_as_sf(bp, coords = c("LONGITUDE", "LATITUDE"), crs = 4326) %>%
@@ -3258,6 +3257,41 @@ bp_shp %>%
   filter(!is.na(median)) %>% filter(count > 5) %>%
   knitr::kable()
 ```
+
+
+```{r fee_regressions}
+# uncomment to see regression that looks at fees accounting for block group income
+# fees_df <- bp_shp %>% sf::st_join(y = bg_23_shp, join = st_intersects, left = T) %>% sf::st_drop_geometry()
+# 
+# fees_lm <-
+#   lm(formula = FEES_PAID ~
+#        as.factor(in_hd.x) +
+#        median_home_val_ + median_hhinc_ +
+#        as.factor(PERMIT_TYPE_NAME):as.factor(PERMIT_SUBTYPE_NAME),
+#      data = fees_df)
+# 
+# summary(fees_lm)
+# 
+# fees_lm <-
+#   lm(formula = FEES_PAID ~
+#        as.factor(in_hd.x) +
+#        median_home_val_ + median_hhinc_ +
+#        as.factor(PERMIT_TYPE_NAME) + as.factor(PERMIT_SUBTYPE_NAME),
+#      data = fees_df %>% filter(PERMIT_SUBTYPE_NAME %in% c(
+#        "ELECTRICAL", 
+#        "PLUMBING AND GAS",
+#        "ALTERATION AND REPAIR",
+#        "MECHANICAL",
+#        "SOLAR SYSTEM",
+#        "BUILDING",
+#        "PLUMBING"    
+#      )
+#      )
+#      )
+# 
+# summary(fees_lm)
+```
+
 
 Below are the word frequencies in the 2024 permit data. Nearly 30% of permits outside of HDs mention solar (!). In HDs that figure is 9%. Several of the other top words in permits outside of HDs relate to solar.
 
