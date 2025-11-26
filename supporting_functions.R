@@ -400,8 +400,8 @@ get_geos_in_shp <- function(shp, min_pct, parent_shp, geo_id, parent_id) {
   #' @param parent_shp: the historic district shapefile
   #' @geo_id: the name of the geographic ID variable in the shp object
   #' @parent_id: the ids of the units of the parent_shp
-  #' @return geos_in_hd: a dataframe with only goes in a HD, that has 
-  #'                     two columns: the geo_id and the name of the HD
+  #' @return geos_in_hd: a dataframe with only goes in the parent shape, that has 
+  #'                     two columns: the geo_id and the name of the parent shape
   
   # STEP 0: Get the area of each geo in shp
   shp$geo_area_meters <- sf::st_area(shp)
@@ -1555,13 +1555,34 @@ get_pval <- function(attgt) {
 }
 
 
+
+
 do_buffer_analysis <- function(buffer_size, hds_to_omit, cvars, 
                                dep_var, 
                                return_shps=F,
+                               max_years_back=100,
                                wt="n_tot",
                                unzoned_threshold=1.1,
                                just_return_ts=F,
                                bp="varying") {
+  #' This function runs the buffer analysis.
+  #' @param buffer_size (int) the size of the buffer to draw in meters
+  #' @param hds_to_omit (vector of str) HDs to omit from analysis
+  #' @param cvars (str) the level at which to cluster the errors
+  #' @param dep_var (str) the dependent variable
+  #' @param return_shps (bool) whether or not to return the sf objects in the analysis
+  #' @param max_years_back (int) the number of pre-treatment years to include in 
+  #'                             the analysis. Set to a large number to make this
+  #'                             basically do nothing.
+  #' @param wt (str) the weighting variable to use
+  #' @param unzoned_threshold (double) whether to filter out blocks with 
+  #'                                   X% or more unzoned land. Set this above 1
+  #'                                   to avoid filtering on this entirely.
+  #' @param just_return_ts (bool) just return the timeseries data frame without
+  #'                              doing the main analysis
+  #' @param bp (str) the base period approach to use in the regression;
+  #'                 can be "varying" or "universal". See did package for more.
+  #' @returns (list) list of objects that are the result of the analysis
   
   # remove tiny HDs or HDs that are mostly office / government buildings
   hd_subset <- filter(hd_shp, !(LABEL %in% hds_to_omit))
@@ -1597,6 +1618,7 @@ do_buffer_analysis <- function(buffer_size, hds_to_omit, cvars,
     filter(!(geo_id %in% geos_outside_hds)) %>%
     filter(n_tot > 10)
   
+  
   # create the timeseries by stacking the in-HD blocks and the outside-HD blocks
   buffer_ts <- 
     dplyr::bind_rows(hd_blocks, nohd_blocks) %>%
@@ -1622,6 +1644,7 @@ do_buffer_analysis <- function(buffer_size, hds_to_omit, cvars,
     filter(n_tot > 10) %>%
     # get a "relative year" variable, which is 0 in the decade the HD was designated
     mutate(rel_year = (year - desig_decade) / 10) %>%
+    filter(year > (desig_decade - max_years_back)) %>%
     # merge on the # of acres in the HD
     dplyr::left_join(y = hd_shp %>% 
                        mutate(hd_area_acres = as.vector(sf::st_area(.)) / 4046.86 ) %>%
@@ -1708,13 +1731,300 @@ do_buffer_analysis <- function(buffer_size, hds_to_omit, cvars,
     return(list("p1"=p1, "p2"=p2, "attgt"=attgt, "to_plot_2"=to_plot_2,
                 "buffer_ts"=buffer_ts,
                 "outer_buffer"=outer_buffer, 'inner_buffer'=inner_buffer,
-                'nohd_blocks'=nohd_blocks, 'hd_blocks'=hd_blocks))
+                'nohd_blocks'=nohd_blocks, 'hd_blocks'=hd_blocks
+                )
+           )
   } else {
     return(list("p1"=p1, "p2"=p2, "attgt"=attgt, "to_plot_2"=to_plot_2,
                 "buffer_ts"=buffer_ts))
   }
 }
 
+
+
+
+
+do_buffer_analysis_w_max_extent <- function(buffer_size, hds_to_omit, cvars, 
+                               dep_var, 
+                               return_shps=F,
+                               max_years_back,
+                               only_extend_outer_buffer=F,
+                               subset_to_smaller_blocks=F,
+                               wt="n_tot",
+                               unzoned_threshold=1.1,
+                               just_return_ts=F,
+                               bp="varying") {
+  #' This function is similar to the one above, but allows the user to set
+  #' different parameters as robustness checks. For example, the user can,
+  #' 1. Drop X number of pre-treatment years
+  #' 2. Extend the buffer in all years to cover the maximum area that the 
+  #'    buffer covered in any given year
+  #' 3. only do (2) for the control blocks
+  #' 4. remove blocks over a certain size from the analysis
+  #' All of these tweaks are to try and see if the results hold after trying to
+  #' account for the fact that the areas involved change slightly over time,
+  #' as the size of the blocks change slightly over time.
+  #' @param buffer_size (int) the size of the buffer to draw in meters
+  #' @param hds_to_omit (vector of str) HDs to omit from analysis
+  #' @param cvars (str) the level at which to cluster the errors
+  #' @param dep_var (str) the dependent variable
+  #' @param return_shps (bool) whether or not to return the sf objects in the analysis
+  #' @param max_years_back (int) the number of pre-treatment years to include in 
+  #'                             the analysis
+  #' @param only_extend_outer_buffer (bool) whether to only extend the buffer for
+  #'                                        the control blocks.
+  #' @param subset_to_smaller_blocks (bool) whether to move larger blocks from the
+  #'                                        analysis entirely
+  #' @param wt (str) the weighting variable to use
+  #' @param unzoned_threshold (double) whether to filter out blocks with 
+  #'                                   X% or more unzoned land. Set this above 1
+  #'                                   to avoid filtering on this entirely.
+  #' @param just_return_ts (bool) just return the timeseries data frame without
+  #'                              doing the main analysis
+  #' @param bp (str) the base period approach to use in the regression;
+  #'                 can be "varying" or "universal". See did package for more.
+  #' @returns (list) list of objects that are the result of the analysis
+  
+  
+  # remove tiny HDs or HDs that are mostly office / government buildings
+  hd_subset <- filter(hd_shp, !(LABEL %in% hds_to_omit))
+  
+  # get the "inner" and "outer" buffers
+  ob <- sf::st_buffer(x = filter(hd_shp, !(LABEL %in% hds_to_omit)), dist = buffer_size)
+  ib <- sf::st_buffer(x = filter(hd_shp, !(LABEL %in% hds_to_omit)), dist = -1*(buffer_size))
+  
+  # create the inner and outer bands on either side of the HD boundary, which will
+  # extend buffer_size meters on either side of the boundary
+  outer_buffer <- sf::st_difference(x = ob, y = sf::st_union(hd_subset))
+  inner_buffer <- sf::st_difference(x = hd_subset, y = sf::st_union(ib))
+  
+  # any block that touches that band will be included in the analysis
+  # the blocks that touch the inner band will be the "treatment" group
+  # the blocks that touch the outer band will be the "control" group
+  # using treatment and control here very loosely tho as this is not a 
+  # randomized or pseudo-randomized analysis and we're really doing
+  # descriptive statistics
+  # so think of "treatment" as "in HD" and "control" as "outside HD"
+  nohd_blocks <- sf::st_intersection(x = geos_shp[geos_shp$geo_id %in% geos_outside_hds,], outer_buffer) %>% mutate(treat=0)
+  hd_blocks <- sf::st_intersection(x = geos_shp, inner_buffer) %>% mutate(treat=1) 
+  
+  # make sure we don't have any overlap between the HD and non-HD blocks,
+  # and remove blocks with less than 10 people
+  nohd_blocks <- 
+    nohd_blocks %>%
+    filter(!(geo_id %in% geos_in_hds)) %>%
+    filter(n_tot > 10)
+  
+  hd_blocks <-
+    hd_blocks %>%
+    filter(!(geo_id %in% geos_outside_hds)) %>%
+    filter(n_tot > 10)
+  
+  # loop through each HD, get the max extent of the blocks touched by a 
+  # buffer in any year, then get all the blocks in later years in that extent:
+  i = 1
+  for (hd in hd_subset$LABEL) {
+    
+    hd_desig_decade <- hd_shp %>% filter(LABEL == hd) %>% pull(desig_decade)
+    
+    if (VERBOSE) {
+      cat(paste("\n\nHD:", hd, "desig decade", hd_desig_decade))
+    }
+    
+    max_extent_outer_shp <- 
+      sf::st_union(geos_shp %>% 
+                     filter(geo_id %in% nohd_blocks$geo_id[nohd_blocks$LABEL==hd]) %>%
+                     filter(year > (hd_desig_decade - max_years_back))
+                   )
+    max_extent_inner_shp <- 
+      sf::st_union(geos_shp %>% 
+                     filter(geo_id %in% hd_blocks$geo_id[hd_blocks$LABEL==hd]) %>%
+                     filter(year > (hd_desig_decade - max_years_back))
+                   )
+    
+    nohd_blocks_temp <- 
+      get_geos_in_shp(shp = geos_shp[geos_shp$geo_id %in% geos_outside_hds,], 
+                      min_pct = .2, 
+                      parent_shp = max_extent_outer_shp, 
+                      geo_id = "geo_id", 
+                      parent_id = "year"
+      ) %>%
+      filter(year > (hd_desig_decade - max_years_back)) %>%
+      mutate(LABEL = hd, desig_decade = hd_desig_decade)
+    
+    hd_blocks_temp   <- 
+      get_geos_in_shp(shp = geos_shp, 
+                      min_pct = .2, 
+                      parent_shp = max_extent_inner_shp, 
+                      geo_id = "geo_id", 
+                      parent_id = "year"
+      ) %>%
+      filter(year > (hd_desig_decade - max_years_back)) %>%
+      mutate(LABEL = hd, , desig_decade = hd_desig_decade)
+    
+    # build the dataframe:
+    if (i==1) {
+      hd_blocks_list <- hd_blocks_temp
+      nohd_blocks_list <- nohd_blocks_temp
+    } else {
+      hd_blocks_list <- dplyr::bind_rows(hd_blocks_temp, hd_blocks_list)
+      nohd_blocks_list <- dplyr::bind_rows(nohd_blocks_temp, nohd_blocks_list)
+    }
+    i = i + 1
+  }
+    
+    nohd_blocks_shp <- 
+      geos_shp %>% 
+      filter(geo_id %in% nohd_blocks_list$geo_id) %>%
+      filter(!(geo_id %in% geos_in_hds)) %>%
+      filter(n_tot > 10) %>%
+      dplyr::left_join(
+        y = nohd_blocks_list %>% select(geo_id, LABEL, desig_decade),
+        by = "geo_id"
+          ) %>%
+      mutate(treat=0) 
+    
+    hd_blocks_shp <-
+      geos_shp %>% 
+      filter(geo_id %in% hd_blocks_list$geo_id) %>%
+      filter(!(geo_id %in% geos_outside_hds)) %>%
+      filter(n_tot > 10) %>%
+      dplyr::left_join(y = geos_in_hds %>% select(-year), by="geo_id") %>%
+      mutate(treat=1)
+  
+    if (only_extend_outer_buffer) {
+      hd_blocks_shp <- 
+        geos_shp[geos_shp$geo_id %in% hd_blocks$geo_id,] %>%
+        dplyr::left_join(select(geos_in_hds, -year), by="geo_id") %>%
+        mutate(treat=1)
+    }
+    
+  # create the timeseries by stacking the in-HD blocks and the outside-HD blocks
+  buffer_ts <- 
+    dplyr::bind_rows(hd_blocks_shp, nohd_blocks_shp) %>%
+    sf::st_drop_geometry(.) %>%
+    # fix a few instances (6) where n_white < 0
+    mutate(n_white = ifelse(n_white < 0, 0, n_white)) %>% 
+    # create our main variables of interest
+    mutate(pop_density = n_tot / as.vector(geo_area_meters),
+           pct_black = n_black / n_tot,
+           pct_white = n_white / n_tot) %>%
+    # create some indicator and ID variables we'll need
+    mutate(post = ifelse(year > desig_decade, 1, 0),
+           did_post = ifelse(treat==1, desig_decade+10, 0)) %>%
+    group_by(year, LABEL, treat, geo_id) %>%
+    mutate(did_unique_id = cur_group_id()) %>%
+    ungroup() %>%
+    select(geo_id, did_unique_id, LABEL, year, treat, post, did_post, 
+           desig_decade, pop_density, n_black, n_white, n_tot, 
+           pct_black, pct_white, geo_area_meters) %>%
+    # get the population density
+    mutate(pop_density = pop_density * 4046.86) %>%
+    # again, remove smaller blocks (I am paranoid lol)
+    filter(n_tot > 10) %>%
+    # get a "relative year" variable, which is 0 in the decade the HD was designated
+    mutate(rel_year = (year - desig_decade) / 10) %>%
+    # merge on the # of acres in the HD
+    dplyr::left_join(y = hd_shp %>% 
+                       mutate(hd_area_acres = as.vector(sf::st_area(.)) / 4046.86 ) %>%
+                       sf::st_drop_geometry(.) %>% 
+                       select(LABEL, hd_area_acres),
+                     by = "LABEL") %>%
+    filter(year > (desig_decade - max_years_back))
+  
+  if(subset_to_smaller_blocks) {
+    buffer_ts <- filter(buffer_ts, as.vector(geo_area_meters) < 50000)
+  }
+  
+  # remove blocks that are over X% unzoned land
+  overlap_i <-
+    sf::st_intersection(x = geos_shp %>%
+                          filter(geo_id %in% unique(c(hd_blocks$geo_id, nohd_blocks$geo_id))) %>%
+                          select(geo_id) %>%
+                          distinct(.),
+                        y = sf::st_union(unzoned_shp)) %>%
+    mutate(overlap_area = as.vector(sf::st_area(.))) %>%
+    sf::st_drop_geometry(.) %>%
+    dplyr::right_join(y = buffer_ts, by='geo_id') %>%
+    mutate(pct_overlap = overlap_area / as.vector(geo_area_meters),
+           threshold   = ifelse(pct_overlap >= unzoned_threshold, 1, 0))
+  
+  blocks_w_mostly_unzoned_land <-
+    unique(overlap_i$geo_id[overlap_i$threshold==1 &
+                              !is.na(overlap_i$threshold)])
+  buffer_ts <-
+    filter(buffer_ts, !(geo_id %in% blocks_w_mostly_unzoned_land))
+  
+  if (just_return_ts) {
+    return(buffer_ts)
+  }
+  # create data sets to plot changes in density & demographics before / after HD creation
+  to_plot <-
+    buffer_ts %>%
+    group_by(LABEL, treat, post) %>%
+    summarize(outcome_var = mean(.data[[dep_var]], na.rm=T),
+              hd_area_acres = max(hd_area_acres, na.rm=T)) %>%
+    mutate(change = outcome_var - lag(outcome_var), 1) %>%
+    filter(!is.na(change)) %>%
+    ungroup()
+  
+  to_plot_2 <-
+    to_plot %>%
+    group_by(LABEL) %>%
+    arrange(LABEL, -treat) %>%
+    mutate(diff_in_diff = change - lag(change)) %>%
+    filter(!is.na(diff_in_diff))
+  
+  p1 <- ggplot(data=to_plot_2) +
+    geom_point(
+      aes(x=forcats::fct_reorder(factor(LABEL), hd_area_acres), 
+          y=diff_in_diff, 
+          size=hd_area_acres
+      )
+    ) +
+    xlab("") +
+    ylab("") +
+    coord_flip() +
+    ggdark::dark_theme_gray()
+  
+  p2 <- ggplot(data=to_plot) +
+    geom_point(
+      aes(x=forcats::fct_reorder(factor(LABEL), hd_area_acres), 
+          y=change, 
+          color=forcats::fct_rev(factor(treat)),
+          size=hd_area_acres
+      )
+    ) +
+    coord_flip() +
+    ggdark::dark_theme_gray()
+  
+  attgt <- did::att_gt(yname = dep_var,
+                       gname = "did_post",
+                       idname = "did_unique_id",
+                       tname = "year",
+                       xformla = ~1,
+                       data =  buffer_ts, 
+                       clustervars = cvars,
+                       weightsname=wt,
+                       allow_unbalanced_panel = T,
+                       base_period = bp,
+                       panel = F
+  )
+  
+  if (return_shps) {
+    return(list("p1"=p1, "p2"=p2, "attgt"=attgt, "to_plot_2"=to_plot_2,
+                "buffer_ts"=buffer_ts,
+                "outer_buffer"=outer_buffer, 'inner_buffer'=inner_buffer,
+                "max_extent_outer_shp"=max_extent_outer_shp,
+                "max_extent_inner_shp"=max_extent_inner_shp,
+                'nohd_blocks'=nohd_blocks, 'hd_blocks'=hd_blocks
+    )
+    )
+  } else {
+    return(list("p1"=p1, "p2"=p2, "attgt"=attgt, "to_plot_2"=to_plot_2,
+                "buffer_ts"=buffer_ts))
+  }
+}
 
 
 

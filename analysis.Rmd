@@ -1612,7 +1612,7 @@ ggplot(bg_23_summary %>% group_by(LABEL) %>% filter(variable=="median_home_val")
 
 <br>
 
-## Housing
+## Housing construction
 
 The maps below combine data from several sources to answer questions like, 
 
@@ -2185,7 +2185,7 @@ invisible(gc())
 <br><br>
 
 
-## Block-level changes from 1940-2020
+## Long-term change
 
 We can go back even farther, to before any HDs were created. In this section, our unit of observation will be Census blocks from 1940 to 2020 (decennial Census years). We'll also compare HDs to nearby neighborhoods, rather than the whole District. 
 
@@ -2200,11 +2200,6 @@ For scale, an acre is almost exactly the footprint of the "Ame at Meridian Hill"
 
 ![The "Ame at Meridian Hill" covers almost exactly an acre and has approximately 206 units.](images/ame.png)
 
-
-As we discussed above, there are many factors (tangled up with HD creation) that could explain divergent trends in versus outside of HDs. People who live in HDs and create them may do other things to try and limit housing density, for example. So while it's likely that HD creation does directly lead to a relative decrease in, say, population density (as other papers have shown), what we'll be doing here is a little more descriptive. We're mainly going to look and see, do HDs become relatively less dense over time? Do they seem to accrue relatively more white residents?
- 
-<br>
-
 We're going to use two approaches:
 
 1. A small buffer (100 meters) on either side of the HD boundary. This will ensure (to the extent possible) that we are comparing similar blocks inside & outside HDs. This won't be perfect. Among other things:
@@ -2212,14 +2207,14 @@ We're going to use two approaches:
     * It's also possible that many of the factors that would influence HD demographics are also at play just outside them (maybe people with similar density preferences to HD residents also live just outside HDs).
 2. A larger buffer (800 meters). This will give more of a sense for how HDs are changing relative to the whole area around them. The surrounding area may be more different from the HD itself (even before designation), but this'll nonetheless give us a sense for how the whole HD compares to the general nearby area.
 
-In the appendix, we also implement a more complex differences-in-differences regression approach.
+In the appendix, we run robustness checks with different buffer-drawing techniques. We also implement a more complex differences-in-differences regression approach.
 
-The interactive map below shows which blocks are included with a buffer of 100m and 800m, as well as the HD boundaries themselves. We're omitting small HDs (less than 10 acres) from this analysis, because they lack enough block overlap. (Grant Circle, which is basically one circle in Petworth, is one example).
+The interactive map below shows which blocks are included with a buffer of 100m and 800m in 2020, as well as the HD boundaries themselves. We're omitting small HDs (less than 10 acres) from this analysis, because they lack enough block overlap. For each HD, we're also only taking ~30 years of pre-designation data to avoid including non-HD blocks that were, like, vacant lots in 1940.
 
 Note that some "HD" blocks straddle the actual HD boundary and some "non-HD" blocks have portions inside HDs. We would expect this measurement error to bias our estimated differences towards zero and lessen the chance of finding a difference between the two groups. As mentioned above, there's also some overlap with unzoned areas. In the results shown below we include these blocks in the analysis, but you can remove blocks that are at least 50% covered by unzoned area and the results are similar. See code for details.
 
 
-```{r, eval=EVALUATE_ADDITIONAL_CHUNKS}
+```{r prep_buffer_data, eval=EVALUATE_ADDITIONAL_CHUNKS}
 # Shift 1950, 1960, 2010 and 2020 blocks so they align slightly better with previous years' blocks
 # this was done by just looking at the blocks visually
 sf::st_geometry(geos_shp[geos_shp$year %in% c(1940, 1950, 1960, 2010, 2020),]) <- 
@@ -2248,28 +2243,49 @@ hds_to_omit <-
       "Emerald St HD", "Grant Rd HD", "Mount Vernon Triangle HD",
       "Pennsylvania Ave NHS HD",
                          "Grant Circle HD", "Union Market HD",
-      "Lafayette Square HD")
+      "Lafayette Square HD", 
+      "Colony Hill", "Colony Hill HD")
 
 invisible(gc())
 ```
 
 
-```{r, include=F, warning=F, message=F}
-res100 <- do_buffer_analysis(buffer_size = 100, 
+```{r make_buffers_to_plot, include=F, warning=F, message=F}
+res100 <- do_buffer_analysis(buffer_size = 100,
                    hds_to_omit = hds_to_omit, 
-                   cvars = "LABEL", 
-                   dep_var = "pop_density", 
+                   max_years_back = 30,
+                   cvars = "LABEL",
+                   dep_var = "pop_density",
                    return_shps = T)
 
-res800 <- do_buffer_analysis(buffer_size = 800, 
-                          hds_to_omit = hds_to_omit, 
-                          cvars = "LABEL", 
-                          dep_var = "pop_density", 
+res800 <- do_buffer_analysis(buffer_size = 800,
+                          hds_to_omit = hds_to_omit,
+                          max_years_back = 30,
+                          cvars = "LABEL",
+                          dep_var = "pop_density",
                           return_shps = T)
+
+# uncomment below to use robustness check function
+# res100 <- do_buffer_analysis_w_max_extent(buffer_size = 100,
+#                    hds_to_omit = hds_to_omit,
+#                    cvars = "LABEL",
+#                    dep_var = "pop_density",
+#                    subset_to_smaller_blocks = T,
+#                    max_years_back = 30,
+#                    return_shps = T)
+# 
+# res800 <- do_buffer_analysis_w_max_extent(buffer_size = 800,
+#                    hds_to_omit = hds_to_omit,
+#                    cvars = "LABEL",
+#                    dep_var = "pop_density",
+#                    subset_to_smaller_blocks = T,
+#                    max_years_back = 30,
+#                    return_shps = T)
 ```
 
-```{r}
-leaflet() %>%
+```{r plot_buffers}
+p <-
+  leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(group= "blocks outside of HDs (800m buffer)",
               data=geos_shp[(geos_shp$geo_id %in% res800$nohd_blocks$geo_id) & 
@@ -2355,7 +2371,9 @@ leaflet() %>%
                                                   color = "white",
                                                   bringToFront = F
         )
-  ) %>%
+  )
+
+p %>%
   addLayersControl(overlayGroups = c("HDs", 
                                      "blocks inside of HDs (100m buffer)",
                                      "blocks outside of HDs (100m buffer)",
@@ -2372,7 +2390,7 @@ leaflet() %>%
 
 **High-level patterns**
 
-* HDs seem to become less dense over time relative to nearby blocks after HD designation. This is the strongest result. HD creation appears to be associated with a relative drop in population density between 4 and 9 residents per acre, or 9-21% of the typical HD population density.
+* HDs seem to become less dense over time relative to nearby blocks after HD designation. This is the strongest result. HD creation appears to be associated with a relative drop in population density between 5 and 9 residents per acre, or 12-21% of the typical HD population density.
 * The percentage of white residents also seems to increase after designation, while the percentage of black residents seems to decline.
 * For all of these results there is heterogeneity between the individual HDs. See plots for more details. While we can summarize trends with statistics, each neighborhood has its own history and happenings and you have to use your local knowledge to fully understand what's going on.
 
@@ -2384,104 +2402,127 @@ leaflet() %>%
 
 ###### Summary
 
-```{r, fig.height=14, fig.width=8}
+```{r create_main_buffers, fig.height=14, fig.width=8}
 
-res50 <- do_buffer_analysis(buffer_size = 50, 
-                   hds_to_omit = hds_to_omit, 
-                   cvars = "LABEL", 
+res50 <- do_buffer_analysis(buffer_size = 50,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   max_years_back = 30,
                    dep_var = "pop_density",
                    # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
                                               # blocks that are more than half covered by unzoned area
                    return_shps = F)
 
-res100 <- do_buffer_analysis(buffer_size = 100, 
-                   hds_to_omit = hds_to_omit, 
-                   cvars = "LABEL", 
+res100 <- do_buffer_analysis(buffer_size = 100,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   max_years_back = 30,
                    dep_var = "pop_density",
                    # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
                                               # blocks that are more than half covered by unzoned area
                    return_shps = F)
 
-res200 <- do_buffer_analysis(buffer_size = 200, 
-                   hds_to_omit = hds_to_omit, 
-                   cvars = "LABEL", 
+res200 <- do_buffer_analysis(buffer_size = 200,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   max_years_back = 30,
                    dep_var = "pop_density",
                    # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
                                               # blocks that are more than half covered by unzoned area
                    return_shps = F)
 
-res400 <- do_buffer_analysis(buffer_size = 400, 
-                   hds_to_omit = hds_to_omit, 
-                   cvars = "LABEL", 
+res400 <- do_buffer_analysis(buffer_size = 400,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   max_years_back = 30,
                    dep_var = "pop_density",
                    # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
                                               # blocks that are more than half covered by unzoned area
                    return_shps = F)
 
-res800 <- do_buffer_analysis(buffer_size = 800, 
-                   hds_to_omit = hds_to_omit, 
-                   cvars = "LABEL", 
+res800 <- do_buffer_analysis(buffer_size = 800,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   max_years_back = 30,
                    dep_var = "pop_density",
                    # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
                                               # blocks that are more than half covered by unzoned area
                    return_shps = F)
+
+res1000 <- do_buffer_analysis(buffer_size = 1000,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   max_years_back = 30,
+                   dep_var = "pop_density",
+                   # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+                                              # blocks that are more than half covered by unzoned area
+                   return_shps = F)
+
+
+
+
+summarize_buffer <- function(buf_df, dist) {
+  rv <- 
+    buf_df %>%
+              group_by(LABEL, treat, post) %>%
+              summarise(pop_density = mean(pop_density, na.rm=T),
+                        pct_black   = mean(pct_black, na.rm=T),
+                        pct_white   = mean(pct_white, na.rm=T),
+                        n_tot       = sum(n_tot, na.rm=T),
+                        
+                        hd_area_acres = max(hd_area_acres, na.rm=T),
+                        shp_area       = sum(as.vector(geo_area_meters), na.rm=T)
+                        ) %>%
+              mutate(dist = ifelse(post==1, dist, -1*dist))
+  
+  return(rv)
+}
 
 my_plt <-
   dplyr::bind_rows(
-    
-            res50$buffer_ts %>%
-              group_by(LABEL, treat, post) %>%
-              summarise(pop_density = mean(pop_density, na.rm=T),
-                        pct_black   = mean(pct_black, na.rm=T),
-                        pct_white   = mean(pct_white, na.rm=T),
-                        hd_area_acres = max(hd_area_acres, na.rm=T)
-                        ) %>%
-              mutate(dist = ifelse(post==1, 50, -50)),
-            
-            res100$buffer_ts %>%
-              group_by(LABEL, treat, post) %>%
-              summarise(pop_density = mean(pop_density, na.rm=T),
-                        pct_black   = mean(pct_black, na.rm=T),
-                        pct_white   = mean(pct_white, na.rm=T),
-                        hd_area_acres = max(hd_area_acres, na.rm=T)
-                        ) %>%
-              mutate(dist = ifelse(post==1, 100, -100)),
-            
-            res200$buffer_ts %>%
-                  group_by(LABEL, treat, post) %>%
-                  summarise(pop_density = mean(pop_density, na.rm=T),
-                            pct_black   = mean(pct_black, na.rm=T),
-                            pct_white   = mean(pct_white, na.rm=T),
-                            hd_area_acres = max(hd_area_acres, na.rm=T)
-                            ) %>%
-                  mutate(dist = ifelse(post==1, 200, -200)),
-            
-            res400$buffer_ts %>%
-                  group_by(LABEL, treat, post) %>%
-                  summarise(pop_density = mean(pop_density, na.rm=T),
-                            pct_black   = mean(pct_black, na.rm=T),
-                            pct_white   = mean(pct_white, na.rm=T),
-                            hd_area_acres = max(hd_area_acres, na.rm=T)
-                            ) %>%
-                  mutate(dist = ifelse(post==1, 400, -400)),
-            
-            res800$buffer_ts %>%
-                  group_by(LABEL, treat, post) %>%
-                  summarise(pop_density = mean(pop_density, na.rm=T),
-                            pct_black   = mean(pct_black, na.rm=T),
-                            pct_white   = mean(pct_white, na.rm=T),
-                            hd_area_acres = max(hd_area_acres, na.rm=T)
-                            ) %>%
-                  mutate(dist = ifelse(post==1, 800, -800))
+                    summarize_buffer(res50$buffer_ts, 50),
+                    summarize_buffer(res100$buffer_ts, 100),
+                    # summarize_buffer(res200$buffer_ts, 200),
+                    # summarize_buffer(res400$buffer_ts, 400),
+                    summarize_buffer(res800$buffer_ts, 800),
+                    # summarize_buffer(res1000$buffer_ts, 1000)
               ) %>%
   ungroup() %>%
   group_by(treat, post, dist) %>%
   summarise(
             dist = mean(dist),
-            pop_density = weighted.mean(pop_density, w = hd_area_acres),
-            pct_black = weighted.mean(pct_black, w = hd_area_acres),
-            pct_white = weighted.mean(pct_white, w = hd_area_acres)
+            pop_density = weighted.mean(pop_density, w = hd_area_acres, na.rm=T),
+            pct_black = weighted.mean(pct_black, w = hd_area_acres, na.rm=T),
+            pct_white = weighted.mean(pct_white, w = hd_area_acres, na.rm=T),
+            
+            total_area = sum(shp_area, na.rm = T)
             )
+```
+
+```{r create_main_summary_plots}
+create_caption <- function(plt_var, r_digits=0, sb_size=100, lb_size=800) {
+  a = round(my_plt[[plt_var]][my_plt$treat==1 & my_plt$post==0 & my_plt$dist==-sb_size], r_digits)
+  b = round(my_plt[[plt_var]][my_plt$treat==1 & my_plt$post==1 & my_plt$dist==sb_size], r_digits)
+  
+  c = round(my_plt[[plt_var]][my_plt$treat==0 & my_plt$post==0 & my_plt$dist==-sb_size], r_digits)
+  d = round(my_plt[[plt_var]][my_plt$treat==0 & my_plt$post==1 & my_plt$dist==sb_size], r_digits)
+  
+  e = round(my_plt[[plt_var]][my_plt$treat==1 & my_plt$post==0 & my_plt$dist==-lb_size], r_digits)
+  f = round(my_plt[[plt_var]][my_plt$treat==1 & my_plt$post==1 & my_plt$dist==lb_size], r_digits)
+  
+  g = round(my_plt[[plt_var]][my_plt$treat==0 & my_plt$post==0 & my_plt$dist==-lb_size], r_digits)
+  h = round(my_plt[[plt_var]][my_plt$treat==0 & my_plt$post==1 & my_plt$dist==lb_size], r_digits)
+   
+  rv <-
+     paste0("\n", sb_size, "m buffer: [", a, " → ", b, "  Δ: ", round(b-a, r_digits), "] ",
+                        c, " → ", d, "  Δ: ", round(d-c, r_digits),
+            
+                        "\n", lb_size, "m buffer: [", e, " → ", f, "  Δ: ", round(f-e, r_digits), "] ",
+                        g, " → ", h, "  Δ: ", round(h-g, r_digits)
+                        )
+  
+   return(rv)
+}
 
 my_lwd=1
 
@@ -2500,7 +2541,9 @@ p1 <- ggplot(my_plt) +
   ylab("mean ppl/acre") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, population density increased more outside of HDs") +
-  ylim(c(0, 50))
+  ylim(c(0, max(my_plt$pop_density, na.rm=T))) +
+  labs(caption = create_caption("pop_density")) +
+  theme(plot.caption = element_text(hjust = 0))
 
 p2 <- ggplot(my_plt) +
   geom_line(
@@ -2517,7 +2560,10 @@ p2 <- ggplot(my_plt) +
   ylab("mean % black residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, HDs saw relative decline in black residents") +
-  ylim(c(0, 50)) 
+  ylim(c(0, max(my_plt$pct_black*100, na.rm=T)+10)) +
+  labs(caption = create_caption("pct_black", 2)) +
+  theme(plot.caption = element_text(hjust = 0))
+
 
 p3 <- ggplot(my_plt) +
   geom_line(
@@ -2534,18 +2580,20 @@ p3 <- ggplot(my_plt) +
   ylab("mean % white residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, HDs saw relative increase in white residents") +
-  ylim(c(0, 70))
+  ylim(c(0, max(my_plt$pct_white*100, na.rm=T)+10)) +
+  labs(caption = create_caption("pct_white", 2)) +
+  theme(plot.caption = element_text(hjust = 0))
 ```
 
-```{r}
+```{r main_buffer_summary_plot_1}
 p1
 ```
 
-```{r}
+```{r main_buffer_summary_plot_2}
 p2
 ```
 
-```{r}
+```{r main_buffer_summary_plot_3}
 p3
 ```
 
@@ -2642,13 +2690,7 @@ In the chart above:
 
 Using an 800m buffer, we see that HDs had a relative population growth after HD designation that was `r round(rvs[["wm800"]], 0)` people per acre less. Using a 100m buffer that figure is `r round(rvs[["wm100"]], 0)`.
 
-```{r}
-# uncomment to look at differences in pre-designation densities in and outside of HDs:
-# res100$buffer_ts %>%
-#   filter(post==0) %>%
-#   group_by(LABEL, treat) %>%
-#   summarize(pop_density = round(median(pop_density, na.rm=T), 0))
-```
+
 
 ✉️ As a back-of-the envelope calculation:
 
@@ -2756,10 +2798,22 @@ Lest one think the motivation to create HDs as a tool to slow development is new
 
 >"Capitol Hill [HD proponents] wanted to control new constrution... [while] Anacostia needed flexibility... to encourage new construction... and Georgetown was worried about subdivisions."
 
+And here's Robert Peck, of the DC Preservation League, talking to [WaPo](https://www.washingtonpost.com/archive/lifestyle/1986/04/23/the-panic-in-cleveland-park/c0f634c3-c2e7-4e05-9f1a-a947edc5b0f0/) in 1986 about why he believed Cleveland Park should become a historic district. (The article title was "The Panic in Cleveland Park"; the proponents were panicking over a proposal to redevelop the "Park and Shop" strip mall.)
 
-To be clear, this isn't to say that every HD proponent is motivated primarily by a desire to slow new home construction. And for some proponents, it may be possible to separate aesthetic concerns (how new buildings look) from mass concerns (how big/tall new buildings are). But one does not get a sense for this nuance in many of these on-the-record comments. And whatever their motivations, the patterns here are clear: in general, HDs have added less new housing compared to nearby areas. 
+> "The issue there quite clearly is style and density," says Robert Peck, president of the D.C. Preservation League, which endorsed the historic district application. "There is a certain style of building and a certain density and it characterizes that part of downtown. What we've said is we're going to fight for that scale of development."
 
-For more on the socioeconomic impacts of HDs, please see the literature review.
+
+To be clear, this isn't to say that every HD proponent is motivated primarily by a desire to slow new home construction. And for some proponents, it may be possible to separate aesthetic concerns (how new buildings look) from mass concerns (how big/tall new buildings are). But one does not get a sense for this nuance in many of these on-the-record comments. Robert Peck explicitly said that the goal of a Cleveland Park historic district would be to prevent additional housing density (and, by extension of course, additional houses). And whatever their motivations, the patterns here are clear: in general, HDs have added less new housing compared to nearby areas. 
+
+You can see this on specific projects; here are a few examples:
+
+* [The Macklin building](https://ggwash.org/view/81143/how-cleveland-parks-historic-district-cost-the-neighborhood-42-homes-in-one-project) in Cleveland Park.
+
+* [Unification Church](https://dc.urbanturf.com/pipeline/1233/1610_Columbia_Road_NW)
+* [Third Church of Christ Scientist](https://ggwash.org/view/27951/the-preservation-process-failed-third-church) downtown.
+* 
+
+Looking at the demographic trends, it's hard not to conclude they are likely exacerbating gentrification as well. For more on the socioeconomic impacts of HDs, please see the literature review.
 
 
 ***
@@ -4095,6 +4149,223 @@ main_did_diagnostics(
 group_effects <- aggte(res100$attgt, type = "dynamic", na.rm=T)
 ggdid(group_effects, theming=F) + ggdark::dark_theme_gray()
 ```
+
+
+***
+
+
+In the robustness checks below, we impose several restrictions on the buffer process that selects blocks in and outside of each HD:
+
+1. Only "normal" sized blocks, under ~12 acres
+2. For blocks outside the HD, any blocks are included in all time periods that fall within the maximum extent of the blocks selected in any time period. This helps avoid situations outside HDs where large blocks in early periods are split into smaller blocks later, and only the closer-in, denser blocks are kept in the "outside-HD" buffer group. This could inflate the estimates of population density outside of HDs if the land area in the outside-HD buffer blocks shrinks with time.
+
+When we impose these restrictions, the results are similar to the main results, although the differences for the percentage of black and white residents largely disappear for the smaller buffer sizes. See below. 
+
+
+```{r}
+# robustness checks
+res50 <- do_buffer_analysis_w_max_extent(buffer_size = 50,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   dep_var = "pop_density",
+                   max_years_back = 30, 
+                   subset_to_smaller_blocks = T,
+                   only_extend_outer_buffer = T,
+                   # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+                                              # blocks that are more than half covered by unzoned area
+                   return_shps = F)
+
+res100 <- do_buffer_analysis_w_max_extent(buffer_size = 100,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   dep_var = "pop_density",
+                   max_years_back = 30,
+                   subset_to_smaller_blocks = T,
+                   only_extend_outer_buffer = T,
+                   # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+                                              # blocks that are more than half covered by unzoned area
+                   return_shps = F)
+
+
+res800 <- do_buffer_analysis_w_max_extent(buffer_size = 800,
+                   hds_to_omit = hds_to_omit,
+                   cvars = "LABEL",
+                   dep_var = "pop_density",
+                   max_years_back = 30,
+                   subset_to_smaller_blocks = T, 
+                   only_extend_outer_buffer = T,
+                   # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+                                              # blocks that are more than half covered by unzoned area
+                   return_shps = F)
+
+my_plt <-
+  dplyr::bind_rows(
+                    summarize_buffer(res50$buffer_ts, 50),
+                    summarize_buffer(res100$buffer_ts, 100),
+                    summarize_buffer(res800$buffer_ts, 800)
+              ) %>%
+  ungroup() %>%
+  group_by(treat, post, dist) %>%
+  summarise(
+            dist = mean(dist),
+            pop_density = weighted.mean(pop_density, w = hd_area_acres, na.rm=T),
+            pct_black = weighted.mean(pct_black, w = hd_area_acres, na.rm=T),
+            pct_white = weighted.mean(pct_white, w = hd_area_acres, na.rm=T),
+            
+            total_area = sum(shp_area, na.rm = T)
+            )
+
+my_lwd=1
+
+p1 <- ggplot(my_plt) +
+  geom_line(
+    aes(
+      x=dist, 
+      group=as.factor(paste(treat, post)), 
+      y=pop_density, 
+      color=forcats::fct_rev(as.factor(treat))
+      ),
+    linewidth = my_lwd
+    ) +
+  theme(legend.position = "top") +
+  ggdark::dark_theme_gray() +
+  ylab("mean ppl/acre") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+  scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
+  ggtitle("After designation, population density increased more outside of HDs") +
+  ylim(c(0, max(my_plt$pop_density, na.rm=T))) +
+  labs(caption = create_caption("pop_density")) +
+  theme(plot.caption = element_text(hjust = 0))
+
+p2 <- ggplot(my_plt) +
+  geom_line(
+    aes(
+      x=dist, 
+      group=as.factor(paste(treat, post)), 
+      y=round(pct_black*100, 0), 
+      color=forcats::fct_rev(as.factor(treat))
+      ),
+    linewidth = my_lwd
+    ) +
+  theme(legend.position = "none") +
+  ggdark::dark_theme_gray() +
+  ylab("mean % black residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+  scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
+  ggtitle("After designation, HDs saw relative decline in black residents") +
+  ylim(c(0, max(my_plt$pct_black*100, na.rm=T)+10)) +
+  labs(caption = create_caption("pct_black")) +
+  theme(plot.caption = element_text(hjust = 0))
+
+
+p3 <- ggplot(my_plt) +
+  geom_line(
+    aes(
+      x=dist, 
+      group=as.factor(paste(treat, post)), 
+      y=round(pct_white*100, 0), 
+      color=forcats::fct_rev(as.factor(treat))
+      ),
+    linewidth = my_lwd
+    ) +
+  theme(legend.position = "none") +
+  ggdark::dark_theme_gray() +
+  ylab("mean % white residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+  scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
+  ggtitle("After designation, HDs saw relative increase in white residents") +
+  ylim(c(0, max(my_plt$pct_white*100, na.rm=T)+10)) +
+  labs(caption = create_caption("pct_white"))
+```
+
+```{r}
+p1
+p2
+p3
+```
+
+The table below shows the overall differences in population density for the 50m buffer when we use this more constrained buffer approach:
+
+```{r}
+# look at differences in pre-designation densities in and outside of HDs:
+res50$buffer_ts %>%
+  filter(post==0) %>%
+  # group_by(treat) %>%
+  group_by(LABEL, treat) %>%
+  summarize(pop_density = round(median(pop_density, na.rm=T), 0)) %>%
+  ungroup() %>%
+  group_by(LABEL) %>%
+  arrange(LABEL, treat) %>%
+  mutate(diff = pop_density - lag(pop_density)) %>%
+  group_by(treat) %>%
+  summarise(mean_pop_density = round(mean(pop_density), 0))
+```
+
+Here's a similar table for the percent of black and white residents:
+
+```{r}
+res50$buffer_ts %>%
+  filter(post==0) %>%
+  # group_by(treat) %>%
+  group_by(LABEL, treat) %>%
+  summarize(pct_black = round(median(pct_black, na.rm=T), 4)) %>%
+  ungroup() %>%
+  group_by(LABEL) %>%
+  arrange(LABEL, treat) %>%
+  mutate(diff = pct_black - lag(pct_black)) %>%
+  group_by(treat) %>%
+  summarise(mean_pct_black = round(mean(pct_black), 4))
+```
+
+```{r}
+res50$buffer_ts %>%
+  filter(post==0) %>%
+  # group_by(treat) %>%
+  group_by(LABEL, treat) %>%
+  summarize(pct_white = round(median(pct_white, na.rm=T), 4)) %>%
+  ungroup() %>%
+  group_by(LABEL) %>%
+  arrange(LABEL, treat) %>%
+  mutate(diff = pct_white - lag(pct_white)) %>%
+  group_by(treat) %>%
+  summarise(mean_pct_white = round(mean(pct_white), 4))
+```
+
+```{r}
+# uncomment if you want to see the changes in land area broken out by HD area:
+# res50$buffer_ts %>%
+#   group_by(LABEL, treat, post) %>%
+#   summarize(area = sum(as.vector(geo_area_meters))) %>%
+#   ungroup() %>%
+#   group_by(LABEL, treat) %>%
+#   arrange(LABEL, treat, post) %>%
+#   mutate(pct_change = round((area - lag(area)) / area, 2))
+```
+
+
+The tables below show the differences in total acres before and after, inside versus outside the HD.
+
+For the 50m buffer:
+
+```{r}
+res50$buffer_ts %>%
+  group_by(treat, post) %>%
+  summarize(area_acres = round(sum(as.vector(geo_area_meters)) / 4046.86, 0)) %>%
+  ungroup() %>%
+  group_by(treat) %>%
+  arrange(treat, post) %>%
+  mutate(change = area_acres - lag(area_acres))
+```
+
+For the 800m buffer:
+
+```{r}
+res800$buffer_ts %>%
+  group_by(treat, post) %>%
+  summarize(area_acres = round(sum(as.vector(geo_area_meters)) / 4046.86, 0)) %>%
+  ungroup() %>%
+  group_by(treat) %>%
+  arrange(treat, post) %>%
+  mutate(change = area_acres - lag(area_acres))
+```
+
 
 ***
 

@@ -1985,9 +1985,181 @@ HonestDiD::createSensitivityPlot_relativeMagnitudes(sensitivity_results,
 
 
 
+attgt <- did::att_gt(yname = "pop_density",
+                     gname = "did_post",
+                     idname = "did_unique_id",
+                     tname = "year",
+                     xformla = ~1,
+                     data =  res100$buffer_ts %>% filter(LABEL != "Colony Hill") %>% filter(rel_year >= -5), 
+                     clustervars = "LABEL",
+                     weightsname="n_tot",
+                     allow_unbalanced_panel = T,
+                     base_period = "varying",
+                     panel = F
+)
+
+summary(attgt)
+group_effects <- aggte(attgt, type = "dynamic", na.rm=T, alp=.1)
+
+ggdid(group_effects) + ggdark::dark_theme_gray()
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+make_plots <- function(myb) {
+  
+  res50 <- do_buffer_analysis_w_max_extent(buffer_size = 50, 
+                                           hds_to_omit = hds_to_omit, 
+                                           cvars = "LABEL", 
+                                           dep_var = "pop_density",
+                                           max_years_back = myb,
+                                           only_extend_outer_buffer = T,
+                                           subset_to_smaller_blocks=T,
+                                           # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+                                           # blocks that are more than half covered by unzoned area
+                                           return_shps = F)
+  
+  # res100 <- do_buffer_analysis_w_max_extent(buffer_size = 100, 
+  #                                           hds_to_omit = hds_to_omit, 
+  #                                           cvars = "LABEL", 
+  #                                           dep_var = "pop_density",
+  #                                           max_years_back = myb,
+  #                                           # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+  #                                           # blocks that are more than half covered by unzoned area
+  #                                           return_shps = F)
+  # 
+  # res200 <- do_buffer_analysis_w_max_extent(buffer_size = 200, 
+  #                                           hds_to_omit = hds_to_omit, 
+  #                                           cvars = "LABEL", 
+  #                                           dep_var = "pop_density",
+  #                                           max_years_back = myb,
+  #                                           # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+  #                                           # blocks that are more than half covered by unzoned area
+  #                                           return_shps = F)
+  # 
+  # resmyb0 <- do_buffer_analysis_w_max_extent(buffer_size = myb0, 
+  #                                           hds_to_omit = hds_to_omit, 
+  #                                           cvars = "LABEL", 
+  #                                           dep_var = "pop_density",
+  #                                           max_years_back = myb,
+  #                                           # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+  #                                           # blocks that are more than half covered by unzoned area
+  #                                           return_shps = F)
+  
+  res800 <- do_buffer_analysis_w_max_extent(buffer_size = 800, 
+                                            hds_to_omit = hds_to_omit, 
+                                            cvars = "LABEL", 
+                                            dep_var = "pop_density",
+                                            max_years_back = myb,
+                                            only_extend_outer_buffer = T,
+                                            subset_to_smaller_blocks=T,
+                                            # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+                                            # blocks that are more than half covered by unzoned area
+                                            return_shps = F)
+  
+  # res800 <- do_buffer_analysis_w_max_extent(buffer_size = 1000, 
+  #                                           hds_to_omit = hds_to_omit, 
+  #                                           cvars = "LABEL", 
+  #                                           dep_var = "pop_density",
+  #                                           max_years_back = myb,
+  #                                           # unzoned_threshold = .5,  # uncomment this line to rerun the analysis, omitting
+  #                                           # blocks that are more than half covered by unzoned area
+  #                                           return_shps = F)
+  
+  
+  
+  summarize_buffer <- function(buf_df, dist) {
+    rv <- 
+      buf_df %>%
+      group_by(LABEL, treat, post) %>%
+      summarise(pop_density = mean(pop_density, na.rm=T),
+                pct_black   = mean(pct_black, na.rm=T),
+                pct_white   = mean(pct_white, na.rm=T),
+                n_tot       = sum(n_tot, na.rm=T),
+                
+                hd_area_acres = max(hd_area_acres, na.rm=T),
+                shp_area       = sum(as.vector(geo_area_meters), na.rm=T)
+      ) %>%
+      mutate(dist = ifelse(post==1, dist, -1*dist))
+    
+    return(rv)
+  }
+  
+  
+  my_plt <-
+    dplyr::bind_rows(
+      summarize_buffer(res50$buffer_ts, 50),
+      summarize_buffer(res800$buffer_ts, 800),
+    ) %>%
+    ungroup() %>%
+    group_by(treat, post, dist) %>%
+    summarise(
+      dist = mean(dist),
+      pop_density = weighted.mean(pop_density, w = hd_area_acres, na.rm=T),
+      pct_black = weighted.mean(pct_black, w = hd_area_acres, na.rm=T),
+      pct_white = weighted.mean(pct_white, w = hd_area_acres, na.rm=T),
+      
+      total_area = sum(shp_area, na.rm = T)
+    )
+  
+  temp <-
+    ggplot(my_plt) +
+    geom_line(
+      aes(
+        x=dist, 
+        group=as.factor(paste(treat, post)), 
+        y=pop_density, 
+        color=forcats::fct_rev(as.factor(treat))
+      ),
+      linewidth = 1
+    ) +
+    theme(legend.position = "top") +
+    ggdark::dark_theme_gray() +
+    ylab("mean ppl/acre") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+    scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
+    ggtitle("After designation, population density increased more outside of HDs") +
+    ylim(c(0, max(my_plt$pop_density, na.rm=T)))
+  
+  
+  print("________________________________________________________________")
+  print(paste("myb is", myb))
+  print(
+    res50$buffer_ts %>%
+    group_by(treat, post) %>%
+    summarize(area = sum(as.vector(geo_area_meters)))
+  )
+  
+  print(temp)
+  
+  return(my_plt)
+  
+}
+
+
+test1 <- make_plots(myb = 40)
+# test2 <- make_plots(myb = 30)
+test3 <- make_plots(myb = 20)
+# test4 <- make_plots(myb = 10)
+
+
+
+test1 %>% group_by(treat, post) %>%
+  summarize(area = sum(as.vector(geo_area_meters)))
