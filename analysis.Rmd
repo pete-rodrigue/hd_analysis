@@ -2391,7 +2391,7 @@ p %>%
 **High-level patterns**
 
 * HDs seem to become less dense over time relative to nearby blocks after HD designation. This is the strongest result. HD creation appears to be associated with a relative drop in population density between 5 and 9 residents per acre, or 12-21% of the typical HD population density.
-* The percentage of white residents also seems to increase after designation, while the percentage of black residents seems to decline.
+* The percentage of white residents also seems to increase after designation, while the percentage of black residents seems to decline, although this result is less robust to alternate buffer-drawing techniques. See appendix for more.
 * For all of these results there is heterogeneity between the individual HDs. See plots for more details. While we can summarize trends with statistics, each neighborhood has its own history and happenings and you have to use your local knowledge to fully understand what's going on.
 
 <br>
@@ -4254,7 +4254,7 @@ p2 <- ggplot(my_plt) +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, HDs saw relative decline in black residents") +
   ylim(c(0, max(my_plt$pct_black*100, na.rm=T)+10)) +
-  labs(caption = create_caption("pct_black")) +
+  labs(caption = create_caption("pct_black", r_digits = 2)) +
   theme(plot.caption = element_text(hjust = 0))
 
 
@@ -4274,7 +4274,8 @@ p3 <- ggplot(my_plt) +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, HDs saw relative increase in white residents") +
   ylim(c(0, max(my_plt$pct_white*100, na.rm=T)+10)) +
-  labs(caption = create_caption("pct_white"))
+  labs(caption = create_caption("pct_white", r_digits = 2)) +
+  theme(plot.caption = element_text(hjust = 0))
 ```
 
 ```{r}
