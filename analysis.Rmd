@@ -2482,10 +2482,10 @@ my_plt <-
   dplyr::bind_rows(
                     summarize_buffer(res50$buffer_ts, 50),
                     summarize_buffer(res100$buffer_ts, 100),
-                    # summarize_buffer(res200$buffer_ts, 200),
-                    # summarize_buffer(res400$buffer_ts, 400),
+                    summarize_buffer(res200$buffer_ts, 200),
+                    summarize_buffer(res400$buffer_ts, 400),
                     summarize_buffer(res800$buffer_ts, 800),
-                    # summarize_buffer(res1000$buffer_ts, 1000)
+                    summarize_buffer(res1000$buffer_ts, 1000)
               ) %>%
   ungroup() %>%
   group_by(treat, post, dist) %>%
@@ -2770,6 +2770,10 @@ Again, there's some heterogeneity, but in general, the HDs that had more white r
 
 ##### {-}
 
+
+***
+
+
 🤔 What's going on here? 
 
 If you want to skim the research on the intersection between housing density, demographic change, and historic district preservation, see the "literature review" section below. Several of those studies find that HDs are associated with dampened population growth and socioeconomic stratification. But, at least with respect to housing density dynamics, you can also just read what proponents of HDs in DC have said. Here are some examples.
@@ -2853,6 +2857,12 @@ We were curious how the HD nomination documents talked about these covenants, so
 
 The original Mt. Pleasant nomination document is 58 pages but doesn't seem to mention covenants, despite the fact that racially-restrictive covenants covered the majority of properties in the neighborhood (the Mt P HD was designated in 1986). Cleveland Park's original nomination (1987) has no discussion of covenants. This doesn't seem to be because people were unaware of the existence of covenants: the Anacostia nomination documents discuss discriminatory covenants, and those were drafted a decade before Cleveland Park or Mt Pleasant became HDs.
 
+Cleveland Park also had many "price restricted" lots that effectively functioned as de facto tools of racial segregation, given DC's race & income dynamics in the early 1900s. 
+
+One of the creators of the Cleveland Park subdivision was a developer named John Sherman. Sherman had one of these price restriction covenants on his own house. The HD nomination form for Cleveland Park refers to John Sherman as an "enlightened and benevolent developer."
+
+You can read more about those restrictions on [this page](https://cpsmartgrowth.com/2021/03/14/excluded-from-the-start/). Those types of covenants are not shown in the map above.
+
 Colony Hill (designated 2021) has a single sentence about covenants, on page 42 of 47. 
 
 > The early residents of Colony Hill were representative of Washington’s upper middle-class, and included business executives, government officials, physicians, military officers and other occupations. Typical of the period, and common throughout the greater Washington area at this time, Colony Hill was a racially homogenous community, and deed covenants restricted African Americans from owning or leasing property in the neighborhood.
@@ -2908,7 +2918,7 @@ leaflet() %>%
 
 While we're on this subject, here's a Federal Housing Administration map from the 1930s that graded areas on their loan prospects. The grades were based on the race of residents in the area. You can read more on this [Mapping Segregation page](https://www.arcgis.com/apps/MapSeries/index.html?appid=34603bd48c9f496fa2750a770f655013). As that page says, "98 percent of the loans it [the FHA] insured between 1934 and 1962 went to white borrowers."
 
-It's striking is how heavily "A", "B", and "C" graded areas (which were predominantly wealthy and white) overlap with the areas that are now zoned exclusively for detached homes. In other words, it is illegal to build apartment buildings in these neighborhoods. Seventy-four percent of the "grade A" areas are zoned to, as the DC Zoning Handbook puts it, "Protect quiet residential areas." As Faulkner said, "The past is never dead. It's not even past."
+It's striking is how heavily "A", "B", and "C" graded areas (which were predominantly wealthy and white) overlap with the areas that are now zoned exclusively for detached homes. In other words, it is illegal to build apartment buildings in these neighborhoods. Seventy-four percent of the "grade A" areas are zoned to, as the DC Zoning Handbook puts it, "Protect quiet residential areas." Some areas have been so heavily downzoned that many existing residential buildings would be illegal to build today. As Faulkner said, "The past is never dead. It's not even past."
 
 Click the checkboxes to toggle the layers.
 
@@ -4884,11 +4894,9 @@ invisible(gc())
 ```
 
 
-
+<br><br>
 
 ### Block matching: Peek inside the time series data
-
-<br><br>
 
 Here's a visual glance at how all the blocks overlap from 1940 - 2020
 
