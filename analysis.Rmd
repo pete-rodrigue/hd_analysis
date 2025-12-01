@@ -490,8 +490,10 @@ While the average end date has been roughly constant over time (mostly ending in
 ```{r, fig.height=8, fig.width=12}
   ggplot(hd_shp %>% 
          mutate(sig_year_mean = (sig_year_begin + sig_year_end) / 2,
-                name_short = substr(LABEL, 1, 5))) +
-  geom_text(aes(label=name_short, x=desig_date, y=1780), angle=45, position=position_jitter(width = 0, height = 15)) +
+                name_short = substr(LABEL, 1, 8))) +
+  geom_text(aes(label=name_short, x=desig_date, y=1780), 
+            # size=5,
+            angle=45, position=position_jitter(width = 0, height = 15)) +
   geom_segment(
     aes(
       x=jitter(desig_date, 5), 
@@ -504,7 +506,8 @@ While the average end date has been roughly constant over time (mostly ending in
   geom_smooth(method = "loess", se = F, aes(x=desig_date, y=sig_year_end)) +
   xlab("HD designation date") +
   ylab('Beginning of "period of significance" for HD') +
-  ggtitle('HD\'s "periods of significance" have gotten younger') 
+  ggtitle('HD\'s "periods of significance" have gotten younger') #+
+  # theme(plot.title = element_text(size = 20), axis.text.x = element_text(size = 15), axis.text.y=element_text(size = 15))
 ```
 
 
@@ -916,7 +919,7 @@ ggplot(bg_23_shp,
 
 HD block groups tend to have pricier homes. Sometimes this is pitched as proof that "HDs increase home values" but we'd want to know how much of that price difference is the history itself serving as a desirable amenity and how much of the price difference reflects the presence of leafy, walkable neighborhoods (although per the little bit of history above, those two things are related in practice).
 
-We took a cursory look at this in DC, using [sale price](https://www.kaggle.com/datasets/christophercorrea/dc-residential-properties?select=DC_Properties.csv) data and found that, controlling for a bunch of other factors (house characteristics, zoning, the ward, local income and poverty), HD designation raises an average sale prices somewhere around 7-10%. (It's possible that our regression was still missing important predictor variables, but adding many additional variables did not chage the estimated relationship between HD-designation and sale price much). This 7-10% estimate is roughly in line with estimates from other cities. See code for details.
+We took a cursory look at this in DC, using [sale price](https://www.kaggle.com/datasets/christophercorrea/dc-residential-properties?select=DC_Properties.csv) data and found that, controlling for a bunch of other factors (house characteristics, zoning, the ward, local income and poverty), HD designation raises an average sale prices somewhere around 13%. (It's possible that our regression was still missing important predictor variables, but adding many additional variables did not chage the estimated relationship between HD-designation and sale price much). This 13% estimate is roughly in line with estimates from other cities. See code for details.
 
 <br>
 
@@ -1035,7 +1038,11 @@ mod <-
       as.factor(WARD)
     )
 
-summary(mod)
+
+
+lm_res <- summary(mod)
+
+lm_res$coefficients[2] / mean(home_val$PRICE, na.rm=T)
 
 plot(mod)
 ```
