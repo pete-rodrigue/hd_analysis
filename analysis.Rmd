@@ -2398,7 +2398,7 @@ p %>%
 **High-level patterns**
 
 * HDs seem to become less dense over time relative to nearby blocks after HD designation. This is the strongest result. HD creation appears to be associated with a relative drop in population density between 5 and 9 residents per acre, or 12-21% of the typical HD population density.
-* The percentage of white residents also seems to increase after designation, while the percentage of black residents seems to decline, although this result is less robust to alternate buffer-drawing techniques. See appendix for more.
+* The percentage of white residents also seems to increase after designation, while the percentage of black residents seems to decline, although this result is less robust to alternate buffer-drawing techniques. See appendix for more. We have a bit of a censored data issue here: we don't know how many black residents the HDs would have gained if they had built more housing. So the true "effect" of the HDs on demographic change may be greater than what we observe in the data.
 * For all of these results there is heterogeneity between the individual HDs. See plots for more details. While we can summarize trends with statistics, each neighborhood has its own history and happenings and you have to use your local knowledge to fully understand what's going on.
 
 <br>
@@ -4212,7 +4212,7 @@ In the robustness checks below, we impose several restrictions on the buffer pro
 1. Only "normal" sized blocks, under ~12 acres
 2. For blocks outside the HD, any blocks are included in all time periods that fall within the maximum extent of the blocks selected in any time period. This helps avoid situations outside HDs where large blocks in early periods are split into smaller blocks later, and only the closer-in, denser blocks are kept in the "outside-HD" buffer group. This could inflate the estimates of population density outside of HDs if the land area in the outside-HD buffer blocks shrinks with time.
 
-When we impose these restrictions, the results are similar to the main results, although the differences for the percentage of black and white residents largely disappear for the smaller buffer sizes. See below. 
+When we impose these restrictions, the results are similar to the main results, although the differences for the percentage of black and white residents largely disappear for the smallest buffer sizes. See below. Notably, the HDs that gained black residents tend to be in NW. Again, we have a bit of a censored data issue here: we don't know how many black residents those areas would have gained if they had built more housing. So the true "effect" of the historic districts on demographic change may be greater than what we observe in the data.
 
 
 ```{r}
