@@ -244,7 +244,7 @@ leaflet() %>%
   ) %>% 
   addLegend(
     position = "bottomright",
-    colors = "purple",
+    colors = "#9ffcb1",
     labels = "",
     title = "Current zones that prohibit<br>apartments and duplexes",
     opacity = 1
