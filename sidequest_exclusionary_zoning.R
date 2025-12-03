@@ -295,7 +295,9 @@ pd$in_r <-
 
 
 wards_2_3 <- ward_shp %>% filter(WARD %in% c(2, 3)) %>% sf::st_union()
+ward_3 <- ward_shp %>% filter(WARD %in% c(3)) %>% sf::st_union()
 pd$in_ward_2_3 <- lengths(st_intersects(pd, wards_2_3))
+pd$in_ward_3 <- lengths(st_intersects(pd, ward_3))
 
 # number of houses in these zones, average value, and aggregate value
 get_stats <- function(df) {
@@ -328,20 +330,28 @@ leaflet() %>%
                    stroke=F)
 
 
-all <- get_stats(pd %>% filter(in_r==1))
+all <- get_stats(pd %>% filter(in_ward_3==1 & STRUCT_D != "Multi" & STRUCT_D != "No Data"))
+
+r1 <- get_stats(pd %>% filter(in_r==1))
 w23 <- get_stats(pd %>% filter(in_r==1 & in_ward_2_3==1))
 
 
 cat(
- paste0("Number of houses in R-1x zones: ~", format(all[['n']], big.mark=","),
+ paste0(
+        "Number of houses in Ward 3: ~", format(all[['n']], big.mark=","),
         "\nAverage sale price after 2019: ~", format(all[['avg_p']], big.mark=","),
-        "\nEstimated aggregate value: ~", format(all[['agg_val']], big.mark=",")),
+        "\nEstimated aggregate value: ~", format(all[['agg_val']], big.mark=","),
+        "\n-------------------------------------------",
+        "Number of houses in R-1x zones: ~", format(r1[['n']], big.mark=","),
+        "\nAverage sale price after 2019: ~", format(r1[['avg_p']], big.mark=","),
+        "\nEstimated aggregate value: ~", format(r1[['agg_val']], big.mark=","),
         "\n-------------------------------------------",
         "\nNumber of houses in R-1x zones in wards 2 and 3: ~", format(w23[['n']], big.mark=","),
         "\nAverage sale price after 2019 in wards 2 and 3: ~", format(w23[['avg_p']], big.mark=","),
         "\nEstimated aggregate value in wards 2 and 3: ~", format(w23[['agg_val']], big.mark=","),
  
-      
-        "\nPercent of R-1x homes in wards 2 and 3: ~", round(w23[['n']] / all[['n']] *100,0),
-        "\nPercent of aggregate value in wards 2 and 3: ~", round(w23[['agg_val']] / all[['agg_val']] * 100, 0), "%"
+        "\nPercent of R-1x homes in wards 2 and 3: ~", round(w23[['n']] / r1[['n']] *100,0),
+        "\nPercent of aggregate value in wards 2 and 3: ~", round(w23[['agg_val']] / r1[['agg_val']] * 100, 0), "%"
     )
+)
+
