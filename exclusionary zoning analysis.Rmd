@@ -2,8 +2,9 @@
 title: "exclusionary zoning analysis"
 author: "pete rodrigue"
 date: "2025-12-04"
-output: github_document
-always_allow_html: true
+output: 
+  html_document:
+    self_contained: true
 ---
 
 ```{r setup, include=FALSE}
@@ -346,7 +347,11 @@ temp$color <- NA
 temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
 temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
 
-p1 <- ggplot(temp, aes(y=input, x= reorder(grade, -input))) +
+temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
+  
+temp$grade <- factor(temp$grade, levels = c("A", "B", "C", "F", "G", "H"))
+
+p1 <- ggplot(temp, aes(y=input, x= grade)) +
   geom_bar(aes( fill=color), stat="identity") +
   geom_text(aes(label = format(round(input, 0), big.mark=",")), vjust = -0.5) +
   scale_fill_identity() +
