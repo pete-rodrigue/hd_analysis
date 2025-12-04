@@ -1,4 +1,14 @@
+---
+title: "exclusionary zoning analysis"
+author: "pete rodrigue"
+date: "2025-12-04"
+output: github_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning=F, message=F)
+
+# load packages
 library(dplyr)
 library(readr)
 library(sf)
@@ -7,16 +17,20 @@ library(leaflet)
 library(leaflet.extras)
 # devtools::install_github("statnmap/HatchedPolygons")
 library(HatchedPolygons)
-library(UpSetR)
 # install.packages('eulerr')
 library(eulerr)
+library(ggplot2)
+library(patchwork)
 
-
-setwd("C:/Users/edwar/Documents/GitHub/hd_analysis")
-
-
+# Getting the path of your current open file
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
+# load functions we've written to help with the analysis below
+# (we've stored those in a separate file to make the code easier to read)
 source("supporting_functions.R")
+```
 
+```{r load_data}
 ####################
 # LOAD BLOCK DATA
 ####################
@@ -131,6 +145,7 @@ dc_dcs_shp <-
   sf::st_simplify(., dTolerance = .00002)
 
 
+# uncomment to look at covenants data on a map
 # leaflet() %>% 
 #   addProviderTiles(providers$CartoDB.Positron) %>%
 #   addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
@@ -143,7 +158,6 @@ dc_dcs_shp <-
 #     overlayGroups = c("Approx. areas w/ discriminatory covenants"),
 #     options = layersControlOptions(collapsed = FALSE)
 #   ) 
-
 
 
 ####################
@@ -171,6 +185,7 @@ zone_shp$ZR16_simple[grep(x=zone_shp$ZR16, pattern="^NMU-")] <- "Mixed use zones
 
 zone_shp <- sf::st_transform(zone_shp, 26918)
 
+# note r-1 zones
 zone_shp$r_1 <- 0
 zone_shp$r_1[zone_shp$ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)] <- 1
 
@@ -183,7 +198,6 @@ ward_shp <-
 ####################
 # LOAD FHA DATA
 ####################
-
 fha_raster <- terra::rast("discriminatory_policies/fha_map/fha_image.tif")
 
 fha_shp <- sf::st_read("discriminatory_policies/fha_map/fha_map.shp", quiet=T) %>% 
@@ -203,9 +217,6 @@ race_shp <-
 
 
 
-
-
-
 ####################
 # LOAD PROPERTY DATA
 ####################
@@ -217,12 +228,14 @@ cama <- readr::read_csv("Computer_Assisted_Mass_Appraisal_-_Residential.csv",
 # https://opendata.dc.gov/datasets/5b0b6b13ef894b8da62e6bd458d907b3_35/explore?location=38.896842%2C-77.002937%2C18.31
 rl <- sf::st_read("Record_Lots/Record_Lots.shp", quiet=T)
 
+# convert property data to points (simpler, less memory)
 pd <- 
   dplyr::left_join(rl, cama, by="SSL") %>% 
   filter(!is.na(OBJECTID.y)) %>%
   sf::st_centroid() %>%
   sf::st_transform(26918)
 
+# get properties in R-1 zones
 pd$in_r <- 
   lengths(
     sf::st_intersects(pd,
@@ -234,18 +247,22 @@ pd$in_r <-
                       )
     )
 
+# get properties in former FHA grade areas:
 pd$in_A <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="A",] %>% st_transform(st_crs(pd))))
 pd$in_B <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="B",] %>% st_transform(st_crs(pd))))
+pd$in_C <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="C",] %>% st_transform(st_crs(pd))))
+
+pd$in_F <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="F",] %>% st_transform(st_crs(pd))))
+pd$in_G <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="G",] %>% st_transform(st_crs(pd))))
 pd$in_H <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="H",] %>% st_transform(st_crs(pd))))
 
-
-
+# get properties in wards 2 and 3:
 wards_2_3 <- ward_shp %>% filter(WARD %in% c(2, 3)) %>% sf::st_union()
 ward_3 <- ward_shp %>% filter(WARD %in% c(3)) %>% sf::st_union()
 pd$in_ward_2_3 <- lengths(st_intersects(pd, wards_2_3))
 pd$in_ward_3 <- lengths(st_intersects(pd, ward_3))
 
-# number of houses in these zones, average value, and aggregate value
+# function to get the number of houses in these zones, average value, and aggregate value:
 get_stats <- function(df, rv=F) {
   n <-
     df %>%
@@ -276,25 +293,19 @@ get_stats <- function(df, rv=F) {
   if (rv) {return(list('n'=n, 'avg_p'=avg_p, "agg_val"=agg_val))}
 }
 
+```
 
 
-# leaflet() %>%
-#   addProviderTiles(providers$CartoDB.Positron) %>%
-#   addCircleMarkers(data=pd[pd$in_A + pd$in_B >=1,] %>% sf::st_transform(4326),
-#                    stroke=F)
-# 
-# leaflet() %>%
-#   addProviderTiles(providers$CartoDB.Positron) %>%
-#   # addPolygons(data=zone_shp[zone_shp$r_1==1,] %>% sf::st_transform(4326),
-#   #                  stroke=F, fill="black") %>%
-#   addPolygons(data=fha_shp[fha_shp$fha_grade %in% c("A", "H"),] %>% sf::st_transform(4326),
-#               stroke=F, fill="hotpink", label=~fha_grade) 
-
+```{r}
+cat("---A grade area stats---\n")
 get_stats(df = pd[pd$in_A==1,])
+cat("\n\n")
+cat("---H grade area stats---\n")
 get_stats(df = pd[pd$in_H==1,])
+```
 
 
-
+```{r venn_diagrams, out.width="100%"}
 input = 1 / 4046.86 * c(
   "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
@@ -321,56 +332,9 @@ input = 1 / 4046.86 * c(
 ) 
 
 
-abc_col = "#D2B48C"
-efg_col = "brown"
-r1_col  = "lightgreen"
-
-p1 <- 
-    upset(fromExpression(input[grep(pattern = "&", x = names(input), value = T)]), 
-            order.by = "freq", nintersects = 20, nsets = 20,
-          # Highlight specific intersections
-          queries = list(
-            list(
-              query = intersects,
-              params = list("grade A", "R-1"),
-              color = abc_col,
-              active = TRUE
-            ),
-            list(
-              query = intersects,
-              params = list("grade B", "R-1"),
-              color = abc_col,
-              active = TRUE
-            ),
-            list(
-              query = intersects,
-              params = list("grade C", "R-1"),
-              color = abc_col,
-              active = TRUE
-            ),
-            
-            list(
-              query = intersects,
-              params = list("grade F", "R-1"),
-              color = efg_col,
-              active = TRUE
-            ),
-            list(
-              query = intersects,
-              params = list("grade G", "R-1"),
-              color = efg_col,
-              active = TRUE
-            ),
-            list(
-              query = intersects,
-              params = list("grade H", "R-1"),
-              color = efg_col,
-              active = TRUE
-            )
-          ),
-          query.legend = "none"
-          )
-p1
+abc_col = "#E8B391"
+fgh_col = "#B15B25"
+r1_col  = "#25B15B"
 
 temp <- data.frame(input) 
 temp$grade <- rownames(temp)
@@ -379,7 +343,7 @@ rownames(temp) <- NULL
 temp$grade <- sub("&.*", "", temp$grade)
 temp$color <- NA
 temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
-temp$color[temp$grade %in% c("grade F", "grade F", "grade H")] <- efg_col
+temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
 
 p1 <- ggplot(temp, aes(y=input, x= reorder(grade, -input))) +
   geom_bar(aes( fill=color), stat="identity") +
@@ -391,29 +355,126 @@ p1 <- ggplot(temp, aes(y=input, x= reorder(grade, -input))) +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
-abc_col = "#D2B48C"
-efg_col = "brown"
-r1_col  = "lightgreen"
 p2 <- 
   plot(eulerr::euler(input, shape = "ellipse"),
-     fills = c(abc_col, abc_col, abc_col, efg_col, efg_col, efg_col, r1_col)
+     fills = c(abc_col, abc_col, abc_col, fgh_col, fgh_col, fgh_col, r1_col)
      )
 
-combined_patchwork <- (p1 | p2) +
-  plot_annotation(title = "DC's exclusionary R-1 zones are overwhelmingly sited in former FHA 'whites only' areas") & # Add title
+combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p2)) +
+  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
 
 combined_patchwork
+```
+
+```{r disparities, out.width="100%"}
+temp <-
+  sf::st_join(fha_shp %>% filter(fha_grade %in% c("A", "B", "C", "H", "F", "G")),  
+              geos_shp %>% filter(year==2020) %>% sf::st_centroid()) %>%
+  sf::st_drop_geometry() %>%
+  mutate(geo_area_meters = as.vector(geo_area_meters)) %>%
+  group_by(fha_grade) %>%
+  summarise(
+    n_tot          = sum(n_tot, na.rm=T),
+    n_black        = sum(n_black, na.rm=T),
+    n_white        = sum(n_white, na.rm=T),
+    geo_area_acres = sum(geo_area_meters, na.rm=T) / 4046.86
+  ) %>%
+  mutate(
+    pop_density    = n_tot / geo_area_acres,
+    pct_white      = round(n_white / n_tot * 100, 0),
+    pct_black      = round(n_black / n_tot * 100, 0)
+  )
+
+temp$color <- NA
+temp$color[temp$fha_grade %in% c("A", "B", "C")] <- abc_col
+temp$color[temp$fha_grade %in% c("F", "G", "H")] <- fgh_col
+
+p1 <-
+  ggplot(temp, aes(y=pct_white, x= reorder(fha_grade, -pct_white))) +
+  geom_bar(aes( fill=abc_col), stat="identity") +
+  geom_text(aes(label = format(pct_white, big.mark=",")), vjust = -0.5) +
+  scale_fill_identity() +
+  theme_minimal() +
+  xlab("") +
+  ylab("") +
+  ylim(c(0, 100)) +
+  ggtitle("% of white residents in 2020 lower in former FHA grade G & H areas") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+p2 <-
+  ggplot(temp, aes(y=pct_black, x= reorder(fha_grade, -pct_white))) +
+  geom_bar(aes( fill=fgh_col), stat="identity") +
+  geom_text(aes(label = format(pct_black, big.mark=",")), vjust = -0.5) +
+  scale_fill_identity() +
+  theme_minimal() +
+  xlab("") +
+  ylab("") +
+  ylim(c(0, 100)) +
+  ggtitle("% of black residents in 2020 higher in former FHA grade G & H areas") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+temp <-
+  pd %>%
+  sf::st_drop_geometry() %>%
+  filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
+  mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
+  filter(sale_date >= 2010) %>%
+  filter(PRICE >= 100000) %>%
+  select(PRICE, starts_with("in_")) %>%
+  mutate(log_price = log10(PRICE)  ) %>%
+  mutate(
+    fha_grade = case_when(
+      in_A == 1 ~ "A",
+      in_B == 1 ~ "B",
+      in_C == 1 ~ "C",
+      
+      in_F == 1 ~ "F",
+      in_G == 1 ~ "G",
+      in_H == 1 ~ "H"
+    )
+  ) %>%
+  filter(!is.na(fha_grade)) %>%
+  group_by(fha_grade) %>%
+  summarise(n = n(),
+            avg_p = round(mean(PRICE, na.rm=T), 0),
+            agg_p = round(n*avg_p, 0))
+
+temp$fha_grade <- factor(temp$fha_grade, levels = c("A", "F", "B", "C", "G", "H"))
+
+p3 <-
+  ggplot(temp, aes(y=avg_p, x= fha_grade)) +
+  geom_bar(aes( fill="skyblue"), stat="identity") +
+  geom_text(aes(label = format(avg_p, big.mark=",")), vjust = -0.5) +
+  scale_fill_identity() +
+  theme_minimal() +
+  xlab("") +
+  ylab("") +
+  ggtitle("Avg. home sale price correlated strongly with former FHA grade") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+
+combined_patchwork <- (p1 | p2 | p3) #+
+  # plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately white today") & # Add title
+  # theme(plot.title = element_text(hjust = 0.5)) # Center the title
+
+combined_patchwork
+```
+
+```{r final_map}
 
 ####################
 # MAP EVERYTHING
 ####################
 pdheat <- 
   bind_cols(pd, sf::st_coordinates(pd %>% sf::st_transform(4326))) %>%
-  filter(PRICE >0) %>% filter(!is.na(PRICE)) %>% 
+  filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
   mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
   filter(sale_date >= 2010) %>%
-  filter(PRICE >= 200000) %>%
+  filter(PRICE >= 100000) %>%
   select(X, Y, PRICE) %>%
   mutate(log_price = log10(PRICE)  )
 
@@ -434,11 +495,11 @@ race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
 
 price_pal <- colorNumeric(palette = viridisLite::viridis(n = 256, option = "D") , domain = log10(pdgrp$price))
 
-zone_hatched <- 
-  zone_shp %>%
-  filter(ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>% 
-  st_transform(4326) %>%
-  hatched.SpatialPolygons(., density = 500)
+# zone_hatched <- 
+#   zone_shp %>%
+#   filter(ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>% 
+#   st_transform(4326) %>%
+#   hatched.SpatialPolygons(., density = 500)
 
 
 
@@ -475,6 +536,7 @@ leaflet() %>%
               group="Recent home prices",
               fillColor = ~price_pal(log_price),
               stroke=F,
+              fillOpacity = .95,
               label=~format(round(price, 0), big.mark=",")
               ) %>%
   addLayersControl(
@@ -502,17 +564,4 @@ leaflet() %>%
   hideGroup("FHA map") %>%
   hideGroup("% non-white in 1940") %>%
   hideGroup("FHA grade")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
