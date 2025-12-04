@@ -349,7 +349,7 @@ temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
 
 temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
   
-temp$grade <- factor(temp$grade, levels = c("A", "B", "C", "F", "G", "H"))
+# temp$grade <- factor(temp$grade, levels = c("A", "B", "C", "F", "G", "H"))
 
 p1 <- ggplot(temp, aes(y=input, x= grade)) +
   geom_bar(aes( fill=color), stat="identity") +
@@ -397,28 +397,28 @@ temp$color[temp$fha_grade %in% c("A", "B", "C")] <- abc_col
 temp$color[temp$fha_grade %in% c("F", "G", "H")] <- fgh_col
 
 p1 <-
-  ggplot(temp, aes(y=pct_white, x= reorder(fha_grade, -pct_white))) +
+  ggplot(temp, aes(y=pct_white, x= fha_grade)) +
   geom_bar(aes( fill=abc_col), stat="identity") +
   geom_text(aes(label = format(pct_white, big.mark=",")), vjust = -0.5) +
   scale_fill_identity() +
   theme_minimal() +
-  xlab("") +
+  xlab("% white residents") +
   ylab("") +
   ylim(c(0, 100)) +
-  ggtitle("% of white residents in 2020 lower in former FHA grade G & H areas") +
+  # ggtitle("% of white residents in 2020 lower in former FHA grade G & H areas") +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
 p2 <-
-  ggplot(temp, aes(y=pct_black, x= reorder(fha_grade, -pct_white))) +
+  ggplot(temp, aes(y=pct_black, x= fha_grade)) +
   geom_bar(aes( fill=fgh_col), stat="identity") +
   geom_text(aes(label = format(pct_black, big.mark=",")), vjust = -0.5) +
   scale_fill_identity() +
   theme_minimal() +
-  xlab("") +
+  xlab("% black residents") +
   ylab("") +
   ylim(c(0, 100)) +
-  ggtitle("% of black residents in 2020 higher in former FHA grade G & H areas") +
+  # ggtitle("% of black residents in 2020 higher in former FHA grade G & H areas") +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
@@ -427,7 +427,7 @@ temp <-
   sf::st_drop_geometry() %>%
   filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
   mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
-  # filter(sale_date >= 2010) %>%
+  filter(sale_date >= 2010) %>%
   filter(PRICE >= 100000) %>%
   select(PRICE, starts_with("in_")) %>%
   mutate(log_price = log10(PRICE)  ) %>%
@@ -448,29 +448,28 @@ temp <-
             avg_p = round(mean(PRICE, na.rm=T), 0),
             agg_p = round(n*avg_p, 0))
 
-temp$fha_grade <- factor(temp$fha_grade, levels = c("A", "F", "B", "C", "G", "H"))
-
 p3 <-
   ggplot(temp, aes(y=avg_p, x= fha_grade)) +
   geom_bar(aes( fill="skyblue"), stat="identity") +
-  geom_text(aes(label = format(avg_p, big.mark=",")), vjust = -0.5) +
+  geom_text(aes(label = paste0(round(avg_p/ 1000000, 1), "M")), vjust = -0.5, size=3) +
   scale_fill_identity() +
   theme_minimal() +
-  xlab("") +
+  xlab("Avg sale $") +
   ylab("") +
-  ggtitle("Avg. home sale price correlated strongly with former FHA grade") +
+  # ggtitle("Avg. home sale price correlated strongly with former FHA grade") +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
 
-combined_patchwork <- (p1 | p2 | p3) #+
-  # plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately white today") & # Add title
-  # theme(plot.title = element_text(hjust = 0.5)) # Center the title
-
-combined_patchwork
+(p1 | p2 | p3) +
+  plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately rich & white today") & # Add title
+  theme(plot.title = element_text(hjust = 0.5)) # Center the title
 ```
+<br>
 
-```{r final_map}
+
+
+```{r final_map, out.width="100%"}
 
 ####################
 # MAP EVERYTHING
@@ -569,5 +568,6 @@ leaflet() %>%
   hideGroup("Approx. areas w/ discriminatory covenants") %>%
   hideGroup("FHA map") %>%
   hideGroup("% non-white in 1940") %>%
-  hideGroup("FHA grade")
+  hideGroup("FHA grade") %>%
+  hideGroup("Recent home prices")
 ```
