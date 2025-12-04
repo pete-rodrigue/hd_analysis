@@ -3,8 +3,15 @@ library(dplyr)
 library(readr)
 library(sf)
 library(terra)
+library(leaflet)
 # devtools::install_github("statnmap/HatchedPolygons")
 library(HatchedPolygons)
+library(UpSetR)
+# install.packages('eulerr')
+library(eulerr)
+
+
+setwd("C:/Users/edwar/Documents/GitHub/hd_analysis")
 
 
 source("supporting_functions.R")
@@ -123,18 +130,18 @@ dc_dcs_shp <-
   sf::st_simplify(., dTolerance = .00002)
 
 
-leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
-              fillColor = "#F4B942",
-              color = "#F4B942",
-              stroke=T,
-              fillOpacity=1,
-              group="Approx. areas w/ discriminatory covenants") %>%
-  addLayersControl(
-    overlayGroups = c("Approx. areas w/ discriminatory covenants"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) 
+# leaflet() %>% 
+#   addProviderTiles(providers$CartoDB.Positron) %>%
+#   addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
+#               fillColor = "#F4B942",
+#               color = "#F4B942",
+#               stroke=T,
+#               fillOpacity=1,
+#               group="Approx. areas w/ discriminatory covenants") %>%
+#   addLayersControl(
+#     overlayGroups = c("Approx. areas w/ discriminatory covenants"),
+#     options = layersControlOptions(collapsed = FALSE)
+#   ) 
 
 
 
@@ -163,6 +170,8 @@ zone_shp$ZR16_simple[grep(x=zone_shp$ZR16, pattern="^NMU-")] <- "Mixed use zones
 
 zone_shp <- sf::st_transform(zone_shp, 26918)
 
+zone_shp$r_1 <- 0
+zone_shp$r_1[zone_shp$ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)] <- 1
 
 # load the 2022 ward shape files
 # comes from here: https://opendata.dc.gov/datasets/DCGIS::wards-from-2022/about
@@ -176,7 +185,9 @@ ward_shp <-
 
 fha_raster <- terra::rast("discriminatory_policies/fha_map/fha_image.tif")
 
-fha_shp <- sf::st_read("discriminatory_policies/fha_map/fha_map.shp", quiet=T) %>% mutate(fha_grade = substr(fha_grade, 1, 1))
+fha_shp <- sf::st_read("discriminatory_policies/fha_map/fha_map.shp", quiet=T) %>% 
+  mutate(fha_grade = substr(fha_grade, 1, 1)) %>%
+  sf::st_transform(26918)
 fha_centriods <- sf::st_centroid(fha_shp)
 fha_centriods$lon <- sf::st_coordinates(fha_centriods)[,1]
 fha_centriods$lat <- sf::st_coordinates(fha_centriods)[,2]
@@ -192,9 +203,209 @@ race_shp <-
 
 
 
+
+
+####################
+# LOAD PROPERTY DATA
+####################
+# CAMA data:
+# https://opendata.dc.gov/datasets/DCGIS::computer-assisted-mass-appraisal-residential/about
+cama <- readr::read_csv("Computer_Assisted_Mass_Appraisal_-_Residential.csv", 
+                        show_col_types = F)
+# Record lots data:
+# https://opendata.dc.gov/datasets/5b0b6b13ef894b8da62e6bd458d907b3_35/explore?location=38.896842%2C-77.002937%2C18.31
+rl <- sf::st_read("Record_Lots/Record_Lots.shp", quiet=T)
+
+pd <- 
+  dplyr::left_join(rl, cama, by="SSL") %>% 
+  filter(!is.na(OBJECTID.y)) %>%
+  sf::st_centroid() %>%
+  sf::st_transform(26918)
+
+pd$in_r <- 
+  lengths(
+    sf::st_intersects(pd,
+                      filter(zone_shp, 
+                             ZR16 %in% grep(pattern = "R-1",
+                                            x = sort(unique(zone_shp$ZR16)), 
+                                            value=T)
+                             )
+                      )
+    )
+
+pd$in_A <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="A",] %>% st_transform(st_crs(pd))))
+pd$in_B <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="B",] %>% st_transform(st_crs(pd))))
+pd$in_H <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="H",] %>% st_transform(st_crs(pd))))
+
+
+
+wards_2_3 <- ward_shp %>% filter(WARD %in% c(2, 3)) %>% sf::st_union()
+ward_3 <- ward_shp %>% filter(WARD %in% c(3)) %>% sf::st_union()
+pd$in_ward_2_3 <- lengths(st_intersects(pd, wards_2_3))
+pd$in_ward_3 <- lengths(st_intersects(pd, ward_3))
+
+# number of houses in these zones, average value, and aggregate value
+get_stats <- function(df, rv=F) {
+  n <-
+    df %>%
+    sf::st_drop_geometry() %>%
+    summarise(n = n()) %>%
+    pull(n)
+  
+  n <- round(n / 100, 0)*100
+  
+  avg_p <-
+    df %>%
+    sf::st_drop_geometry() %>%
+    mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
+    filter(sale_date >= 2020) %>%
+    summarise(average_value = mean(PRICE, na.rm=T)) %>%
+    pull(average_value)
+  
+  agg_val <- n * avg_p
+  
+  cat(
+    paste0(
+      "Number of houses: ~", format(n, big.mark=","),
+      "\nAverage sale price after 2019: ~", format(avg_p, big.mark=","),
+      "\nEstimated aggregate value: ~", format(agg_val, big.mark=",")
+    )
+  )
+  
+  if (rv) {return(list('n'=n, 'avg_p'=avg_p, "agg_val"=agg_val))}
+}
+
+
+
+# leaflet() %>%
+#   addProviderTiles(providers$CartoDB.Positron) %>%
+#   addCircleMarkers(data=pd[pd$in_A + pd$in_B >=1,] %>% sf::st_transform(4326),
+#                    stroke=F)
+# 
+# leaflet() %>%
+#   addProviderTiles(providers$CartoDB.Positron) %>%
+#   # addPolygons(data=zone_shp[zone_shp$r_1==1,] %>% sf::st_transform(4326),
+#   #                  stroke=F, fill="black") %>%
+#   addPolygons(data=fha_shp[fha_shp$fha_grade %in% c("A", "H"),] %>% sf::st_transform(4326),
+#               stroke=F, fill="hotpink", label=~fha_grade) 
+
+get_stats(df = pd[pd$in_A==1,])
+get_stats(df = pd[pd$in_H==1,])
+
+
+
+input = 1 / 4046.86 * c(
+  "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  
+  "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 'C', 
+                                                                                                                                                 # 'D', 'E', 
+                                                                                                                                                 'F', 'G', 
+                                                                                                                                                 "H"),])))))),
+  
+  "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
+  "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
+  "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
+  # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
+  # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
+  "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
+  "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
+  "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
+) 
+
+
+abc_col = "#D2B48C"
+efg_col = "brown"
+r1_col  = "lightgreen"
+
+p1 <- 
+    upset(fromExpression(input[grep(pattern = "&", x = names(input), value = T)]), 
+            order.by = "freq", nintersects = 20, nsets = 20,
+          # Highlight specific intersections
+          queries = list(
+            list(
+              query = intersects,
+              params = list("grade A", "R-1"),
+              color = abc_col,
+              active = TRUE
+            ),
+            list(
+              query = intersects,
+              params = list("grade B", "R-1"),
+              color = abc_col,
+              active = TRUE
+            ),
+            list(
+              query = intersects,
+              params = list("grade C", "R-1"),
+              color = abc_col,
+              active = TRUE
+            ),
+            
+            list(
+              query = intersects,
+              params = list("grade F", "R-1"),
+              color = efg_col,
+              active = TRUE
+            ),
+            list(
+              query = intersects,
+              params = list("grade G", "R-1"),
+              color = efg_col,
+              active = TRUE
+            ),
+            list(
+              query = intersects,
+              params = list("grade H", "R-1"),
+              color = efg_col,
+              active = TRUE
+            )
+          ),
+          query.legend = "none"
+          )
+p1
+
+temp <- data.frame(input) 
+temp$grade <- rownames(temp)
+temp <- temp[grepl("&", temp$grade), ]
+rownames(temp) <- NULL
+temp$grade <- sub("&.*", "", temp$grade)
+temp$color <- NA
+temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
+temp$color[temp$grade %in% c("grade F", "grade F", "grade H")] <- efg_col
+
+ggplot(temp, aes(y=input, x=grade)) +
+  geom_bar(aes( fill=color), stat="identity") +
+  geom_text(aes(label = format(round(input, 0), big.mark=",")), vjust = -0.5) +
+  scale_fill_identity() +
+  theme_minimal() +
+  xlab("") +
+  ylab("Acres") +
+  ggtitle("Acres of R-1 zone in former FHA grade areas")  +
+  ggdark::dark_theme_gray()
+
+abc_col = "#D2B48C"
+efg_col = "brown"
+r1_col  = "lightgreen"
+p2 <- 
+  plot(eulerr::euler(input, shape = "ellipse"),
+     fills = c(abc_col, abc_col, abc_col, efg_col, efg_col, efg_col, r1_col)
+     )
+
+p2
+p1
+
 ####################
 # MAP EVERYTHING
 ####################
+pdheat <- bind_cols(pd, sf::st_coordinates(pd %>% sf::st_transform(4326)))
+
 fha_pal <- colorFactor(palette = "RdYlGn", domain = fha_shp$fha_grade, reverse = T)
 
 race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
@@ -236,6 +447,7 @@ leaflet() %>%
               fillOpacity = .6,
               opacity=.6,
               group="Today's detached house zones 'R-1x'") %>%
+  # addHeatmap(lng = ) %>%
   addLayersControl(
     overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
                       "FHA grades from the 30s", "FHA grade", "FHA map",
@@ -260,98 +472,3 @@ leaflet() %>%
   hideGroup("FHA map") %>%
   hideGroup("% non-white in 1940") %>%
   hideGroup("FHA grade")
-
-
-
-
-####################
-# LOAD PROPERTY DATA
-####################
-# CAMA data:
-# https://opendata.dc.gov/datasets/DCGIS::computer-assisted-mass-appraisal-residential/about
-cama <- readr::read_csv("Computer_Assisted_Mass_Appraisal_-_Residential.csv", 
-                        show_col_types = F)
-# Record lots data:
-# https://opendata.dc.gov/datasets/5b0b6b13ef894b8da62e6bd458d907b3_35/explore?location=38.896842%2C-77.002937%2C18.31
-rl <- sf::st_read("Record_Lots/Record_Lots.shp", quiet=T)
-
-pd <- 
-  dplyr::left_join(rl, cama, by="SSL") %>% 
-  filter(!is.na(OBJECTID.y)) %>%
-  sf::st_centroid() %>%
-  sf::st_transform(26918)
-
-pd$in_r <- 
-  lengths(
-    sf::st_intersects(pd,
-                      filter(zone_shp, 
-                             ZR16 %in% grep(pattern = "R-1",
-                                            x = sort(unique(zone_shp$ZR16)), 
-                                            value=T)
-                             )
-                      )
-    )
-
-
-
-wards_2_3 <- ward_shp %>% filter(WARD %in% c(2, 3)) %>% sf::st_union()
-ward_3 <- ward_shp %>% filter(WARD %in% c(3)) %>% sf::st_union()
-pd$in_ward_2_3 <- lengths(st_intersects(pd, wards_2_3))
-pd$in_ward_3 <- lengths(st_intersects(pd, ward_3))
-
-# number of houses in these zones, average value, and aggregate value
-get_stats <- function(df) {
-  n <-
-    df %>%
-    sf::st_drop_geometry() %>%
-    summarise(n = n()) %>%
-    pull(n)
-  
-  n <- round(n / 100, 0)*100
-  
-  avg_p <-
-    df %>%
-    sf::st_drop_geometry() %>%
-    mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
-    filter(sale_date >= 2020) %>%
-    summarise(average_value = mean(PRICE, na.rm=T)) %>%
-    pull(average_value)
-  
-  agg_val <- n * avg_p
-  
-  return(list('n'=n, 'avg_p'=avg_p, "agg_val"=agg_val))
-}
-
-
-
-leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addCircleMarkers(data=pd[pd$in_r==1 & pd$in_ward_2_3==1,] %>% sf::st_transform(4326),
-                   stroke=F)
-
-
-all <- get_stats(pd %>% filter(in_ward_3==1 & STRUCT_D != "Multi" & STRUCT_D != "No Data"))
-
-r1 <- get_stats(pd %>% filter(in_r==1))
-w23 <- get_stats(pd %>% filter(in_r==1 & in_ward_2_3==1))
-
-
-cat(
- paste0(
-        "Number of houses in Ward 3: ~", format(all[['n']], big.mark=","),
-        "\nAverage sale price after 2019: ~", format(all[['avg_p']], big.mark=","),
-        "\nEstimated aggregate value: ~", format(all[['agg_val']], big.mark=","),
-        "\n-------------------------------------------",
-        "Number of houses in R-1x zones: ~", format(r1[['n']], big.mark=","),
-        "\nAverage sale price after 2019: ~", format(r1[['avg_p']], big.mark=","),
-        "\nEstimated aggregate value: ~", format(r1[['agg_val']], big.mark=","),
-        "\n-------------------------------------------",
-        "\nNumber of houses in R-1x zones in wards 2 and 3: ~", format(w23[['n']], big.mark=","),
-        "\nAverage sale price after 2019 in wards 2 and 3: ~", format(w23[['avg_p']], big.mark=","),
-        "\nEstimated aggregate value in wards 2 and 3: ~", format(w23[['agg_val']], big.mark=","),
- 
-        "\nPercent of R-1x homes in wards 2 and 3: ~", round(w23[['n']] / r1[['n']] *100,0),
-        "\nPercent of aggregate value in wards 2 and 3: ~", round(w23[['agg_val']] / r1[['agg_val']] * 100, 0), "%"
-    )
-)
-

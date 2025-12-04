@@ -5,6 +5,7 @@ library(sf)
 library(ggplot2)
 library(plotly)
 
+
 # load the historic district boundary shape files
 # comes from here: https://opendata.dc.gov/datasets/DCGIS::historic-districts/about 
 hd_shp <- sf::st_read("Historic_Districts/Historic_Districts.shp", quiet=T)
