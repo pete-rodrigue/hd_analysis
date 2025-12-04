@@ -188,12 +188,12 @@ fha_raster <- terra::rast("discriminatory_policies/fha_map/fha_image.tif")
 
 fha_shp <- sf::st_read("discriminatory_policies/fha_map/fha_map.shp", quiet=T) %>% 
   mutate(fha_grade = substr(fha_grade, 1, 1)) %>%
-  sf::st_transform(26918)
+  sf::st_transform(4326)
 fha_centriods <- sf::st_centroid(fha_shp)
 fha_centriods$lon <- sf::st_coordinates(fha_centriods)[,1]
 fha_centriods$lat <- sf::st_coordinates(fha_centriods)[,2]
 
-
+fha_shp <- st_transform(fha_shp, 26918)
 race_shp <- 
   geos_shp %>% 
   filter(year==1940) %>% 
@@ -410,12 +410,29 @@ combined_patchwork
 ####################
 pdheat <- 
   bind_cols(pd, sf::st_coordinates(pd %>% sf::st_transform(4326))) %>%
-  filter(PRICE >0) %>% filter(!is.na(PRICE)) %>%
-  select(X, Y, PRICE)
+  filter(PRICE >0) %>% filter(!is.na(PRICE)) %>% 
+  mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
+  filter(sale_date >= 2010) %>%
+  filter(PRICE >= 200000) %>%
+  select(X, Y, PRICE) %>%
+  mutate(log_price = log10(PRICE)  )
+
+pdgrp <- st_join(geos_shp %>% filter(year==2020) %>% select(geo_id),
+                 pdheat, 
+                 join = st_intersects) %>%
+  group_by(geo_id) %>%
+  summarize(price = mean(PRICE, na.rm=T),
+            log_price = log10(price))
+
+pdgrp <-
+  pdgrp %>%
+  filter(!is.na(price)) %>% filter(!is.nan(price))
 
 fha_pal <- colorFactor(palette = "RdYlGn", domain = fha_shp$fha_grade, reverse = T)
 
 race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
+
+price_pal <- colorNumeric(palette = viridisLite::viridis(n = 256, option = "D") , domain = log10(pdgrp$price))
 
 zone_hatched <- 
   zone_shp %>%
@@ -427,42 +444,43 @@ zone_hatched <-
 
 leaflet() %>% 
   addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(data=fha_shp %>% st_transform(4326), 
-              fillColor = ~fha_pal(fha_grade),
-              stroke=F,
-              fillOpacity = .8,
-              label=~paste("grade:", fha_grade),
-              group="FHA grades from the 30s") %>%
-  addPolygons(data=race_shp, 
-              fillColor = ~race_pal(pct_nonwhite),
-              stroke=F,
-              fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
-              label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
-              group="% non-white in 1940") %>%
-  addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade", 
-                      label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
-  addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
-              fillColor = "#F4B942",
-              color = "#F4B942",
-              stroke=T,
-              fillOpacity=1,
-              group="Approx. areas w/ discriminatory covenants") %>%
-  addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
-  # addPolygons(data=zone_hatched, 
+  # addPolygons(data=fha_shp %>% st_transform(4326), 
+  #             fillColor = ~fha_pal(fha_grade),
+  #             stroke=F,
+  #             fillOpacity = .8,
+  #             label=~paste("grade:", fha_grade),
+  #             group="FHA grades from the 30s") %>%
+  # addPolygons(data=race_shp, 
+  #             fillColor = ~race_pal(pct_nonwhite),
+  #             stroke=F,
+  #             fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
+  #             label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
+  #             group="% non-white in 1940") %>%
+  # # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade", 
+  # #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
+  # addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
+  #             fillColor = "#F4B942",
+  #             color = "#F4B942",
+  #             stroke=T,
+  #             fillOpacity=1,
+  #             group="Approx. areas w/ discriminatory covenants") %>%
+  # addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
+  # addPolygons(data=zone_hatched,
   #             fillColor = "#9ffcb1",
   #             color = "#9ffcb1",
   #             fillOpacity = .6,
   #             opacity=.6,
   #             group="Today's detached house zones 'R-1x'") %>%
-  # addHeatmap(data=pdheat,
-  #            group="Recent home prices",
-  #            lng = ~Y,
-  #            lat = ~X,
-  #            intensity = ~PRICE) %>%
+  addPolygons(data=pdgrp %>% st_transform(4326),
+              group="Recent home prices",
+              fillColor = ~price_pal(log_price),
+              stroke=F,
+              label=~format(round(price, 0), big.mark=",")
+              ) %>%
   addLayersControl(
     overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
                       "FHA grades from the 30s", "FHA grade", "FHA map",
-                      # "Recent home prices",
+                      "Recent home prices",
                       "Today's detached house zones 'R-1x'"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
@@ -498,59 +516,3 @@ leaflet() %>%
 
 
 
-
-
-leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(data=fha_shp %>% st_transform(4326), 
-              fillColor = ~fha_pal(fha_grade),
-              stroke=F,
-              fillOpacity = .8,
-              label=~paste("grade:", fha_grade),
-              group="FHA grades from the 30s") %>%
-  addPolygons(data=race_shp %>% st_transform(4326), 
-              fillColor = ~race_pal(pct_nonwhite),
-              stroke=F,
-              fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
-              label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
-              group="% non-white in 1940") %>%
-  addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade", 
-                      label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
-  addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
-              fillColor = "#F4B942",
-              color = "#F4B942",
-              stroke=T,
-              fillOpacity=1,
-              group="Approx. areas w/ discriminatory covenants") %>%
-  addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
-  # addPolygons(data=zone_hatched, 
-  #             fillColor = "#9ffcb1",
-  #             color = "#9ffcb1",
-  #             fillOpacity = .6,
-  #             opacity=.6,
-  #             group="Today's detached house zones 'R-1x'") %>%
-  # addHeatmap(lng = ) %>%
-  addLayersControl(
-    overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
-                      "FHA grades from the 30s", "FHA grade", "FHA map",
-                      "Today's detached house zones 'R-1x'"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  addLegend(
-    position = "bottomright",
-    colors = "#9ffcb1",
-    labels = "",
-    title = "Current zones that prohibit<br>apartments and duplexes",
-    opacity = 1
-  ) %>%
-  addLegend(
-    position = "bottomright",  # Or "topright", "bottomleft", "topleft"
-    pal = fha_pal,
-    values = fha_shp$fha_grade,
-    title = 'FHA "grade"',
-    opacity = 1
-  ) %>%
-  hideGroup("Approx. areas w/ discriminatory covenants") %>%
-  hideGroup("FHA map") %>%
-  hideGroup("% non-white in 1940") %>%
-  hideGroup("FHA grade")
