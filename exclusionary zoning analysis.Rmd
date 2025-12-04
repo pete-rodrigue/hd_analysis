@@ -3,6 +3,7 @@ title: "exclusionary zoning analysis"
 author: "pete rodrigue"
 date: "2025-12-04"
 output: github_document
+always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
@@ -421,7 +422,7 @@ temp <-
   sf::st_drop_geometry() %>%
   filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
   mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
-  filter(sale_date >= 2010) %>%
+  # filter(sale_date >= 2010) %>%
   filter(PRICE >= 100000) %>%
   select(PRICE, starts_with("in_")) %>%
   mutate(log_price = log10(PRICE)  ) %>%
@@ -495,43 +496,43 @@ race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
 
 price_pal <- colorNumeric(palette = viridisLite::viridis(n = 256, option = "D") , domain = log10(pdgrp$price))
 
-# zone_hatched <- 
-#   zone_shp %>%
-#   filter(ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>% 
-#   st_transform(4326) %>%
-#   hatched.SpatialPolygons(., density = 500)
+zone_hatched <-
+  zone_shp %>%
+  filter(ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>%
+  st_transform(4326) %>%
+  hatched.SpatialPolygons(., density = 500)
 
 
 
 leaflet() %>% 
   addProviderTiles(providers$CartoDB.Positron) %>%
-  # addPolygons(data=fha_shp %>% st_transform(4326), 
-  #             fillColor = ~fha_pal(fha_grade),
-  #             stroke=F,
-  #             fillOpacity = .8,
-  #             label=~paste("grade:", fha_grade),
-  #             group="FHA grades from the 30s") %>%
-  # addPolygons(data=race_shp, 
-  #             fillColor = ~race_pal(pct_nonwhite),
-  #             stroke=F,
-  #             fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
-  #             label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
-  #             group="% non-white in 1940") %>%
-  # # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade", 
-  # #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
-  # addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
-  #             fillColor = "#F4B942",
-  #             color = "#F4B942",
-  #             stroke=T,
-  #             fillOpacity=1,
-  #             group="Approx. areas w/ discriminatory covenants") %>%
-  # addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
-  # addPolygons(data=zone_hatched,
-  #             fillColor = "#9ffcb1",
-  #             color = "#9ffcb1",
-  #             fillOpacity = .6,
-  #             opacity=.6,
-  #             group="Today's detached house zones 'R-1x'") %>%
+  addPolygons(data=fha_shp %>% st_transform(4326),
+              fillColor = ~fha_pal(fha_grade),
+              stroke=F,
+              fillOpacity = .8,
+              label=~paste("grade:", fha_grade),
+              group="FHA grades from the 30s") %>%
+  addPolygons(data=race_shp,
+              fillColor = ~race_pal(pct_nonwhite),
+              stroke=F,
+              fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
+              label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
+              group="% non-white in 1940") %>%
+  # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade",
+  #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
+  addPolygons(data=dc_dcs_shp %>% st_transform(4326),
+              fillColor = "#F4B942",
+              color = "#F4B942",
+              stroke=T,
+              fillOpacity=1,
+              group="Approx. areas w/ discriminatory covenants") %>%
+  addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
+  addPolygons(data=zone_hatched,
+              fillColor = "#9ffcb1",
+              color = "#9ffcb1",
+              fillOpacity = .6,
+              opacity=.6,
+              group="Today's detached house zones 'R-1x'") %>%
   addPolygons(data=pdgrp %>% st_transform(4326),
               group="Recent home prices",
               fillColor = ~price_pal(log_price),
