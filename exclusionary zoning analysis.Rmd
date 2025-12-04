@@ -141,6 +141,9 @@ invisible(gc())
 ####################
 dc_dcs_shp <- sf::st_read("discriminatory_policies/dc_discriminatory_covenants/dc_discriminatory_covenants.shp", quiet=T)
 
+dc_dcs_shp_detail <-
+  filter(dc_dcs_shp, !(fid %in% c(265, 266, 236, 206, 186, 141, 173, 231, 234, 226, 205, 234, 242, 225, 205, 144, 124, 136, 139)))
+
 # remove some shapes that are just artifacts (in PG county)
 dc_dcs_shp <-
   filter(dc_dcs_shp, !(fid %in% c(265, 266, 236, 206, 186, 141, 173, 231, 234, 226, 205, 234, 242, 225, 205, 144, 124, 136, 139))) %>%
@@ -252,9 +255,9 @@ pd$in_r <-
 # get properties in former FHA grade areas:
 pd$in_A <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="A",] %>% st_transform(st_crs(pd))))
 pd$in_B <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="B",] %>% st_transform(st_crs(pd))))
-pd$in_C <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="C",] %>% st_transform(st_crs(pd))))
-
-pd$in_F <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="F",] %>% st_transform(st_crs(pd))))
+# pd$in_C <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="C",] %>% st_transform(st_crs(pd))))
+# 
+# pd$in_F <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="F",] %>% st_transform(st_crs(pd))))
 pd$in_G <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="G",] %>% st_transform(st_crs(pd))))
 pd$in_H <- lengths(sf::st_intersects(pd, fha_shp[fha_shp$fha_grade=="H",] %>% st_transform(st_crs(pd))))
 
@@ -304,6 +307,9 @@ get_stats(df = pd[pd$in_A==1,])
 cat("\n\n")
 cat("---H grade area stats---\n")
 get_stats(df = pd[pd$in_H==1,])
+st_join(x = )
+cat()
+# TODO: ADD COVENANTS ANALYSIS
 ```
 
 
@@ -311,24 +317,23 @@ get_stats(df = pd[pd$in_H==1,])
 input = 1 / 4046.86 * c(
   "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
   
-  "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 'C', 
-                                                                                                                                                 # 'D', 'E', 
-                                                                                                                                                 'F', 'G', 
-                                                                                                                                                 "H"),])))))),
+  "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
+                                                                                                                                                 # 'C',  'D', 'E', 'F', 
+                                                                                                                                                 'G', "H"),])))))),
   
   "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
   "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
-  "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
+  # "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
   # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
   # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
-  "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
+  # "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
   "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
   "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
 ) 
@@ -363,7 +368,9 @@ p1 <- ggplot(temp, aes(y=input, x= grade)) +
 
 p2 <- 
   plot(eulerr::euler(input, shape = "ellipse"),
-     fills = c(abc_col, abc_col, abc_col, fgh_col, fgh_col, fgh_col, r1_col)
+     fills = c(abc_col, abc_col, 
+               # abc_col, fgh_col, 
+               fgh_col, fgh_col, r1_col)
      )
 
 combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p2)) +
@@ -375,7 +382,9 @@ combined_patchwork
 
 ```{r disparities, out.width="100%"}
 temp <-
-  sf::st_join(fha_shp %>% filter(fha_grade %in% c("A", "B", "C", "H", "F", "G")),  
+  sf::st_join(fha_shp %>% filter(fha_grade %in% c("A", "B", 
+                                                  # "C", "F", 
+                                                  "G", "H")),  
               geos_shp %>% filter(year==2020) %>% sf::st_centroid()) %>%
   sf::st_drop_geometry() %>%
   mutate(geo_area_meters = as.vector(geo_area_meters)) %>%
@@ -435,9 +444,8 @@ temp <-
     fha_grade = case_when(
       in_A == 1 ~ "A",
       in_B == 1 ~ "B",
-      in_C == 1 ~ "C",
-      
-      in_F == 1 ~ "F",
+      # in_C == 1 ~ "C",
+      # in_F == 1 ~ "F",
       in_G == 1 ~ "G",
       in_H == 1 ~ "H"
     )
@@ -465,7 +473,7 @@ p3 <-
   plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately rich & white today") & # Add title
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
 ```
-<br>
+<br><br>
 
 
 
