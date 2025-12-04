@@ -380,15 +380,15 @@ temp$color <- NA
 temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
 temp$color[temp$grade %in% c("grade F", "grade F", "grade H")] <- efg_col
 
-ggplot(temp, aes(y=input, x=grade)) +
+p1 <- ggplot(temp, aes(y=input, x= reorder(grade, -input))) +
   geom_bar(aes( fill=color), stat="identity") +
   geom_text(aes(label = format(round(input, 0), big.mark=",")), vjust = -0.5) +
   scale_fill_identity() +
   theme_minimal() +
   xlab("") +
-  ylab("Acres") +
-  ggtitle("Acres of R-1 zone in former FHA grade areas")  +
-  ggdark::dark_theme_gray()
+  ylab("Acres of R-1 zone") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
 
 abc_col = "#D2B48C"
 efg_col = "brown"
@@ -398,8 +398,11 @@ p2 <-
      fills = c(abc_col, abc_col, abc_col, efg_col, efg_col, efg_col, r1_col)
      )
 
-p2
-p1
+combined_patchwork <- (p1 | p2) +
+  plot_annotation(title = "DC's exclusionary R-1 zones are overwhelmingly sited in former FHA 'whites only' areas") & # Add title
+  theme(plot.title = element_text(hjust = 0.5)) # Center the title
+
+combined_patchwork
 
 ####################
 # MAP EVERYTHING
