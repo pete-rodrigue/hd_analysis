@@ -524,7 +524,6 @@ Click the check boxes to show/hide different layers. Click and drag to navigate 
 
 
 ```{r final_map, out.width="100%"}
-
 ####################
 # MAP EVERYTHING
 ####################
