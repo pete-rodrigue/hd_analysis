@@ -1,5 +1,5 @@
 ---
-title: "exclusionary zoning analysis"
+title: "Detached, large lot zoning is relic of Jim Crow. It's time to abolish it."
 author: "pete rodrigue"
 date: "2025-12-04"
 output: 
@@ -32,6 +32,11 @@ setwd(dirname(current_path))
 # load functions we've written to help with the analysis below
 # (we've stored those in a separate file to make the code easier to read)
 source("supporting_functions.R")
+
+# define colors
+abc_col = "#E8B391"
+fgh_col = "#B15B25"
+r1_col  = "#25B15B"
 ```
 
 ```{r load_data}
@@ -433,9 +438,7 @@ input = 1 / 4046.86 * c(
 ) 
 
 
-abc_col = "#E8B391"
-fgh_col = "#B15B25"
-r1_col  = "#25B15B"
+
 
 temp <- data.frame(input) 
 temp$grade <- rownames(temp)
