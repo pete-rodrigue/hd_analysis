@@ -1,5 +1,5 @@
 ---
-title: "Detached, large lot zoning is relic of Jim Crow. It's time to abolish it."
+title: "Detached, large lot zoning is a relic of Jim Crow. It's time to abolish it."
 author: "pete rodrigue"
 date: "2025-12-04"
 output: 
@@ -7,10 +7,14 @@ output:
     self_contained: true
 ---
 
-This short write up explores the relationship between the Federal Housing Administration's neighborhood grades from the 1930s, which were explicitly racist, and DC's current-day population trends and zoning policies. The gist is that "A", "B", and "C" grades were supposed to be for rich white neighborhoods, and the other grades were for moderate-to-lower-income and/or more racially heterogeneous neighborhoods, and black neighborhoods. The ranking all the way down to "H." H was FHA's lowest grade.  You can read more about these grades at [Mapping Segregation DC](https://www.mappingsegregationdc.org/download/residential-sub-areas-for-website-rev.pdf). 
+This brief examines how the Federal Housing Administration's explicitly racist neighborhood grades from the 1930s intersect with DC's current zoning policies and socioeconomic inequality. "A" and "B" grades designated the wealthiest white neighborhoods, while lower grades (down to "H") marked moderate-to-lower-income, racially diverse, or Black neighborhoods. Read more about these grades at [Mapping Segregation DC](https://www.mappingsegregationdc.org/download/residential-sub-areas-for-website-rev.pdf). 
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F, warning=F, message=F)
+
+# should appear at
+# https://raw.githack.com/pete-rodrigue/hd_analysis/main/exclusionary-zoning-analysis.html
 
 # load packages
 library(dplyr)
@@ -307,16 +311,18 @@ get_stats <- function(df, rv=F) {
 
 ```
 
-Today, the homes in the areas the FHA deemed were for rich white people ("grade A") sell for 3.4 times as much as homes in the lowest graded areas ("grade H"). The "A" and "B" grade areas remain disproportionately white, while the "G" and "H" grade areas have almost 90% black residents.
+Today, homes in the areas the FHA reserved for rich white people ("grade A") sell for 4 times more than homes in the lowest graded areas. "A" and "B" areas remain disproportionately white, while "G" and "H" areas are nearly 90% black.
 
 
-```{r}
-cat("\n---A grade area stats---\n")
-get_stats(df = pd[pd$in_A==1,])
-cat("\n\n")
-cat("---H grade area stats---\n")
-get_stats(df = pd[pd$in_H==1,])
+```{r quick_stats}
+# cat("\n---A grade area stats---\n")
+# get_stats(df = pd[pd$in_A==1,])
+# cat("\n\n")
+# cat("---H grade area stats---\n")
+# get_stats(df = pd[pd$in_H==1,])
 ```
+
+
 ```{r disparities, out.width="100%"}
 temp <-
   sf::st_join(fha_shp %>% filter(fha_grade %in% c("A", "B", 
@@ -373,7 +379,7 @@ temp <-
   sf::st_drop_geometry() %>%
   filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
   mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
-  filter(sale_date >= 2010) %>%
+  filter(sale_date >= 2019) %>%
   filter(PRICE >= 100000) %>%
   select(PRICE, starts_with("in_")) %>%
   mutate(log_price = log10(PRICE)  ) %>%
@@ -476,9 +482,9 @@ combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p
 ```
 
 
-DC's Office of Planning and its Zoning Commission perpetuate this segregation, by allowing the rich, disproportionately white residents of Northwest DC to wield a powerful land-use tool, R-1 zoning, to block more affordable forms of housing in their neighborhoods (e.g. duplexes, fourplexes, apartment buildings). R-1 zoning outlaws these more affordable housing types.
+DC's Office of Planning and Zoning Commission perpetuate this segregation by allowing rich, predominantly white Northwest DC residents to use R-1 zoning to block more affordable housing types like duplexes, fourplexes, and apartments.
 
-As the charts below show, R-1 zoning overlaps significantly with the FHA's old "whites only" zones. The majority of both the "A" and "B" grade areas are R-1 zoned today. Conversely, very little of the old "G" and "H" grade areas have been given R-1 zoning. 
+R-1 zoning overlaps significantly with FHA's former "whites only" zones. Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas receive this designation.
 
 
 ```{r plot_venn}
@@ -489,25 +495,25 @@ combined_patchwork
 
 Sociologists, historians, and economists have known for decades that "single-family" zones, like DC's R-1 zone, are used by the rich to further socioeconomic segregation.
 
-Here's [Eleanor Noble](https://www.urban.org/sites/default/files/2022-09/Understanding%20Historic%20Exclusion_Noble%20Testimony.pdf) of the Urban Institute speaking to the DC Zoning Commission in 2022:
+Here's [Eleanor Noble](https://www.urban.org/sites/default/files/2022-09/Understanding%20Historic%20Exclusion_Noble%20Testimony.pdf) of the Urban Institute speaking to the DC Zoning Commission in 2022 (emphasis added):
 
->Zoning and land-use policies have played a central role in exacerbating racial economic and housing disparities. Although explicit race-based zoning was struck down by the Supreme Court in 1917, racist land-use and zoning policies continued in DC through redlining, racial covenants, apartment bans and large-lot minimums, and exclusionary single-family zoning.
+>Zoning and land-use policies have played a central role in exacerbating racial economic and housing disparities. **Although explicit race-based zoning was struck down by the Supreme Court in 1917, racist land-use and zoning policies continued in DC through redlining, racial covenants, apartment bans and large-lot minimums, and exclusionary single-family zoning.**
 
-Here's [Yesim Sayin](https://www.dcpolicycenter.org/publications/single-family-zoning-2019/), the director of the DC Policy Center, in 2019:
+Here's [Yesim Sayin](https://www.dcpolicycenter.org/publications/single-family-zoning-2019/), the director of the DC Policy Center, in 2019 (emphasis added):
 
->[D]oes the District need to change single-family zoning? Yes, if the city wants to become more affordable and inclusive. Data show us that income distribution in the city and racial composition of its neighborhoods closely follow single-family zoning... legislators should focus on reforming the entire zoning code—and especially zoning for single-family units[.]
+>**[D]oes the District need to change single-family zoning? Yes, if the city wants to become more affordable and inclusive.** Data show us that income distribution in the city and racial composition of its neighborhoods closely follow single-family zoning... **legislators should focus on reforming the entire zoning code—and especially zoning for single-family units[.]**
 
 Here's [Jenny Schuetz](https://www.brookings.edu/articles/charts-of-the-week-housing-in-washington-dc-and-beyond/) of Brookings in 2019:
 
 >[DC's] zoning and politics insulate the city's wealthy areas from change, while lower-income families struggle to afford ever-increasing rents.
 
-Here's [Lance Freeman](https://www.brookings.edu/articles/build-race-equity-into-rezoning-decisions/) of Columbia University in 2021:
+Here's [Lance Freeman](https://www.brookings.edu/articles/build-race-equity-into-rezoning-decisions/) of Columbia University in 2021 (emphasis added):
 
->Since the early 20th century, zoning has continued to be a tool used to separate the poor, who are disproportionately people of color from certain neighborhoods. This can be done, for example, by allowing only single-family homes or homes on large lots, both of which will exclude more affordable housing.
+>Since the early 20th century, **zoning has continued to be a tool used to separate the poor, who are disproportionately people of color, from certain neighborhoods.** This can be done, for example, by **allowing only single-family homes or homes on large lots, both of which will exclude more affordable housing.**
 
-And here's what DC's current [zoning handbook](https://handbook.dcoz.dc.gov/pages/residential-r-zones) says is the purpose of the R-1 zone:
+And here's what DC's current [zoning handbook](https://handbook.dcoz.dc.gov/pages/residential-r-zones) says is the purpose of the R-1 zone (emphasis added):
 
->The R-1A zone is intended to provide areas predominantly developed with detached houses on large lots.
+>The R-1A zone is intended to provide areas predominantly developed with **detached houses on large lots.**
 
 DC's current zoning handbook even uses verbiage that echoes the words of 20th century segregationists. R-1 zones are intended to "Protect quiet residential areas." R-2 zoning is supposed to "Protect these areas from invasion by denser types of residential development." 
 
@@ -515,13 +521,15 @@ For comparison, here's urbanist [Marc Weiss](https://escholarship.org/content/qt
 
 >California Real Estate magazine reported that one of the most popular examples of "service rendered" by a local real estate board was the attempt by the Berkeley Realty Board, a strong supporter of city planning and zoning, "to organize a district of some twenty blocks under the covenant plan as protection against invasion of Negroes and Asiatics."
 
-Land-use policymakers should stop worrying about "protecting" certain neighborhoods from "invasion." It's time to do what the experts recommend, and delete DC's R-1 and R-2 zones, because they're furthering socioeconomic segregation.
+<br><br>
+
+**It's time to do what the experts recommend. Land-use policymakers should stop "protecting" neighborhoods from "invasion," and delete DC's R-1 and R-2 zones, because they're perpetuating socioeconomic segregation.**
 
 <br><br>
 
-The map below lets you see the overlap between the former FHA grades and modern R-1 zoning. It also shows average home sale prices, the approximate locations of past discriminatory covenants, and where many black residents lived in the 1940s. 
+The map below shows the overlap between former FHA grades and current R-1 zoning, plus average home prices, discriminatory covenant locations, and 1940s Black residential areas.
 
-Click the check boxes to show/hide different layers. Click and drag to navigate the map.
+Use checkboxes to toggle layers; click and drag to navigate.
 
 <br>
 
@@ -586,7 +594,7 @@ leaflet() %>%
               stroke=T,
               fillOpacity=1,
               group="Approx. areas w/ discriminatory covenants") %>%
-  addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
+  addRasterImage(fha_raster, opacity = 0.7, group="Paper FHA map") %>% # Add raster with desired opacity
   addPolygons(data=zone_hatched,
               fillColor = "#9ffcb1",
               color = "#9ffcb1",
@@ -602,7 +610,9 @@ leaflet() %>%
               ) %>%
   addLayersControl(
     overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
-                      "FHA grades from the 30s", "FHA grade", "FHA map",
+                      "FHA grades from the 30s", 
+                      # "FHA grade", 
+                      "Paper FHA map",
                       "Recent home prices",
                       "Today's detached house zones 'R-1x'"),
     options = layersControlOptions(collapsed = FALSE)
