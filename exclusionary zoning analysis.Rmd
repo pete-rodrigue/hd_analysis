@@ -7,6 +7,8 @@ output:
     self_contained: true
 ---
 
+This short write up explores the relationship between the Federal Housing Administration's neighborhood grades from the 1930s, which were explicitly racist, and DC's current-day population trends and zoning policies. The gist is that "A", "B", and "C" grades were supposed to be for rich white neighborhoods, and the other grades were for moderate-to-lower-income and/or more racially heterogeneous neighborhoods, and black neighborhoods. The ranking all the way down to "H." H was FHA's lowest grade.  You can read more about these grades at [Mapping Segregation DC](https://www.mappingsegregationdc.org/download/residential-sub-areas-for-website-rev.pdf). 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F, warning=F, message=F)
 
@@ -151,9 +153,9 @@ dc_dcs_shp <-
 
 
 # uncomment to look at covenants data on a map
-# leaflet() %>% 
+# leaflet() %>%
 #   addProviderTiles(providers$CartoDB.Positron) %>%
-#   addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
+#   addPolygons(data=dc_dcs_shp_detail %>% st_transform(4326),
 #               fillColor = "#F4B942",
 #               color = "#F4B942",
 #               stroke=T,
@@ -162,7 +164,7 @@ dc_dcs_shp <-
 #   addLayersControl(
 #     overlayGroups = c("Approx. areas w/ discriminatory covenants"),
 #     options = layersControlOptions(collapsed = FALSE)
-#   ) 
+#   )
 
 
 ####################
@@ -300,86 +302,16 @@ get_stats <- function(df, rv=F) {
 
 ```
 
+Today, the homes in the areas the FHA deemed were for rich white people ("grade A") sell for 3.4 times as much as homes in the lowest graded areas ("grade H"). The "A" and "B" grade areas remain disproportionately white, while the "G" and "H" grade areas have almost 90% black residents.
+
 
 ```{r}
-cat("---A grade area stats---\n")
+cat("\n---A grade area stats---\n")
 get_stats(df = pd[pd$in_A==1,])
 cat("\n\n")
 cat("---H grade area stats---\n")
 get_stats(df = pd[pd$in_H==1,])
-st_join(x = )
-cat()
-# TODO: ADD COVENANTS ANALYSIS
 ```
-
-
-```{r venn_diagrams, out.width="100%"}
-input = 1 / 4046.86 * c(
-  "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  
-  "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
-                                                                                                                                                 # 'C',  'D', 'E', 'F', 
-                                                                                                                                                 'G', "H"),])))))),
-  
-  "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
-  "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
-  # "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
-  # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
-  # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
-  # "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
-  "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
-  "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
-) 
-
-
-abc_col = "#E8B391"
-fgh_col = "#B15B25"
-r1_col  = "#25B15B"
-
-temp <- data.frame(input) 
-temp$grade <- rownames(temp)
-temp <- temp[grepl("&", temp$grade), ]
-rownames(temp) <- NULL
-temp$grade <- sub("&.*", "", temp$grade)
-temp$color <- NA
-temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
-temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
-
-temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
-  
-# temp$grade <- factor(temp$grade, levels = c("A", "B", "C", "F", "G", "H"))
-
-p1 <- ggplot(temp, aes(y=input, x= grade)) +
-  geom_bar(aes( fill=color), stat="identity") +
-  geom_text(aes(label = format(round(input, 0), big.mark=",")), vjust = -0.5) +
-  scale_fill_identity() +
-  theme_minimal() +
-  xlab("") +
-  ylab("Acres of R-1 zone") +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank())
-
-p2 <- 
-  plot(eulerr::euler(input, shape = "ellipse"),
-     fills = c(abc_col, abc_col, 
-               # abc_col, fgh_col, 
-               fgh_col, fgh_col, r1_col)
-     )
-
-combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p2)) +
-  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
-  theme(plot.title = element_text(hjust = 0.5)) # Center the title
-
-combined_patchwork
-```
-
 ```{r disparities, out.width="100%"}
 temp <-
   sf::st_join(fha_shp %>% filter(fha_grade %in% c("A", "B", 
@@ -462,19 +394,132 @@ p3 <-
   geom_text(aes(label = paste0(round(avg_p/ 1000000, 1), "M")), vjust = -0.5, size=3) +
   scale_fill_identity() +
   theme_minimal() +
-  xlab("Avg sale $") +
+  xlab("Avg home sale $") +
   ylab("") +
   # ggtitle("Avg. home sale price correlated strongly with former FHA grade") +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
+```
 
-
+```{r plot_bars}
 (p1 | p2 | p3) +
   plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately rich & white today") & # Add title
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
 ```
+
+```{r make_venn_diagrams, out.width="100%"}
+input = 1 / 4046.86 * c(
+  "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  # "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
+  
+  "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
+                                                                                                                                                 # 'C',  'D', 'E', 'F', 
+                                                                                                                                                 'G', "H"),])))))),
+  
+  "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
+  "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
+  # "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
+  # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
+  # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
+  # "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
+  "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
+  "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
+) 
+
+
+abc_col = "#E8B391"
+fgh_col = "#B15B25"
+r1_col  = "#25B15B"
+
+temp <- data.frame(input) 
+temp$grade <- rownames(temp)
+temp <- temp[grepl("&", temp$grade), ]
+rownames(temp) <- NULL
+temp$grade <- sub("&.*", "", temp$grade)
+temp$color <- NA
+temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
+temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
+
+temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
+  
+# temp$grade <- factor(temp$grade, levels = c("A", "B", "C", "F", "G", "H"))
+
+p1 <- ggplot(temp, aes(y=input, x= grade)) +
+  geom_bar(aes( fill=color), stat="identity") +
+  geom_text(aes(label = format(round(input, 0), big.mark=",")), vjust = -0.5) +
+  scale_fill_identity() +
+  theme_minimal() +
+  xlab("") +
+  ylab("Acres of R-1 zone") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+p2 <- 
+  plot(eulerr::euler(input, shape = "ellipse"),
+     fills = c(abc_col, abc_col, 
+               # abc_col, fgh_col, 
+               fgh_col, fgh_col, r1_col)
+     )
+
+combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p2)) +
+  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
+  theme(plot.title = element_text(hjust = 0.5)) # Center the title
+```
+
+
+DC's Office of Planning and its Zoning Commission perpetuate this segregation, by allowing the rich, disproportionately white residents of Northwest DC to wield a powerful land-use tool, R-1 zoning, to block more affordable forms of housing in their neighborhoods (e.g. duplexes, fourplexes, apartment buildings). R-1 zoning outlaws these more affordable housing types.
+
+As the charts below show, R-1 zoning overlaps significantly with the FHA's old "whites only" zones. The majority of both the "A" and "B" grade areas are R-1 zoned today. Conversely, very little of the old "G" and "H" grade areas have been given R-1 zoning. 
+
+
+```{r plot_venn}
+combined_patchwork
+```
+
+<br>
+
+Sociologists, historians, and economists have known for decades that "single-family" zones, like DC's R-1 zone, are used by the rich to further socioeconomic segregation.
+
+Here's [Eleanor Noble](https://www.urban.org/sites/default/files/2022-09/Understanding%20Historic%20Exclusion_Noble%20Testimony.pdf) of the Urban Institute speaking to the DC Zoning Commission in 2022:
+
+>Zoning and land-use policies have played a central role in exacerbating racial economic and housing disparities. Although explicit race-based zoning was struck down by the Supreme Court in 1917, racist land-use and zoning policies continued in DC through redlining, racial covenants, apartment bans and large-lot minimums, and exclusionary single-family zoning.
+
+Here's [Yesim Sayin](https://www.dcpolicycenter.org/publications/single-family-zoning-2019/), the director of the DC Policy Center, in 2019:
+
+>[D]oes the District need to change single-family zoning? Yes, if the city wants to become more affordable and inclusive. Data show us that income distribution in the city and racial composition of its neighborhoods closely follow single-family zoning... legislators should focus on reforming the entire zoning code—and especially zoning for single-family units[.]
+
+Here's [Jenny Schuetz](https://www.brookings.edu/articles/charts-of-the-week-housing-in-washington-dc-and-beyond/) of Brookings in 2019:
+
+>[DC's] zoning and politics insulate the city's wealthy areas from change, while lower-income families struggle to afford ever-increasing rents.
+
+Here's [Lance Freeman](https://www.brookings.edu/articles/build-race-equity-into-rezoning-decisions/) of Columbia University in 2021:
+
+>Since the early 20th century, zoning has continued to be a tool used to separate the poor, who are disproportionately people of color from certain neighborhoods. This can be done, for example, by allowing only single-family homes or homes on large lots, both of which will exclude more affordable housing.
+
+And here's what DC's current [zoning handbook](https://handbook.dcoz.dc.gov/pages/residential-r-zones) says is the purpose of the R-1 zone:
+
+>The R-1A zone is intended to provide areas predominantly developed with detached houses on large lots.
+
+DC's current zoning handbook even uses verbiage that echoes segregationist tracts from the 20th century. R-1 zones are intended to "Protect quiet residential areas." R-2 zoning is supposed to "Protect these areas from invasion by denser types of residential development." 
+
+For comparison, here's urbanist Marc Weiss summarizing a segregationists' efforts in 20s-era Berkeley:
+
+>California Real Estate magazine reported that one of the most popular examples of "service rendered" by a local real estate board[...] was the attempt by the Berkeley Realty Board, a strong supporter of city planning and zoning, "to organize a district of some twenty blocks under the covenant plan as protection against invasion of Negroes and Asiatics."
+
+
 <br><br>
 
+The map below lets you see the overlap between the former FHA grades and modern R-1 zoning. It also shows average home sale prices, the approximate locations of past discriminatory covenants, and where many black residents lived in the 1940s. 
+
+Click the check boxes to show/hide different layers. Click and drag to navigate the map.
+
+<br>
 
 
 ```{r final_map, out.width="100%"}
