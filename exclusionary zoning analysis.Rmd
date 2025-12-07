@@ -1,5 +1,5 @@
 ---
-title: "Detached, large lot zoning is a relic of Jim Crow. It's time to abolish it."
+title: "Large-lot zoning is a relic of Jim Crow. It's time to abolish it."
 author: "pete rodrigue"
 date: "2025-12-04"
 output: 
@@ -7,11 +7,19 @@ output:
     self_contained: true
 ---
 
-This brief examines how the Federal Housing Administration's explicitly racist neighborhood grades from the 1930s intersect with DC's current zoning policies and socioeconomic inequality. "A" and "B" grades designated the wealthiest white neighborhoods, while lower grades (down to "H") marked moderate-to-lower-income, racially diverse, or Black neighborhoods. Read more about these grades at [Mapping Segregation DC](https://www.mappingsegregationdc.org/download/residential-sub-areas-for-website-rev.pdf). 
+<style type="text/css">
+body{
+  font-size: 14pt;
+}
+</style>
+
+<br>
+
+This brief examines how the Federal Housing Administration's explicitly racist neighborhood grades from the 1930s intersect with DC's current zoning policies and socioeconomic inequality. "A" and "B" grades designated the wealthiest white neighborhoods, while lower grades (down to "H") marked moderate-to-lower-income, racially diverse, or Black neighborhoods.  
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F, warning=F, message=F)
+knitr::opts_chunk$set(echo = F, warning=F, message=F, out.width = "100%")
 
 # should appear at
 # https://raw.githack.com/pete-rodrigue/hd_analysis/main/exclusionary-zoning-analysis.html
@@ -309,18 +317,130 @@ get_stats <- function(df, rv=F) {
   if (rv) {return(list('n'=n, 'avg_p'=avg_p, "agg_val"=agg_val))}
 }
 
-```
-
-Today, homes in the areas the FHA reserved for rich white people ("grade A") sell for 4 times more than homes in the lowest graded areas. "A" and "B" areas remain disproportionately white, while "G" and "H" areas are nearly 90% black.
-
-
-```{r quick_stats}
 # cat("\n---A grade area stats---\n")
 # get_stats(df = pd[pd$in_A==1,])
 # cat("\n\n")
 # cat("---H grade area stats---\n")
 # get_stats(df = pd[pd$in_H==1,])
 ```
+
+
+The map below shows the overlap between former FHA grades and current average home prices. Also shown:
+
+* the approximate locations of homes that had discriminatory covenants
+* 1940s Black residential areas
+* R-1 zones, where DC bans multifamily housing like duplexes and apartments today
+
+Use the checkboxes to toggle layers; click and drag to navigate.
+
+<br>
+
+
+```{r big_map, out.width="100%"}
+####################
+# MAP EVERYTHING
+####################
+pdheat <- 
+  bind_cols(pd, sf::st_coordinates(pd %>% sf::st_transform(4326))) %>%
+  filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
+  mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
+  filter(sale_date >= 2010) %>%
+  filter(PRICE >= 100000) %>%
+  select(X, Y, PRICE) %>%
+  mutate(log_price = log10(PRICE)  )
+
+pdgrp <- st_join(geos_shp %>% filter(year==2020) %>% select(geo_id),
+                 pdheat, 
+                 join = st_intersects) %>%
+  group_by(geo_id) %>%
+  summarize(price = mean(PRICE, na.rm=T),
+            log_price = log10(price))
+
+pdgrp <-
+  pdgrp %>%
+  filter(!is.na(price)) %>% filter(!is.nan(price))
+
+fha_pal <- colorFactor(palette = "RdYlGn", domain = fha_shp$fha_grade, reverse = T)
+
+race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
+
+price_pal <- colorNumeric(palette = viridisLite::viridis(n = 256, option = "A") , domain = log10(pdgrp$price))
+
+zone_hatched <-
+  zone_shp %>%
+  filter(ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>%
+  st_transform(4326) %>%
+  hatched.SpatialPolygons(., density = 500)
+
+
+
+leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolygons(data=fha_shp %>% st_transform(4326),
+              fillColor = ~fha_pal(fha_grade),
+              stroke=F,
+              fillOpacity = .8,
+              label=~paste("grade:", fha_grade),
+              group="FHA grades from the 30s") %>%
+  addPolygons(data=race_shp,
+              fillColor = ~race_pal(pct_nonwhite),
+              stroke=F,
+              fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
+              label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
+              group="% non-white in 1940") %>%
+  # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade",
+  #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
+  addPolygons(data=dc_dcs_shp %>% st_transform(4326),
+              fillColor = "#F4B942",
+              color = "#F4B942",
+              stroke=T,
+              fillOpacity=1,
+              group="Approx. areas w/ discriminatory covenants") %>%
+  addRasterImage(fha_raster, opacity = 0.7, group="Paper FHA map") %>% # Add raster with desired opacity
+  addPolygons(data=zone_hatched,
+              fillColor = "#9ffcb1",
+              color = "#9ffcb1",
+              fillOpacity = .6,
+              opacity=.6,
+              group="Today's large-lot zones 'R-1x'") %>%
+  addPolygons(data=pdgrp %>% st_transform(4326),
+              group="Recent home prices",
+              fillColor = ~price_pal(log_price),
+              stroke=F,
+              fillOpacity = .95,
+              label=~format(round(price, 0), big.mark=",")
+              ) %>%
+  addLayersControl(
+    overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
+                      "FHA grades from the 30s", 
+                      # "FHA grade", 
+                      "Paper FHA map",
+                      "Recent home prices",
+                      "Today's large-lot zones 'R-1x'"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>% 
+  addLegend(
+    position = "bottomright",
+    colors = "#9ffcb1",
+    labels = "",
+    title = "Current zones that prohibit<br>apartments and duplexes",
+    opacity = 1
+  ) %>%
+  addLegend(
+    position = "bottomright",  # Or "topright", "bottomleft", "topleft"
+    pal = fha_pal,
+    values = fha_shp$fha_grade,
+    title = 'FHA "grade"',
+    opacity = 1
+  ) %>%
+  hideGroup("Approx. areas w/ discriminatory covenants") %>%
+  hideGroup("FHA map") %>%
+  hideGroup("% non-white in 1940") %>%
+  hideGroup("Paper FHA map") %>%
+  hideGroup("Recent home prices") %>%
+  hideGroup("Today's large-lot zones 'R-1x'")
+```
+
 
 
 ```{r disparities, out.width="100%"}
@@ -412,6 +532,14 @@ p3 <-
         panel.grid.minor = element_blank())
 ```
 
+
+<br>
+
+Today, homes in the areas the FHA reserved for rich white people (grades "A" and "B") remain disproportionately white, while "G" and "H" areas are nearly 90% black. Homes in "A" areas sell for 4 times more than homes in the lowest graded areas.
+
+<br>
+
+
 ```{r plot_bars}
 (p1 | p2 | p3) +
   plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately rich & white today") & # Add title
@@ -482,13 +610,16 @@ combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p
 ```
 
 
+<br>
+
 DC's Office of Planning and Zoning Commission perpetuate this segregation by allowing rich, predominantly white Northwest DC residents to use R-1 zoning to block more affordable housing types like duplexes, fourplexes, and apartments.
 
-R-1 zoning overlaps significantly with FHA's former "whites only" zones. Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas receive this designation.
+Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas receive this designation.
 
+<br>
 
 ```{r plot_venn}
-combined_patchwork
+combined_patchwork + plot_layout(widths = c(1, 1.25), heights = c(1, 1))
 ```
 
 <br>
@@ -525,115 +656,8 @@ For comparison, here's urbanist [Marc Weiss](https://escholarship.org/content/qt
 
 **It's time to do what the experts recommend. Land-use policymakers should stop "protecting" neighborhoods from "invasion," and delete DC's R-1 and R-2 zones, because they're perpetuating socioeconomic segregation.**
 
-<br><br>
-
-The map below shows the overlap between former FHA grades and current R-1 zoning, plus average home prices, discriminatory covenant locations, and 1940s Black residential areas.
-
-Use checkboxes to toggle layers; click and drag to navigate.
-
-<br>
+<br><br><br><br>
 
 
-```{r final_map, out.width="100%"}
-####################
-# MAP EVERYTHING
-####################
-pdheat <- 
-  bind_cols(pd, sf::st_coordinates(pd %>% sf::st_transform(4326))) %>%
-  filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
-  mutate(sale_date = as.numeric(substr(x = SALEDATE, start = 1, stop = 4))) %>%
-  filter(sale_date >= 2010) %>%
-  filter(PRICE >= 100000) %>%
-  select(X, Y, PRICE) %>%
-  mutate(log_price = log10(PRICE)  )
+Data sources: [Open Data DC](https://opendata.dc.gov/), [Mapping Segregation DC](https://www.mappingsegregationdc.org/download/residential-sub-areas-for-website-rev.pdf).
 
-pdgrp <- st_join(geos_shp %>% filter(year==2020) %>% select(geo_id),
-                 pdheat, 
-                 join = st_intersects) %>%
-  group_by(geo_id) %>%
-  summarize(price = mean(PRICE, na.rm=T),
-            log_price = log10(price))
-
-pdgrp <-
-  pdgrp %>%
-  filter(!is.na(price)) %>% filter(!is.nan(price))
-
-fha_pal <- colorFactor(palette = "RdYlGn", domain = fha_shp$fha_grade, reverse = T)
-
-race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
-
-price_pal <- colorNumeric(palette = viridisLite::viridis(n = 256, option = "D") , domain = log10(pdgrp$price))
-
-zone_hatched <-
-  zone_shp %>%
-  filter(ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>%
-  st_transform(4326) %>%
-  hatched.SpatialPolygons(., density = 500)
-
-
-
-leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addPolygons(data=fha_shp %>% st_transform(4326),
-              fillColor = ~fha_pal(fha_grade),
-              stroke=F,
-              fillOpacity = .8,
-              label=~paste("grade:", fha_grade),
-              group="FHA grades from the 30s") %>%
-  addPolygons(data=race_shp,
-              fillColor = ~race_pal(pct_nonwhite),
-              stroke=F,
-              fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
-              label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
-              group="% non-white in 1940") %>%
-  # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade",
-  #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
-  addPolygons(data=dc_dcs_shp %>% st_transform(4326),
-              fillColor = "#F4B942",
-              color = "#F4B942",
-              stroke=T,
-              fillOpacity=1,
-              group="Approx. areas w/ discriminatory covenants") %>%
-  addRasterImage(fha_raster, opacity = 0.7, group="Paper FHA map") %>% # Add raster with desired opacity
-  addPolygons(data=zone_hatched,
-              fillColor = "#9ffcb1",
-              color = "#9ffcb1",
-              fillOpacity = .6,
-              opacity=.6,
-              group="Today's detached house zones 'R-1x'") %>%
-  addPolygons(data=pdgrp %>% st_transform(4326),
-              group="Recent home prices",
-              fillColor = ~price_pal(log_price),
-              stroke=F,
-              fillOpacity = .95,
-              label=~format(round(price, 0), big.mark=",")
-              ) %>%
-  addLayersControl(
-    overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
-                      "FHA grades from the 30s", 
-                      # "FHA grade", 
-                      "Paper FHA map",
-                      "Recent home prices",
-                      "Today's detached house zones 'R-1x'"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  addLegend(
-    position = "bottomright",
-    colors = "#9ffcb1",
-    labels = "",
-    title = "Current zones that prohibit<br>apartments and duplexes",
-    opacity = 1
-  ) %>%
-  addLegend(
-    position = "bottomright",  # Or "topright", "bottomleft", "topleft"
-    pal = fha_pal,
-    values = fha_shp$fha_grade,
-    title = 'FHA "grade"',
-    opacity = 1
-  ) %>%
-  hideGroup("Approx. areas w/ discriminatory covenants") %>%
-  hideGroup("FHA map") %>%
-  hideGroup("% non-white in 1940") %>%
-  hideGroup("FHA grade") %>%
-  hideGroup("Recent home prices")
-```
