@@ -37,6 +37,7 @@ library(HatchedPolygons)
 library(eulerr)
 library(ggplot2)
 library(patchwork)
+library(plotly)
 
 # Getting the path of your current open file
 current_path = rstudioapi::getActiveDocumentContext()$path
@@ -207,6 +208,16 @@ zone_shp$ZR16_simple[grep(x=zone_shp$ZR16, pattern="^RF-")] <- "Residential flat
 zone_shp$ZR16_simple[grep(x=zone_shp$ZR16, pattern="^MU-")] <- "Mixed use zones"
 zone_shp$ZR16_simple[grep(x=zone_shp$ZR16, pattern="^NMU-")] <- "Mixed use zones"
 
+zone_shp$ZR16_detail <- "Other"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^RA-")] <- "Apartment zones"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^R-1A")] <- "R-1A"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^R-1B")] <- "R-1B"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^R-2")] <- "R-2"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^R-3")] <- "R-3"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^RF-")] <- "Residential flat zones"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^MU-")] <- "Mixed use zones"
+zone_shp$ZR16_detail[grep(x=zone_shp$ZR16, pattern="^NMU-")] <- "Mixed use zones"
+
 zone_shp <- sf::st_transform(zone_shp, 26918)
 
 # note r-1 zones
@@ -328,7 +339,7 @@ get_stats <- function(df, rv=F) {
 The map below shows the overlap between former FHA grades and current average home prices. Also shown:
 
 * the approximate locations of homes that had discriminatory covenants
-* 1940s Black residential areas
+* % of blocks that were nonwhite in 1940
 * R-1 zones, where DC bans multifamily housing like duplexes and apartments today
 
 Use the checkboxes to toggle layers; click and drag to navigate.
@@ -374,7 +385,8 @@ zone_hatched <-
 
 
 
-leaflet() %>% 
+map_part_1 <-
+  leaflet() %>% 
   addProviderTiles(providers$CartoDB.Positron) %>%
   addPolygons(data=fha_shp %>% st_transform(4326),
               fillColor = ~fha_pal(fha_grade),
@@ -386,8 +398,8 @@ leaflet() %>%
               fillColor = ~race_pal(pct_nonwhite),
               stroke=F,
               fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
-              label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
-              group="% non-white in 1940") %>%
+              label=~paste0(round(pct_nonwhite*100, 0), "% nonwhite residents in 1940"),
+              group="% nonwhite in 1940") %>%
   # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade",
   #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
   addPolygons(data=dc_dcs_shp %>% st_transform(4326),
@@ -397,28 +409,32 @@ leaflet() %>%
               fillOpacity=1,
               group="Approx. areas w/ discriminatory covenants") %>%
   addRasterImage(fha_raster, opacity = 0.7, group="Paper FHA map") %>% # Add raster with desired opacity
-  addPolygons(data=zone_hatched,
-              fillColor = "#9ffcb1",
-              color = "#9ffcb1",
-              fillOpacity = .6,
-              opacity=.6,
-              group="Today's large-lot zones 'R-1x'") %>%
   addPolygons(data=pdgrp %>% st_transform(4326),
               group="Recent home prices",
               fillColor = ~price_pal(log_price),
               stroke=F,
               fillOpacity = .95,
               label=~format(round(price, 0), big.mark=",")
-              ) %>%
-  addLayersControl(
-    overlayGroups = c("Approx. areas w/ discriminatory covenants", "% non-white in 1940",
-                      "FHA grades from the 30s", 
-                      # "FHA grade", 
-                      "Paper FHA map",
-                      "Recent home prices",
-                      "Today's large-lot zones 'R-1x'"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
+              )
+  
+
+
+map_part_1 %>%
+  addPolygons(data=zone_hatched,
+                fillColor = "#9ffcb1",
+                color = "#9ffcb1",
+                fillOpacity = .6,
+                opacity=.6,
+                group="Today's large-lot zones 'R-1x'") %>%
+    addLayersControl(
+      overlayGroups = c("Approx. areas w/ discriminatory covenants", "% nonwhite in 1940",
+                        "FHA grades from the 30s", 
+                        # "FHA grade", 
+                        "Paper FHA map",
+                        "Recent home prices",
+                        "Today's large-lot zones 'R-1x'"),
+      options = layersControlOptions(collapsed = FALSE)
+    ) %>% 
   addLegend(
     position = "bottomright",
     colors = "#9ffcb1",
@@ -435,7 +451,7 @@ leaflet() %>%
   ) %>%
   hideGroup("Approx. areas w/ discriminatory covenants") %>%
   hideGroup("FHA map") %>%
-  hideGroup("% non-white in 1940") %>%
+  hideGroup("% nonwhite in 1940") %>%
   hideGroup("Paper FHA map") %>%
   hideGroup("Recent home prices") %>%
   hideGroup("Today's large-lot zones 'R-1x'")
@@ -444,7 +460,7 @@ leaflet() %>%
 
 
 ```{r disparities, out.width="100%"}
-temp <-
+race_df <-
   sf::st_join(fha_shp %>% filter(fha_grade %in% c("A", "B", 
                                                   # "C", "F", 
                                                   "G", "H")),  
@@ -464,25 +480,12 @@ temp <-
     pct_black      = round(n_black / n_tot * 100, 0)
   )
 
-temp$color <- NA
-temp$color[temp$fha_grade %in% c("A", "B", "C")] <- abc_col
-temp$color[temp$fha_grade %in% c("F", "G", "H")] <- fgh_col
+race_df$color <- NA
+race_df$color[race_df$fha_grade %in% c("A", "B", "C")] <- abc_col
+race_df$color[race_df$fha_grade %in% c("F", "G", "H")] <- fgh_col
 
-p1 <-
-  ggplot(temp, aes(y=pct_white, x= fha_grade)) +
-  geom_bar(aes( fill=abc_col), stat="identity") +
-  geom_text(aes(label = format(pct_white, big.mark=",")), vjust = -0.5) +
-  scale_fill_identity() +
-  theme_minimal() +
-  xlab("% white residents") +
-  ylab("") +
-  ylim(c(0, 100)) +
-  # ggtitle("% of white residents in 2020 lower in former FHA grade G & H areas") +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank())
-
-p2 <-
-  ggplot(temp, aes(y=pct_black, x= fha_grade)) +
+black_bar <-
+  ggplot(race_df, aes(y=pct_black, x= fha_grade)) +
   geom_bar(aes( fill=fgh_col), stat="identity") +
   geom_text(aes(label = format(pct_black, big.mark=",")), vjust = -0.5) +
   scale_fill_identity() +
@@ -494,7 +497,20 @@ p2 <-
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 
-temp <-
+white_bar <-
+  ggplot(race_df, aes(y=pct_white, x= fha_grade)) +
+  geom_bar(aes( fill=abc_col), stat="identity") +
+  geom_text(aes(label = format(pct_white, big.mark=",")), vjust = -0.5) +
+  scale_fill_identity() +
+  theme_minimal() +
+  xlab("% white residents") +
+  ylab("") +
+  ylim(c(0, 100)) +
+  # ggtitle("% of white residents in 2020 lower in former FHA grade G & H areas") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+
+price_bar <-
   pd %>%
   sf::st_drop_geometry() %>%
   filter(PRICE > 0) %>% filter(!is.na(PRICE)) %>% 
@@ -519,8 +535,8 @@ temp <-
             avg_p = round(mean(PRICE, na.rm=T), 0),
             agg_p = round(n*avg_p, 0))
 
-p3 <-
-  ggplot(temp, aes(y=avg_p, x= fha_grade)) +
+price_plot <-
+  ggplot(price_bar, aes(y=avg_p, x= fha_grade)) +
   geom_bar(aes( fill="skyblue"), stat="identity") +
   geom_text(aes(label = paste0(round(avg_p/ 1000000, 1), "M")), vjust = -0.5, size=3) +
   scale_fill_identity() +
@@ -541,38 +557,45 @@ Today, homes in the areas the FHA reserved for rich white people (grades "A" and
 
 
 ```{r plot_bars}
-(p1 | p2 | p3) +
+(white_bar | black_bar | price_plot) +
   plot_annotation(title = "Former FHA 'whites only' areas remain disproportionately rich & white today") & # Add title
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
 ```
 
 ```{r make_venn_diagrams, out.width="100%"}
-input = 1 / 4046.86 * c(
-  "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  # "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp$r_1==1,])))))),
-  
-  "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
-                                                                                                                                                 # 'C',  'D', 'E', 'F', 
-                                                                                                                                                 'G', "H"),])))))),
-  
-  "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
-  "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
-  # "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
-  # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
-  # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
-  # "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
-  "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
-  "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp$r_1==1,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
-) 
+
+get_input <- function(var, val) {
+  return(
+    
+    input = 1 / 4046.86 * c(
+      "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      
+      "R-1"        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
+                                                                                                                                                     # 'C',  'D', 'E', 'F', 
+                                                                                                                                                     'G', "H"),])))))),
+      
+      "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
+      "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
+      # "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
+      # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
+      # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
+      # "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
+      "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
+      "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
+    ) 
+    
+  )
+}
 
 
-
+input <- get_input(var="r_1", 1)
 
 temp <- data.frame(input) 
 temp$grade <- rownames(temp)
@@ -634,10 +657,6 @@ Here's [Yesim Sayin](https://www.dcpolicycenter.org/publications/single-family-z
 
 >**[D]oes the District need to change single-family zoning? Yes, if the city wants to become more affordable and inclusive.** Data show us that income distribution in the city and racial composition of its neighborhoods closely follow single-family zoning... **legislators should focus on reforming the entire zoning code—and especially zoning for single-family units[.]**
 
-Here's [Jenny Schuetz](https://www.brookings.edu/articles/charts-of-the-week-housing-in-washington-dc-and-beyond/) of Brookings in 2019:
-
->[DC's] zoning and politics insulate the city's wealthy areas from change, while lower-income families struggle to afford ever-increasing rents.
-
 Here's [Lance Freeman](https://www.brookings.edu/articles/build-race-equity-into-rezoning-decisions/) of Columbia University in 2021 (emphasis added):
 
 >Since the early 20th century, **zoning has continued to be a tool used to separate the poor, who are disproportionately people of color, from certain neighborhoods.** This can be done, for example, by **allowing only single-family homes or homes on large lots, both of which will exclude more affordable housing.**
@@ -661,3 +680,388 @@ For comparison, here's urbanist [Marc Weiss](https://escholarship.org/content/qt
 
 Data sources: [Open Data DC](https://opendata.dc.gov/), [Mapping Segregation DC](https://www.mappingsegregationdc.org/download/residential-sub-areas-for-website-rev.pdf).
 
+
+
+<br><br><br><br><br><br>
+
+# Appendix: a closer look at modern zones
+
+<details>
+<summary>--Click to expand/hide this section--</summary>
+
+
+
+```{r big_map_detail, out.width="100%"}
+####################
+# MAP EVERYTHING
+####################
+
+zones_to_use <-
+  grep(pattern = "R-1|R-2|R-3", x = sort(unique(zone_shp$ZR16_detail)), value=T)
+
+zoning_pal <- colorFactor(palette = hcl.colors(4, "Purp"), domain = zones_to_use)
+
+zone_hatched <-
+  zone_shp %>%
+  filter(ZR16 %in% zones_to_use) %>%
+  st_transform(4326) %>%
+  hatched.SpatialPolygons(., density = 500)
+
+map_part_1 %>%
+  addPolygons(data=zone_shp %>% filter(ZR16_detail %in% zones_to_use) %>% sf::st_transform(4326),
+              fillColor = ~zoning_pal(ZR16_detail),
+              color = NA,
+              fillOpacity = .95,
+              opacity=.95,
+              label = ~ZR16_detail,
+              group="'R' zones") %>%
+    addLayersControl(
+      overlayGroups = c("Approx. areas w/ discriminatory covenants", "% nonwhite in 1940",
+                        "FHA grades from the 30s", 
+                        # "FHA grade", 
+                        "Paper FHA map",
+                        "Recent home prices",
+                        "'R' zones"),
+      options = layersControlOptions(collapsed = FALSE)
+    ) %>% 
+  addLegend(
+    position = "bottomright",
+    pal = zoning_pal,
+    values = zones_to_use,
+    labels = "",
+    title = "Current zones that prohibit<br>apartments",
+    opacity = 1
+  ) %>%
+  addLegend(
+    position = "bottomright",  # Or "topright", "bottomleft", "topleft"
+    pal = fha_pal,
+    values = fha_shp$fha_grade,
+    title = 'FHA "grade"',
+    opacity = 1
+  ) %>%
+  hideGroup("Approx. areas w/ discriminatory covenants") %>%
+  hideGroup("FHA map") %>%
+  hideGroup("% nonwhite in 1940") %>%
+  hideGroup("Paper FHA map") %>%
+  hideGroup("Recent home prices") %>%
+  hideGroup("'R' zones")
+```
+
+<br>
+
+
+```{r make_venn_diagrams_detail, out.width="100%"}
+make_bars <- function(input, var) {
+  temp <- data.frame(input) 
+  temp$grade <- rownames(temp)
+  temp <- temp[grepl("&", temp$grade), ]
+  rownames(temp) <- NULL
+  temp$grade <- sub("&.*", "", temp$grade)
+  temp$color <- NA
+  temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
+  temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
+  
+  temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
+    
+  
+  p <- ggplot(temp, aes(y=input, x= grade)) +
+    geom_bar(aes( fill=color), stat="identity") +
+    geom_text(aes(label = format(round(input, 0), big.mark=",")), vjust = -0.5) +
+    scale_fill_identity() +
+    theme_minimal() +
+    xlab("") +
+    ylab(paste("Acres of", var, "zone")) +
+    scale_y_continuous(limits = c(0, max(temp$input)*1.2))
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank())
+  
+  return(p)
+
+  }
+
+
+p1 <- make_bars(get_input(var = "ZR16_detail", val = "R-1A"), var = "R-1A")
+p2 <- make_bars(get_input(var = "ZR16_detail", val = "R-1B"), var = "R-1B")
+p3 <- make_bars(get_input(var = "ZR16_detail", val = "R-2"), var = "R-2")
+p4 <- make_bars(get_input(var = "ZR16_detail", val = "R-3"), var = "R-3")
+
+var <- "ZR16_detail"
+val <- zones_to_use
+
+input =  c(
+      "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+      "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+    
+      "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+      "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))) 
+      )
+
+for (val in zones_to_use) {
+  input <- c(input, 
+             c(val=
+                 sum(as.vector(
+                   sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp[[var]]==val,]),
+                                                      st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 'G', "H"),]))))))
+               )
+             )
+  names(input)[length(input)] <- val
+}
+    
+
+for (val in zones_to_use) {
+  for (gr in c("A", "B", "G", "H")) {
+    input <- c(input, 
+               c(val=
+                   sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]),
+                                                             st_union(fha_shp[fha_shp$fha_grade==gr,])))))
+                 )
+              )
+    names(input)[length(input)] <- paste0("grade ", gr, "&", val)
+  }
+}
+
+input <- 1 / 4046.86 * input
+
+
+combined_patchwork <- (
+                         (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p3)) /
+                         (patchwork::wrap_elements(p2) | patchwork::wrap_elements(p4))
+                       ) +
+  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
+  theme(plot.title = element_text(hjust = 0.5)) # Center the title
+```
+
+
+<br>
+
+DC's Office of Planning and Zoning Commission perpetuate this segregation by allowing rich, predominantly white Northwest DC residents to use R-1 zoning to block more affordable housing types like duplexes, fourplexes, and apartments.
+
+Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas receive this designation.
+
+<br>
+
+```{r plot_venn_detail, out.width="100%"}
+combined_patchwork
+```
+
+
+
+<br>
+<br>
+
+```{r}
+
+zones_to_use <- sort(unique(zone_shp$ZR16_detail))
+
+
+input =  c(
+      "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+      "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+      
+      "middle grades"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade %in% c("C", "D", "E", "F"),]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+    
+      "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))),
+      "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp[[var]] %in% val,])))))) 
+      )
+
+for (val in zones_to_use) {
+  input <- c(input, 
+             c(val=
+                 sum(as.vector(
+                   sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp[[var]]==val,]),
+                                                      st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
+                                                                                                "C", "D", "E", "F",
+                                                                                                'G', "H"),]))))))
+               )
+             )
+  names(input)[length(input)] <- val
+}
+    
+
+for (val in zones_to_use) {
+  for (gr in c("A", "B", "middle grades", "G", "H")) {
+    if (gr == "middle grades") {
+      input <- c(input, 
+               c(val=
+                   sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]),
+                                                             st_union(fha_shp[fha_shp$fha_grade %in% c("C", "D", "E", "F"),])))))
+                 )
+              )
+    } else {
+      input <- c(input, 
+               c(val=
+                   sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]),
+                                                             st_union(fha_shp[fha_shp$fha_grade==gr,])))))
+                 )
+              )
+    }
+    
+    names(input)[length(input)] <- paste0("grade ", gr, "&", val)
+  }
+}
+
+input <- 1 / 4046.86 * input
+```
+
+<br>
+
+The sankey diagram below shows how each former grade area has been zoned today. Click and drag each node to move it. Hover for more info.
+
+<br>
+
+
+
+<br><br>
+
+
+```{r sankey, out.width="100%"}
+library(plotly)
+
+# Your parse function (with zero-padded prefixes)
+parse_sankey_data_plotly <- function(input_vec) {
+  names_vec <- names(input_vec)
+  is_overlap <- grepl("&", names_vec)
+  
+  individual <- input_vec[!is_overlap]
+  overlaps <- input_vec[is_overlap]
+  
+  links <- data.frame(
+    source = character(),
+    target = character(),
+    value = numeric(),
+    stringsAsFactors = FALSE
+  )
+  
+  for (i in seq_along(overlaps)) {
+    if (overlaps[i] > 0) {
+      parts <- strsplit(names(overlaps)[i], "&")[[1]]
+      links <- rbind(links, data.frame(
+        source = trimws(parts[1]),
+        target = trimws(parts[2]),
+        value = overlaps[i],
+        stringsAsFactors = FALSE
+      ))
+    }
+  }
+  
+  # Create mapping with zero-padded numbers
+  node_mapping <- c(
+    "grade A" = "01_Grade_A",
+    "grade B" = "02_Grade_B",
+    "grade middle grades" = "03_Middle_Grades",
+    "grade G" = "04_Grade_G",
+    "grade H" = "05_Grade_H",
+    "R-1A" = "06_R-1A",
+    "R-1B" = "07_R-1B",
+    "R-2" = "08_R-2",
+    "R-3" = "09_R-3",
+    "Residential flat zones" = "10_Residential_Flat",
+    "Mixed use zones" = "11_Mixed_Use",
+    "Apartment zones" = "12_Apartment"
+  )
+  
+  # Display mapping (what shows on the diagram)
+  display_mapping <- c(
+    "01_Grade_A" = "A",
+    "02_Grade_B" = "B",
+    "03_Middle_Grades" = "Middle Grades",
+    "04_Grade_G" = "G",
+    "05_Grade_H" = "H",
+    "06_R-1A" = "R-1A",
+    "07_R-1B" = "R-1B",
+    "08_R-2" = "R-2",
+    "09_R-3" = "R-3",
+    "10_Residential_Flat" = "Residential Flat Zones",
+    "11_Mixed_Use" = "Mixed Use Zones",
+    "12_Apartment" = "Apartment Zones"
+  )
+  
+  # Rename nodes in links
+  links$source <- node_mapping[links$source]
+  links$target <- node_mapping[links$target]
+  
+  # Calculate percentages
+  source_totals <- aggregate(value ~ source, data = links, FUN = sum)
+  names(source_totals)[2] <- "source_total"
+  links <- merge(links, source_totals, by = "source", all.x = TRUE)
+  links$percentage <- round((links$value / links$source_total) * 100)  # Round to whole number
+  
+  # Get all unique nodes in the order they appear
+  all_nodes <- unique(c(links$source, links$target))
+  all_nodes <- sort(all_nodes)
+  
+  # Create node dataframe
+  nodes <- data.frame(
+    name = all_nodes,
+    display_name = display_mapping[all_nodes],
+    stringsAsFactors = FALSE
+  )
+  
+  # Assign colors
+  nodes$color <- sapply(nodes$name, function(n) {
+    if (grepl("01_|02_", n)) return("#E8B391")
+    if (grepl("03_", n)) return("#DDDDDD")
+    if (grepl("04_|05_", n)) return("#B15B25")
+    return("#CCCCCC")
+  })
+  
+  # Sort links to draw middle grades in back
+  links$draw_order <- ifelse(grepl("03_", links$source), 1, 2)
+  links <- links[order(links$draw_order), ]
+  
+  # Assign link colors
+  links$color <- sapply(links$source, function(s) {
+    if (grepl("01_|02_", s)) return("rgba(232, 179, 145, 0.5)")
+    if (grepl("03_", s)) return("rgba(200, 200, 200, 0.3)")
+    return("rgba(177, 91, 37, 0.5)")
+  })
+  
+  # Map to indices
+  links$source_idx <- match(links$source, nodes$name) - 1
+  links$target_idx <- match(links$target, nodes$name) - 1
+  
+  # Create custom hover text using display names - rounded values
+  links$hover_text <- paste0(
+    display_mapping[links$source], " → ", display_mapping[links$target],
+    "<br>Value: ", round(links$value), " acres",  # No decimal points
+    "<br>Percentage: ", links$percentage, "%"
+  )
+  
+  return(list(links = links, nodes = nodes))
+}
+
+sankey_data <- parse_sankey_data_plotly(input)
+
+# Create plotly sankey
+fig <- plot_ly(
+  type = "sankey",
+  orientation = "h",
+  
+  node = list(
+    label = sankey_data$nodes$display_name,
+    color = sankey_data$nodes$color,
+    pad = 15,
+    thickness = 20,
+    line = list(color = "black", width = 0.5)
+  ),
+  
+  link = list(
+    source = sankey_data$links$source_idx,
+    target = sankey_data$links$target_idx,
+    value = sankey_data$links$value,
+    color = sankey_data$links$color,
+    hovertemplate = paste0('%{customdata}<extra></extra>'),
+    customdata = sankey_data$links$hover_text
+  )
+) %>%
+  layout(
+    title = list(
+      text = 'Former "whites only" areas now disproportionately given large lot zoning',
+      y = 0.98  # Position title lower to prevent cutoff
+    ),
+    font = list(size = 14),
+    margin = list(t = 60, l = 20, r = 20, b = 20)  # Add top margin for title
+  )
+
+fig
+```
