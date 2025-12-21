@@ -684,10 +684,13 @@ Data sources: [Open Data DC](https://opendata.dc.gov/), [Mapping Segregation DC]
 
 <br><br><br><br><br><br>
 
-# Appendix: a closer look at modern zones
-
 <details>
 <summary>--Click to expand/hide this section--</summary>
+
+
+# Appendix: a closer look at modern zones
+
+
 
 
 
@@ -832,7 +835,6 @@ combined_patchwork <- (
 ```
 
 
-<br>
 
 DC's Office of Planning and Zoning Commission perpetuate this segregation by allowing rich, predominantly white Northwest DC residents to use R-1 zoning to block more affordable housing types like duplexes, fourplexes, and apartments.
 
@@ -846,8 +848,6 @@ combined_patchwork
 
 
 
-<br>
-<br>
 
 ```{r}
 
@@ -909,9 +909,6 @@ The sankey diagram below shows how each former grade area has been zoned today. 
 
 <br>
 
-
-
-<br><br>
 
 
 ```{r sankey, out.width="100%"}
