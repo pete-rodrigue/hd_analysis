@@ -683,9 +683,10 @@ Data sources: [Open Data DC](https://opendata.dc.gov/), [Mapping Segregation DC]
 
 
 <br><br><br><br><br><br>
+<br><br><br><br><br><br>
 
 <details>
-<summary>--Click to expand/hide this section--</summary>
+<summary>--Click to view appendix--</summary>
 
 
 # Appendix: a closer look at modern zones
@@ -749,9 +750,6 @@ map_part_1 %>%
   hideGroup("Recent home prices") %>%
   hideGroup("'R' zones")
 ```
-
-<br>
-
 
 ```{r make_venn_diagrams_detail, out.width="100%"}
 make_bars <- function(input, var) {
@@ -835,11 +833,6 @@ combined_patchwork <- (
 ```
 
 
-
-DC's Office of Planning and Zoning Commission perpetuate this segregation by allowing rich, predominantly white Northwest DC residents to use R-1 zoning to block more affordable housing types like duplexes, fourplexes, and apartments.
-
-Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas receive this designation.
-
 <br>
 
 ```{r plot_venn_detail, out.width="100%"}
@@ -902,10 +895,6 @@ for (val in zones_to_use) {
 
 input <- 1 / 4046.86 * input
 ```
-
-<br>
-
-The sankey diagram below shows how each former grade area has been zoned today. Click and drag each node to move it. Hover for more info.
 
 <br>
 
