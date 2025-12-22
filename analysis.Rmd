@@ -206,6 +206,28 @@ hd_shp <- sf::st_read("Historic_Districts/Historic_Districts.shp", quiet=T)
 # comes from here: https://opendata.dc.gov/datasets/DCGIS::wards-from-2022/about
 ward_shp <- sf::st_read("Wards_from_2022/Wards_from_2022.shp", quiet=T)
 
+# water bodies
+# https://opendata.dc.gov/datasets/1d544196d7044aef9a0ffc809de6e60c_14/explore?location=38.893201%2C-77.015700%2C12.56
+# wtr_shp <- sf::st_read("Waterbodies_2021/Waterbodies_2021.shp", quiet=T)
+# 
+# # get % of DC that is covered by HDs:
+# as.vector(round( 100 * 
+#                    sf::st_area( 
+#                      sf::st_union(hd_shp) %>% sf::st_transform(26918) 
+#                      ) / 
+#                    sf::st_area( 
+#                      sf::st_union(ward_shp) %>% sf::st_transform(26918) ), 
+#                  0 ))
+# 
+# as.vector(round( 100 * 
+#                    sf::st_area( 
+#                      sf::st_difference( sf::st_union(hd_shp) %>% sf::st_transform(26918), sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
+#                      ) / 
+#                    sf::st_area( 
+#                      sf::st_difference( sf::st_union(ward_shp) %>% sf::st_transform(26918), sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
+#                      ), 
+#                  0 ))
+
 # Building footprint data from here: https://opendata.dc.gov/datasets/DCGIS::building-footprints/explore
 bf <- 
   sf::st_read("Building_Footprints/Building_Footprints.shp", quiet=T) %>%
