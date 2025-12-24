@@ -25,6 +25,8 @@ knitr::opts_chunk$set(echo = F, warning=F, message=F, out.width = "100%")
 # https://raw.githack.com/pete-rodrigue/hd_analysis/main/exclusionary-zoning-analysis.html
 
 # load packages
+remove.packages("ggplot2")
+install.packages("ggplot2", version = "4.0.1")
 library(dplyr)
 library(readr)
 library(sf)
@@ -1051,3 +1053,8 @@ fig <- plot_ly(
 
 fig
 ```
+
+
+
+
+
