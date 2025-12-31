@@ -252,32 +252,12 @@ ah <- readr::read_csv("https://docs.google.com/spreadsheets/d/1vVJ_AshZVdxJpXrbS
 # load the historic district boundary shape files
 # comes from here: https://opendata.dc.gov/datasets/DCGIS::historic-districts/about 
 hd_shp <- sf::st_read("Historic_Districts/Historic_Districts.shp", quiet=T)
+hd_shp_copy <- sf::st_read("Historic_Districts/Historic_Districts.shp", quiet=T)
 
 # load the 2022 ward shape files
 # comes from here: https://opendata.dc.gov/datasets/DCGIS::wards-from-2022/about
 ward_shp <- sf::st_read("Wards_from_2022/Wards_from_2022.shp", quiet=T)
 
-# water bodies
-# https://opendata.dc.gov/datasets/1d544196d7044aef9a0ffc809de6e60c_14/explore?location=38.893201%2C-77.015700%2C12.56
-# wtr_shp <- sf::st_read("Waterbodies_2021/Waterbodies_2021.shp", quiet=T)
-# 
-# # get % of DC that is covered by HDs:
-# as.vector(round( 100 * 
-#                    sf::st_area( 
-#                      sf::st_union(hd_shp) %>% sf::st_transform(26918) 
-#                      ) / 
-#                    sf::st_area( 
-#                      sf::st_union(ward_shp) %>% sf::st_transform(26918) ), 
-#                  0 ))
-# 
-# as.vector(round( 100 * 
-#                    sf::st_area( 
-#                      sf::st_difference( sf::st_union(hd_shp) %>% sf::st_transform(26918), sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
-#                      ) / 
-#                    sf::st_area( 
-#                      sf::st_difference( sf::st_union(ward_shp) %>% sf::st_transform(26918), sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
-#                      ), 
-#                  0 ))
 
 # Building footprint data from here: https://opendata.dc.gov/datasets/DCGIS::building-footprints/explore
 bf <- 
@@ -449,6 +429,61 @@ hd_shp$LABEL <- gsub(pattern = " HD", replacement = "", x = hd_shp$LABEL)
 
 
 rm(hd_data)
+```
+
+
+```{r percent_coverage, include=F, eval=F}
+# water bodies
+# https://opendata.dc.gov/datasets/1d544196d7044aef9a0ffc809de6e60c_14/explore?location=38.893201%2C-77.015700%2C12.56
+wtr_shp <- sf::st_read("Waterbodies_2021/Waterbodies_2021.shp", quiet=T)
+
+# potential additional HDs + expansions:
+new_hd_file_names <- list.files("potential_new_hds")
+
+for (ii in 1:length(new_hd_file_names)) {
+  temp <- sf::st_read(paste0("potential_new_hds/", new_hd_file_names[ii])) %>% sf::st_transform(26918)
+  if (ii == 1) {
+    new_hds <- temp
+  } else {
+    new_hds <- dplyr::bind_rows(new_hds, temp)
+  }
+}
+new_hds <- sf::st_union(sf::st_as_sf(new_hds))
+existing_new_hds <- sf::st_union(hd_shp_copy %>% sf::st_transform(26918), new_hds)
+
+# get % of DC that is covered by HDs:
+
+# including water area
+as.vector(round( 100 *
+                   sf::st_area(
+                     sf::st_union(hd_shp_copy) %>% sf::st_transform(26918)
+                     ) /
+                   sf::st_area(
+                     sf::st_union(ward_shp) %>% sf::st_transform(26918) ),
+                 0 ))
+
+# just land area:
+as.vector(round( 100 *
+                   sf::st_area(
+                     sf::st_difference( sf::st_union(hd_shp_copy) %>% sf::st_transform(26918), sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
+                     ) /
+                   sf::st_area(
+                     sf::st_difference( sf::st_union(ward_shp) %>% sf::st_transform(26918), sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
+                     ),
+                 0 ))
+
+# just land area including potential new HDs
+as.vector(round( 100 *
+                   sf::st_area(
+                     sf::st_difference( sf::st_union(existing_new_hds %>% filter(!is.na(st_is_valid(.)))) %>% 
+                                          sf::st_transform(26918), 
+                                        sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
+                     ) /
+                   sf::st_area(
+                     sf::st_difference( sf::st_union(ward_shp) %>% sf::st_transform(26918), 
+                                        sf::st_union(wtr_shp) %>% sf::st_transform(26918) )
+                     ),
+                 0 ))
 ```
 
 
