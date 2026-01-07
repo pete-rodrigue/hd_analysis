@@ -25,8 +25,8 @@ knitr::opts_chunk$set(echo = F, warning=F, message=F, out.width = "100%")
 # https://raw.githack.com/pete-rodrigue/hd_analysis/main/exclusionary-zoning-analysis.html
 
 # load packages
-remove.packages("ggplot2")
-install.packages("ggplot2", version = "4.0.1")
+# remove.packages("ggplot2")
+# install.packages("ggplot2", version = "4.0.1")
 library(dplyr)
 library(readr)
 library(sf)
@@ -226,6 +226,14 @@ zone_shp <- sf::st_transform(zone_shp, 26918)
 zone_shp$r_1 <- 0
 zone_shp$r_1[zone_shp$ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)] <- 1
 
+# note r-1A zones
+zone_shp$r_1a <- 0
+zone_shp$r_1a[zone_shp$ZR16_detail == "R-1A"] <- 1
+
+# note r-1b zones
+zone_shp$r_1b <- 0
+zone_shp$r_1b[zone_shp$ZR16_detail == "R-1B"] <- 1
+
 # load the 2022 ward shape files
 # comes from here: https://opendata.dc.gov/datasets/DCGIS::wards-from-2022/about
 ward_shp <- 
@@ -335,6 +343,25 @@ get_stats <- function(df, rv=F) {
 # cat("\n\n")
 # cat("---H grade area stats---\n")
 # get_stats(df = pd[pd$in_H==1,])
+```
+
+```{r pct_area, include=F, eval=F}
+sort(unique(zone_shp$ZR16_detail))
+
+temp <- 
+  zone_shp %>%
+  mutate(area_meters = sf::st_area(.)) %>%
+  select(ZR16_detail, area_meters) %>%
+  sf::st_drop_geometry(.)
+
+tot_area <- sum(temp$area_meters)
+
+temp %>%
+  group_by(ZR16_detail) %>%
+  summarize(area_meters = sum(area_meters)) %>%
+  mutate(pct = area_meters / tot_area * 100)
+
+rm(temp, tot_area)
 ```
 
 
@@ -634,6 +661,114 @@ combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
 ```
 
+```{r, eval=F, include=F}
+temp <- input
+temp <-
+  setNames(object = temp, 
+         nm = c(
+           paste("grade", c("A", "B", "G", "H")),
+           "R-1A/B",
+           paste0("grade ", c("A&R-1A/B", "B&R-1A/B", "G&R-1A/B", "H&R-1A/B"))
+         )
+         )
+p3 <- 
+  plot(eulerr::euler(temp, shape = "ellipse"),
+     fills = c(abc_col, abc_col, 
+               # abc_col, fgh_col, 
+               fgh_col, fgh_col, r1_col)
+     )
+
+patchwork::wrap_elements(p3) +
+  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1A/B zones in former FHA 'whites only' areas") & # Add title
+  theme(plot.title = element_text(hjust = 0.5)) # Center the title
+```
+
+
+```{r make_venn_diagrams_detail, out.width="100%", eval=F, include=F}
+get_input <- function(var, val, zone_name) {
+    
+    input = 1 / 4046.86 * c(
+      "grade A"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="A",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      "grade B"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="B",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade C"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="C",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade D"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="D",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade E"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="E",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      # "grade F"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="F",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      "grade G"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="G",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      "grade H"=sum(as.vector(sf::st_area(st_union(st_difference(st_union(fha_shp[fha_shp$fha_grade=="H",]), st_union(zone_shp[zone_shp[[var]]==val,])))))),
+      
+      zone_name        =sum(as.vector(sf::st_area(st_union(st_difference(st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade %in% c("A", "B", 
+                                                                                                                                                     # 'C',  'D', 'E', 'F', 
+                                                                                                                                                     'G', "H"),])))))),
+      
+      "grade A&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="A",]))))),
+      "grade B&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="B",]))))),
+      # "grade C&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="C",]))))),
+      # "grade D&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="D",]))))),
+      # "grade E&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="E",]))))),
+      # "grade F&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="F",]))))),
+      "grade G&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="G",]))))),
+      "grade H&R-1"=sum(as.vector(st_area(sf::st_intersection(x = st_union(zone_shp[zone_shp[[var]]==val,]), st_union(fha_shp[fha_shp$fha_grade=="H",])))))
+    ) 
+    
+  rv <- setNames(input, 
+                 c(paste("grade", c("A", "B", "G", "H")), 
+                   zone_name, 
+                   paste("grade", paste0(c("A&", "B&", "G&", "H&"), zone_name))
+                   )
+                 )
+  
+  return(rv)
+}
+
+
+input <- get_input(var="r_1a", 1, zone_name = "R-1A")
+
+temp <- data.frame(input) 
+temp$grade <- rownames(temp)
+temp <- temp[grepl("&", temp$grade), ]
+rownames(temp) <- NULL
+temp$grade <- sub("&.*", "", temp$grade)
+temp$color <- NA
+temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
+temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
+
+temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
+  
+# temp$grade <- factor(temp$grade, levels = c("A", "B", "C", "F", "G", "H"))
+
+p1 <- 
+   plot(eulerr::euler(input, shape = "ellipse"),
+     fills = c(abc_col, abc_col, 
+               # abc_col, fgh_col, 
+               fgh_col, fgh_col, r1_col)
+     )
+
+input <- get_input(var="r_1b", 1, zone_name = "R-1B")
+
+temp <- data.frame(input) 
+temp$grade <- rownames(temp)
+temp <- temp[grepl("&", temp$grade), ]
+rownames(temp) <- NULL
+temp$grade <- sub("&.*", "", temp$grade)
+temp$color <- NA
+temp$color[temp$grade %in% c("grade A", "grade B", "grade C")] <- abc_col
+temp$color[temp$grade %in% c("grade F", "grade G", "grade H")] <- fgh_col
+
+temp$grade <- gsub(pattern = "grade ", replacement = "", x = temp$grade)
+
+p2 <- 
+  plot(eulerr::euler(input, shape = "ellipse"),
+     fills = c(abc_col, abc_col, 
+               # abc_col, fgh_col, 
+               fgh_col, fgh_col, r1_col)
+     )
+
+
+combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p2)) #+
+  # plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
+  # theme(plot.title = element_text(hjust = 0.5)) # Center the title
+```
 
 <br>
 
@@ -643,8 +778,8 @@ Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas re
 
 <br>
 
-```{r plot_venn}
-combined_patchwork + plot_layout(widths = c(1, 1.25), heights = c(1, 1))
+```{r plot_venn_detail, eval=F, include=F}
+combined_patchwork + plot_layout(widths = c(1, 1), heights = c(1, 1))
 ```
 
 <br>
