@@ -3641,6 +3641,67 @@ ggplot(my_plt,
         legend.position = "top")
 ```
 
+```{r}
+my_plt2 <-
+  beb_shp_zone %>%
+  sf::st_drop_geometry(.) %>%
+  filter(!is.na(PRIMARYPROPERTYTYPE_EPACALC)) %>%
+  mutate(
+         `In HD (1=yes)`    = in_hd,
+         `building vintage` = case_when(
+           YEARBUILT < 1950                      ~ "Built before 1950",
+           YEARBUILT <= 1990 & YEARBUILT >= 1950 ~ "Built btw 1950 & 1990",
+           YEARBUILT > 1990                      ~ "Built post-1990"
+           )
+         ) %>%
+  group_by(#`In HD (1=yes)`, 
+           `building vintage`, 
+           PRIMARYPROPERTYTYPE_EPACALC
+           ) %>%
+  summarize(median_energy_use = round(median(WEATHERNORMALZEDSITEEUI_KBTUFT, na.rm=T),0),
+            `number of buildings` = n()) %>%
+  ungroup() %>%
+  filter(`number of buildings` >= 100) %>%
+  filter(!is.na(`building vintage`)) %>%
+  group_by(`PRIMARYPROPERTYTYPE_EPACALC`) %>%
+  mutate(c = n()) %>%
+  filter(c >= 3) %>%
+  ungroup() %>%
+  rename(
+    `Median kg CO2e per sqft` = median_energy_use
+    ) %>%
+  rename(`building type` = PRIMARYPROPERTYTYPE_EPACALC) %>%
+  # select(-c) %>%
+  arrange(`building vintage`, `building type`) %>%
+  ungroup() %>%
+  group_by(`building type`) %>%
+  mutate(blg_type = paste0(`building type`, " (N=", sum(`number of buildings`), ")")) %>%
+  ungroup()
+
+ggplot(my_plt2, 
+       aes(
+         x = as.factor(`building vintage`), 
+         # fill=forcats::fct_rev(as.factor(`In HD (1=yes)`)),
+         y=`Median kg CO2e per sqft`
+       )
+       ) +
+  geom_text(aes(label=my_plt2$`Median kg CO2e per sqft`), 
+            # position = position_dodge(width = .9), 
+            vjust=-.45) + 
+  geom_bar(stat="identity"#, 
+           # position='dodge'
+           ) +
+  ggtitle("Newer buildings tend to use less energy") +
+  # scale_fill_discrete(name = "", labels = c("in HD", "outside HD")) +
+  xlab("") +
+  facet_wrap(~blg_type, scales = "free_y") +
+  geom_blank(aes(y = my_plt2$`Median kg CO2e per sqft`*1.2)) +
+  ggdark::dark_theme_gray() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        legend.position = "top")
+```
+
+
 <br>
 
 ```{r}
