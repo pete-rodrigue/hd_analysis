@@ -3598,6 +3598,7 @@ my_plt <-
            YEARBUILT > 1990                      ~ "Built post-1990"
            )
          ) %>%
+  filter(!is.na(`building vintage`)) %>%
   group_by(`In HD (1=yes)`, 
            `building vintage`, 
            PRIMARYPROPERTYTYPE_EPACALC
@@ -3605,10 +3606,15 @@ my_plt <-
   summarize(median_energy_use = round(median(WEATHERNORMALZEDSITEEUI_KBTUFT, na.rm=T),0),
             `number of buildings` = n()) %>%
   ungroup() %>%
-  filter(`number of buildings` >= 100) %>%
-  group_by(`building vintage`, `PRIMARYPROPERTYTYPE_EPACALC`) %>%
+  arrange(PRIMARYPROPERTYTYPE_EPACALC, `building vintage`, `In HD (1=yes)`) %>%
+  group_by(`building vintage`, 
+           PRIMARYPROPERTYTYPE_EPACALC) %>%
+  mutate(`number of buildings 2` = sum(`number of buildings`)) %>%
+  ungroup() %>%
+  filter(`number of buildings 2` >= 100) %>%
+  group_by(`PRIMARYPROPERTYTYPE_EPACALC`) %>%
   mutate(c = n()) %>%
-  filter(c > 1) %>%
+  filter(c >= 6) %>%
   ungroup() %>%
   rename(
     `Median kg CO2e per sqft` = median_energy_use
@@ -3617,8 +3623,13 @@ my_plt <-
   select(-c) %>%
   arrange(`building vintage`, `building type`, `In HD (1=yes)`) %>%
   ungroup() %>%
+  group_by(`building type`, `building vintage`) %>%
+  mutate(row_ind = row_number()) %>%
+  ungroup() %>%
   group_by(`building type`) %>%
-  mutate(blg_type = paste0(`building type`, " (N=", sum(`number of buildings`), ")")) %>%
+  mutate(`number of buildings 2` = ifelse(row_ind==2, 0, `number of buildings 2`)) %>%
+  mutate(`number of buildings 3` = ifelse(row_ind==1, sum(`number of buildings 2`), 0)) %>%
+  mutate(blg_type = paste0(`building type`, " (N=", max(`number of buildings 3`), ")")) %>%
   ungroup()
 
 
@@ -3654,6 +3665,7 @@ my_plt2 <-
            YEARBUILT > 1990                      ~ "Built post-1990"
            )
          ) %>%
+  filter(!is.na(`building vintage`)) %>%
   group_by(#`In HD (1=yes)`, 
            `building vintage`, 
            PRIMARYPROPERTYTYPE_EPACALC
@@ -3662,7 +3674,6 @@ my_plt2 <-
             `number of buildings` = n()) %>%
   ungroup() %>%
   filter(`number of buildings` >= 100) %>%
-  filter(!is.na(`building vintage`)) %>%
   group_by(`PRIMARYPROPERTYTYPE_EPACALC`) %>%
   mutate(c = n()) %>%
   filter(c >= 3) %>%
