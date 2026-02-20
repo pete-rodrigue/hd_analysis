@@ -697,7 +697,8 @@ create_matches <- function(n_nearest, min_year=1940, lookback = 80, matching_var
   #' @returns mb: (dataframe) the df w/ 2 cols: the hd block geo id, and the
   #'              geo id of the non-HD block it was matched to, all in the 
   #'              root year.
-  
+
+  set.seed(303484)
   # to loop through each historic district, we need a list of them:
   hd_list <- sort(unique(hd_shp$LABEL))
   
