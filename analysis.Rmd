@@ -228,6 +228,7 @@ RUN_EVERYTHING_FROM_SCRATCH = FALSE
 # Whether to run all of the code chunks or just a subset 
 # (this is just for debugging while working on the markdown script)
 EVALUATE_ADDITIONAL_CHUNKS = TRUE
+M2_PER_ACRE = 4046.86
 
 
 
@@ -418,7 +419,7 @@ unzoned_shp <- fix_geo_if_broken(unzoned_shp)
 hd_shp <- fix_geo_if_broken(hd_shp)
 ward_shp <- fix_geo_if_broken(ward_shp)
 
-# convert to mercator projection
+# convert to UTM Zone 18N projection
 zone_shp <- sf::st_transform(zone_shp, 26918)
 unzoned_shp <- sf::st_transform(unzoned_shp, 26918)
 hd_shp <- sf::st_transform(hd_shp, 26918)
@@ -1161,7 +1162,7 @@ plot(mod)
 to_plot_pop_dens <-
   bg_23_shp %>% 
        mutate(area_meters = as.vector(sf::st_area(.))) %>%
-        mutate(pop_density_acre = tot_pop_ / area_meters * 4046.86)
+        mutate(pop_density_acre = tot_pop_ / area_meters * M2_PER_ACRE)
 
 no_hd_pop_dens <-
   round(
@@ -4591,7 +4592,7 @@ For the 50m buffer:
 ```{r}
 res50$buffer_ts %>%
   group_by(treat, post) %>%
-  summarize(area_acres = round(sum(as.vector(geo_area_meters)) / 4046.86, 0)) %>%
+  summarize(area_acres = round(sum(as.vector(geo_area_meters)) / M2_PER_ACRE, 0)) %>%
   ungroup() %>%
   group_by(treat) %>%
   arrange(treat, post) %>%
@@ -4603,7 +4604,7 @@ For the 800m buffer:
 ```{r}
 res800$buffer_ts %>%
   group_by(treat, post) %>%
-  summarize(area_acres = round(sum(as.vector(geo_area_meters)) / 4046.86, 0)) %>%
+  summarize(area_acres = round(sum(as.vector(geo_area_meters)) / M2_PER_ACRE, 0)) %>%
   ungroup() %>%
   group_by(treat) %>%
   arrange(treat, post) %>%
