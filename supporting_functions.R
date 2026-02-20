@@ -6,8 +6,7 @@ library(haven)
 library(fixest)
 library(HonestDiD)
 
-
-
+M2_PER_ACRE = 4046.86
 
 #' ⢀⣸ ⢀⣀ ⣰⡀ ⢀⣀   ⢀⣀ ⡇ ⢀⡀ ⢀⣀ ⣀⡀ ⠄ ⣀⡀ ⢀⡀   ⣰⡁ ⡀⢀ ⣀⡀ ⢀⣀ ⣰⡀ ⠄ ⢀⡀ ⣀⡀ ⢀⣀
 #' ⠣⠼ ⠣⠼ ⠘⠤ ⠣⠼   ⠣⠤ ⠣ ⠣⠭ ⠣⠼ ⠇⠸ ⠇ ⠇⠸ ⣑⡺   ⢸  ⠣⠼ ⠇⠸ ⠣⠤ ⠘⠤ ⠇ ⠣⠜ ⠇⠸ ⠭⠕
@@ -500,9 +499,10 @@ create_xwalk <- function(other_year, root_year, shp) {
 
 
 get_solar_summary <- function(y) {
+  pop_thresh <- 5
   # 1. get blocks w/ population
   blocks_w_pop_in_hd <- 
-    filter(geos_shp, year==2020 & n_tot > 5) %>%
+    filter(geos_shp, year==2020 & n_tot > pop_thresh) %>%
     # 2. get zone block is in
     sf::st_intersection(y = select(zone_shp, ZR16, ZR16_simple)) %>%
     # 3. get blocks in hds
@@ -522,7 +522,7 @@ get_solar_summary <- function(y) {
   
   # 1. get blocks w/ population
   blocks_w_pop_no_hd <- 
-    filter(geos_shp, year==2020 & n_tot > 2) %>%
+    filter(geos_shp, year==2020 & n_tot > pop_thresh) %>%
     # 2. get zone block is in
     sf::st_intersection(y = select(zone_shp, ZR16, ZR16_simple)) %>%
     # 3. get blocks in hds
@@ -549,7 +549,7 @@ get_solar_summary <- function(y) {
     summarise(n_permits   = sum(permit_count, na.rm=T),
               n_buildings = sum(building_count, na.rm=T),
               area_meters = sum(as.vector(area_meters), na.rm=T),
-              permits_per_acre = n_permits / area_meters * 4046.86,
+              permits_per_acre = n_permits / area_meters * M2_PER_ACRE,
               permits_as_share_of_buildings = n_permits / n_buildings) %>%
     mutate(year= paste(y, collapse = " "))
   
@@ -1639,7 +1639,7 @@ do_buffer_analysis <- function(buffer_size, hds_to_omit, cvars,
            desig_decade, pop_density, n_black, n_white, n_tot, 
            pct_black, pct_white, geo_area_meters) %>%
     # get the population density
-    mutate(pop_density = pop_density * 4046.86) %>%
+    mutate(pop_density = pop_density * M2_PER_ACRE) %>%
     # again, remove smaller blocks (I am paranoid lol)
     filter(n_tot > 10) %>%
     # get a "relative year" variable, which is 0 in the decade the HD was designated
@@ -1647,7 +1647,7 @@ do_buffer_analysis <- function(buffer_size, hds_to_omit, cvars,
     filter(year > (desig_decade - max_years_back)) %>%
     # merge on the # of acres in the HD
     dplyr::left_join(y = hd_shp %>% 
-                       mutate(hd_area_acres = as.vector(sf::st_area(.)) / 4046.86 ) %>%
+                       mutate(hd_area_acres = as.vector(sf::st_area(.)) / M2_PER_ACRE ) %>%
                        sf::st_drop_geometry(.) %>% 
                        select(LABEL, hd_area_acres),
                      by = "LABEL")
@@ -1919,14 +1919,14 @@ do_buffer_analysis_w_max_extent <- function(buffer_size, hds_to_omit, cvars,
            desig_decade, pop_density, n_black, n_white, n_tot, 
            pct_black, pct_white, geo_area_meters) %>%
     # get the population density
-    mutate(pop_density = pop_density * 4046.86) %>%
+    mutate(pop_density = pop_density * M2_PER_ACRE) %>%
     # again, remove smaller blocks (I am paranoid lol)
     filter(n_tot > 10) %>%
     # get a "relative year" variable, which is 0 in the decade the HD was designated
     mutate(rel_year = (year - desig_decade) / 10) %>%
     # merge on the # of acres in the HD
     dplyr::left_join(y = hd_shp %>% 
-                       mutate(hd_area_acres = as.vector(sf::st_area(.)) / 4046.86 ) %>%
+                       mutate(hd_area_acres = as.vector(sf::st_area(.)) / M2_PER_ACRE ) %>%
                        sf::st_drop_geometry(.) %>% 
                        select(LABEL, hd_area_acres),
                      by = "LABEL") %>%
