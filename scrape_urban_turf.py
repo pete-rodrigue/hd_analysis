@@ -50,7 +50,7 @@ class UrbanTurfScraper:
         self.driver.get(url)
         
         # Wait for the page to load
-        time.sleep(10)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "main-content")))
         
         projects_info = []
         
@@ -61,7 +61,7 @@ class UrbanTurfScraper:
             project_elements = self.driver.find_elements(By.CLASS_NAME, "pipeline-item")
             print(f"Found {len(project_elements)} projects")
 
-            time.sleep(10)
+            time.sleep(5)
 
             for i, project in enumerate(project_elements):
                 try:
@@ -102,7 +102,7 @@ class UrbanTurfScraper:
         try:
             print(f"Visiting project page: {project_link}")
             self.driver.get(project_link)
-            time.sleep(3)
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "main-content")))
 
             s_paragraph = self.driver.find_element(By.XPATH, "//p[span[@class='label' and text()='No. of units:']]")
             s = s_paragraph.text.split(":")[-1].strip()  

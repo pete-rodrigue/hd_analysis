@@ -40,18 +40,22 @@ library(eulerr)
 library(ggplot2)
 library(patchwork)
 library(plotly)
+library(here)
 
 # Getting the path of your current open file
-current_path = rstudioapi::getActiveDocumentContext()$path
-setwd(dirname(current_path))
+# current_path = rstudioapi::getActiveDocumentContext()$path
+# setwd(dirname(current_path))
+setwd(here::here())
 # load functions we've written to help with the analysis below
 # (we've stored those in a separate file to make the code easier to read)
-source("supporting_functions.R")
+source(here("supporting_functions.R"))
 
 # define colors
 abc_col = "#E8B391"
 fgh_col = "#B15B25"
 r1_col  = "#25B15B"
+
+SAVE_IMAGES = F
 ```
 
 ```{r load_data}
@@ -327,13 +331,13 @@ get_stats <- function(df, rv=F) {
   
   agg_val <- n * avg_p
   
-  cat(
-    paste0(
-      "Number of houses: ~", format(n, big.mark=","),
-      "\nAverage sale price after 2019: ~", format(avg_p, big.mark=","),
-      "\nEstimated aggregate value: ~", format(agg_val, big.mark=",")
-    )
-  )
+  # cat(
+  #   paste0(
+  #     "Number of houses: ~", format(n, big.mark=","),
+  #     "\nAverage sale price after 2019: ~", format(avg_p, big.mark=","),
+  #     "\nEstimated aggregate value: ~", format(agg_val, big.mark=",")
+  #   )
+  # )
   
   if (rv) {return(list('n'=n, 'avg_p'=avg_p, "agg_val"=agg_val))}
 }
@@ -464,20 +468,20 @@ map_part_1 %>%
                         "Today's large-lot zones 'R-1x'"),
       options = layersControlOptions(collapsed = FALSE)
     ) %>% 
-  addLegend(
-    position = "bottomright",
-    colors = "#9ffcb1",
-    labels = "",
-    title = "Current zones that prohibit<br>apartments and duplexes",
-    opacity = 1
-  ) %>%
-  addLegend(
-    position = "bottomright",  # Or "topright", "bottomleft", "topleft"
-    pal = fha_pal,
-    values = fha_shp$fha_grade,
-    title = 'FHA "grade"',
-    opacity = 1
-  ) %>%
+  # addLegend(
+  #   position = "bottomright",
+  #   colors = "#9ffcb1",
+  #   labels = "",
+  #   title = "Current zones that prohibit<br>apartments and duplexes",
+  #   opacity = 1
+  # ) %>%
+  # addLegend(
+  #   position = "bottomright",  # Or "topright", "bottomleft", "topleft"
+  #   pal = fha_pal,
+  #   values = fha_shp$fha_grade,
+  #   title = 'FHA "grade"',
+  #   opacity = 1
+  # ) %>%
   hideGroup("Approx. areas w/ discriminatory covenants") %>%
   hideGroup("FHA map") %>%
   hideGroup("% nonwhite in 1940") %>%
@@ -657,9 +661,16 @@ p2 <-
      )
 
 combined_patchwork <- (patchwork::wrap_elements(p1) | patchwork::wrap_elements(p2)) +
-  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
+  plot_annotation(title = "OP sites exclusionary R-1 zones in former FHA 'whites only' areas") & # Add title
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
+
+if (SAVE_IMAGES) {
+  ggsave(filename = "exclusionary_zoning_plots/v1.png", plot = combined_patchwork) 
+}
+
+combined_patchwork
 ```
+
 
 ```{r, eval=F, include=F}
 temp <- input
@@ -678,13 +689,19 @@ p3 <-
                fgh_col, fgh_col, r1_col)
      )
 
-patchwork::wrap_elements(p3) +
-  plot_annotation(title = "OP has overwhelmingly sited exclusionary R-1A/B zones in former FHA 'whites only' areas") & # Add title
+combo_plot <-
+  patchwork::wrap_elements(p3) +
+  plot_annotation(title = "OP sites exclusionary R-1A/B zones in former FHA 'whites only' areas") & # Add title
   theme(plot.title = element_text(hjust = 0.5)) # Center the title
+
+if (SAVE_IMAGES) {
+  ggsave(filename = "exclusionary_zoning_plots/v2.png", plot = combo_plot) 
+}
+
 ```
 
 
-```{r make_venn_diagrams_detail, out.width="100%", eval=F, include=F}
+```{r make_venn_diagrams_detail, out.width="100%", include=F}
 get_input <- function(var, val, zone_name) {
     
     input = 1 / 4046.86 * c(
@@ -778,7 +795,7 @@ Most "A" and "B" grade areas are R-1 zoned today, while few "G" and "H" areas re
 
 <br>
 
-```{r plot_venn_detail, eval=F, include=F}
+```{r plot_venn_detail}
 combined_patchwork + plot_layout(widths = c(1, 1), heights = c(1, 1))
 ```
 
@@ -865,21 +882,21 @@ map_part_1 %>%
                         "'R' zones"),
       options = layersControlOptions(collapsed = FALSE)
     ) %>% 
-  addLegend(
-    position = "bottomright",
-    pal = zoning_pal,
-    values = zones_to_use,
-    labels = "",
-    title = "Current zones that prohibit<br>apartments",
-    opacity = 1
-  ) %>%
-  addLegend(
-    position = "bottomright",  # Or "topright", "bottomleft", "topleft"
-    pal = fha_pal,
-    values = fha_shp$fha_grade,
-    title = 'FHA "grade"',
-    opacity = 1
-  ) %>%
+  # addLegend(
+  #   position = "bottomright",
+  #   pal = zoning_pal,
+  #   values = zones_to_use,
+  #   labels = "",
+  #   title = "Current zones that prohibit<br>apartments",
+  #   opacity = 1
+  # ) %>%
+  # addLegend(
+  #   position = "bottomright",  # Or "topright", "bottomleft", "topleft"
+  #   pal = fha_pal,
+  #   values = fha_shp$fha_grade,
+  #   title = 'FHA "grade"',
+  #   opacity = 1
+  # ) %>%
   hideGroup("Approx. areas w/ discriminatory covenants") %>%
   hideGroup("FHA map") %>%
   hideGroup("% nonwhite in 1940") %>%
@@ -888,7 +905,7 @@ map_part_1 %>%
   hideGroup("'R' zones")
 ```
 
-```{r make_venn_diagrams_detail, out.width="100%"}
+```{r make_venn_diagrams_detail_2, out.width="100%"}
 make_bars <- function(input, var) {
   temp <- data.frame(input) 
   temp$grade <- rownames(temp)
@@ -918,10 +935,10 @@ make_bars <- function(input, var) {
   }
 
 
-p1 <- make_bars(get_input(var = "ZR16_detail", val = "R-1A"), var = "R-1A")
-p2 <- make_bars(get_input(var = "ZR16_detail", val = "R-1B"), var = "R-1B")
-p3 <- make_bars(get_input(var = "ZR16_detail", val = "R-2"), var = "R-2")
-p4 <- make_bars(get_input(var = "ZR16_detail", val = "R-3"), var = "R-3")
+p1 <- make_bars(input = get_input(var = "ZR16_detail", val = "R-1A", zone_name = "R-1A"), var = "R-1A")
+p2 <- make_bars(input = get_input(var = "ZR16_detail", val = "R-1B", zone_name = "R-1B"), var = "R-1B")
+p3 <- make_bars(input = get_input(var = "ZR16_detail", val = "R-2", zone_name = "R-2"), var = "R-2")
+p4 <- make_bars(input = get_input(var = "ZR16_detail", val = "R-3", zone_name = "R-3"), var = "R-3")
 
 var <- "ZR16_detail"
 val <- zones_to_use
@@ -972,7 +989,7 @@ combined_patchwork <- (
 
 <br>
 
-```{r plot_venn_detail, out.width="100%"}
+```{r plot_venn_detail_2, out.width="100%"}
 combined_patchwork
 ```
 

@@ -93,20 +93,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 ```
 
-# !!!WORK IN PROGRESS!!!
-
-running list of TODOs:
-
-1. Finish summary section
-2. Revise policy section
-3. Share to be torn apart by critics
-
-<br>
 
 
 ![A view of the Capitol Hill historic district from above. DC_Capitol_Historic_District.jpg. (n.d.). In Wikimedia Commons. Retrieved September 12, 2025, from https://commons.wikimedia.org/wiki/File:DC_Capitol_Historic_District_%28cropped%29.jpg.](images/DC_Capitol_Historic_District.jpg)
 
 <br>
+
+# Note to the reader
+
+The material in this GitHub page was used to write a series of Greater Greater Washington pieces. While the quantitative analysis on this page is polished, some of the text and framing is still relatively rough. For both the polished stats and accompanying text, please see the GGWash posts, which were professionally reviewed and edited.
 
 # Summary
 
@@ -123,7 +118,7 @@ The main findings from the literature review:
 Main findings from the DC-specific analysis:
 
 1. HDs cover a lot of DC: almost 20% of all residential-zoned land. This is significantly higher than in comparable cities.
-2. HDs tend to overlap more with "residential flat" zones (think rowhouses), because rowhouse areas are more likely to be in older parts of the District. Conversely, outside of HDs, there's both suburban zone and apartment zone area.
+2. HDs tend to overlap more with "residential flat" (RF) zones (think rowhouses), because rowhouse areas are more likely to be in older parts of the District. Conversely, outside of HDs, there's both suburban zone and apartment zone area.
 3. There is some heterogeneity among historic districts, but in general, DC's HDs are significantly wealthier and whiter than the rest of the District. HDs are 59% residents that identify as "white alone" compared to 37% of DC as a whole. The median household income in HDs is almost \$27,000 higher than non-HD parts of DC. That said, moderate-income renters, making less than \$75,000/year, are 10 percentage points more likely to be rent burdened in HDs than moderate-income renters outside of HDs.
 4. After HD designation, HDs tended to become whiter and less dense, relative to non-HD areas nearby. The difference is approximately 9 people per acre. If HDs's population density had grown apace with similar nearby areas, 27,404 more people might be living in HDs now. That is roughly the number of people that live within a mile of the Van Ness Metro station.
 5. There's a pattern in which some HDs, especially in Northwest, don't seem to have many new affordable housing projects (or new housing construction in general) relative to areas outside HDs. Overall, HDs have half the affordable housing projects you would expect, based on their share of DC's land area. (Some HDs have been building more new housing, at least in certain areas; Takoma is one example).
@@ -208,10 +203,12 @@ library(gtools)
 library(ggdark)            # dark plotting theme
 library(tm)                # text mining package
 library(SnowballC)         # word stemming algo package
+library(here)
 
 # Getting the path of your current open file
-# current_path = rstudioapi::getActiveDocumentContext()$path 
+# current_path = rstudioapi::getActiveDocumentContext()$path
 # setwd(dirname(current_path))
+setwd(here::here())
 # load functions we've written to help with the analysis below
 # (we've stored those in a separate file to make the code easier to read)
 source("supporting_functions.R")
@@ -600,16 +597,16 @@ While the average end date has been roughly constant over time (mostly ending in
   ggplot(hd_shp %>% 
          mutate(sig_year_mean = (sig_year_begin + sig_year_end) / 2,
                 name_short = substr(LABEL, 1, 8))) +
-  geom_text(aes(label=name_short, x=desig_date, y=1780), 
-            # size=5,
-            angle=45, position=position_jitter(width = 0, height = 15)) +
+  # geom_text(aes(label=name_short, x=desig_date, y=1780), 
+  #           # size=5,
+  #           angle=45, position=position_jitter(width = 0, height = 15)) +
   geom_segment(
     aes(
       x=jitter(desig_date, 5), 
       # xend=jitter(desig_date, .5), 
       y=sig_year_begin, yend=sig_year_end
       ), 
-    alpha=.6, linewidth=2) +
+    alpha=.6, linewidth=2, color='white') +
   ggdark::dark_theme_gray() + 
   geom_smooth(method = "loess", se = F, aes(x=desig_date, y=sig_year_begin)) +
   geom_smooth(method = "loess", se = F, aes(x=desig_date, y=sig_year_end)) +
@@ -665,7 +662,7 @@ invisible(gc())
 
 <br><br><br>
 
-The graphs below show how much of the land area currently covered in residential and MU zones in 2025 has been covered by HDs over time, as new HDs were created. Again, expansions of existing HDs are not depicted.
+The graphs below show how much of the land area currently covered in residential and mixed use (MU) zones in 2025 has been covered by HDs over time, as new HDs were created. Again, expansions of existing HDs are not depicted.
 
 ```{r hd_growth_charts, eval=EVALUATE_ADDITIONAL_CHUNKS}
 # get each zone's acreage:
@@ -930,7 +927,8 @@ In the 2023 data, there are more pre-war houses in HDs. There is also fewer new 
 hd_color = "#F8766D"
 nohd_color = "#619CFF"
 
-ggplot(bg_23_shp, aes(x=median_year_str_built_, fill=forcats::fct_rev(as.factor(bg_23_shp$in_hd)))) +
+ggplot(bg_23_shp, 
+       aes(x=median_year_str_built_, fill=forcats::fct_rev(as.factor(bg_23_shp$in_hd)))) +
   geom_density(alpha=.5, aes(weights=tot_housing_units_/sum(tot_housing_units_, na.rm=T))) +
   ggtitle("Median year structure built, in historic and non-historic block groups:\nMore pre-war housing in HDs, fewer new homes") +
   ylab("Frequency") +
@@ -1672,9 +1670,13 @@ bg_23_summary <- summarize_bg_data(bg_23_shp, c("LABEL")) %>% mutate(year = 2023
 ###### Demographics
 
 ```{r, fig.height=12, eval=EVALUATE_ADDITIONAL_CHUNKS}
-ggplot(bg_23_summary %>% group_by(LABEL) %>% mutate(pw = max(value[variable=="pct_white"])) %>% ungroup() %>% 
+temp <-
+  bg_23_summary %>% group_by(LABEL) %>% mutate(pw = max(value[variable=="pct_white"])) %>% 
+         ungroup() %>% 
          filter((variable %in% c("pct_white", "pct_black", "pct_hispa", "pct_other"))) %>%
-         mutate(LABEL = ifelse(LABEL == "outside HD", "★ outside HD", LABEL)), 
+  mutate(LABEL = ifelse(LABEL=="outside HD", "🚩 Outside HD", LABEL)) %>% 
+  mutate(LABEL = ifelse(LABEL=="Entire District", "🚩 Entire District", LABEL))
+ggplot(temp, 
        aes(x=forcats::fct_reorder(LABEL, pw), 
            y=value*100, 
            fill=as.factor(variable))) +
@@ -1684,15 +1686,20 @@ ggplot(bg_23_summary %>% group_by(LABEL) %>% mutate(pw = max(value[variable=="pc
   labs(x="", y="Percent") +
   coord_flip() +
   ggdark::dark_theme_gray(base_size = 10) +
-  theme(legend.position = "top", legend.title = element_blank()) +
+  theme(legend.position = "top", 
+        legend.title = element_blank()
+        ) +
   ggtitle("All but 3 of DC's historic districts are whiter than the District as a whole")
 ```
 
 ###### Household income
 
 ```{r, fig.height=12, eval=EVALUATE_ADDITIONAL_CHUNKS}
-ggplot(bg_23_summary %>% group_by(LABEL) %>% filter(variable=="median_hhinc") %>%
-         mutate(LABEL = ifelse(LABEL == "outside HD", "★ outside HD", LABEL)), 
+temp <-
+  bg_23_summary %>% group_by(LABEL) %>% filter(variable=="median_hhinc") %>%
+  mutate(LABEL = ifelse(LABEL=="outside HD", "🚩 Outside HD", LABEL)) %>% 
+  mutate(LABEL = ifelse(LABEL=="Entire District", "🚩 Entire District", LABEL))
+ggplot(temp, 
        aes(x=forcats::fct_reorder(LABEL, value), y=value)
        ) +
   geom_bar(stat="identity") +
@@ -2186,7 +2193,7 @@ leaflet() %>%
               weight = 1,
               opacity = 1,
               color = "white",
-              label=~paste0(LABEL, ": ", round(pct_change_hu, 0), "%"),
+              label=~paste0(LABEL, ": ", round(pct_change_hu, 0), "% (", raw_change_hu, " units)"),
               highlightOptions = highlightOptions(weight = 3,
                                                   color = "white",
                                                   bringToFront = FALSE
@@ -3083,8 +3090,8 @@ leaflet() %>%
               fillOpacity = ~ifelse(is.na(pct_nonwhite), 0, 0.8),
               label=~paste0(round(pct_nonwhite*100, 0), "% non-white residents in 1940"),
               group="% non-white in 1940") %>%
-  addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade", 
-                      label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
+  # addLabelOnlyMarkers(lng = fha_centriods$lon, lat = fha_centriods$lat, group = "FHA grade", 
+  #                     label = fha_centriods$fha_grade, labelOptions = c(permanent=T)) %>%
   addPolygons(data=dc_dcs_shp %>% st_transform(4326), 
               fillColor = "#F4B942",
               color = "#F4B942",
@@ -3093,12 +3100,11 @@ leaflet() %>%
               group="Approx. areas w/ discriminatory covenants") %>%
   addRasterImage(fha_raster, opacity = 0.7, group="FHA map") %>% # Add raster with desired opacity
   addLayersControl(
-    overlayGroups = c("Today's detached house zones 'R-1x'", "Approx. areas w/ discriminatory covenants", "% non-white in 1940","FHA grades from the 30s", "FHA grade", "FHA map"),
+    overlayGroups = c("Today's detached house zones 'R-1x'", "Approx. areas w/ discriminatory covenants", "% non-white in 1940","FHA grades from the 30s", "FHA map"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Approx. areas w/ discriminatory covenants") %>%
-  hideGroup("Today's detached house zones 'R-1x'") %>%
-  hideGroup("FHA grade")
+  hideGroup("Today's detached house zones 'R-1x'") 
 ```
 
 
