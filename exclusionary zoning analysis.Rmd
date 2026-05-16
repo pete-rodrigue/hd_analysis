@@ -1260,7 +1260,7 @@ fig <- plot_ly(
 ) %>%
   layout(
     title = list(
-      text = 'Former "whites only" areas now disproportionately given large lot zoning',
+      text = 'Former "whites only" areas now given large lot zoning',
       y = 0.98  # Position title lower to prevent cutoff
     ),
     font = list(size = 14),
