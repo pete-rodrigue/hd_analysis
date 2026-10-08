@@ -206,9 +206,9 @@ library(SnowballC)         # word stemming algo package
 library(here)
 
 # Getting the path of your current open file
-# current_path = rstudioapi::getActiveDocumentContext()$path
-# setwd(dirname(current_path))
-setwd(here::here())
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
+# setwd(here::here())
 # load functions we've written to help with the analysis below
 # (we've stored those in a separate file to make the code easier to read)
 source("supporting_functions.R")
@@ -516,7 +516,7 @@ The map below shows different HDs and when they were created. Hover over each di
 pal <- colorNumeric(palette = "viridis", domain = hd_shp$desig_decade)
 
 leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(data=hd_shp %>% st_transform(4326),
               fillColor = ~pal(hd_shp$desig_decade), 
               fillOpacity = 0.9,
@@ -630,7 +630,7 @@ The map below shows the HDs with a simplified zoning map overlaid. Click the che
 factpal <- colorFactor(palette = "Set1", domain = zone_shp$ZR16_simple)
 
 leaflet(zone_shp %>% st_transform(4326)) %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group="ZR16 zones",
               fillColor = ~factpal(ZR16_simple), # Apply the color function
               fillOpacity = 0.7,
@@ -701,7 +701,7 @@ plot1 <-
   geom_bar(stat = "identity") + #, fill="#0f9535") +
   geom_text(aes(label = round(`Area covered by Historic Districts, in Acres`, 0), vjust = -1.7)) +
   scale_y_continuous(limits = c(0, 4700)) +
-  ylab("Acres") +
+  ylab("Acres") + xlab("") +
   theme_minimal() +
   ggtitle('Acres covered by neighborhood\nhistoric districts increasing') +
   list(
@@ -719,7 +719,7 @@ plot2 <-
   geom_text(aes(label = paste0(`Percent of 2016 residential zone covered by Neighborhood HD`, "%")), vjust = -1.7) +
   scale_y_continuous(limits = c(0, 20)) +
   theme_minimal() +
-  ylab("Percent") +
+  ylab("Percent") + xlab("") +
   ggtitle('And the % of residential area covered\nby HDs has more than doubled since 1980') +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray() else NULL
@@ -875,7 +875,7 @@ Now we'll use block group data from the 2006-2010 5-year American Community Surv
 # plot 2023, just to look at:
 factpal <- colorFactor(palette = "Set1", domain = bg_23_shp$LABEL)
 leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group="2023 BGs",
               data=bg_23_shp %>% st_transform(4326),
               fillColor = ~factpal(LABEL), 
@@ -1170,7 +1170,18 @@ lm_res$coefficients[2] / mean(home_val$PRICE, na.rm=T)
 plot(mod)
 ```
 
-###### Population density 
+###### Population density
+
+```{r}
+to_plot_pop_dens %>%
+  sf::st_drop_geometry() %>%
+  distinct(GISJOIN, LABEL, tot_pop_) %>%
+  mutate(tot_tot_pop = sum(tot_pop_,na.rm=T)) %>%
+  select(-GISJOIN) %>%
+  group_by(LABEL) %>%
+  summarise(tot_pop = sum(tot_pop_, na.rm=T) / tot_tot_pop) %>%
+  distinct()
+```
 
 ```{r}
 to_plot_pop_dens <-
@@ -1309,20 +1320,35 @@ ggplot(bg_23_shp,
 ###### Home-ownership & vacancy rates
 
 ```{r}
-# occupancy/vacancy data from IPUMS NHGIS from the 5-year 2015-2019 ACS at the block group level
-vac_shp <- 
-  sf::read_sf("vacancy_data/nhgis0098_shape/nhgis0098_shapefile_tl2019_110_blck_grp_2019/DC_blck_grp_2019.shp", 
-              quiet=T) %>%
-  sf::st_transform(sf::st_crs(hd_shp)) %>%
-  dplyr::left_join(y = readr::read_csv("vacancy_data/nhgis0099_csv/nhgis0099_ds244_20195_blck_grp.csv", show_col_types = F), 
-                   by = "GISJOIN") %>%
-  mutate(n_tot = ALZKE001,
-         n_occ = ALZKE002,
-         n_vac = ALZKE003,
-         n_own = AL1LE001,
-         p_own = AL1LE001 / ALZKE001,
-         p_vac = ALZKE003 / ALZKE001) %>%
-  select(GISJOIN, p_vac, p_own, starts_with("n_"))
+# occupancy/vacancy data from IPUMS NHGIS from the 5-year 2020-2024 ACS at the block group level
+library(tidycensus)
+options(tigris_use_cache = TRUE)
+source("api_keys.R")
+
+vac_shp <- get_acs(
+  geography = "block group",
+  state     = "DC",
+  variables = c(n_tot = "B25002_001",   # total housing units
+                n_occ = "B25002_002",   # occupied
+                n_vac = "B25002_003",   # vacant
+                n_own = "B25003_002"),  # owner-occupied
+  year      = 2024,
+  survey    = "acs5",
+  geometry  = TRUE,
+  output    = "wide"
+) %>%
+  st_transform(st_crs(hd_shp)) %>%
+  transmute(
+    GEOID,
+    n_tot = n_totE,
+    n_occ = n_occE,
+    n_vac = n_vacE,
+    n_own = n_ownE,
+    p_own = n_ownE / n_totE,
+    p_vac = n_vacE / n_totE
+  ) %>%
+  select(GEOID, p_vac, p_own, starts_with("n_")) %>%
+  mutate(GISJOIN=GEOID)
 
 vac_shp <- 
   vac_shp %>% 
@@ -1341,6 +1367,41 @@ vac_shp <-
           join = st_intersects, 
           left = T, 
           largest = T)
+
+#________________________________________________________
+
+# occupancy/vacancy data from IPUMS NHGIS from the 5-year 2015-2019 ACS at the block group level
+# vac_shp <- 
+#   sf::read_sf("vacancy_data/nhgis0098_shape/nhgis0098_shapefile_tl2019_110_blck_grp_2019/DC_blck_grp_2019.shp", 
+#               quiet=T) %>%
+#   sf::st_transform(sf::st_crs(hd_shp)) %>%
+#   dplyr::left_join(y = readr::read_csv("vacancy_data/nhgis0099_csv/nhgis0099_ds244_20195_blck_grp.csv", show_col_types = F), 
+#                    by = "GISJOIN") %>%
+#   mutate(n_tot = ALZKE001,
+#          n_occ = ALZKE002,
+#          n_vac = ALZKE003,
+#          n_own = AL1LE001,
+#          p_own = AL1LE001 / ALZKE001,
+#          p_vac = ALZKE003 / ALZKE001) %>%
+#   select(GISJOIN, p_vac, p_own, starts_with("n_"))
+# 
+# vac_shp <- 
+#   vac_shp %>% 
+#   dplyr::left_join(y = get_geos_in_shp(shp = vac_shp, 
+#                                        min_pct = .5, 
+#                                        parent_shp = hd_shp, 
+#                                        geo_id = "GISJOIN", 
+#                                        parent_id = "LABEL"), 
+#                    by = "GISJOIN") %>%
+#   mutate(LABEL = ifelse(is.na(LABEL), "outside HD", LABEL),
+#          in_hd = ifelse(LABEL=="outside HD", 0, 1))
+# 
+# vac_shp <-
+#   vac_shp %>% 
+#   st_join(y = ward_shp %>% select(WARD), 
+#           join = st_intersects, 
+#           left = T, 
+#           largest = T)
 ```
 
 
@@ -1355,14 +1416,14 @@ ggplot(vac_shp) + geom_density(aes(x=p_own, fill=as.factor(in_hd)), alpha=.4) +
   scale_x_continuous(labels = scales::percent) +
   labs(fill="") + scale_fill_discrete(labels = c("In HD\n(Mean ownership rate: 40%)", "Outside HD\n(Mean ownership rate: 37%)")) +
   theme(legend.position = "bottom") +
-  labs(caption = "Data from the 2015-2019 5-year ACS, calculated at the block group level.") +
+  labs(caption = "Data from the 2020-2024 5-year ACS, calculated at the block group level.") +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray() else NULL
   )
 ```
 
 
-Between 2015 and 2019, the housing vacancy rate in HDs was about 1 percentage point lower in HDs: 9% vs 10%. 
+Between 2020 and 2024, the housing vacancy rate in HDs was lower. 
 
 ```{r vacancy_rates}
 ggplot(vac_shp) + geom_density(aes(x=p_vac, fill=as.factor(in_hd)), alpha=.4) +
@@ -1370,9 +1431,9 @@ ggplot(vac_shp) + geom_density(aes(x=p_vac, fill=as.factor(in_hd)), alpha=.4) +
   geom_vline(mapping=aes(xintercept = weighted.mean(vac_shp$p_vac[vac_shp$in_hd==1], na.rm=T, w = vac_shp$n_tot[vac_shp$in_hd==1] )), color="hotpink") +
   geom_vline(mapping=aes(xintercept = weighted.mean(vac_shp$p_vac[vac_shp$in_hd==0], na.rm=T, w = vac_shp$n_tot[vac_shp$in_hd==0] )), color="skyblue") +
   scale_x_continuous(labels = scales::percent) +
-  labs(fill="") + scale_fill_discrete(labels = c("In HD\n(Mean vac. rate: 8.8%)", "Outside HD\n(Mean vac. rate: 10%)")) +
+  labs(fill="") + scale_fill_discrete(labels = c("In HD", "Outside HD")) +
   theme(legend.position = "bottom") +
-  labs(caption = "Data from the 2015-2019 5-year ACS, calculated at the block group level.\nNB: these figures may be a little different from vacancy rates you see elsewhere, using different data sets.") +
+  labs(caption = "Data from the 2020-2024 5-year ACS, calculated at the block group level.\nNB: these figures may be a little different from vacancy rates you see elsewhere, using different data sets.") +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray() else NULL
   )
@@ -1389,12 +1450,19 @@ When we do this, we find that:
 
 ```{r}
 # uncomment to show mean vacancy rates inside and outside of HDs
+vac_shp %>%
+  sf::st_drop_geometry(.) %>%
+  group_by(in_hd) %>%
+  summarise(p_vac = round(sum(n_vac, na.rm=T) / sum(n_tot, na.rm=T)*100,1),
+            p_own = round(sum(n_own, na.rm=T) / sum(n_tot, na.rm=T)*100,1) )
+
 to_plot <- 
   vac_shp %>%
   sf::st_drop_geometry(.) %>%
   group_by(WARD, in_hd) %>%
   summarise(p_vac = round(sum(n_vac, na.rm=T) / sum(n_tot, na.rm=T)*100,1),
             p_own = round(sum(n_own, na.rm=T) / sum(n_tot, na.rm=T)*100,1) ) 
+  
 p1 <-
   to_plot %>%
   ggplot(aes(fill=forcats::fct_rev(as.factor(in_hd)), y=p_vac, x=as.factor(WARD))) +
@@ -1427,7 +1495,7 @@ pal <- colorNumeric(palette = "viridis", domain = vac_shp$p_vac)
 pal_bin <- colorBin(palette = "YlGn", domain = vac_shp$p_vac, bins = 4)
 
 leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group="block groups in HDs",
               data=vac_shp %>% filter(LABEL != "outside HD") %>% st_transform(4326),
               fillColor = ~pal_bin(p_vac), 
@@ -1570,7 +1638,7 @@ pct_pal_2 <- colorFactor(palette = "RdYlGn",
                         domain = to_plot$pct_lt75k_b_quant, na.color = "#FFFFFF00")
 
 leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron, group='Carto') %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas, group='Carto') %>%
   addPolygons(group='% rent burdened',
               data=to_plot %>% st_transform(4326),
               fillColor = ~pct_pal(pct_rent_30_quant), # Apply the color function
@@ -1881,7 +1949,7 @@ ah$STATUS_PUB <- as.factor(ah$Classification)
 factpal <- colorFactor(palette = "Set1", domain = ah$Classification)
 
 leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group= "HDs",
               data=hd_shp %>% st_transform(4326),
               fillColor = "hotpink", 
@@ -2250,7 +2318,7 @@ hd_temp <- dplyr::left_join(hd_shp, to_plot_detail %>% filter(year==2020), by="L
 pal <- colorNumeric(palette = "Spectral", reverse = F, domain = hd_temp$pct_change_hu[!(hd_temp$LABEL %in% areas_to_omit)])
 
 leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(data=hd_temp %>% filter(!(LABEL %in% areas_to_omit)) %>% st_transform(4326),
               fillColor = ~pal(pct_change_hu), 
               fillOpacity = 0.9,
@@ -2478,7 +2546,7 @@ res800 <- do_buffer_analysis(buffer_size = 800,
 ```{r plot_buffers}
 p <-
   leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group= "blocks outside of HDs (800m buffer)",
               data=geos_shp[(geos_shp$geo_id %in% res800$nohd_blocks$geo_id) & 
                               (geos_shp$geo_id %in% res800$buffer_ts$geo_id) & 
@@ -3086,7 +3154,7 @@ dc_dcs_shp <-
 
 
 leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(data=hd_shp %>% st_transform(4326),
               group = "Historic Districts",
               fillColor = "hotpink",
@@ -3146,7 +3214,7 @@ fha_pal <- colorFactor(palette = "RdYlGn", domain = fha_shp$fha_grade, reverse =
 race_pal <- colorNumeric(palette = "YlOrBr", domain = race_shp$pct_nonwhite)
 
 leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(data=filter(zone_shp, ZR16 %in% grep(pattern = "R-1", x = sort(unique(zone_shp$ZR16)), value=T)) %>% st_transform(4326), 
               fillColor = "#9ffcb1",
               fillOpacity = 1,
@@ -3245,6 +3313,7 @@ The areas with lackluster adoption rates represent a missed opportunity--both fo
 solar <- readr::read_csv(file = "building_permits/solar_all_years_geocoded.csv", show_col_types = F)
 solar <-
   solar %>%
+  filter(`Geocodio Accuracy Score` > .9) %>% # filter out a small # of permits with low geocodio accuracy
   group_by(FULL_ADDRESS) %>%
   mutate(row_index = row_number()) %>%
   filter(row_index == 1) %>%
@@ -3269,8 +3338,8 @@ ggplot(data = solar_timeseries %>% group_by(year) %>% summarise(n_permits=sum(n_
   ylab("Number of solar permits") +
   xlab("") +
   theme_minimal() +
-  ggtitle('Overall solar adoption is increasing in DC') +
-  ggdark::dark_theme_gray() 
+  ggtitle('Overall solar adoption is increasing in DC') #+
+  # ggdark::dark_theme_gray() 
 
 
 solar_timeseries %>%
@@ -3316,8 +3385,8 @@ ggplot(data = to_plot,
     labels = c("Outside HDs", "In HDs"),
     breaks=levels(as.factor(to_plot$in_hd))
     ) + 
-  scale_y_continuous(labels = scales::percent) +
-  ggdark::dark_theme_gray() 
+  scale_y_continuous(labels = scales::percent) #+
+  # ggdark::dark_theme_gray() 
 
 
 
@@ -3340,6 +3409,233 @@ ggplot(to_plot,
   ) + 
   ggdark::dark_theme_gray()
 ```  
+
+```{r}
+# analysis accounting for rooftop solar potential
+
+# =============================================================================
+# Solar adoption inside vs. outside DC historic districts
+# Cross-sectional design: outcome = building has EVER had >= 1 solar permit
+# (all permits in the dataset, through its last year). No time dimension.
+#
+# Inputs assumed in the environment / on disk:
+#   bf        sf POLYGON  building footprints
+#   permits   sf POINT    geocoded solar permits
+#   zone_shp  sf POLYGON  zoning
+#   historic district shapefile at hd_path
+# =============================================================================
+
+library(purrr)
+library(forcats)
+library(httr2)
+library(fixest)
+library(tigris)
+library(marginaleffects)
+
+options(tigris_use_cache = TRUE)
+`%||%` <- function(a, b) if (is.null(a)) b else a
+
+# ---- Settings ---------------------------------------------------------------
+crs_dc     <- 26985                        # NAD83 / Maryland state plane (m)
+zone_col   <- "ZONING"                     # <-- zone-code column in zone_shp
+hd_path    <- "historic_districts.shp"     # <-- historic district shapefile
+api_key    <- Sys.getenv("GOOGLE_SOLAR_KEY")
+budget     <- 9500                         # max Solar API calls to spend
+min_fp     <- 30                           # m^2; drops alley garages/sheds
+match_tol  <- 15                           # m; permit point -> footprint
+bandwidth  <- 250                          # m; boundary-design window
+set.seed(20260923)
+
+# ---- 1. Footprints ----------------------------------------------------------
+# bf_solar <- bf |>
+#   st_transform(crs_dc) |>
+#   st_make_valid() |>
+#   mutate(bldg_id = row_number(),
+#          fp_m2   = as.numeric(st_area(geometry))) |>
+#   filter(fp_m2 >= min_fp)
+# 
+# pts <- st_point_on_surface(bf_solar) |> select(bldg_id)
+# 
+# # ---- 2. Historic districts --------------------------------------------------
+# hd_solar <- hd_shp |>
+#   st_transform(crs_dc) |>
+#   st_make_valid() |>
+#   mutate(hd_id = row_number())
+# hd_solar_union <- st_union(hd_solar)
+# 
+# bf_solar$historic <- as.integer(lengths(st_intersects(pts, hd_solar_union)) > 0)
+# bf_solar$near_hd  <- hd_solar$hd_id[st_nearest_feature(pts, hd_solar)]   # containing district if inside
+# dist_edge   <- as.numeric(st_distance(pts, st_boundary(hd_solar_union)))
+# bf_solar$dist_bound <- ifelse(bf_solar$historic == 1, dist_edge, -dist_edge)
+# 
+# # ---- 3. Zoning --------------------------------------------------------------
+# zone_shp_solar <- zone_shp |> st_transform(crs_dc) |> st_make_valid()
+# 
+# zone_shp_solar$ZR16_stub <- sub("/.*", "", zone_shp_solar$ZR16)
+# 
+# zj <- st_join(pts, zone_shp_solar |> select(zone = all_of("ZR16_stub")),
+#               join = st_intersects, left = TRUE) |>
+#   st_drop_geometry() |>
+#   distinct(bldg_id, .keep_all = TRUE)
+# 
+# bf_solar <- bf_solar |>
+#   left_join(zj, by = "bldg_id") |>
+#   mutate(zone     = coalesce(as.character(zone), "UNZONED"),
+#          zone_fam = sub("-.*$", "", toupper(zone)),        # R-3 -> R, RF-1 -> RF
+#          zone_fam = fct_lump_min(zone_fam, min = 200, other_level = "OTHER"))
+# 
+# # ---- 4. Census tracts -------------------------------------------------------
+# tr <- tracts(state = "DC", year = 2020, cb = TRUE) |>
+#   st_transform(crs_dc) |>
+#   select(GEOID)
+# bf_solar$tract <- tr$GEOID[st_nearest_feature(pts, tr)]
+# 
+# # ---- 5. Permits -> buildings -> ever adopted --------------------------------
+# solar_shp_trans <- solar_shp |> st_transform(crs_dc)
+# 
+# nn <- st_nearest_feature(solar_shp_trans, bf_solar)
+# dd <- as.numeric(st_distance(solar_shp_trans, bf_solar[nn, ], by_element = TRUE))
+# solar_shp_trans$bldg_id <- if_else(dd <= match_tol, bf_solar$bldg_id[nn], NA_integer_)
+# message("Permits not matched to a footprint: ", sum(is.na(solar_shp_trans$bldg_id)),
+#         " of ", nrow(solar_shp_trans))
+# 
+# permit_counts <- solar_shp_trans |>
+#   st_drop_geometry() |>
+#   filter(!is.na(bldg_id)) |>
+#   count(bldg_id, name = "n_permits")
+# 
+# bf_solar <- bf_solar |>
+#   left_join(permit_counts, by = "bldg_id") |>
+#   mutate(n_permits = coalesce(n_permits, 0L),
+#          adopted   = as.integer(n_permits > 0))
+# 
+# # Overlap check: is there within-zone variation in historic status?
+# print(with(st_drop_geometry(bf_solar), table(zone_fam, historic)))
+# print(with(st_drop_geometry(bf_solar), round(tapply(adopted, historic, mean), 4)))
+# 
+# # ---- 6. Case-control sample within API budget -------------------------------
+# cases <- filter(bf_solar, adopted == 1)
+# ctrls <- filter(bf_solar, adopted == 0)
+# n_case_s <- min(nrow(cases), floor(budget / 2))
+# n_ctrl_s <- min(nrow(ctrls), budget - n_case_s)
+# 
+# samp <- bind_rows(
+#   slice_sample(cases, n = n_case_s) |> mutate(w = nrow(cases) / n_case_s),
+#   slice_sample(ctrls, n = n_ctrl_s) |> mutate(w = nrow(ctrls) / n_ctrl_s)
+# )
+# 
+# # ---- 7. Google Solar API: buildingInsights ----------------------------------
+# get_bi <- function(lat, lng) {
+#   Sys.sleep(0.12)                                   # ~500/min, under 600/min cap
+#   resp <- request("https://solar.googleapis.com/v1/buildingInsights:findClosest") |>
+#     req_url_query(`location.latitude`  = lat,
+#                   `location.longitude` = lng,
+#                   requiredQuality      = "LOW",
+#                   key                  = "YOUR GOOGLE CLOUD API KEY GOES HERE") |>
+#     req_retry(max_tries = 3) |>
+#     req_error(is_error = function(r) FALSE) |>
+#     req_perform()
+# 
+#   if (resp_status(resp) != 200) return(tibble(status = resp_status(resp)))
+# 
+#   j   <- resp_body_json(resp)
+#   sp  <- j$solarPotential %||% list()
+#   cfg <- sp$solarPanelConfigs %||% list()
+# 
+#   tibble(
+#     status       = 200L,
+#     imagery_q    = j$imageryQuality %||% NA_character_,
+#     g_lat        = j$center$latitude %||% NA_real_,
+#     g_lng        = j$center$longitude %||% NA_real_,
+#     max_panels   = sp$maxArrayPanelsCount %||% NA_real_,
+#     max_array_m2 = sp$maxArrayAreaMeters2 %||% NA_real_,
+#     max_sun_hrs  = sp$maxSunshineHoursPerYear %||% NA_real_,
+#     roof_m2      = sp$wholeRoofStats$areaMeters2 %||% NA_real_,
+#     max_kwh      = if (length(cfg)) cfg[[length(cfg)]]$yearlyEnergyDcKwh %||% NA_real_
+#                    else NA_real_
+#   )
+# }
+# 
+# q_xy <- st_point_on_surface(samp) |> st_transform(4326) |> st_coordinates()
+# 
+# bi <- map2(q_xy[, "Y"], q_xy[, "X"],
+#            possibly(get_bi, otherwise = tibble(status = -1L)),
+#            .progress = TRUE) |>
+#   list_rbind()
+# 
+# samp_final <- st_sf(bind_cols(st_drop_geometry(samp), bi), geometry = st_geometry(samp))
+# saveRDS(samp_final, "building_permits/samp_solar.rds") 
+
+samp_final <- 
+# print(table(samp_final$status, useNA = "ifany"))
+
+# Confirm Google returned the same building we queried
+has_g <- !is.na(samp_final$g_lat)
+g_pt  <- st_as_sf(st_drop_geometry(samp_final)[has_g, c("g_lng", "g_lat")],
+                  coords = c("g_lng", "g_lat"), crs = 4326) |>
+  st_transform(crs_dc)
+samp_final$g_dist <- NA_real_
+samp_final$g_dist[has_g] <- as.numeric(st_distance(g_pt, samp_final[has_g, ], by_element = TRUE))
+samp_final$g_match <- as.integer(!is.na(samp_final$g_dist) & samp_final$g_dist <= 5)
+print(with(st_drop_geometry(samp_final), table(g_match, adopted)))   # watch for differential loss
+
+# ---- 8. Model data ----------------------------------------------------------
+d <- samp_final |>
+  st_drop_geometry() |>
+  filter(g_match == 1) |>
+  mutate(max_kwh      = coalesce(max_kwh, 0),
+         no_potential = as.integer(max_kwh == 0),
+         log_kwh      = log1p(max_kwh),
+         sun_hrs      = coalesce(max_sun_hrs, median(max_sun_hrs, na.rm = TRUE)),
+         sun_std      = as.numeric(scale(sun_hrs)),
+         log_fp       = log(fp_m2))
+
+# ---- 9. Models --------------------------------------------------------------
+# m1: raw gap
+m1 <- feglm(adopted ~ historic,
+            family = binomial, data = d, weights = ~w, cluster = ~tract)
+
+# m2: + solar potential and footprint size
+m2 <- feglm(adopted ~ historic + log_kwh + sun_std + no_potential + log_fp,
+            family = binomial, data = d, weights = ~w, cluster = ~tract)
+
+# m3: + tract and zone fixed effects (main specification)
+m3 <- feglm(adopted ~ historic + log_kwh + sun_std + no_potential + log_fp | tract + zone,
+            family = binomial, data = d, weights = ~w, cluster = ~tract)
+
+# m4: m3 restricted to low-density residential zones (R, RF)
+m4 <- feglm(adopted ~ historic + log_kwh + sun_std + no_potential + log_fp | tract + zone,
+            family = binomial, data = filter(d, zone_fam %in% c("R", "RF")),
+            weights = ~w, cluster = ~tract)
+
+# m5: boundary design -- buildings near a district edge, same district x zone family
+m5 <- feglm(adopted ~ historic * dist_bound + log_kwh + sun_std + no_potential + log_fp |
+              near_hd^zone_fam,
+            family = binomial, data = filter(d, abs(dist_bound) <= bandwidth),
+            weights = ~w, cluster = ~tract)
+
+etable(m1, m2, m3, m4, m5)
+
+
+rhs <- "log_kwh + sun_std + no_potential + log_fp"
+lpm_specs <- list(
+  raw        = list(f = adopted ~ historic, d = d),
+  potential  = list(f = as.formula(paste("adopted ~ historic +", rhs)), d = d),
+  tract_zone = list(f = as.formula(paste("adopted ~ historic +", rhs, "| zone")), d = d),
+  R_RF_only  = list(f = as.formula(paste("adopted ~ historic +", rhs, "| zone")),
+                    d = filter(d, zone_fam %in% c("R", "RF")))
+)
+
+lpm <- map(lpm_specs, \(s) feols(s$f, data = s$d, weights = ~w, cluster = ~tract))
+etable(lpm)
+
+lpm_tab <- imap(lpm, \(m, nm) {
+  ci <- confint(m)["historic", ]
+  tibble(model = nm, estimate = coef(m)[["historic"]], std.error = se(m)[["historic"]],
+         conf.low = ci[[1]], conf.high = ci[[2]], n = nobs(m))
+}) |> list_rbind()
+print(lpm_tab)
+```
 
 <br>
 
@@ -3372,7 +3668,7 @@ factpal <- colorFactor(palette = "Set1", domain = zone_shp$ZR16_simple)
 
 
 leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron, group='Carto') %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas, group='Carto') %>%
   addProviderTiles(providers$Esri.WorldImagery, group = "Satellite Imagery") %>%
   addPolygons(group='blocks',
     data=b %>% st_transform(4326),
@@ -5184,7 +5480,7 @@ Here's a visual glance at how all the blocks overlap from 1940 - 2020
 ```{r plot_all_blocks, eval=EVALUATE_ADDITIONAL_CHUNKS}
 
 p <- leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group="1940 blocks",
             data=filter(geos_shp, year==1940) %>% sf::st_transform(4326),
             fillOpacity = 0.7,
@@ -5322,7 +5618,7 @@ And here's a quick glance at the matching process, showing a sample of matched b
 
 ```{r, eval=EVALUATE_ADDITIONAL_CHUNKS}
 p <- leaflet() %>%
-   addProviderTiles(providers$CartoDB.Positron) %>%
+   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
    addPolygons(group= "HDs",
                   data=hd_shp %>% sf::st_transform(4326),
                   fillColor = "hotpink",
@@ -5396,7 +5692,7 @@ Finally, here is a closer look at a random sample of matched blocks in/near Capi
 temp_hd = "Capitol Hill"
 
 p <- leaflet() %>%
-   addProviderTiles(providers$CartoDB.Positron) %>%
+   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
    addPolygons(group= "HDs",
                   data=hd_shp %>% sf::st_transform(4326),
                   fillColor = "hotpink",

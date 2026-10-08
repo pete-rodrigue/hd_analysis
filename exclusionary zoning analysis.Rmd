@@ -178,7 +178,7 @@ dc_dcs_shp <-
 
 # uncomment to look at covenants data on a map
 # leaflet() %>%
-#   addProviderTiles(providers$CartoDB.Positron) %>%
+#   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
 #   addPolygons(data=dc_dcs_shp_detail %>% st_transform(4326),
 #               fillColor = "#F4B942",
 #               color = "#F4B942",
@@ -457,7 +457,7 @@ zone_hatched <-
 
 map_part_1 <-
   leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(data=fha_shp %>% st_transform(4326),
               fillColor = ~fha_pal(fha_grade),
               stroke=F,
