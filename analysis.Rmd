@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 # Note to the reader
 
-The material in this GitHub page was used to write a series of Greater Greater Washington pieces. While the quantitative analysis on this page is polished, some of the text and framing is still relatively rough. For both the polished stats and accompanying text, please see the GGWash posts, which were professionally reviewed and edited.
+The material in this GitHub page was used to write a series of Greater Greater Washington pieces. While the quantitative analysis on this page is polished, some of the text and framing is still relatively rough. For both the polished stats and accompanying text, please see the GGWash posts, which were professionally reviewed and edited. This webpage is more of a draft document.
 
 # Summary
 
@@ -206,12 +206,13 @@ library(SnowballC)         # word stemming algo package
 library(here)
 
 # Getting the path of your current open file
-current_path = rstudioapi::getActiveDocumentContext()$path
-setwd(dirname(current_path))
+# current_path = rstudioapi::getActiveDocumentContext()$path
+# setwd(dirname(current_path))
+setwd("C:/Users/edwar/Documents/GitHub/hd_analysis/")
 # setwd(here::here())
 # load functions we've written to help with the analysis below
 # (we've stored those in a separate file to make the code easier to read)
-source("supporting_functions.R")
+source("C:/Users/edwar/Documents/GitHub/hd_analysis/supporting_functions.R")
 
 # whether to print some messages that can help w/ debugging, etc
 VERBOSE = FALSE
@@ -770,7 +771,7 @@ other_zones_info <-
   mutate(pct = area_sq_meters / sum(area_sq_meters, na.rm=T),
          type = "Outside HD") %>%
   select(-area_sq_meters)
-invisible(gc())
+
 
 zones_plot <- dplyr::bind_rows(hd_zones_info, other_zones_info)
 zones_plot$pct <- round(as.vector(zones_plot$pct) * 100, 0)
@@ -787,8 +788,8 @@ ggplot(zones_plot, aes(x = ZR16_simple, y = pct, fill=type)) +
     position = position_dodge(0.9),
     vjust = -.05
   ) +
-  labs(title = "More zone area in Historic Districts is Residential Flat (RF), less is Residential (R)", 
-       x = "Zone type", y = "Percent", fill="") +
+  labs(title = "More zone area in historic districts is in Residential Flat (RF) zones,\nless is Residential (R) zones", 
+       x = "", y = "Percent of HD / outside HD group", fill="") +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray() else NULL
   )
@@ -918,6 +919,51 @@ leaflet() %>%
   )
 ```
 
+
+```{r map_block_groups_race, eval=EVALUATE_ADDITIONAL_CHUNKS}
+bg_23_shp$pct_white = bg_23_shp$n_white_ / bg_23_shp$tot_pop_ * 100
+numpal <- colorNumeric(
+  # palette = c("#B15B25", "#E8B391"), 
+  palette = c("black", "white"), 
+  domain = bg_23_shp$pct_white)
+leaflet(bg_23_shp) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
+  addPolygons(group="% White",
+              data=bg_23_shp %>% st_transform(4326),
+              fillColor = ~numpal(bg_23_shp$pct_white), 
+              fillOpacity = 0.7,
+              weight = 1,
+              opacity = 1,
+              color = "white",
+              label=~paste0(LABEL, ": ", GISJOIN, "; median home value: ", median_home_val_),
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        )) %>%
+  addPolygons(group= "HDs",
+              data=hd_shp %>% st_transform(4326),
+              color = "red", 
+              fillOpacity = 0,
+              weight = 3,
+              opacity = 1,
+              # color = "white",
+              label=~LABEL,
+              highlightOptions = highlightOptions(weight = 3,
+                                                  color = "white",
+                                                  bringToFront = FALSE
+        )) %>%
+  addLayersControl(
+    overlayGroups = c("% White", "HDs"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  addLegend(
+    position = "bottomright", # Options: "topright", "bottomright", "bottomleft", "topleft"
+    pal = numpal,                # Pass your colorNumeric palette function
+    values = ~bg_23_shp$pct_white,            # Pass the values used to evaluate the palette
+    title = "% White",      # The title of the legend
+    opacity = 1               # Legend box opacity
+  )
+```
 
 
 <br><br>
@@ -1172,16 +1218,6 @@ plot(mod)
 
 ###### Population density
 
-```{r}
-to_plot_pop_dens %>%
-  sf::st_drop_geometry() %>%
-  distinct(GISJOIN, LABEL, tot_pop_) %>%
-  mutate(tot_tot_pop = sum(tot_pop_,na.rm=T)) %>%
-  select(-GISJOIN) %>%
-  group_by(LABEL) %>%
-  summarise(tot_pop = sum(tot_pop_, na.rm=T) / tot_tot_pop) %>%
-  distinct()
-```
 
 ```{r}
 to_plot_pop_dens <-
@@ -1208,6 +1244,16 @@ in_hd_pop_dens <-
 
 The mean population density is higher in HDs: `r in_hd_pop_dens` people per acre, versus `r no_hd_pop_dens` outside of HDs. As discussed above, this has a lot to do with the fact that residential flat zones have more overlap with HDs, while non-HD areas have more detached (R-) zones.
   
+```{r}
+to_plot_pop_dens %>%
+  sf::st_drop_geometry() %>%
+  distinct(GISJOIN, LABEL, tot_pop_) %>%
+  mutate(tot_tot_pop = sum(tot_pop_,na.rm=T)) %>%
+  select(-GISJOIN) %>%
+  group_by(LABEL) %>%
+  summarise(tot_pop = sum(tot_pop_, na.rm=T) / tot_tot_pop) %>%
+  distinct()
+```
 
 <br>
 
@@ -1801,22 +1847,31 @@ temp <-
   mutate(LABEL = ifelse(LABEL=="outside HD", "🚩 Outside HD", LABEL)) %>% 
   mutate(LABEL = ifelse(LABEL=="Entire District", "🚩 Entire District", LABEL))
 
-ggplot(temp, 
-       aes(x=forcats::fct_reorder(LABEL, pw), 
-           y=value*100, 
-           fill=as.factor(variable))) +
-  geom_bar(stat="identity") +
-  geom_text(aes(label=round(value*100, 0)), position = position_stack(vjust = 0.5)) +
-  scale_fill_discrete(name = "Group", labels = c("Black", "Hispanic", "Other", "White")) +
-  labs(x="", y="Percent") +
+
+library(ggtext)
+
+bold_labels <- c("🚩 Entire District", "🚩 Outside HD")
+
+ggplot(temp,
+       aes(x = forcats::fct_reorder(LABEL, pw),
+           y = value * 100,
+           fill = as.factor(variable))) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = round(value * 100, 0)),
+            position = position_stack(vjust = 0.5)) +
+  scale_fill_discrete(name = "Group",
+                      labels = c("Black", "Hispanic", "Other", "White")) +
+  scale_x_discrete(labels = function(x) ifelse(x %in% bold_labels,
+                                               paste0("**", x, "**"), x)) +
+  labs(x = "", y = "Percent of Population") +
   coord_flip() +
-  theme(legend.position = "top", 
-        legend.title = element_blank()
-        ) +
   ggtitle("All but 3 of DC's historic districts are whiter than the District as a whole") +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
-  )
+  ) +
+  theme(legend.position = "top",
+        legend.title    = element_blank(),
+        axis.text.y     = ggtext::element_markdown())
 ```
 
 ###### Household income
@@ -1832,13 +1887,18 @@ ggplot(temp,
        ) +
   geom_bar(stat="identity") +
   geom_text(aes(label=format(value, digits=1, big.mark=",", scientific=F)), position = position_stack(vjust = 0.5)) +
-  labs(x="", y="Median of median block group household income in 2023") +
+  labs(x="", y="Median of median block group household income") +
+  scale_x_discrete(labels = function(x) ifelse(x %in% bold_labels,
+                                               paste0("**", x, "**"), x)) +
   coord_flip() +
   ggtitle("Most HDs have significantly richer residents than the District as a whole") +
   labs(caption = paste0("NB: This variable is top-coded at $250,000.")) +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
-  )
+  ) +
+  theme(legend.position = "top",
+        legend.title    = element_blank(),
+        axis.text.y     = ggtext::element_markdown())
 ```
 
 ###### Home values
@@ -2140,7 +2200,9 @@ ggplot(data=temp_toplot, aes(x=year, y=n_units, fill=in_hd)) +
   scale_fill_manual(labels = c("in HD", "outside HD"), values=c("#F8766D", "#00BFC4")) +
   labs(fill="", caption = "For comparison's sake, remember that HDs cover ~17% of DC's residential land area.") +
   ggtitle("Number of units and % of all units over time") +
-  ggdark::dark_theme_gray()
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 
 # temp_toplot %>%
 #   mutate(in_hd = ifelse(in_hd == "in_hd", "in HD", "outside HD")) %>%
@@ -2174,7 +2236,9 @@ to_plot_detail$change_group[to_plot_detail$LABEL %in% smallest_hu_increase_2020]
 p2 <- ggplot(data=to_plot %>% filter(year==2020), aes(x=in_hd, y=pct_change_hu)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label=round(pct_change_hu, 0)), vjust=-1) +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   labs(title = "Since 1990, housing growth outside HDs has been roughly 1/3rd higher",
        y="Percent change in the number of housing units", x="") +
   scale_x_discrete(labels = c("in HDs", "outside HDs")) +
@@ -2197,9 +2261,11 @@ to_plot_detail$change_group[to_plot_detail$LABEL %in% smallest_hu_increase_2020]
 p1 <- ggplot(data=to_plot %>% filter(year==2020), aes(x=in_hd, y=pct_change_hu)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label=round(pct_change_hu, 0)), vjust=-1) +
-  ggdark::dark_theme_gray() +
-  labs(title = "Since 2000, housing growth outside HDs has been almost twice as high",
-       y="Percent change in the number of housing units", x="") +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
+  labs(title = "Since 2000, new home construction outside HDs has been twice as high",
+       y="Percent change in the number of new homes", x="") +
   scale_x_discrete(labels = c("in HDs", "outside HDs")) +
   scale_y_continuous(limits = c(0, 32))
 ```
@@ -2237,7 +2303,7 @@ The chart below is sorted in descending order by the number of units added. The 
 ###### Excluding outside-HD blocks
 
 ```{r, fig.height=15, eval=EVALUATE_ADDITIONAL_CHUNKS}
-ggplot(data = to_plot_detail %>% 
+home_change_plt <- ggplot(data = to_plot_detail %>% 
          filter(!(LABEL %in% areas_to_omit)),
        aes(fill=forcats::fct_rev(as.factor(year)), 
            x=forcats::fct_reorder(LABEL, raw_change_hu), 
@@ -2248,16 +2314,18 @@ ggplot(data = to_plot_detail %>%
                                 floor(raw_change_hu), "\n(", 
                                 ifelse(raw_change_hu>0, "+", ""), 
                                 floor(pct_change_hu), "%)"), 
-                 x=LABEL, y=15000), fill="black", show.legend = FALSE, label.size = NA, size = 4) +
+                 x=LABEL, y=15000), fill="white", show.legend = FALSE, label.size = NA, size = 3) +
   scale_y_continuous(position = "right") +
   coord_flip() +
-  labs(title = "Some historic districts added housing units, while others lost units", x = "", y = "Number of housing units", fill="Year") +
+  labs(title = "Some historic districts added new homes, while others lost them", x = "", y = "Number of homes", fill="") +
   facet_grid(change_group ~ ., 
              switch = "y",
              scales="free_y", 
              space = "free_y"
              ) +
-  ggdark::dark_theme_gray(base_size = 10) +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   theme(legend.position = "top") #, base_size = 10)
 ```
 
@@ -2302,7 +2370,9 @@ ggplot(data = to_plot_detail %>%
              scales="free_y", 
              space = "free_y"
              ) +
-  ggdark::dark_theme_gray(base_size = 10) +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   theme(legend.position = "top") #, base_size = 10)
 
 ```
@@ -2797,7 +2867,7 @@ p1 <- ggplot(my_plt) +
     linewidth = my_lwd
     ) +
   theme(legend.position = "top") +
-  ylab("mean ppl/acre") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+  ylab("mean ppl/acre") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->  ") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, population density increased more outside of HDs") +
   ylim(c(0, max(my_plt$pop_density, na.rm=T))) +
@@ -2818,9 +2888,9 @@ p2 <- ggplot(my_plt) +
     linewidth = my_lwd
     ) +
   theme(legend.position = "none") +
-  ylab("mean % black residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+  ylab("Mean % Black residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
-  ggtitle("After designation, HDs saw relative decline in black residents") +
+  ggtitle("After designation, HDs saw relative decline in Black residents") +
   ylim(c(0, max(my_plt$pct_black*100, na.rm=T)+10)) +
   labs(caption = create_caption("pct_black", 2)) +
   theme(plot.caption = element_text(hjust = 0)) +
@@ -2840,9 +2910,9 @@ p3 <- ggplot(my_plt) +
     linewidth = my_lwd
     ) +
   theme(legend.position = "none") +
-  ylab("mean % white residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
+  ylab("Mean % White residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
-  ggtitle("After designation, HDs saw relative increase in white residents") +
+  ggtitle("After designation, HDs saw relative increase in White residents") +
   ylim(c(0, max(my_plt$pct_white*100, na.rm=T)+10)) +
   labs(caption = create_caption("pct_white", 2)) +
   theme(plot.caption = element_text(hjust = 0)) +
@@ -3271,7 +3341,9 @@ fha_shp %>%
   mutate(percent_overlap = round(total_area_intersection / total_area*100,0) ) %>%
   ggplot(data=.) +
   geom_bar(mapping = aes(x=fha_grade, y=percent_overlap), stat="identity") +
-  ggdark::dark_theme_gray(base_size = 12) +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   labs(y="% of 30s-era grade area covered in R-1 zoning today", x="30s-era FHA grade") +
   ggtitle("Wealthier, 'white areas' in the 30s-era FHA maps are disproportionately\nzoned to keep out apartments today")
 
@@ -3281,6 +3353,13 @@ rm(ah, ah_analysis, ah_pct_summary, ah_summary, bg_23_df, bg_10_df,
    bg_hd_geos_10, bg_hd_geos_23, blocks_in_hds, to_plot_detail, ut)
 rm(ah_in_hds, biggest_hu_increase_2020, land_area, land_areas, 
    observed_increase_all_hds, smallest_hu_increase_2020, temp_change, zones_list)
+```
+
+
+```{r}
+# TODO: tktktk
+# Overall demographic map
+
 ```
 
 <br><br>
@@ -3355,8 +3434,8 @@ solar_timeseries %>%
   xlab("") +
   theme_minimal() +
   ylab('Total solar permits') +
-  labs(caption = "Graph shows solar permits accross all years in both HDs and outside") +
-  ggdark::dark_theme_gray()
+  labs(caption = "Graph shows solar permits accross all years in both HDs and outside") #+
+  # ggdark::dark_theme_gray()
 ```
 
 <br>
@@ -3407,7 +3486,9 @@ ggplot(to_plot,
     labels = c("In HDs", "Outside HDs"),
     breaks=levels(as.factor(to_plot$in_hd))
   ) + 
-  ggdark::dark_theme_gray()
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 ```  
 
 ```{r}
@@ -3566,7 +3647,7 @@ set.seed(20260923)
 # samp_final <- st_sf(bind_cols(st_drop_geometry(samp), bi), geometry = st_geometry(samp))
 # saveRDS(samp_final, "building_permits/samp_solar.rds") 
 
-samp_final <- 
+samp_final <- readRDS("building_permits/samp_solar.rds")
 # print(table(samp_final$status, useNA = "ifany"))
 
 # Confirm Google returned the same building we queried
@@ -3858,7 +3939,7 @@ plot1 <-
     legend.position = "none",
   ) +
   xlab("") +
-  ylab("% of permits") +
+  ylab("") +
   scale_y_continuous(labels = scales::percent) +
   scale_color_manual(
     name = "",
@@ -3867,8 +3948,10 @@ plot1 <-
   ) +
   ggtitle("Words that are more common in permits in HDs") +
   theme_minimal() +
-  ggdark::dark_theme_gray() +
-  guides(color = guide_legend(override.aes = list(size = 5))) + # Increase point size in legend
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
+  guides(color = "none") + #guide_legend(override.aes = list(size = 5))) + # Increase point size in legend
   theme(legend.position = "bottom", legend.title = element_text(face = "bold"))
 
 plot2 <-
@@ -3895,7 +3978,9 @@ plot2 <-
   ) +
   ggtitle("Words that are more common in permits outside of HDs") +
   theme_minimal() +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   guides(color = guide_legend(override.aes = list(size = 5))) + # Increase point size in legend
   theme(legend.position = "bottom", legend.title = element_text(face = "bold"))
 
@@ -4024,7 +4109,9 @@ ggplot(my_plt,
   xlab("") +
   facet_wrap(~blg_type, scales = "free_y") +
   geom_blank(aes(y = my_plt$`Median kg CO2e per sqft`*1.2)) +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         legend.position = "top")
 ```
@@ -4084,7 +4171,9 @@ ggplot(my_plt2,
   xlab("") +
   facet_wrap(~blg_type, scales = "free_y") +
   geom_blank(aes(y = my_plt2$`Median kg CO2e per sqft`*1.2)) +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         legend.position = "top")
 ```
@@ -4392,7 +4481,9 @@ lower_ci_90 <- round(pt_est - group_effects$overall.se * 1.645, 1)
 The plot below shows the average relationship by decade before/after HD designation. Note that Georgetown is the only HD that's been around for ~50 years, so that line on the far right only represents Georgetown.
 
 ```{r}
-ggdid(group_effects, theme=F) + ggdark::dark_theme_gray()
+ggdid(group_effects, theme=F) + list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 ```
 
 * Using the dynamic estimate approach, we find that HD blocks added **`r abs(pt_est)`** fewer people per acre after the HD was created (significant at the 10% level; 90% CI: `r abs(upper_ci_90)` to `r abs(lower_ci_90)`). 
@@ -4717,7 +4808,9 @@ main_did_diagnostics(
   wt = res100$buffer_ts %>% filter(!(LABEL %in% hds_to_omit) & year != 2020) %>% pull(n_tot)
 )
 group_effects <- aggte(res100$attgt, type = "dynamic", na.rm=T)
-ggdid(group_effects, theming=F) + ggdark::dark_theme_gray()
+ggdid(group_effects, theming=F) + list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 ```
 
 
@@ -4742,7 +4835,9 @@ main_did_diagnostics(
 )
 
 group_effects <- aggte(res100$attgt, type = "dynamic", na.rm=T)
-ggdid(group_effects, theming=F) + ggdark::dark_theme_gray()
+ggdid(group_effects, theming=F) + list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 ```
 
 
@@ -4767,7 +4862,9 @@ main_did_diagnostics(
 )
 
 group_effects <- aggte(res100$attgt, type = "dynamic", na.rm=T)
-ggdid(group_effects, theming=F) + ggdark::dark_theme_gray()
+ggdid(group_effects, theming=F) + list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 ```
 
 
@@ -4848,7 +4945,9 @@ p1 <- ggplot(my_plt) +
     linewidth = my_lwd
     ) +
   theme(legend.position = "top") +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   ylab("mean ppl/acre") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, population density increased more outside of HDs") +
@@ -4867,7 +4966,9 @@ p2 <- ggplot(my_plt) +
     linewidth = my_lwd
     ) +
   theme(legend.position = "none") +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   ylab("mean % black residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, HDs saw relative decline in black residents") +
@@ -4887,7 +4988,9 @@ p3 <- ggplot(my_plt) +
     linewidth = my_lwd
     ) +
   theme(legend.position = "none") +
-  ggdark::dark_theme_gray() +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   ylab("mean % white residents") + xlab("<- dist. (m) from HD border before desig. | dist. (m) from HD border after desig. ->") +
   scale_color_manual(values=c("#F8766D", "#00BFC4"), labels=c("In HD", "Outside HD"), name="") +
   ggtitle("After designation, HDs saw relative increase in white residents") +
@@ -5280,7 +5383,9 @@ p <- ggplot(toplot, aes(x = year, y = pop_density,
        color = "HD"
        ) +
   guides(linetype = "none") + # This hides the linetype legend
-  ggdark::dark_theme_gray()
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  )
 
 ggplotly(p) %>%
    layout(title = list(text = 'Population density by year and HD'))
@@ -5805,7 +5910,9 @@ ggplot(data = block_group_change_plots, aes(x = year, y = value, color=as.factor
                  )
                  )
              ) +
-  ggdark::dark_theme_gray(base_size = 10) +
+  list(
+    if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
+  ) +
   theme(plot.caption = element_text(hjust = 0), 
         # base_size = 10,
         strip.text = element_text(size=8)) +
