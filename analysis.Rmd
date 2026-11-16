@@ -921,43 +921,60 @@ leaflet() %>%
 
 
 ```{r map_block_groups_race, eval=EVALUATE_ADDITIONAL_CHUNKS}
+# base_parks <- "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Recreation_WebMercator/MapServer"
+# get_layer <- function(id) {
+#   st_read(sprintf("%s/%d/query?where=1%%3D1&outFields=*&outSR=4326&f=geojson", base_parks, id), quiet = TRUE)
+# }
+# 
+# dc_parks  <- get_layer(9)    # "DC Parks" (DPR)        -- 252 features
+# nat_parks <- get_layer(10)   # "National Parks" (NPS)  -- 456 features
+# 
+# parks <- bind_rows(
+#   dc_parks  |> transmute(name = NAME, owner = "DC (DPR)"),
+#   nat_parks |> transmute(name = NAME, owner = "National (federal)")
+# )
+
 bg_23_shp$pct_white = bg_23_shp$n_white_ / bg_23_shp$tot_pop_ * 100
+bg_23_shp$pct_white[bg_23_shp$GISJOIN=="G11000109800001"] <- NA
 numpal <- colorNumeric(
   # palette = c("#B15B25", "#E8B391"), 
-  palette = c("black", "white"), 
+  palette =  c("#440154", "#FDE725"),#c("black", "white"), #c("#1e0f00", "#FFE0BD"), 
+  na.color = "#00000000",
   domain = bg_23_shp$pct_white)
-leaflet(bg_23_shp) %>%
-  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
+leaflet(bg_23_shp, options = leafletOptions(zoomControl = FALSE)) %>%
+  # addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolygons(group="% White",
               data=bg_23_shp %>% st_transform(4326),
               fillColor = ~numpal(bg_23_shp$pct_white), 
-              fillOpacity = 0.7,
+              fillOpacity = 0.9,
               weight = 1,
               opacity = 1,
-              color = "white",
-              label=~paste0(LABEL, ": ", GISJOIN, "; median home value: ", median_home_val_),
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-        )) %>%
+              color = "#00000000",
+              label=~paste0(LABEL, ": ", GISJOIN, "; % white: ", round(pct_white))) %>%
   addPolygons(group= "HDs",
-              data=hd_shp %>% st_transform(4326),
-              color = "red", 
+              data=hd_shp %>% st_transform(4326) %>% sf::st_geometry() %>% st_buffer(dist = .000010) %>% sf::st_union(),
+              color = "black", 
               fillOpacity = 0,
-              weight = 3,
-              opacity = 1,
-              # color = "white",
-              label=~LABEL,
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-        )) %>%
-  addLayersControl(
-    overlayGroups = c("% White", "HDs"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>%
+              weight = 2,
+              opacity = 1) %>%
+              # color = "white") %>%
+  # addPolygons(group= "Parks",
+  #             data=parks %>% st_transform(4326),
+  #             color = "#5EC962", 
+  #             fillOpacity = 1,
+  #             weight = 0,
+  #             opacity = 1,
+  #             # color = "white",
+  #             highlightOptions = highlightOptions(weight = 3,
+  #                                                 color = "white",
+  #                                                 bringToFront = FALSE
+  #       )) %>%
+  # addLayersControl(
+  #   overlayGroups = c("% White", "HDs"),
+  #   options = layersControlOptions(collapsed = FALSE)
+  # ) %>%
   addLegend(
-    position = "bottomright", # Options: "topright", "bottomright", "bottomleft", "topleft"
+    position = "bottomleft", # Options: "topright", "bottomright", "bottomleft", "topleft"
     pal = numpal,                # Pass your colorNumeric palette function
     values = ~bg_23_shp$pct_white,            # Pass the values used to evaluate the palette
     title = "% White",      # The title of the legend
@@ -1880,10 +1897,11 @@ ggplot(temp,
 temp <-
   bg_23_summary %>% group_by(LABEL) %>% filter(variable=="median_hhinc") %>%
   mutate(LABEL = ifelse(LABEL=="outside HD", "🚩 Outside HD", LABEL)) %>% 
-  mutate(LABEL = ifelse(LABEL=="Entire District", "🚩 Entire District", LABEL))
+  mutate(LABEL = ifelse(LABEL=="Entire District", "🚩 Entire District", LABEL)) %>%
+  mutate(nonhd  = ifelse(LABEL %in% c( "🚩 Entire District","🚩 Outside HD" ), 1, 0))
 
 ggplot(temp, 
-       aes(x=forcats::fct_reorder(LABEL, value), y=value)
+       aes(x=forcats::fct_reorder(LABEL, value), y=value, fill=as.factor(nonhd))
        ) +
   geom_bar(stat="identity") +
   geom_text(aes(label=format(value, digits=1, big.mark=",", scientific=F)), position = position_stack(vjust = 0.5)) +
@@ -1896,7 +1914,7 @@ ggplot(temp,
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
   ) +
-  theme(legend.position = "top",
+  theme(legend.position = "none",
         legend.title    = element_blank(),
         axis.text.y     = ggtext::element_markdown())
 ```
@@ -2261,11 +2279,15 @@ to_plot_detail$change_group[to_plot_detail$LABEL %in% smallest_hu_increase_2020]
 p1 <- ggplot(data=to_plot %>% filter(year==2020), aes(x=in_hd, y=pct_change_hu)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label=round(pct_change_hu, 0)), vjust=-1) +
+  theme_minimal() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.y = element_blank()) +
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
   ) +
   labs(title = "Since 2000, new home construction outside HDs has been twice as high",
-       y="Percent change in the number of new homes", x="") +
+       y="% change in number of new homes", x="") +
   scale_x_discrete(labels = c("in HDs", "outside HDs")) +
   scale_y_continuous(limits = c(0, 32))
 ```
@@ -3356,12 +3378,6 @@ rm(ah_in_hds, biggest_hu_increase_2020, land_area, land_areas,
 ```
 
 
-```{r}
-# TODO: tktktk
-# Overall demographic map
-
-```
-
 <br><br>
 
 ## Solar deployment
@@ -3392,7 +3408,7 @@ The areas with lackluster adoption rates represent a missed opportunity--both fo
 solar <- readr::read_csv(file = "building_permits/solar_all_years_geocoded.csv", show_col_types = F)
 solar <-
   solar %>%
-  filter(`Geocodio Accuracy Score` > .9) %>% # filter out a small # of permits with low geocodio accuracy
+  filter(`Geocodio Accuracy Score` >= .9) %>% # filter out a small # of permits with low geocodio accuracy
   group_by(FULL_ADDRESS) %>%
   mutate(row_index = row_number()) %>%
   filter(row_index == 1) %>%
@@ -3451,24 +3467,61 @@ to_plot <-
 ggplot(data = to_plot, 
        mapping = aes(x=as.numeric(year), 
                      y = permits_as_share_of_buildings,
-                     linetype = forcats::fct_rev(as.factor(in_hd))
+                     color = forcats::fct_rev(as.factor(in_hd))
        )
 ) +
   geom_line(size=1.3) + 
   ylab("Solar permits as % of total buildings") +
   xlab("") +
-  labs(linetype="") +
+  labs(color="") +
   theme_minimal() +
   ggtitle('Solar installations have taken off in DC, but less so in HDs') +
-  scale_linetype_discrete(
+  scale_color_discrete(
     labels = c("Outside HDs", "In HDs"),
     breaks=levels(as.factor(to_plot$in_hd))
     ) + 
   scale_y_continuous(labels = scales::percent) #+
   # ggdark::dark_theme_gray() 
 
+to_plot_cumul <- 
+  to_plot %>% ungroup() %>% arrange(in_hd, year) %>%
+  group_by(in_hd) %>% 
+  summarise(
+            year = year,
+            n_permits = cumsum(n_permits), 
+            n_buildings = max(n_buildings)) %>%
+  ungroup() %>%
+  mutate(permits_as_share_of_buildings = n_permits / n_buildings)
+
+ggplot(data = to_plot_cumul, 
+       mapping = aes(x=as.numeric(year), 
+                     y = permits_as_share_of_buildings,
+                     color = forcats::fct_rev(as.factor(in_hd))
+       )
+) +
+  geom_line(size=1.3) + 
+  ylab("Cumulative solar permits as % of total buildings") +
+  xlab("") +
+  labs(color="") +
+  theme_minimal() +
+  ggtitle('Cumulative solar permits inside and outside historic districts,\nas % of total buildings') +
+  scale_color_discrete(
+    labels = c("Outside HDs", "In HDs"),
+    breaks=levels(as.factor(to_plot$in_hd))
+    ) + 
+  scale_y_continuous(labels = scales::percent) 
+```
 
 
+
+
+
+
+
+
+
+
+```{r}
 to_plot <- solar_timeseries %>% 
   group_by(ZR16_simple, in_hd) %>% 
   mutate(permits_as_share_of_buildings = sum(n_permits / n_buildings, na.rm=T))
@@ -4059,7 +4112,7 @@ my_plt2 <-
 ggplot(my_plt2, 
        aes(
          x = as.factor(`building vintage`), 
-         # fill=forcats::fct_rev(as.factor(`In HD (1=yes)`)),
+         fill=as.factor(blg_type),
          y=`Median kg CO2e per sqft`
        )
        ) +
@@ -4069,7 +4122,7 @@ ggplot(my_plt2,
   geom_bar(stat="identity"#, 
            # position='dodge'
            ) +
-  ggtitle("Newer buildings tend to use less energy") +
+  ggtitle("Newer buildings in DC tend to use less energy") +
   # scale_fill_discrete(name = "", labels = c("in HD", "outside HD")) +
   xlab("") +
   facet_wrap(~blg_type, scales = "free_y") +
@@ -4077,8 +4130,9 @@ ggplot(my_plt2,
   list(
     if (DARK_STYLE) ggdark::dark_theme_gray(base_size = 10) else NULL
   ) +
+  scale_fill_manual(values = c("#06d6a0", "#118ab2", "#ef476f", "#ffd166")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-        legend.position = "top")
+        legend.position = "none")
 ```
 
 
