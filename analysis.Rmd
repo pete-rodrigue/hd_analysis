@@ -781,18 +781,34 @@ zones_plot$ZR16_simple <- factor(zones_plot$ZR16_simple,
                                             "Apartment zones",
                                             "Mixed use zones"))
 
-ggplot(zones_plot, aes(x = ZR16_simple, y = pct, fill=type)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  geom_text(
-    aes(label = pct, y = pct + 0.07),
-    position = position_dodge(0.9),
-    vjust = -.05
-  ) +
-  labs(title = "More zone area in historic districts is in Residential Flat (RF) zones,\nless is Residential (R) zones", 
-       x = "", y = "Percent of HD / outside HD group", fill="") +
-  list(
-    if (DARK_STYLE) ggdark::dark_theme_gray() else NULL
-  )
+zone_order <- c("Residential zones", "Residential flat zones", "Apartment zones", "Mixed use zones")
+zone_labs  <- c("Residential (R)", "Residential flat (RF)", "Apartment (RA)", "Mixed use (MU)")
+zone_cols  <- c("#c7e9c0", "#74c476", "#31a354", "#006d2c")
+
+base_theme <- if (DARK_STYLE) ggdark::dark_theme_minimal(base_size = 13) else theme_minimal(base_size = 13)
+
+zp <- zones_plot |>
+  mutate(ZR16_simple = factor(ZR16_simple, levels = zone_order),
+         type        = factor(type, levels = c("Outside HD", "In an HD")))   # In an HD on top
+
+stacked <- ggplot(zp, aes(x = pct, y = type, fill = ZR16_simple)) +
+  geom_col(position = position_fill(reverse = TRUE), width = 0.6, colour = "white", linewidth = 0.5) +
+  geom_text(aes(label = paste0(pct, "%"),
+                colour = if_else(ZR16_simple %in% zone_order[3:4], "white", "black")),
+            position = position_fill(vjust = 0.5, reverse = TRUE), size = 4.5, fontface = "bold") +
+  scale_fill_manual(values = setNames(zone_cols, zone_order), labels = zone_labs, name = NULL) +
+  scale_colour_identity() +
+  scale_x_continuous(labels = scales::percent, expand = c(0, 0)) +
+  labs(title = "More land in historic districts is zoned Residential Flat (RF), less is Residential (R)",
+       subtitle = "Share of zoned land area, by zone type",
+       x = NULL, y = NULL) +
+  base_theme +
+    theme(legend.position = "top", legend.justification = "left",
+        panel.grid = element_blank(), plot.title.position = "plot",
+        plot.margin = margin(t = 5.5, r = 20, b = 5.5, l = 5.5)) +
+  guides(fill = guide_legend(nrow = 1))
+
+stacked
 
 rm(hd_zones_info, other_zones_info, zones_plot)
 invisible(gc())
@@ -2601,6 +2617,135 @@ hds_to_omit <-
 invisible(gc())
 ```
 
+```{r}
+res400 <- do_buffer_analysis(buffer_size = 400,
+                   hds_to_omit = hds_to_omit, 
+                   max_years_back = 30,
+                   cvars = "LABEL",
+                   dep_var = "pop_density",
+                   return_shps = T)
+
+summarize_buffer <- function(buf_df, dist) {
+  rv <- 
+    buf_df %>%
+              group_by(LABEL, treat, post) %>%
+              summarise(pop_density = mean(pop_density, na.rm=T),
+                        pct_black   = mean(pct_black, na.rm=T),
+                        pct_white   = mean(pct_white, na.rm=T),
+                        n_tot       = sum(n_tot, na.rm=T),
+                        
+                        hd_area_acres = max(hd_area_acres, na.rm=T),
+                        shp_area       = sum(as.vector(geo_area_meters), na.rm=T)
+                        ) %>%
+              mutate(dist = ifelse(post==1, dist, -1*dist))
+  
+  return(rv)
+}
+
+
+temp_res400 <- summarize_buffer(res400$buffer_ts, 400)
+```
+
+
+```{r, fig.width=13, fig.height=8}
+# Guard: exactly one row per district x side x period
+stopifnot(nrow(count(temp_res400, LABEL, treat, post) |> filter(n > 1)) == 0)
+
+cols <- c("Just inside" = "#F8766D", "Just outside" = "#00BFC4")
+cap_base <- paste0("\"Just inside\" / \"just outside\" = within 400 meters of historic district boundary.\n",
+                   "Before / after = 20 years before designation, versus all after periods.\n",
+                   "Source: U.S. Census Bureau.")
+
+# Before/after levels by district and side (districts with both sides only)
+levels_by_side <- function(var) {
+  temp_res400 |>
+    ungroup() |>
+    mutate(side   = if_else(treat == 1, "Just inside", "Just outside"),
+           period = if_else(post == 1, "after", "before")) |>
+    pivot_wider(id_cols = c(LABEL, side), names_from = period, values_from = all_of(var)) |>
+    filter(!is.na(before), !is.na(after)) |>
+    group_by(LABEL) |> filter(n() == 2) |> ungroup()
+}
+
+base_theme <- theme_minimal(base_size = 13) +
+  theme(panel.grid.minor = element_blank(), plot.title.position = "plot",
+        plot.caption = element_text(hjust = 0))
+
+# ---- Density: dumbbell -------------------------------------------------------
+chg <- levels_by_side("pop_density") |>
+  mutate(ratio = after / before) |>
+  pivot_wider(id_cols = LABEL, names_from = side, values_from = ratio) |>
+  mutate(gap = log(`Just inside`) - log(`Just outside`)) |>
+  filter(is.finite(gap)) |>
+  mutate(LABEL = reorder(LABEL, -gap))
+
+pts <- pivot_longer(chg, c(`Just inside`, `Just outside`), names_to = "side", values_to = "ratio")
+
+dumbbell_plot <- ggplot() +
+  geom_vline(xintercept = 1, colour = "grey60") +
+  geom_segment(data = chg, aes(y = LABEL, yend = LABEL, x = `Just outside`, xend = `Just inside`),
+               colour = "grey80", linewidth = 1.2) +
+  geom_point(data = pts, aes(y = LABEL, x = ratio, colour = side), size = 3) +
+  scale_x_log10(labels = \(r) percent(r - 1, style_positive = "plus"),
+                breaks = c(0.67, 0.8, 1, 1.25, 1.5, 2, 3, 4)) +
+  scale_colour_manual(values = cols, name = NULL) +
+  labs(title = "Outside DC's historic districts, density often surged; inside, it mostly held flat",
+       subtitle = "Change in population density from before to after historic designation",
+       x = "Change in population density (log scale)", y = NULL, caption = cap_base) +
+  base_theme +
+  theme(legend.position = "top", legend.justification = "left",
+        panel.grid.major.y = element_blank())
+
+# ---- Density: bar (geometric means) -----------------------------------------
+dens_bar <- pts |>
+  group_by(side) |>
+  summarise(avg = exp(mean(log(ratio))) - 1)
+
+pop_dens_bar_chart <- ggplot(dens_bar, aes(side, avg, fill = side)) +
+  geom_col(width = 0.55) +
+  geom_text(aes(label = percent(avg, accuracy = 1, style_positive = "plus")),
+            vjust = -0.3, size = 5, fontface = "bold") +
+  geom_hline(yintercept = 0, colour = "grey40") +
+  scale_fill_manual(values = cols, guide = "none") +
+  scale_y_continuous(labels = percent, expand = expansion(mult = c(0.02, 0.15))) +
+  labs(title = "Population density grew much faster just outside DC's historic districts",
+       subtitle = "Average change in density after designation",
+       x = NULL, y = NULL,
+       caption = paste("Averages are geometric means across districts.", cap_base, sep = "\n")) +
+  base_theme + theme(panel.grid.major.x = element_blank())
+
+# ---- Black / white share: simple 2-bar charts --------------------------------
+share_bar <- function(var, label,
+                      title = sprintf("Change in the %s after historic designation", label)) {
+  b <- levels_by_side(var) |>
+    group_by(side) |>
+    summarise(before = mean(before), after = mean(after)) |>
+    mutate(chg = after - before,
+           lab = sprintf("%s pts\n(%s \u2192 %s)",
+                         number(100 * chg, accuracy = 0.1, style_positive = "plus"),
+                         percent(before, accuracy = 1), percent(after, accuracy = 1)))
+
+  ggplot(b, aes(side, chg, fill = side)) +
+    geom_col(width = 0.55) +
+    geom_text(aes(label = lab, vjust = if_else(chg >= 0, -0.2, 1.2)),
+              size = 4.5, lineheight = 0.9) +
+    geom_hline(yintercept = 0, colour = "grey40") +
+    scale_fill_manual(values = cols, guide = "none") +
+        scale_y_continuous(labels = label_number(scale = 100, suffix = " pts", style_positive = "plus"),
+                       expand = expansion(mult = c(if (any(b$chg < 0)) 0.25 else 0,
+                                                   if (any(b$chg > 0)) 0.25 else 0))) +
+    labs(title = title,
+         subtitle = "Average percentage-point change, just inside vs. just outside the boundary",
+         x = NULL, y = NULL,
+         caption = paste("Simple averages across districts.", cap_base, sep = "\n")) +
+    base_theme + theme(panel.grid.major.x = element_blank())
+}
+
+black_bar_chart <- share_bar("pct_black", "Black share of residents")
+white_bar_chart <- share_bar("pct_white", "white share of residents")
+
+dumbbell_plot; pop_dens_bar_chart; black_bar_chart; white_bar_chart
+```
 
 ```{r make_buffers_to_plot, include=F, warning=F, message=F}
 res100 <- do_buffer_analysis(buffer_size = 100,
@@ -2609,6 +2754,15 @@ res100 <- do_buffer_analysis(buffer_size = 100,
                    cvars = "LABEL",
                    dep_var = "pop_density",
                    return_shps = T)
+
+
+res400 <- do_buffer_analysis(buffer_size = 400,
+                          hds_to_omit = hds_to_omit,
+                          max_years_back = 30,
+                          cvars = "LABEL",
+                          dep_var = "pop_density",
+                          return_shps = T)
+
 
 res800 <- do_buffer_analysis(buffer_size = 800,
                           hds_to_omit = hds_to_omit,
@@ -2639,39 +2793,39 @@ res800 <- do_buffer_analysis(buffer_size = 800,
 p <-
   leaflet() %>%
   addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
-  addPolygons(group= "blocks outside of HDs (800m buffer)",
-              data=geos_shp[(geos_shp$geo_id %in% res800$nohd_blocks$geo_id) & 
-                              (geos_shp$geo_id %in% res800$buffer_ts$geo_id) & 
-                              (geos_shp$year == 2020),] %>% 
-                sf::st_transform(4326),
-              fillColor = "#8ecae6",
-              fillOpacity = 0.5,
-              weight = 1,
-              opacity = 1,
-              color = "white",
-              label=~paste0("ID: ", geo_id, " 2020 pop: ", n_tot),
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-              )) %>%
-  addPolygons(group= "blocks inside of HDs (800m buffer)",
-              data=geos_shp[(geos_shp$geo_id %in% res800$hd_blocks$geo_id) & 
-                              (geos_shp$geo_id %in% res800$buffer_ts$geo_id) & 
-                              (geos_shp$year == 2020),] %>% 
-                sf::st_transform(4326),
-              fillColor = "#27187e",
-              fillOpacity = 0.5,
-              weight = 1,
-              opacity = 1,
-              color = "white",
-              label=~paste0("ID: ", geo_id, " 2020 pop: ", n_tot),
-              highlightOptions = highlightOptions(weight = 3,
-                                                  color = "white",
-                                                  bringToFront = FALSE
-              )) %>%
-  addPolygons(group= "blocks outside of HDs (100m buffer)",
-              data=geos_shp[(geos_shp$geo_id %in% res100$nohd_blocks$geo_id) & 
-                              (geos_shp$geo_id %in% res100$buffer_ts$geo_id) & 
+  # addPolygons(group= "blocks outside of HDs (800m buffer)",
+  #             data=geos_shp[(geos_shp$geo_id %in% res800$nohd_blocks$geo_id) & 
+  #                             (geos_shp$geo_id %in% res800$buffer_ts$geo_id) & 
+  #                             (geos_shp$year == 2020),] %>% 
+  #               sf::st_transform(4326),
+  #             fillColor = "#8ecae6",
+  #             fillOpacity = 0.5,
+  #             weight = 1,
+  #             opacity = 1,
+  #             color = "white",
+  #             label=~paste0("ID: ", geo_id, " 2020 pop: ", n_tot),
+  #             highlightOptions = highlightOptions(weight = 3,
+  #                                                 color = "white",
+  #                                                 bringToFront = FALSE
+  #             )) %>%
+  # addPolygons(group= "blocks inside of HDs (800m buffer)",
+  #             data=geos_shp[(geos_shp$geo_id %in% res800$hd_blocks$geo_id) & 
+  #                             (geos_shp$geo_id %in% res800$buffer_ts$geo_id) & 
+  #                             (geos_shp$year == 2020),] %>% 
+  #               sf::st_transform(4326),
+  #             fillColor = "#27187e",
+  #             fillOpacity = 0.5,
+  #             weight = 1,
+  #             opacity = 1,
+  #             color = "white",
+  #             label=~paste0("ID: ", geo_id, " 2020 pop: ", n_tot),
+  #             highlightOptions = highlightOptions(weight = 3,
+  #                                                 color = "white",
+  #                                                 bringToFront = FALSE
+  #             )) %>%
+  addPolygons(group= "blocks outside of HDs (400m buffer)",
+              data=geos_shp[(geos_shp$geo_id %in% res400$nohd_blocks$geo_id) & 
+                              (geos_shp$geo_id %in% res400$buffer_ts$geo_id) & 
                               (geos_shp$year == 2020),] %>% 
                 sf::st_transform(4326),
               fillColor = "#ffb703",
@@ -2684,9 +2838,9 @@ p <-
                                                   color = "white",
                                                   bringToFront = FALSE
               )) %>%
-  addPolygons(group= "blocks inside of HDs (100m buffer)",
-              data=geos_shp[(geos_shp$geo_id %in% res100$hd_blocks$geo_id) & 
-                              (geos_shp$geo_id %in% res100$buffer_ts$geo_id) & 
+  addPolygons(group= "blocks inside of HDs (400m buffer)",
+              data=geos_shp[(geos_shp$geo_id %in% res400$hd_blocks$geo_id) & 
+                              (geos_shp$geo_id %in% res400$buffer_ts$geo_id) & 
                               (geos_shp$year == 2020),] %>% 
                 sf::st_transform(4326),
               fillColor = "#d00000",
@@ -2727,14 +2881,15 @@ p <-
 
 p %>%
   addLayersControl(overlayGroups = c("HDs", 
-                                     "blocks inside of HDs (100m buffer)",
-                                     "blocks outside of HDs (100m buffer)",
-                                     "blocks inside of HDs (800m buffer)",
-                                     "blocks outside of HDs (800m buffer)",
+                                     "blocks inside of HDs (400m buffer)",
+                                     "blocks outside of HDs (400m buffer)",
+                                     # "blocks inside of HDs (800m buffer)",
+                                     # "blocks outside of HDs (800m buffer)",
                                      "unzoned area"), 
                    options = layersControlOptions(collapsed = FALSE)) %>%
-  hideGroup(c("blocks inside of HDs (800m buffer)", 
-              "blocks outside of HDs (800m buffer)",
+  hideGroup(c(
+    # "blocks inside of HDs (800m buffer)", 
+    #           "blocks outside of HDs (800m buffer)",
               "unzoned area"))
 ```
 
@@ -2810,25 +2965,6 @@ res1000 <- do_buffer_analysis(buffer_size = 1000,
                                               # blocks that are more than half covered by unzoned area
                    return_shps = F)
 
-
-
-
-summarize_buffer <- function(buf_df, dist) {
-  rv <- 
-    buf_df %>%
-              group_by(LABEL, treat, post) %>%
-              summarise(pop_density = mean(pop_density, na.rm=T),
-                        pct_black   = mean(pct_black, na.rm=T),
-                        pct_white   = mean(pct_white, na.rm=T),
-                        n_tot       = sum(n_tot, na.rm=T),
-                        
-                        hd_area_acres = max(hd_area_acres, na.rm=T),
-                        shp_area       = sum(as.vector(geo_area_meters), na.rm=T)
-                        ) %>%
-              mutate(dist = ifelse(post==1, dist, -1*dist))
-  
-  return(rv)
-}
 
 my_plt <-
   dplyr::bind_rows(
@@ -4112,7 +4248,7 @@ my_plt2 <-
 ggplot(my_plt2, 
        aes(
          x = as.factor(`building vintage`), 
-         fill=as.factor(blg_type),
+         fill=as.factor(`building vintage`),
          y=`Median kg CO2e per sqft`
        )
        ) +
